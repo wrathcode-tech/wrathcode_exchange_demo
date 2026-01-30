@@ -6,7 +6,7 @@ const channelToSubscription = new Map();
 
 let socket;
 let isSocketInitialized = false;
-let reconnectPayload = null;
+let pendingSubscription = null;
 
 const initializeSocket = () => {
   if (!socket || !isSocketInitialized) {
@@ -23,9 +23,9 @@ const initializeSocket = () => {
 
     socket.on('connect', () => {
       console.log("✅ Socket connected");
-      if (reconnectPayload) {
-        socket.emit('message', reconnectPayload);
-        console.log("🔁 Re-emitted exchange payload after reconnect");
+      if (pendingSubscription) {
+        socket.emit('exchange:subscribe', pendingSubscription);
+        console.log("🔁 Re-subscribed to exchange after reconnect");
       }
     });
 
@@ -77,22 +77,17 @@ export async function subscribeOnStream(
 
   channelToSubscription.set(channelString, subscriptionItem);
 
-  const userId = localStorage.getItem('userId');
-  let socketId = localStorage.getItem("socketId");
-  let payload = {
-    message: 'exchange',
+  // Subscribe to exchange data using proper event
+  pendingSubscription = {
     base_currency_id: CoinID?.base_currency_id,
     quote_currency_id: CoinID?.quote_currency_id,
-    userId: userId,
-    socketId: socketId,
   };
 
-  reconnectPayload = payload; // Save to re-emit on reconnect
-  socket.emit('message', payload);
+  socket.emit('exchange:subscribe', pendingSubscription);
 
-  socket.off('message'); // Ensure no duplicate listeners
+  socket.off('exchange:update'); // Ensure no duplicate listeners
 
-  socket.on('message', (data) => {
+  socket.on('exchange:update', (data) => {
     const currPair = data?.pairs?.find(item => item?.base_currency === parsedSymbol.fromSymbol && item?.quote_currency === parsedSymbol.toSymbol);
     if (!currPair) return;
 
@@ -145,9 +140,42 @@ export function unsubscribeFromStream(subscriberUID) {
 
       if (subscriptionItem.handlers?.length === 0) {
         channelToSubscription.delete(channelString);
+        
+        // Unsubscribe from socket when no more handlers
+        if (socket && pendingSubscription) {
+          socket.emit('exchange:unsubscribe', pendingSubscription);
+          socket.off('exchange:update');
+          console.log("🔌 Unsubscribed from exchange stream");
+        }
         break;
       }
     }
+  }
+}
+
+// Cleanup function to disconnect socket completely (call when leaving trade page)
+export function disconnectChartSocket() {
+  if (socket) {
+    // Unsubscribe from any active subscription
+    if (pendingSubscription) {
+      socket.emit('exchange:unsubscribe', pendingSubscription);
+      pendingSubscription = null;
+    }
+    
+    // Remove all listeners
+    socket.off('exchange:update');
+    socket.off('connect');
+    socket.off('disconnect');
+    
+    // Disconnect the socket
+    socket.disconnect();
+    socket = null;
+    isSocketInitialized = false;
+    
+    // Clear all subscriptions
+    channelToSubscription.clear();
+    
+    console.log("🔌 Chart socket disconnected and cleaned up");
   }
 }
 

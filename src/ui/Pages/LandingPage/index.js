@@ -13,7 +13,7 @@ import "./home.css";
 const LandingPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { socket } = useContext(SocketContext);
+  const { socket, marketData, subscribeToMarket, unsubscribeFromMarket } = useContext(SocketContext);
   const { setLoginDetails } = useContext(ProfileContext);
   const googlecaptchaRef = useRef(null);
   const videoRef = useRef(null);
@@ -95,55 +95,49 @@ const LandingPage = () => {
     }
   }, []);
 
-  // Socket data fetching
+  // Subscribe to market data (server-push, no polling needed)
   useEffect(() => {
     if (!socket) return;
 
-    let interval;
-    const payload = { message: 'market' };
-
-    const handleMessage = (data) => {
-      try {
-        const pairs = data?.pairs || [];
-
-        // Meme Pairs - filter by pairType "meme"
-        const memes = pairs
-          .filter((item) => item?.pairType === "meme")
-          .slice(0, 5);
-        setMemePairs(memes);
-
-        // Top Gainers - sorted from highest to lowest change percentage
-        const gainers = [...pairs]
-          .sort((a, b) => (b?.change_percentage || 0) - (a?.change_percentage || 0))
-          .slice(0, 5);
-        setTopGainers(gainers);
-
-        // New Listings - sorted by creation date (newest first)
-        const listings = [...pairs]
-          .sort((a, b) => {
-            const dateA = new Date(a?.createdAt || a?.created_at || 0);
-            const dateB = new Date(b?.createdAt || b?.created_at || 0);
-            return dateB - dateA;
-          })
-          .slice(0, 5);
-        setNewListings(listings);
-      } catch {
-        // Silent fail for data processing errors
-      }
-    };
-
-    socket.emit('message', payload);
-    socket.on('message', handleMessage);
-
-    interval = setInterval(() => {
-      socket.emit('message', payload);
-    }, 2000);
+    // Subscribe to market updates
+    subscribeToMarket();
 
     return () => {
-      clearInterval(interval);
-      socket.off('message', handleMessage);
+      unsubscribeFromMarket();
     };
-  }, [socket]);
+  }, [socket, subscribeToMarket, unsubscribeFromMarket]);
+
+  // Update local state from context marketData
+  useEffect(() => {
+    try {
+      const pairs = marketData?.pairs || [];
+      if (pairs.length === 0) return;
+
+      // Meme Pairs - filter by pairType "meme"
+      const memes = pairs
+        .filter((item) => item?.pairType === "meme")
+        .slice(0, 5);
+      setMemePairs(memes);
+
+      // Top Gainers - sorted from highest to lowest change percentage
+      const gainers = [...pairs]
+        .sort((a, b) => (b?.change_percentage || 0) - (a?.change_percentage || 0))
+        .slice(0, 5);
+      setTopGainers(gainers);
+
+      // New Listings - sorted by creation date (newest first)
+      const listings = [...pairs]
+        .sort((a, b) => {
+          const dateA = new Date(a?.createdAt || a?.created_at || 0);
+          const dateB = new Date(b?.createdAt || b?.created_at || 0);
+          return dateB - dateA;
+        })
+        .slice(0, 5);
+      setNewListings(listings);
+    } catch {
+      // Silent fail for data processing errors
+    }
+  }, [marketData]);
 
   // Scroll to top on mount
   useEffect(() => {

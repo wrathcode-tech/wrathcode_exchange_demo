@@ -13,7 +13,7 @@ import { Pagination } from "swiper";
 
 
 const Dashboard = (props) => {
-  const { socket } = useContext(SocketContext);
+  const { socket, marketData, subscribeToMarket, unsubscribeFromMarket } = useContext(SocketContext);
   const navigate = useNavigate();
   const [coinData, setCoinData] = useState([]);
   const [favCoins, setfavCoins] = useState([]);
@@ -51,57 +51,48 @@ const Dashboard = (props) => {
     }
   }, []);
 
+  // Subscribe to market data (server-push, no polling needed)
   useEffect(() => {
-    let interval;
     if (socket) {
-      const payload = { message: 'market' };
-      socket.emit('message', payload);
-      
-      interval = setInterval(() => {
-        socket.emit('message', payload);
-      }, 2000);
-
-      const handleMessage = (data) => {
-        if (!data?.pairs || !Array.isArray(data.pairs) || data.pairs.length === 0) return;
-        
-        setCoinData(data.pairs);
-
-        const topGainer = data.pairs.reduce((max, item) => {
-          return parseFloat(item?.change || 0) > parseFloat(max?.change || 0) ? item : max;
-        }, data.pairs[0]);
-
-        const topLoser = data.pairs.reduce((min, item) => {
-          return parseFloat(item?.change || 0) < parseFloat(min?.change || 0) ? item : min;
-        }, data.pairs[0]);
-
-        const newest = [...data.pairs].reverse()[0];
-
-        const validVolumePairs = data.pairs.filter(item => item?.volume !== undefined && item?.volume !== null);
-        const highestVolumePair = validVolumePairs.length > 0 
-          ? validVolumePairs.reduce((max, item) => {
-              return parseFloat(item?.volume || 0) > parseFloat(max?.volume || 0) ? item : max;
-            }, validVolumePairs[0])
-          : {};
-
-        setHighlightCoins({
-          new: newest || {},
-          topGainer: topGainer || {},
-          topLoser: topLoser || {},
-          topVolumne: highestVolumePair || {}
-        });
-      };
-
-      socket.on('message', handleMessage);
+      subscribeToMarket();
 
       return () => {
-        clearInterval(interval);
-        socket.off('message', handleMessage);
+        unsubscribeFromMarket();
       };
     }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [socket]);
+  }, [socket, subscribeToMarket, unsubscribeFromMarket]);
+
+  // Update local state from context marketData
+  useEffect(() => {
+    const pairs = marketData?.pairs;
+    if (!pairs || !Array.isArray(pairs) || pairs.length === 0) return;
+    
+    setCoinData(pairs);
+
+    const topGainer = pairs.reduce((max, item) => {
+      return parseFloat(item?.change || 0) > parseFloat(max?.change || 0) ? item : max;
+    }, pairs[0]);
+
+    const topLoser = pairs.reduce((min, item) => {
+      return parseFloat(item?.change || 0) < parseFloat(min?.change || 0) ? item : min;
+    }, pairs[0]);
+
+    const newest = [...pairs].reverse()[0];
+
+    const validVolumePairs = pairs.filter(item => item?.volume !== undefined && item?.volume !== null);
+    const highestVolumePair = validVolumePairs.length > 0 
+      ? validVolumePairs.reduce((max, item) => {
+          return parseFloat(item?.volume || 0) > parseFloat(max?.volume || 0) ? item : max;
+        }, validVolumePairs[0])
+      : {};
+
+    setHighlightCoins({
+      new: newest || {},
+      topGainer: topGainer || {},
+      topLoser: topLoser || {},
+      topVolumne: highestVolumePair || {}
+    });
+  }, [marketData]);
 
   const handleAddFav = useCallback(async (e, pairId) => {
     e.stopPropagation();

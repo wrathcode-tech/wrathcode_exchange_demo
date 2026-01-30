@@ -19,7 +19,7 @@ function UsdMFutures() {
     const currentSubscriptionRef = useRef(null);
     const navigate = useNavigate()
 
-    const { socket } = useContext(SocketContext);
+    const { isConnected, futuresData, subscribeToFutures, unsubscribeFromFutures } = useContext(SocketContext);
     const binanceEndpoint = 'wss://fstream.binance.com/ws';
 
     let URL = params?.pairs?.split('_');
@@ -63,69 +63,58 @@ function UsdMFutures() {
 
 
 
+    // Handle futures data updates from SocketContext
     useEffect(() => {
-        if (socket) {
-            let payload = {
-                'message': 'futures',
-                'userId': userId,
-                'futureSocketId': socketId,
-            };
-            socket.emit('message', payload);
-            socket.on('message', (data) => {
-                // if (data?.base_currency_id === "66138abf4197cf39e73e3bd9" || data.quote_currency_id === "66138abf4197cf39e73e3bd9") {
-                //     setBuyOrders(data?.buy_order);
-                //     setSellOrders(data?.sell_order);
-                // }
-                setPairData(data?.pairs);
-                let filteredData = data?.pairs?.filter((item) => item?.short_name === "BTC" || item?.short_name === "ETH" || item?.short_name === "BNB")
-                setTopPairs(filteredData)
-                const positions = data?.open_position || [];
-                setOpenPositions(positions);
-                setClosePositions(data?.close_position);
-                setOpenOrders(data?.open_orders || []);
-                setOrdersHistory(data?.orders_history || []);
-                setTradeHistory(data?.trade_history || []);
-                const totalMaint = positions.reduce(
-                    (sum, pos) => sum + (pos.maintenanceMargin || 0),
-                    0
-                );
-                const totalPnl = positions.reduce(
-                    (sum, pos) => sum + (pos.unrealizedPnl || 0),
-                    0
-                );
-                const totalIM = positions.reduce(
-                    (sum, pos) => sum + (pos.isolatedMargin || 0),
-                    0
-                );
-                setTotalMaintenanceMargin(toFixedFive(totalMaint));
-                setTotalUnrealizedPnl(toFixedFive(totalPnl));
-                setTotalIsolatedMargin(toFixedFive(totalIM));
-
-                setBalance({ baseCurrency: toFixedFive(data?.balance?.base_currency_balance) || 0, quoteCurrency: toFixedFive(data?.balance?.quote_currency_balance) || 0 })
-            });
+        if (!futuresData) return;
+        
+        if (futuresData?.pairs) {
+            setPairData(futuresData.pairs);
+            let filteredData = futuresData.pairs?.filter((item) => item?.short_name === "BTC" || item?.short_name === "ETH" || item?.short_name === "BNB")
+            setTopPairs(filteredData)
         }
-    }, [socket]);
+        const positions = futuresData?.open_position || [];
+        setOpenPositions(positions);
+        setClosePositions(futuresData?.close_position);
+        setOpenOrders(futuresData?.open_orders || []);
+        setOrdersHistory(futuresData?.orders_history || []);
+        setTradeHistory(futuresData?.trade_history || []);
+        const totalMaint = positions.reduce(
+            (sum, pos) => sum + (pos.maintenanceMargin || 0),
+            0
+        );
+        const totalPnl = positions.reduce(
+            (sum, pos) => sum + (pos.unrealizedPnl || 0),
+            0
+        );
+        const totalIM = positions.reduce(
+            (sum, pos) => sum + (pos.isolatedMargin || 0),
+            0
+        );
+        setTotalMaintenanceMargin(toFixedFive(totalMaint));
+        setTotalUnrealizedPnl(toFixedFive(totalPnl));
+        setTotalIsolatedMargin(toFixedFive(totalIM));
 
+        setBalance({ baseCurrency: toFixedFive(futuresData?.balance?.base_currency_balance) || 0, quoteCurrency: toFixedFive(futuresData?.balance?.quote_currency_balance) || 0 })
+    }, [futuresData]);
+
+    // Subscribe to futures data when pair changes
     useEffect(() => {
-        let interval;
-        // if (baseCurId && quoteCurId && socket) {
-        if (socket) {
+        if (!selectedCoin?.base_currency_id || !selectedCoin?.quote_currency_id) return;
 
-            interval = setInterval(() => {
-                let payload = {
-                    'message': 'futures',
-                    'userId': userId,
-                    'futureSocketId': socketId,
-                    'base_currency_id': selectedCoin?.base_currency_id,
-                    'quote_currency_id': selectedCoin?.quote_currency_id,
-                }
-                socket.emit('message', payload);
-            }, 1000)
+        subscribeToFutures(selectedCoin.base_currency_id, selectedCoin.quote_currency_id);
+
+        return () => {
+            unsubscribeFromFutures(selectedCoin.base_currency_id, selectedCoin.quote_currency_id);
+        };
+    }, [selectedCoin?.base_currency_id, selectedCoin?.quote_currency_id, subscribeToFutures, unsubscribeFromFutures]);
+
+    // Request futures pairs list via socket on mount (faster than API call)
+    useEffect(() => {
+        if (isConnected && !pairData?.length) {
+            // Request pairs only (no base/quote = pairs list only)
+            subscribeToFutures();
         }
-        return (() => {
-            clearInterval(interval)
-        })
-    }, [socket, selectedCoin]);
+    }, [isConnected, pairData?.length, subscribeToFutures]);
 
     // ********* Auto Select Coin Pair after Socket Connection ********** //
     useEffect(() => {
@@ -158,14 +147,8 @@ function UsdMFutures() {
 
             subscribeToFuturesPair(Pair);
 
-            let payload = {
-                'message': 'futures',
-                'futureSocketId': socketId,
-                'userId': userId,
-                'base_currency_id': Pair?.base_currency_id,
-                'quote_currency_id': Pair?.quote_currency_id,
-            }
-            socket.emit('message', payload);
+            // Subscribe to futures data for this pair
+            subscribeToFutures(Pair?.base_currency_id, Pair?.quote_currency_id);
         } else if (Object.keys(selectedCoin)?.length > 0 && pairData?.length > 0) {
             let selectedItem = pairData?.filter?.((item) => {
                 return selectedCoin?.short_name === item?.short_name && selectedCoin?.margin_asset === item?.margin_asset
@@ -258,14 +241,8 @@ function UsdMFutures() {
         setSelectedCoin(data)
         setLimitPrice(data?.buy_price)
         subscribeToFuturesPair(data);
-        let payload = {
-            'message': 'futures',
-            'userId': userId,
-            'futureSocketId': socketId,
-            'base_currency_id': data?.base_currency_id,
-            'quote_currency_id': data?.quote_currency_id,
-        }
-        socket.emit('message', payload);
+        // Subscribe to futures data for the new pair
+        subscribeToFutures(data?.base_currency_id, data?.quote_currency_id);
     };
 
     // 🔧 Helper function for generating fake trades

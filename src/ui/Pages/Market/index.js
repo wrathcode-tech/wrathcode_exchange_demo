@@ -11,76 +11,33 @@ import { SocketContext } from "../../../customComponents/SocketContext";
 import { Helmet } from "react-helmet-async";
 import LoaderHelper from "../../../customComponents/Loading/LoaderHelper";
 
-// Cache for chart data to prevent duplicate API calls
-const chartDataCache = {};
-const pendingRequests = {};
-let lastRequestTime = 0;
-const MIN_REQUEST_INTERVAL = 400; // 250ms between requests (max 4/second to stay under limit)
-
 // Mini Sparkline Chart Component
-const MiniSparkline = React.memo(({ symbol, isPositive }) => {
+// Receives chart data from socket (stored in Redis on backend)
+const MiniSparkline = React.memo(({ symbol, isPositive, chartData: propChartData }) => {
   const [chartData, setChartData] = useState([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const canvasRef = useRef(null);
 
-  // Fetch historical data from CryptoCompare with rate limiting
+  // Detect mobile view
   useEffect(() => {
-    if (!symbol) return;
-
-    // Check cache first
-    if (chartDataCache[symbol]) {
-      setChartData(chartDataCache[symbol]);
-      return;
-    }
-
-    // Check if there's already a pending request for this symbol
-    if (pendingRequests[symbol]) {
-      pendingRequests[symbol].then((prices) => {
-        if (prices) setChartData(prices);
-      });
-      return;
-    }
-
-    const fetchChartData = async () => {
-      // Rate limiting - wait if needed
-      const now = Date.now();
-      const timeSinceLastRequest = now - lastRequestTime;
-      if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
-        await new Promise(resolve => setTimeout(resolve, MIN_REQUEST_INTERVAL - timeSinceLastRequest));
-      }
-      lastRequestTime = Date.now();
-
-      try {
-        const response = await fetch(
-          `https://min-api.cryptocompare.com/data/v2/histohour?fsym=${symbol}&tsym=USDT&limit=24`
-        );
-        const data = await response.json();
-        
-        if (data?.Response === 'Error') {
-          // API error (rate limit, etc.) - use fallback
-          return null;
-        }
-        
-        if (data?.Data?.Data) {
-          const prices = data.Data.Data.map(item => item.close);
-          chartDataCache[symbol] = prices; // Cache the result
-          return prices;
-        }
-        return null;
-      } catch {
-        // Silent fail - will show fallback
-        return null;
-      }
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
     };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    // Store the promise to prevent duplicate requests
-    pendingRequests[symbol] = fetchChartData().then((prices) => {
-      delete pendingRequests[symbol];
-      if (prices) {
-        setChartData(prices);
-      }
-      return prices;
-    });
-  }, [symbol]);
+  // Use chart data from props (socket)
+  useEffect(() => {
+    if (propChartData && Array.isArray(propChartData) && propChartData.length > 0) {
+      setChartData(propChartData);
+    }
+  }, [propChartData]);
+
+  // Canvas dimensions based on screen size
+  const canvasWidth = isMobile ? 100 : 160;
+  const canvasHeight = isMobile ? 40 : 50;
+  const styleHeight = isMobile ? '45px' : '60px';
 
   // Draw sparkline on canvas
   useEffect(() => {
@@ -102,13 +59,16 @@ const MiniSparkline = React.memo(({ symbol, isPositive }) => {
     // Draw line
     ctx.beginPath();
     ctx.strokeStyle = isPositive ? '#00c853' : '#ff5252';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = isMobile ? 2 : 2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
+    const padding = isMobile ? 3 : 5;
+    const verticalPadding = isMobile ? 8 : 15;
+
     chartData.forEach((price, index) => {
       const x = (index / (chartData.length - 1)) * width;
-      const y = height - ((price - min) / range) * (height - 10) - 5;
+      const y = height - ((price - min) / range) * (height - verticalPadding) - padding;
       
       if (index === 0) {
         ctx.moveTo(x, y);
@@ -128,7 +88,7 @@ const MiniSparkline = React.memo(({ symbol, isPositive }) => {
     ctx.closePath();
     ctx.fillStyle = gradient;
     ctx.fill();
-  }, [chartData, isPositive]);
+  }, [chartData, isPositive, isMobile]);
 
   if (chartData.length === 0) {
     // Fallback to static image while loading
@@ -148,9 +108,9 @@ const MiniSparkline = React.memo(({ symbol, isPositive }) => {
   return (
     <canvas 
       ref={canvasRef} 
-      width={160} 
-      height={50} 
-      style={{ width: '100%', height: '60px' }}
+      width={canvasWidth} 
+      height={canvasHeight} 
+      style={{ width: '100%', height: styleHeight }}
     />
   );
 });
@@ -165,7 +125,7 @@ const Market = () => {
   const [futuresPairData, setFuturesPairData] = useState([]);
   const [filterPairData, setFilterPairData] = useState([]);
   const [filterFuturesData, setFilterFuturesData] = useState([]);
-  const { socket } = useContext(SocketContext);
+  const { socket, marketData, subscribeToMarket, unsubscribeFromMarket } = useContext(SocketContext);
   const [activeTab, setActiveTab] = useState("Spot");
   const gainerElementRef = useRef(null);
   
@@ -177,7 +137,10 @@ const Market = () => {
   const [futuresQuoteCurrency, setFuturesQuoteCurrency] = useState("All");
   const [futuresFilterType, setFuturesFilterType] = useState("All");
 
-  // Featured coins for top cards (BTC, ETH, BNB or fallback to first 3)
+  // Hot pairs chart data from socket { BTC: [prices], ETH: [prices], BNB: [prices] }
+  const [hotPairsChart, setHotPairsChart] = useState({});
+
+  // Featured coins - filter preferred coins from coinData with chart data
   const featuredCoins = useMemo(() => {
     if (!coinData || coinData.length === 0) return [];
     
@@ -190,7 +153,11 @@ const Market = () => {
         (item) => item?.base_currency?.toUpperCase() === coinSymbol && item?.quote_currency?.toUpperCase() === 'USDT'
       );
       if (found) {
-        featured.push(found);
+        // Add chart data from hotPairsChart
+        featured.push({
+          ...found,
+          chart_data: hotPairsChart[coinSymbol] || []
+        });
       }
     }
     
@@ -200,12 +167,15 @@ const Market = () => {
         (item) => !featured.some((f) => f?._id === item?._id)
       );
       for (let i = 0; i < remaining.length && featured.length < 3; i++) {
-        featured.push(remaining[i]);
+        featured.push({
+          ...remaining[i],
+          chart_data: hotPairsChart[remaining[i]?.base_currency] || []
+        });
       }
     }
     
     return featured;
-  }, [coinData]);
+  }, [hotPairsChart, coinData]);
 
   // Get decimal places from tick_size
   const getDecimalsFromTickSize = useCallback((tickSize) => {
@@ -253,37 +223,31 @@ const Market = () => {
     }
   }, []);
 
-  // Socket for market data
+  // Subscribe to market data (server-push, no polling needed)
   useEffect(() => {
-    let interval;
     if (socket) {
-      const payload = { 'message': 'market' };
-      
-      const handleMessage = (data) => {
-        if (data?.pairs) {
-          setCoinData(data.pairs);
-        }
-        if (data?.futures_pairs) {
-          setFuturesPairData(data.futures_pairs);
-        }
-      };
-
-      socket.emit('message', payload);
-      socket.on('message', handleMessage);
-
-      interval = setInterval(() => {
-        socket.emit('message', payload);
-      }, 2000);
+      // Subscribe to market updates
+      subscribeToMarket();
 
       return () => {
-        clearInterval(interval);
-        socket.off('message', handleMessage);
+        // Unsubscribe when component unmounts
+        unsubscribeFromMarket();
       };
     }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [socket]);
+  }, [socket, subscribeToMarket, unsubscribeFromMarket]);
+
+  // Update local state from context marketData
+  useEffect(() => {
+    if (marketData?.pairs?.length > 0) {
+      setCoinData(marketData.pairs);
+    }
+    if (marketData?.futures_pairs?.length > 0) {
+      setFuturesPairData(marketData.futures_pairs);
+    }
+    if (marketData?.hot_pairs_chart && Object.keys(marketData.hot_pairs_chart).length > 0) {
+      setHotPairsChart(marketData.hot_pairs_chart);
+    }
+  }, [marketData]);
 
   // Fetch favorite list on mount
   useEffect(() => {
@@ -463,7 +427,11 @@ const Market = () => {
           <span>24H Volume：</span>{formatNumber(coin?.volume)} (USD)
         </div>
         <div className="tradevector_r">
-          <MiniSparkline symbol={coin?.base_currency} isPositive={isPositive} />
+          <MiniSparkline 
+            symbol={coin?.base_currency} 
+            isPositive={isPositive}
+            chartData={coin?.chart_data}
+          />
         </div>
       </div>
     );
@@ -641,10 +609,10 @@ const Market = () => {
                                     </td>
                                     <td><b>{formatPrice(item?.buy_price, item?.tick_size)}</b></td>
                                     <td className={isPositive ? "color-green green" : "color-red text-danger"}>
-                                      <b>{formatNumber(item?.change)}</b>
+                                      <b>{formatPrice(item?.change, item?.tick_size)}</b>
                                     </td>
-                                    <td><b>{formatNumber(item?.high)}</b></td>
-                                    <td><b>{formatNumber(item?.low)}</b></td>
+                                    <td><b>{formatPrice(item?.high, item?.tick_size)}</b></td>
+                                    <td><b>{formatPrice(item?.low, item?.tick_size)}</b></td>
                                     <td><b>{formatNumber(item?.volume)}</b></td>
                                     <td>
                                       <img 

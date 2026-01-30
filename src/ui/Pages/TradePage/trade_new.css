@@ -1171,11 +1171,11 @@ html[data-theme='light'] .buysellform .input-group {
 }
 
 
-.buysellform .input-group .form-control {
+    .buysellform .input-group .form-control {
     background: transparent;
     border: 0;
     padding-left: 0;
-    font-weight: 200;
+    font-weight: 400;
     padding-right: 0;
     border-radius: 0 !important;
     font-size: 12.2px !important;
@@ -2811,6 +2811,7 @@ html[data-theme='light'] .bs_tab_row {
         flex-direction: column;
         animation: slideUp 0.3s ease;
         overflow: hidden;
+        border-radius: 10px;
     }
 
     .mobile-favourites-popup .orderbook-table th {

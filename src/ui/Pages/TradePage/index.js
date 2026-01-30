@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import LoaderHelper from "../../../customComponents/Loading/LoaderHelper";
@@ -18,12 +18,16 @@ const Trade = () => {
     let URL = params?.pairs?.split('_');
 
     const location = useLocation();
-    const { state } = location;
 
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     let recentPair = localStorage.getItem('RecentPair');
-    let ParsedPair = JSON.parse(recentPair);
+    let ParsedPair = null;
+    try {
+        ParsedPair = recentPair ? JSON.parse(recentPair) : null;
+    } catch (e) {
+        ParsedPair = null;
+    }
     const [urlPath, setUrlPath] = useState(URL ? URL : []);
     const [search, setsearch] = useState('');
     const [AllData, setAllData] = useState([]);
@@ -72,12 +76,10 @@ const Trade = () => {
     const [showMobileFavouritesPopup, setShowMobileFavouritesPopup] = useState(false);
     const { userDetails, newStoredTheme } = useContext(ProfileContext);
     const KycStatus = userDetails?.kycVerified;
-    const { socket } = useContext(SocketContext);
-    const binanceEndpoint = 'wss://stream.binance.com:9443/ws';
-    const wsRef = useRef(null);
-    const reconnectIntervalRef = useRef(null);
-    const currentSubscriptionRef = useRef(null);
+    const { isConnected, exchangeData, subscribeToExchange, unsubscribeFromExchange } = useContext(SocketContext);
     const [orderBookColor, setOrderBookColor] = useState({ buy: "#1c2a2b", sell: "#301e27" });
+    const [spotWallets, setSpotWallets] = useState([]);
+    const [walletsLoading, setWalletsLoading] = useState(false);
     const navigate = useNavigate()
     let socketId = localStorage.getItem("socketId")
 
@@ -93,202 +95,102 @@ const Trade = () => {
 
 
 
+    // NOTE: Exchange subscription is handled in a single useEffect below (line ~195)
+    // based on baseCurId/quoteCurId to avoid duplicate subscriptions
+
+
+
+
+    // Handle exchange data updates from SocketContext
     useEffect(() => {
-        if (socket) {
-            if (state) {
-                let payload = {
-                    'message': 'market',
-                    'userId': userId,
-                    'base_currency_id': state?.base_currency_id,
-                    'quote_currency_id': state?.quote_currency_id,
-                };
-                socket.emit('message', payload);
-            } else if (ParsedPair && !state) {
-                let payload = {
-                    'message': 'exchange',
-                    'userId': userId,
-                    'socketId': socketId,
-                    'base_currency_id': ParsedPair?.base_currency_id,
-                    'quote_currency_id': ParsedPair?.quote_currency_id,
-                };
-                socket.emit('message', payload);
-            } else {
-                let payload = {
-                    'message': 'market',
-                    'userId': userId,
-                };
-                socket.emit('message', payload);
-            }
+        if (!exchangeData) return;
+        
+        // Update balance
+        if (exchangeData?.balance) {
+            setBuyCoinBal(exchangeData.balance.quote_currency_balance);
+            setSellCoinBal(exchangeData.balance.base_currency_balance);
         }
-
-    }, [state, socket]);
-
-
-
-
-    useEffect(() => {
-        if (socket) {
-            let payload = {
-                'message': 'exchange',
-                'userId': userId,
-                'socketId': socketId,
-            };
-            socket.emit('message', payload);
-            socket.on('message', (data) => {
-                // if (data?.base_currency_id === "66138abf4197cf39e73e3bd9" || data.quote_currency_id === "66138abf4197cf39e73e3bd9") {
-                //     setBuyOrders(data?.buy_order);
-                //     setSellOrders(data?.sell_order);
-                // }
-                // setRecentTrade(data?.recent_trades);
-                setBuyCoinBal(data?.balance?.quote_currency_balance);
-                setSellCoinBal(data?.balance?.base_currency_balance);
-                setopenOrders(data?.open_orders);
-                setloader(false);
-                setAllData(data);
-                setBuyCoinBal(data?.balance?.quote_currency_balance);
-                setSellCoinBal(data?.balance?.base_currency_balance);
-                setpastOrders(data?.executed_order)
-                setpastOrder2(data?.executed_order)
-                setloader(false);
-            });
+        
+        // Update order book (backend uses buy_order/sell_order - singular)
+        if (exchangeData?.buy_order) {
+            setBuyOrders(exchangeData.buy_order);
         }
-    }, [socket]);
-
-
-    useEffect(() => {
-        let interval;
-        if (baseCurId && quoteCurId && socket) {
-
-            interval = setInterval(() => {
-                let payload = {
-                    'message': 'exchange',
-                    'userId': userId,
-                    'socketId': socketId,
-                    'base_currency_id': baseCurId,
-                    'quote_currency_id': quoteCurId,
-                    name: "socket",
-                }
-                socket.emit('message', payload);
-            }, 1000)
+        if (exchangeData?.sell_order) {
+            setSellOrders(exchangeData.sell_order);
         }
-        return (() => {
-            clearInterval(interval)
-        })
-    }, [baseCurId, quoteCurId, socket]);
+        
+        // Update orders
+        if (exchangeData?.open_orders !== undefined) {
+            setopenOrders(exchangeData.open_orders || []);
+        }
+        if (exchangeData?.executed_order !== undefined) {
+            setpastOrders(exchangeData.executed_order || []);
+            setpastOrder2(exchangeData.executed_order || []);
+        }
+        
+        // Update recent trades
+        if (exchangeData?.recent_trades) {
+            setRecentTrade(exchangeData.recent_trades);
+        }
+        
+        // Update ticker data for price/volume info
+        if (exchangeData?.ticker) {
+            const tickerData = exchangeData.ticker;
+            if (tickerData?.buy_price) setbuyprice(tickerData.buy_price);
+            if (tickerData?.sell_price) setsellPrice(tickerData.sell_price);
+            if (tickerData?.change !== undefined) setpriceChange(tickerData.change);
+            if (tickerData?.change_24hour !== undefined) setChangesHour(tickerData.change_24hour);
+            if (tickerData?.high) setpriceHigh(tickerData.high);
+            if (tickerData?.low) setpriceLow(tickerData.low);
+            if (tickerData?.volume) setvolume(tickerData.volume);
+        }
+        
+        // Update all pairs list from exchange data if provided
+        if (exchangeData?.pairs) {
+            setCoins(exchangeData.pairs);
+            // Also update AllData.pairs
+            setAllData(prev => ({
+                ...prev,
+                ...exchangeData,
+                pairs: exchangeData.pairs
+            }));
+        } else {
+            // Store exchange data without overwriting pairs
+            setAllData(prev => ({
+                ...prev,
+                ...exchangeData
+            }));
+        }
+        setloader(false);
+    }, [exchangeData]);
 
-
-
-
-    const connectWebSocket = () => {
-
-        // 🛑 If there's already a socket, close it before opening a new one
-        // if (wsRef.current) {
-        //     try {
-        //         wsRef.current.close();
-        //         console.warn("Coekt closing:");
-        //     } catch (e) {
-        //         console.warn("Failed to close previous WebSocket:", e);
-        //     }
-        // }
-
-
-        const ws = new WebSocket(binanceEndpoint);
-        wsRef.current = ws;
-
-        ws.onopen = () => {
-            console.log("📡 WebSocket connected");
-            if (SelectedCoin) {
-                subscribeToPair(SelectedCoin);
-            }
-        };
-
-        ws.onmessage = (event) => {
-            const message = JSON.parse(event.data);
-
-            if (message?.bids?.length > 0 && message?.asks?.length > 0) {
-                const transformedBids = message.bids.map(transformBid);
-                const transformedAsks = message.asks.map(transformAsk);
-
-                setBuyOrders(transformedBids);
-                setSellOrders(transformedAsks?.reverse());
-
-                const MIN_QTY = 0.0001;
-                const fakeTrades = [];
-
-                for (let i = 0; i < 5; i++) {
-                    const isBuy = Math.random() > 0.5;
-                    const orders = isBuy ? transformedBids : transformedAsks;
-                    const selected = orders[Math.floor(Math.random() * orders.length)];
-                    if (!selected) continue;
-
-                    const rawQty = Math.random() * selected.quantity;
-                    const qty = Math.max(rawQty, MIN_QTY);
-                    const quantity = parseFloat(qty.toFixed(4));
-
-                    const trade = {
-                        side: isBuy ? "BUY" : "SELL",
-                        price: selected.price,
-                        quantity,
-                        time: new Date().toLocaleTimeString("en-GB", { hour12: false }),
-                    };
-                    fakeTrades.push(trade);
-                }
-
-                setRecentTrade((prev) => {
-                    const updated = [...fakeTrades, ...prev];
-                    return updated.slice(0, 50);
-                });
-            }
-        };
-
-        ws.onerror = (e) => {
-            console.warn("❌ WebSocket error:", e);
-        };
-
-        ws.onclose = () => {
-            console.warn("🔌 WebSocket closed. Reconnecting...");
-            reconnectIntervalRef.current = setTimeout(() => {
-                connectWebSocket();
-            }, 3000);
-        };
-    };
-
-
-
-
+    // Subscribe to exchange data when pair changes (server-push, no polling)
     useEffect(() => {
-        connectWebSocket();
+        if (!baseCurId || !quoteCurId || !isConnected) return;
 
-        const handleVisibilityChange = () => {
-            if (document.visibilityState === "visible") {
-                if (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED) {
-                    connectWebSocket();
-                }
-            }
-        };
-
-        document.addEventListener("visibilitychange", handleVisibilityChange);
+        // Subscribe to exchange updates for this pair
+        subscribeToExchange(baseCurId, quoteCurId);
 
         return () => {
-            document.removeEventListener("visibilitychange", handleVisibilityChange);
-            if (wsRef.current) {
-                try {
-                    wsRef.current.close();
-                } catch (e) {
-                    console.warn("Failed to close WebSocket on unmount");
-                }
-            }
-            clearTimeout(reconnectIntervalRef.current);
+            // Unsubscribe when pair changes or component unmounts
+            unsubscribeFromExchange(baseCurId, quoteCurId);
         };
-    }, [binanceEndpoint]);
+    }, [baseCurId, quoteCurId, isConnected, subscribeToExchange, unsubscribeFromExchange]);
+
+    // Pairs list now comes from exchangeData (which includes pairs)
+    // No need for separate marketData subscription on TradePage
+
+
+    // Orderbook data now comes from backend via exchangeData (SocketContext)
+    // No need for frontend Binance WebSocket connection
 
 
 
     // ********* Auto Select Coin Pair after Socket Connection ********** //
     useEffect(() => {
-        if (!SelectedCoin && CoinPairDetails) {
-            var Pair;
-            var filteredData;
+        if (!SelectedCoin && CoinPairDetails && CoinPairDetails.length > 0 && isConnected) {
+            let Pair;
+            let filteredData;
             if (urlPath?.length > 0) {
                 filteredData = CoinPairDetails?.filter?.((item) => {
                     return urlPath[0]?.includes(item?.base_currency) && urlPath[1]?.includes(item?.quote_currency)
@@ -300,6 +202,9 @@ const Trade = () => {
             else {
                 Pair = CoinPairDetails[0]
             }
+            
+            if (!Pair) return;
+            
             navigate(`/trade/${Pair?.base_currency}_${Pair?.quote_currency}`);
             setloader(true);
             setsellOrderPrice(undefined);
@@ -309,19 +214,9 @@ const Trade = () => {
             setquoteCurId(Pair?.quote_currency_id);
             setbuyprice(Pair?.buy_price);
             setsellPrice(Pair?.sell_price);
-
-            subscribeToPair(Pair);
-
-            let payload = {
-                'message': 'exchange',
-                'socketId': socketId,
-                'userId': userId,
-                'base_currency_id': Pair?.base_currency_id,
-                'quote_currency_id': Pair?.quote_currency_id,
-            }
-            socket.emit('message', payload);
+            // NOTE: Exchange subscription is triggered by baseCurId/quoteCurId change in another useEffect
         }
-    }, [CoinPairDetails, infoPlaceOrder]);
+    }, [CoinPairDetails, isConnected, urlPath, navigate]);
 
 
     useEffect(() => {
@@ -396,29 +291,40 @@ const Trade = () => {
 
 
 
+    // Fetch spot wallets for logged in users
+    const fetchSpotWallets = async () => {
+        if (!token) return;
+        setWalletsLoading(true);
+        try {
+            const result = await AuthService.getUserfunds("spot");
+            if (result?.success) {
+                // Filter wallets with balance > 0 and sort by balance
+                const walletsWithBalance = (result.data || [])
+                    .filter(w => parseFloat(w.balance) > 0)
+                    .sort((a, b) => parseFloat(b.balance) - parseFloat(a.balance));
+                setSpotWallets(walletsWithBalance);
+            }
+        } catch (error) {
+            console.error("Failed to fetch spot wallets:", error);
+        } finally {
+            setWalletsLoading(false);
+        }
+    };
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         token && favoriteList();
-        handleCoinList()
+        token && fetchSpotWallets();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
-    const handleCoinList = async () => {
-        LoaderHelper.loaderStatus(true);
-        await AuthService.getCoinList().then(async (result) => {
-            if (result?.success) {
-                LoaderHelper.loaderStatus(false);
-                try {
-                    setCoins(result.data);
-                } catch (error) {
-                    alertErrorMessage(error);
-                }
-            } else {
-                LoaderHelper.loaderStatus(false);
-                alertErrorMessage(result?.message);
-            }
-        });
-    };
+    // Request pairs list via socket on mount (faster than API call)
+    useEffect(() => {
+        if (isConnected && !CoinPairDetails?.length) {
+            // Request pairs only (no base/quote = pairs list only)
+            subscribeToExchange();
+        }
+    }, [isConnected, CoinPairDetails?.length, subscribeToExchange]);
 
 
     const handleOrderPlace = async (infoPlaceOrder, buyprice, buyamount, base_currency_id, quote_currency_id, side) => {
@@ -434,14 +340,8 @@ const Trade = () => {
                     alertSuccessMessage('Order Placed Successfully!!')
                     setbuyOrderPrice(undefined);
                     setsellOrderPrice(undefined);
-                    let payload = {
-                        'message': 'exchange',
-                        'userId': userId,
-                        'socketId': socketId,
-                        'base_currency_id': SelectedCoin?.base_currency_id,
-                        'quote_currency_id': SelectedCoin?.quote_currency_id,
-                    };
-                    socket.emit('message', payload);
+                    // Re-subscribe to exchange to refresh order data
+                    subscribeToExchange(SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id);
                 } catch (error) {
                     LoaderHelper.loaderStatus(false);
                 }
@@ -489,82 +389,22 @@ const Trade = () => {
     };
 
 
-    const transformBid = (bid) => ({
-        _id: new Date().getTime().toString(36), // Unique ID for the order
-        side: "BUY",
-        price: parseFloat(bid[0]),
-        quantity: parseFloat(bid[1]),
-        filled: 0,
-        remaining: parseFloat(bid[1]),
-        maker_fee: 0.1,
-        taker_fee: 0.1,
-        status: "PENDING",
-        transaction_fee: 0.1,
-        tds: 1,
-        __v: 0
-    });
-
-    const transformAsk = (ask,) => ({
-        _id: new Date().getTime().toString(36), // Unique ID for the order
-        side: "SELL",
-        price: parseFloat(ask[0]),
-        quantity: parseFloat(ask[1]),
-        filled: 0,
-        remaining: parseFloat(ask[1]),
-        maker_fee: 0.1,
-        taker_fee: 0.1,
-        status: "PENDING",
-        transaction_fee: 0,
-        tds: 0,
-        order_by: "BOT",
-        __v: 0
-    });
-
-    const subscribeToPair = (pair) => {
+    // Reset orderbook when switching pairs
+    const resetOrderbook = () => {
         setSellOrders([]);
         setBuyOrders([]);
         setRecentTrade([]);
-        if (wsRef.current.readyState !== WebSocket.OPEN) {
-            wsRef.current.onopen = () => subscribeToPair(pair);
-            return;
-        }
-        if (pair?.base_currency_id === "66138abf4197cf39e73e3bd9" || pair.quote_currency_id === "66138abf4197cf39e73e3bd9") {
-
-            const unsubscribeMsg = {
-                method: "UNSUBSCRIBE",
-                params: [currentSubscriptionRef.current],
-                id: 1
-            };
-            wsRef.current.send(JSON.stringify(unsubscribeMsg));
-
-        }
-        else {
-
-            const data = `${pair?.base_currency.toLowerCase()}${pair?.quote_currency.toLowerCase()}`;
-            const stream = `${data}@depth20`;
-
-            // Unsubscribe from the current stream if there's an active subscription
-            if (currentSubscriptionRef.current) {
-                const unsubscribeMsg = {
-                    method: "UNSUBSCRIBE",
-                    params: [currentSubscriptionRef.current],
-                    id: 1
-                };
-                wsRef.current.send(JSON.stringify(unsubscribeMsg));
-            }
-
-            // Subscribe to the new pair
-            const subscribeMsg = {
-                method: "SUBSCRIBE",
-                params: [stream],
-                id: 1
-            };
-            wsRef.current.send(JSON.stringify(subscribeMsg));
-            currentSubscriptionRef.current = stream; // Update the current subscription
-        }
     };
 
     const handleSelectCoin = (data) => {
+        // Skip if selecting the same pair - don't reset or re-subscribe
+        if (SelectedCoin?.base_currency_id === data?.base_currency_id && 
+            SelectedCoin?.quote_currency_id === data?.quote_currency_id) {
+            setShowCoinList(false);
+            return;
+        }
+        
+        resetOrderbook();
         setinfoPlaceOrder("LIMIT");
         navigate(`/trade/${data?.base_currency}_${data?.quote_currency}`);
         setloader(true);
@@ -575,21 +415,13 @@ const Trade = () => {
         setquoteCurId(data?.quote_currency_id);
         setbuyprice(data?.buy_price);
         setsellPrice(data?.sell_price);
-        setShowCoinList(!showCoinList);
+        setShowCoinList(false);
         setbuyamount(1);
         setsellAmount(1);
         setExpandedRowIndex(null);
-        subscribeToPair(data);
         let filteredData = Coins?.filter((item) => item?.short_name === data?.base_currency)[0]
         setDesAndLinks({ ...filteredData })
-        let payload = {
-            'message': 'exchange',
-            'userId': userId,
-            'socketId': socketId,
-            'base_currency_id': data?.base_currency_id,
-            'quote_currency_id': data?.quote_currency_id,
-        }
-        socket.emit('message', payload);
+        // NOTE: Exchange subscription is triggered automatically by baseCurId/quoteCurId change
     };
 
     const [desAndLinks, setDesAndLinks] = useState({ description: "", links: [] });
@@ -1208,16 +1040,9 @@ const Trade = () => {
                                 </div>
                                 {/* tab 1 */}
                                 <div id="tab_1" className={`cc_tab ${showTab !== "chart" && "d-none"}`} >
-                                    {!SelectedCoin?.base_currency ?
-                                        <div style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                                            <div className="spinner-border text-primary" role="status" />
-
-                                        </div> :
-
-                                        // <></>
+                                    {SelectedCoin?.base_currency && (
                                         <TVChartContainer symbol={`${SelectedCoin?.base_currency}/${SelectedCoin?.quote_currency}`} />
-                                    }
-
+                                    )}
                                 </div>
 
 
@@ -1329,17 +1154,14 @@ const Trade = () => {
                                                                 </table>
                                                             </div>
                                                             <div className="price_card_body scroll_y scroll_y_reverse" style={{ position: 'relative', minHeight: '200px' }}>
-                                                                {
-                                                                loader && (!SellOrders || SellOrders.length === 0) ? (
+                                                                {loader ? (
                                                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '200px' }}>
                                                                         <div className="spinner-border" style={{ width: '1.5rem', height: '1.5rem', borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
                                                                     </div>
                                                                 ) : (
                                                                     <table className="table table-sm table-borderless mb-0 orderbook-table" style={{ width: '100%' }}>
                                                                         <tbody>
-                                                                            {SellOrders?.length > 0 && !loader ? (
-                                               
-
+                                                                            {SellOrders?.length > 0 ? (
                                                                                 SellOrders.map((data, index) => {
                                                                                     const fill = maxSellVolume
                                                                                         ? Math.min((data.remaining / maxSellVolume) * 100, 100)
@@ -1353,7 +1175,7 @@ const Trade = () => {
                                                                                                 background: `linear-gradient(to left, ${orderBookColor?.sell} ${fill}%, transparent ${fill}%)`
                                                                                             }}
                                                                                             onClick={() => {
-                                                                                                setbuyamount(formatQuantity(data.remaining));
+                                                                                                setbuyamount(formatQuantity(data.quantity));
                                                                                                 infoPlaceOrder !== "MARKET" && setbuyOrderPrice(formatPrice(data.price));
                                                                                             }}
                                                                                         >
@@ -1367,8 +1189,8 @@ const Trade = () => {
                                                                                 })
                                                                             ) : (
                                                                                 <tr>
-                                                                                    <td colSpan="3" className="text-center">
-                                                                                        <div className="spinner-border text-primary" />
+                                                                                    <td colSpan="3" className="text-center text-muted py-4">
+                                                                                        No sell orders
                                                                                     </td>
                                                                                 </tr>
                                                                             )}
@@ -1387,7 +1209,7 @@ const Trade = () => {
 
                                                             {/* BUY ORDERS */}
                                                             <div className="price_card_body scroll_y" style={{ position: 'relative', minHeight: '200px' }}>
-                                                                {loader && (!BuyOrders || BuyOrders.length === 0) ? (
+                                                                {loader ? (
                                                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '200px' }}>
                                                                         <div className="spinner-border" style={{ width: '1.5rem', height: '1.5rem', borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
                                                                     </div>
@@ -1401,7 +1223,7 @@ const Trade = () => {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {BuyOrders?.length > 0 && !loader ? (
+                                                                            {BuyOrders?.length > 0 ? (
                                                                                 BuyOrders.map((data, index) => {
                                                                                     const fill = maxBuyVolume
                                                                                         ? Math.min((data.remaining / maxBuyVolume) * 100, 100)
@@ -1429,8 +1251,8 @@ const Trade = () => {
                                                                                 })
                                                                             ) : (
                                                                                 <tr>
-                                                                                    <td colSpan="3" className="text-center">
-                                                                                        <div className="spinner-border text-primary" />
+                                                                                    <td colSpan="3" className="text-center text-muted py-4">
+                                                                                        No buy orders
                                                                                     </td>
                                                                                 </tr>
                                                                             )}
@@ -1668,7 +1490,7 @@ const Trade = () => {
                                     <div className="assets_right">
                                         <div id="tab_4_mobile" className={`trade_card orderbook_two ${showTab !== "wallets" ? "d-none" : ""}`}>
                                             <div className="assets_list">
-                                                <div className="top_heading"><h4>Wallets</h4><Link className="more_btn" to="/user_profile/asset_overview"><i className="ri-exchange-funds-fill"></i> Convert</Link></div>
+                                                <div className="top_heading"><h4>Spot Wallets<i class="ri-refresh-line cursor-pointer" onClick={() => fetchSpotWallets()}></i></h4><Link className="more_btn" to="/user_profile/asset_overview"><i className="ri-exchange-funds-fill"></i> Transfer</Link></div>
 
                                                 <div className="assets_btn">
                                                     <button><Link to="/asset_managemnet/deposit">Deposit</Link></button>
@@ -1677,49 +1499,63 @@ const Trade = () => {
                                             </div>
                                             <div className="price_card">
                                                 <div className="table-responsive price_card_body scroll_y scroll_y_mt">
-                                                    <table className="table table-sm table-borderless mb-0 orderbook-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Price</th>
-                                                                <th className="text-end">Quantity</th>
-                                                                <th className="text-end">Time</th>
-                                                            </tr>
-                                                        </thead>
-
-                                                        <tbody style={{ cursor: "pointer" }}>
-                                                            {RecentTrade?.length > 0 ? (
-                                                                RecentTrade.map((item, index) => (
-                                                                    <tr key={index}>
-                                                                        <td
-                                                                            className={
-                                                                                item?.side === "BUY"
-                                                                                    ? "text-green d-flex align-items-center"
-                                                                                    : "text-danger d-flex align-items-center"
-                                                                            }
-                                                                        >
-                                                                            {parseFloat(item?.price || 0)}
-                                                                        </td>
-                                                                        <td className="text-end">
-                                                                            {parseFloat(item?.quantity || 0)}
-                                                                        </td>
-                                                                        <td className="text-end">
-                                                                            {item?.time || "---"}
+                                                    {!token ? (
+                                                        <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
+                                                            <div className="no_data_s">
+                                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                                <p className="text-muted mt-2">Please login to view your wallets</p>
+                                                                <Link to="/login" className="btn btn-primary btn-sm mt-2">Login</Link>
+                                                            </div>
+                                                        </div>
+                                                    ) : walletsLoading ? (
+                                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px' }}>
+                                                            <div className="spinner-border text-primary" role="status" style={{ width: '1.5rem', height: '1.5rem' }} />
+                                                        </div>
+                                                    ) : (
+                                                        <table className="table table-sm table-borderless mb-0 orderbook-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Asset</th>
+                                                                    <th className="text-end">Balance</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {spotWallets?.length > 0 ? (
+                                                                    spotWallets.map((wallet, index) => (
+                                                                        <tr key={wallet?._id || index}>
+                                                                            <td>
+                                                                                <div className="d-flex align-items-center">
+                                                                                    <img 
+                                                                                        src={ApiConfig?.baseImage + wallet?.icon_path} 
+                                                                                        alt={wallet?.short_name} 
+                                                                                        width="24" 
+                                                                                        height="24" 
+                                                                                        className="me-2 rounded-circle"
+                                                                                        onError={(e) => { e.target.src = '/images/coin_placeholder.png'; }}
+                                                                                    />
+                                                                                    <span>{wallet?.short_name}</span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="text-end">
+                                                                                {parseFloat((wallet?.balance || 0).toFixed(8))}
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))
+                                                                ) : (
+                                                                    <tr className="no-data-row">
+                                                                        <td colSpan="2">
+                                                                            <div className="no-data-wrapper" style={{ padding: '20px', textAlign: 'center' }}>
+                                                                                <div className="no_data_s">
+                                                                                    <img src="/images/no_data_vector.svg" className="img-fluid" width="64" height="64" alt="" />
+                                                                                    <p className="text-muted mt-2 mb-0" style={{ fontSize: '12px' }}>No assets in spot wallet</p>
+                                                                                </div>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
-                                                                ))
-                                                            ) : (
-                                                                <tr rowSpan="5" className="no-data-row">
-                                                                <td colSpan="12">
-                                                                  <div className="no-data-wrapper">
-                                                                    <div className="no_data_s">
-                                                                      <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
-                                                                    </div>
-                                                                  </div>
-                                                                </td>
-                                                              </tr>
-                                                            )}
-                                                        </tbody>
-                                                    </table>
+                                                                )}
+                                                            </tbody>
+                                                        </table>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -1814,7 +1650,13 @@ const Trade = () => {
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    {SellOrders?.length > 0 && !loader ? (
+                                                                                    {loader ? (
+                                                                                        <tr>
+                                                                                            <td colSpan="2" className="text-center py-4">
+                                                                                                <div className="spinner-border" style={{ width: '1.5rem', height: '1.5rem', borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    ) : SellOrders?.length > 0 ? (
                                                                                         SellOrders.map((data, index) => {
                                                                                             const fill = maxSellVolume
                                                                                                 ? Math.min((data.remaining / maxSellVolume) * 100, 100)
@@ -1843,13 +1685,8 @@ const Trade = () => {
                                                                                         })
                                                                                     ) : (
                                                                                         <tr>
-                                                                                            <td colSpan="2" className="text-center">
-                                                                                                <div className="loading-wave">
-                                                                                                    <div className="loading-bar"></div>
-                                                                                                    <div className="loading-bar"></div>
-                                                                                                    <div className="loading-bar"></div>
-                                                                                                    <div className="loading-bar"></div>
-                                                                                                </div>
+                                                                                            <td colSpan="2" className="text-center text-muted py-4">
+                                                                                                No sell orders
                                                                                             </td>
                                                                                         </tr>
                                                                                     )}
@@ -1877,7 +1714,13 @@ const Trade = () => {
                                                                     <div className="price_card_body scroll_y">
                                                                         <table className="table table-sm table-borderless mb-0 orderbook-table">
                                                                             <tbody>
-                                                                                {BuyOrders?.length > 0 && !loader ? (
+                                                                                {loader ? (
+                                                                                    <tr>
+                                                                                        <td colSpan="2" className="text-center py-4">
+                                                                                            <div className="spinner-border" style={{ width: '1.5rem', height: '1.5rem', borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                ) : BuyOrders?.length > 0 ? (
                                                                                     BuyOrders.map((data, index) => {
                                                                                         const fill = maxBuyVolume
                                                                                             ? Math.min((data.remaining / maxBuyVolume) * 100, 100)
@@ -1906,13 +1749,8 @@ const Trade = () => {
                                                                                     })
                                                                                 ) : (
                                                                                     <tr>
-                                                                                        <td colSpan="2" className="text-center">
-                                                                                            <div className="loading-wave">
-                                                                                                <div className="loading-bar"></div>
-                                                                                                <div className="loading-bar"></div>
-                                                                                                <div className="loading-bar"></div>
-                                                                                                <div className="loading-bar"></div>
-                                                                                            </div>
+                                                                                        <td colSpan="2" className="text-center text-muted py-4">
+                                                                                            No buy orders
                                                                                         </td>
                                                                                     </tr>
                                                                                 )}
@@ -2058,7 +1896,7 @@ const Trade = () => {
                                                                         <div className="actions_balance__kTHO0">
                                                                             <span className="actions_primaryText__ufKT0"> Available Balance: </span>
                                                                             <div>
-                                                                                <span> {BuyCoinBal ? BuyCoinBal?.toFixed(9) : "0.00"}</span>
+                                                                                <span> {BuyCoinBal ? parseFloat((BuyCoinBal).toFixed(8)) : "0.00"}</span>
                                                                                 <span className="text ms-1">{SelectedCoin?.quote_currency}</span>
                                                                                 <Link className="actions_deposit__Ydutk" to={token ? '/asset_managemnet/deposit' : '/login'}>
                                                                                     <i className="ri-add-circle-fill"></i>
@@ -2662,71 +2500,74 @@ const Trade = () => {
 
                                     <div className="assets_list">
 
-                                        <div className="top_heading"><h4>Wallets</h4><Link className="more_btn" to="/user_profile/asset_overview"><i className="ri-exchange-funds-fill"></i> Convert</Link></div>
+                                        <div className="top_heading"><h4>Spot Wallets <i class="ri-refresh-line cursor-pointer" onClick={() => fetchSpotWallets()}></i></h4><Link className="more_btn" to="/user_profile/asset_overview"><i className="ri-exchange-funds-fill"></i> Transfer</Link></div>
 
                                         <div className="assets_btn">
                                             <button><Link to="/asset_managemnet/deposit">Deposit</Link></button>
                                             <button><Link to="/asset_managemnet/withdraw">Withdrawal</Link></button>
-                                            {/* <button><Link to="/user_profile/spot_orders">Trade History</Link></button> */}
                                         </div>
 
                                     </div>
                                     <div className="price_card">
-                                        {/* <div className="treade_card_header d-none d-lg-flex">
-                                            <div className="card_header_title active">Trade History </div>
-                                        </div> */}
                                         <div className="table-responsive price_card_body scroll_y scroll_y_mt">
-                                            <table className="table table-sm table-borderless mb-0 orderbook-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Price</th>
-                                                        <th className="text-end">Quantity</th>
-                                                        <th className="text-end">Time</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody style={{ cursor: "pointer" }}>
-                                                    {RecentTrade?.length > 0 ? (
-                                                        RecentTrade.map((item, index) => (
-                                                            <tr key={index}>
-                                                                {/* Price */}
-                                                                <td
-                                                                    className={
-                                                                        item?.side === "BUY"
-                                                                            ? "text-green d-flex align-items-center"
-                                                                            : "text-danger d-flex align-items-center"
-                                                                    }
-                                                                >
-                                                                    {parseFloat(item?.price || 0)}
-                                                                </td>
-
-                                                                {/* Quantity */}
-                                                                <td className="text-end">
-                                                                    {parseFloat(item?.quantity || 0)}
-                                                                </td>
-
-                                                                {/* Time */}
-                                                                <td className="text-end">
-                                                                    {item?.time || "---"}
+                                            {!token ? (
+                                                <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
+                                                    <div className="no_data_s">
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        <p className="text-muted mt-2">Please login to view your wallets</p>
+                                                        <Link to="/login" className="btn btn-primary btn-sm mt-2">Login</Link>
+                                                    </div>
+                                                </div>
+                                            ) : walletsLoading ? (
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px' }}>
+                                                    <div className="spinner-border text-primary" role="status" style={{ width: '1.5rem', height: '1.5rem',borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
+                                                </div>
+                                            ) : (
+                                                <table className="table table-sm table-borderless mb-0 orderbook-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Asset</th>
+                                                            <th className="text-end">Balance</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {spotWallets?.length > 0 ? (
+                                                            spotWallets.map((wallet, index) => (
+                                                                <tr key={wallet?._id || index}>
+                                                                    <td>
+                                                                        <div className="d-flex align-items-center">
+                                                                            <img 
+                                                                                src={ApiConfig?.baseImage + wallet?.icon_path} 
+                                                                                alt={wallet?.short_name} 
+                                                                                width="24" 
+                                                                                height="24" 
+                                                                                className="me-2 rounded-circle"
+                                                                                onError={(e) => { e.target.src = '/images/coin_placeholder.png'; }}
+                                                                            />
+                                                                            <span>{wallet?.short_name}</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="text-end">
+                                                                        {parseFloat((wallet?.balance || 0).toFixed(8))}
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                            <tr className="no-data-row">
+                                                                <td colSpan="2">
+                                                                    <div className="no-data-wrapper" style={{ padding: '20px', textAlign: 'center' }}>
+                                                                        <div className="no_data_s">
+                                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="64" height="64" alt="" />
+                                                                            <p className="text-muted mt-2 mb-0" style={{ fontSize: '12px' }}>No assets in spot wallet</p>
+                                                                        </div>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
-                                                        ))
-                                                    ) : (
-                                                        <tr rowSpan="5" className="no-data-row">
-                                                            <td colSpan="12">
-                                                                <div className="no-data-wrapper">
-                                                                    <div className="no_data_s">
-                                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
+                                                        )}
+                                                    </tbody>
+                                                </table>
+                                            )}
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -2743,7 +2584,7 @@ const Trade = () => {
                 <div className="mobile-favourites-popup-overlay" onClick={() => setShowMobileFavouritesPopup(false)}>
                     <div className="mobile-favourites-popup" onClick={(e) => e.stopPropagation()}>
                         <div className="mobile-favourites-popup-header">
-                            <h4>Favourites</h4>
+                            <h4>Select Pair</h4>
                             <button className="mobile-favourites-close-btn" onClick={() => setShowMobileFavouritesPopup(false)}>
                                 <i className="ri-close-line"></i>
                             </button>

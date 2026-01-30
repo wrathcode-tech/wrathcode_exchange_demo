@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useRef, useState, useMemo } from 'react'
+import React, { useContext, useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ApiConfig } from "../../api/apiConfig/apiConfig";
 import { ProfileContext } from "../../context/ProfileProvider";
+import AuthService from "../../api/services/AuthService";
 
 
 const AuthHeader = () => {
@@ -9,12 +10,14 @@ const AuthHeader = () => {
     setCurrentPage, 
     estimatedPortfolio, 
     notifications, 
-    notificationCounts, 
-    pairs: contextPairs 
+    notificationCounts
   } = useContext(ProfileContext);
   
   const [showBalance, setShowBalance] = useState(true);
   const [searchPair, setSearchPair] = useState("");
+  const [allPairs, setAllPairs] = useState([]);
+  const [pairsLoading, setPairsLoading] = useState(false);
+  const [pairsFetched, setPairsFetched] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,13 +44,30 @@ const AuthHeader = () => {
     window.location.reload();
   };
 
+  // Fetch pairs from API when modal opens
+  const fetchPairs = useCallback(async () => {
+    if (pairsFetched || pairsLoading) return;
+    setPairsLoading(true);
+    try {
+      const result = await AuthService.getPairs();
+      if (result?.success) {
+        setAllPairs(result.data || []);
+        setPairsFetched(true);
+      }
+    } catch (error) {
+      console.error("Failed to fetch pairs:", error);
+    } finally {
+      setPairsLoading(false);
+    }
+  }, [pairsFetched, pairsLoading]);
+
   // Filter pairs based on search
   const filteredPairs = useMemo(() => {
-    if (!searchPair) return contextPairs || [];
-    return (contextPairs || []).filter((item) => 
+    if (!searchPair) return allPairs;
+    return allPairs.filter((item) => 
       item?.base_currency?.toLowerCase()?.includes(searchPair?.toLowerCase())
     );
-  }, [searchPair, contextPairs]);
+  }, [searchPair, allPairs]);
 
   const [isOpenNav, setIsOpenNav] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -318,7 +338,7 @@ const AuthHeader = () => {
               <div className="header_right">
                 <div className="button_outer">
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a className="search_icon" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i className="ri-search-line"></i></a>
+                  <a className="search_icon" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={fetchPairs}><i className="ri-search-line"></i></a>
                   <a className="login_btn deposit-btn" href="#/" onClick={toggleSidebar}><i className="ri-download-2-line"></i>Deposit</a>
                   <div className="user_login dashbtn">
                     <Link to="/user_profile/dashboard" className={isDashboardActive ? 'active' : ''}>
@@ -406,37 +426,65 @@ const AuthHeader = () => {
             </div>
 
             {/* <!--Search Bar Modal --> */}
-            <div className="modal fade search_form search_form_modal_2" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
+            <div 
+              className="modal fade search_form search_form_modal_2" 
+              id="exampleModal" 
+              tabIndex="-1" 
+              aria-labelledby="exampleModalLabel" 
+              aria-hidden="true"
+              onFocus={fetchPairs}
+            >
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="kycTitle">Hot Trading Pairs </h5>
                     <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
                   </div>
-                  <div className="modal-body">
+                  <div className="modal-body" onClick={fetchPairs}>
                     <form>
-                      <input type="search" placeholder="Search here..." value={searchPair} onChange={(e) => setSearchPair(e.target.value)} />
+                      <input 
+                        type="search" 
+                        placeholder="Search here..." 
+                        value={searchPair} 
+                        onChange={(e) => setSearchPair(e.target.value)} 
+                        onFocus={fetchPairs}
+                      />
                     </form>
                     <div className="hot_trading_t">
                       <div className='table-responsive'>
-                        <table>
-                          <tbody>
-                            {filteredPairs?.map((item, index) => {
-                              return (
-                                <tr key={item?._id || index}>
-                                  <td onClick={() => nextPage(item)}>
-                                    <div className="td_first">
-                                      <div className="icon"><img src={ApiConfig?.baseImage + item?.icon_path} alt="icon" /></div>
-                                      <div className="price_heading"> {item?.base_currency} / {item?.quote_currency} <br /> <span>{item?.base_currency_fullname}</span></div>
+                        {pairsLoading ? (
+                          <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+                            <div className="spinner-border text-primary" role="status" />
+                          </div>
+                        ) : (
+                          <table>
+                            <tbody>
+                              {filteredPairs?.length > 0 ? filteredPairs.map((item, index) => {
+                                return (
+                                  <tr key={item?._id || index}>
+                                    <td onClick={() => nextPage(item)} data-bs-dismiss="modal">
+                                      <div className="td_first">
+                                        <div className="icon"><img src={ApiConfig?.baseImage + item?.icon_path} alt="icon" /></div>
+                                        <div className="price_heading"> {item?.base_currency} / {item?.quote_currency} <br /> <span>{item?.base_currency_fullname}</span></div>
+                                      </div>
+                                    </td>
+                                    <td className="right_t price_tb">{item?.buy_price}<span className={`${item?.change_percentage > 0 ? "green" : "red"}`}>{item?.change_percentage}%</span></td>
+                                  </tr>
+                                )
+                              }) : (
+                                <tr rowSpan="5" className="no-data-row">
+                                  <td className="w-100" >
+                                  <div className="no-data-wrapper mt-5">
+                                    <div className="no_data_s">
+                                      <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
                                     </div>
-                                  </td>
-                                  <td className="right_t price_tb">{item?.buy_price}<span className={`${item?.change_percentage > 0 ? "green" : "red"}`}>{item?.change_percentage}%</span></td>
-                                </tr>
-                              )
-                            })}
-                          </tbody>
-                        </table>
+                                  </div>
+                                </td>
+                              </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        )}
                       </div>
                     </div>
                   </div>

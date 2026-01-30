@@ -1,12 +1,11 @@
 import { ApiConfig } from "../../../api/apiConfig/apiConfig";
-import { makeApiRequest2, parseFullSymbol } from "./helpers";
+import { parseFullSymbol } from "./helpers";
 const { io } = require("socket.io-client");
 
 const channelToSubscription = new Map();
 
 let socket;
 let isSocketInitialized = false;
-let reconnectPayload = null;
 
 const initializeSocket = () => {
   if (!socket || !isSocketInitialized) {
@@ -22,11 +21,9 @@ const initializeSocket = () => {
     isSocketInitialized = true;
 
     socket.on('connect', () => {
-      console.log("✅ Socket connected");
-      if (reconnectPayload) {
-        socket.emit('message', reconnectPayload);
-        console.log("🔁 Re-emitted exchange payload after reconnect");
-      }
+      console.log("✅ Mobile chart socket connected");
+      // Subscribe to market data for pairs updates
+      socket.emit('market:subscribe');
     });
 
     socket.on('disconnect', (reason) => {
@@ -75,24 +72,16 @@ export async function subscribeOnStream(
 
   channelToSubscription.set(channelString, subscriptionItem);
 
-  let socketId = localStorage.getItem("socketId");
-  let payload = {
-    message: 'phone-chart',
-    socketId: socketId,
-  };
+  // Subscribe to market data for pairs updates
+  socket.emit('market:subscribe');
 
-  reconnectPayload = payload; // Save to re-emit on reconnect
-  socket.emit('message', payload);
+  socket.off('market:update'); // Ensure no duplicate listeners
 
-  socket.off('message'); // Ensure no duplicate listeners
-
-  socket.on('message', (data) => {
+  socket.on('market:update', (data) => {
     const currPair = data?.pairs?.find(item => item?.base_currency === parsedSymbol.fromSymbol && item?.quote_currency === parsedSymbol.toSymbol);
     if (!currPair) return;
 
     let changeMiliSecond = currPair?.available === "LOCAL" ? 1000 : 1;
-    // const tickerData = data?.ticker;
-    // if (currPair?.available === "LOCAL"  && !tickerData) return;
 
     const tradeTime = currPair.time;
     const volume = 0;
@@ -139,9 +128,39 @@ export function unsubscribeFromStream(subscriberUID) {
 
       if (subscriptionItem.handlers?.length === 0) {
         channelToSubscription.delete(channelString);
+        
+        // Unsubscribe from socket when no more handlers
+        if (socket) {
+          socket.emit('market:unsubscribe');
+          socket.off('market:update');
+          console.log("🔌 Unsubscribed from mobile market stream");
+        }
         break;
       }
     }
+  }
+}
+
+// Cleanup function to disconnect socket completely (call when leaving chart page)
+export function disconnectMobileChartSocket() {
+  if (socket) {
+    // Unsubscribe from market
+    socket.emit('market:unsubscribe');
+    
+    // Remove all listeners
+    socket.off('market:update');
+    socket.off('connect');
+    socket.off('disconnect');
+    
+    // Disconnect the socket
+    socket.disconnect();
+    socket = null;
+    isSocketInitialized = false;
+    
+    // Clear all subscriptions
+    channelToSubscription.clear();
+    
+    console.log("🔌 Mobile chart socket disconnected and cleaned up");
   }
 }
 

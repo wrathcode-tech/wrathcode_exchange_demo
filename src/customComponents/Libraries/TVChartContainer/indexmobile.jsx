@@ -3,6 +3,7 @@ import './index.css';
 import { widget } from '../charting_library';
 import Datafeed from './mobileDatafeed';
 import { ProfileContext } from '../../../context/ProfileProvider';
+import { disconnectMobileChartSocket } from './mobileStreaming';
 
 export default function TVChartContainer({ symbol, theme }) {
   const { newStoredTheme } = useContext(ProfileContext);
@@ -113,6 +114,20 @@ export default function TVChartContainer({ symbol, theme }) {
 
   useEffect(() => {
     initChart(symbol);
+    
+    // Cleanup on unmount
+    return () => {
+      disconnectMobileChartSocket();
+      if (tvWidgetRef.current) {
+        try {
+          tvWidgetRef.current.remove();
+          tvWidgetRef.current = null;
+        } catch (e) {
+          console.warn("Error removing mobile TV widget:", e);
+        }
+      }
+      console.log("🧹 Mobile TVChartContainer cleanup completed");
+    };
   }, []);
 
   useEffect(() => {
@@ -136,8 +151,10 @@ export default function TVChartContainer({ symbol, theme }) {
     }
   }, [Theme]);
 
+  const bgColor = Theme === 'light' ? "#ffffff" : "#111114";
+
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", minHeight: "300px", height: "300px", backgroundColor: bgColor }}>
       {/* Chart */}
       <div
         id={containerId}
@@ -145,8 +162,8 @@ export default function TVChartContainer({ symbol, theme }) {
         style={{
           opacity: isReady ? 1 : 0,
           transition: 'opacity 0.1s ease',
-          backgroundColor: Theme === 'light' ? "#ffffff" : "#111114",
-          height: "300px",
+          backgroundColor: bgColor,
+          height: "100%",
         }}
       />
 
@@ -158,17 +175,15 @@ export default function TVChartContainer({ symbol, theme }) {
             top: 0,
             left: 0,
             width: "100%",
-            height: "300px",
+            height: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            background: Theme === "light" ? "rgba(255,255,255,0.9)" : "rgba(17,17,20,0.9)",
+            background: bgColor,
             zIndex: 10,
           }}
         >
-          <div className="spinner-border text-primary" role="status">
-            {/* <span className="sr-only">Loading...</span> */}
-          </div>
+          <div className="spinner-border text-primary" role="status" style={{ width: '2rem', height: '2rem' }} />
         </div>
       )}
     </div>

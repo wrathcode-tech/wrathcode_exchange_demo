@@ -1,18 +1,19 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef, useContext, useMemo, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import AuthService from "../../api/services/AuthService";
 import { ApiConfig } from "../../api/apiConfig/apiConfig";
 import { ProfileContext } from "../../context/ProfileProvider";
+import AuthService from "../../api/services/AuthService";
 
 const UserHeader = () => {
   // eslint-disable-next-line no-unused-vars
-  const { themeUpdated, setThemeUpdated } = useContext(ProfileContext)
+  const { themeUpdated, setThemeUpdated } = useContext(ProfileContext);
 
   const [searchPair, setSearchPair] = useState("");
-  const [pairs, setPairs] = useState([]);
-  const [allData, setAllData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [allPairs, setAllPairs] = useState([]);
+  const [pairsLoading, setPairsLoading] = useState(false);
+  const [pairsFetched, setPairsFetched] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,29 +30,29 @@ const UserHeader = () => {
     return exact ? location.pathname === path : location.pathname.includes(path);
   };
 
-  const getPairs = async () => {
-    const result = await AuthService.getPairs();
-    if (result?.success) {
-      setPairs(result?.data);
-      setAllData(result?.data);
+  // Fetch pairs from API when modal opens
+  const fetchPairs = useCallback(async () => {
+    if (pairsFetched || pairsLoading) return;
+    setPairsLoading(true);
+    try {
+      const result = await AuthService.getPairs();
+      if (result?.success) {
+        setAllPairs(result.data || []);
+        setPairsFetched(true);
+      }
+    } catch (error) {
+      console.error("Failed to fetch pairs:", error);
+    } finally {
+      setPairsLoading(false);
     }
-  };
+  }, [pairsFetched, pairsLoading]);
 
-  useEffect(() => {
-    getPairs();
-  }, []);
-
-  useEffect(() => {
-    if (searchPair) {
-      const filteredPair = allData?.filter((item) =>
-        item?.base_currency?.toLowerCase()?.includes(searchPair?.toLowerCase())
-      );
-      setPairs(filteredPair);
-    } else {
-      setPairs(allData);
-    }
-  }, [searchPair, allData]);
-
+  const filteredPairs = useMemo(() => {
+    if (!searchPair) return allPairs;
+    return allPairs.filter((item) =>
+      item?.base_currency?.toLowerCase()?.includes(searchPair?.toLowerCase())
+    );
+  }, [searchPair, allPairs]);
   // Outside click closes dropdown and mobile nav
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -71,12 +72,12 @@ const UserHeader = () => {
   }, []);
 
   const toggleNavbar = () => setIsOpen(!isOpen);
-  
+
   const closeNavbar = () => {
     setIsOpen(false);
     setOpenDropdown(null);
   };
-  
+
   const toggleDropdown = (key) =>
     setOpenDropdown(openDropdown === key ? null : key);
 
@@ -113,18 +114,18 @@ const UserHeader = () => {
                 <div className={`collapse navbar-collapse ${isOpen ? "show" : ""}`} id="mainNavbar">
                   <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                      <Link 
-                        className={`nav-link ${isActive("/") ? "active" : ""}`} 
-                        to="/" 
+                      <Link
+                        className={`nav-link ${isActive("/") ? "active" : ""}`}
+                        to="/"
                         onClick={closeNavbar}
                       >
                         Home
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link 
-                        className={`nav-link ${isActive("/market") ? "active" : ""}`} 
-                        to="/market" 
+                      <Link
+                        className={`nav-link ${isActive("/market") ? "active" : ""}`}
+                        to="/market"
                         onClick={closeNavbar}
                       >
                         Market
@@ -204,18 +205,18 @@ const UserHeader = () => {
                     </li>
 
                     <li className="nav-item">
-                      <Link 
-                        className={`nav-link ${isActive("/user_profile/swap") ? "active" : ""}`} 
-                        to="/user_profile/swap" 
+                      <Link
+                        className={`nav-link ${isActive("/user_profile/swap") ? "active" : ""}`}
+                        to="/user_profile/swap"
                         onClick={closeNavbar}
                       >
                         Quick Swap
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link 
-                        className={`nav-link ${isActive("/launchpad") ? "active" : ""}`} 
-                        to="/launchpad" 
+                      <Link
+                        className={`nav-link ${isActive("/launchpad") ? "active" : ""}`}
+                        to="/launchpad"
                         onClick={closeNavbar}
                       >
                         Launchpad<i className="ri-rocket-fill" style={{ color: "#f3bb2c" }}></i>
@@ -223,9 +224,9 @@ const UserHeader = () => {
                     </li>
 
                     <li className="nav-item mememenu">
-                      <Link 
-                        className={`nav-link ${isActive("/meme") ? "active" : ""}`} 
-                        to="/meme" 
+                      <Link
+                        className={`nav-link ${isActive("/meme") ? "active" : ""}`}
+                        to="/meme"
                         onClick={closeNavbar}
                       >
                         Meme+
@@ -233,38 +234,38 @@ const UserHeader = () => {
                     </li>
 
                     <li className="nav-item">
-                      <Link 
-                        className={`nav-link ${isActive("/blogs") ? "active" : ""}`} 
-                        to="/blogs" 
+                      <Link
+                        className={`nav-link ${isActive("/blogs") ? "active" : ""}`}
+                        to="/blogs"
                         onClick={closeNavbar}
                       >
                         Blogs & News
                       </Link>
                     </li>
                     <li className={`nav-item dropdown mbl ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}>
-                          <span
-                            className={`nav-link dropdown-toggle ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}
-                            role="button"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => toggleDropdown("download")}
-                          >
-                            <img src="/images/download_icon2.svg" alt="scan" width={12} /> Download
-                          </span>
-                          <ul className={`dropdown-menu ${openDropdown === "download" ? "show" : ""}`}>
-                            <li>
-                            <div className='qrcode'>
-                          <div className="scan_img"><img src="/images/scan.png" alt="scan" /></div>
-                          <p>Scan to Download App iOS & Android</p>
-                          <button className='btn'>Download</button>
-                        </div>
-                            </li>
-                          </ul>
+                      <span
+                        className={`nav-link dropdown-toggle ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}
+                        role="button"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => toggleDropdown("download")}
+                      >
+                        <img src="/images/download_icon2.svg" alt="scan" width={12} /> Download
+                      </span>
+                      <ul className={`dropdown-menu ${openDropdown === "download" ? "show" : ""}`}>
+                        <li>
+                          <div className='qrcode'>
+                            <div className="scan_img"><img src="/images/scan.png" alt="scan" /></div>
+                            <p>Scan to Download App iOS & Android</p>
+                            <button className='btn'>Download</button>
+                          </div>
                         </li>
-                        <li className="nav-item mbl">
-                          <Link className="nav-link" to="/#" onClick={closeNavbar}>
-                            Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
-                          </Link>
-                        </li>
+                      </ul>
+                    </li>
+                    <li className="nav-item mbl">
+                      <Link className="nav-link" to="/#" onClick={closeNavbar}>
+                        Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </nav>
@@ -275,7 +276,7 @@ const UserHeader = () => {
             <div className="header_right">
 
               <div className="button_outer">
-                <a className="search_icon" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a className="search_icon" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={fetchPairs}>
                   <i className="ri-search-line"></i>
                 </a>
                 <button className="login_btn sign_btn" onClick={loginPage}>
@@ -306,51 +307,65 @@ const UserHeader = () => {
           </div>
 
           {/* Modal Search */}
-          <div className="modal fade search_form search_form_modal_2" id="exampleModal" tabIndex="-1" aria-hidden="true">
+          <div
+            className="modal fade search_form search_form_modal_2"
+            id="exampleModal"
+            tabIndex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+            onFocus={fetchPairs}
+          >
             <div className="modal-dialog">
               <div className="modal-content">
-                <div className="modal-body">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="kycTitle">Hot Trading Pairs </h5>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div className="modal-body" onClick={fetchPairs}>
                   <form>
                     <input
                       type="search"
                       placeholder="Search here..."
                       value={searchPair}
                       onChange={(e) => setSearchPair(e.target.value)}
+                      onFocus={fetchPairs}
                     />
                   </form>
                   <div className="hot_trading_t">
-                    <h3>Hot Trading Pairs</h3>
-                    <div className="table-responsive">
-                      <table>
-                        <tbody>
-                          {pairs?.map((item) => (
-                            <tr key={item?._id}>
-                              <td onClick={() => nextPage(item)}>
-                                <div className="td_first">
-                                  <div className="icon">
-                                    <img
-                                      src={ApiConfig?.baseImage + item?.icon_path}
-                                      alt="icon"
-                                      width="40px"
-                                    />
+                    <div className='table-responsive'>
+                      {pairsLoading ? (
+                        <div >
+                          <div className="spinner-border text-primary" role="status" />
+                        </div>
+                      ) : (
+                        <table>
+                          <tbody>
+                            {filteredPairs?.length > 0 ? filteredPairs.map((item, index) => {
+                              return (
+                                <tr key={item?._id || index}>
+                                  <td onClick={() => nextPage(item)} data-bs-dismiss="modal">
+                                    <div className="td_first">
+                                      <div className="icon"><img src={ApiConfig?.baseImage + item?.icon_path} alt="icon" /></div>
+                                      <div className="price_heading"> {item?.base_currency} / {item?.quote_currency} <br /> <span>{item?.base_currency_fullname}</span></div>
+                                    </div>
+                                  </td>
+                                  <td className="right_t price_tb">{item?.buy_price}<span className={`${item?.change_percentage > 0 ? "green" : "red"}`}>{item?.change_percentage}%</span></td>
+                                </tr>
+                              )
+                            }) : (
+                                <tr rowSpan="5" className="no-data-row">
+                                  <td className="w-100" >
+                                  <div className="no-data-wrapper mt-5">
+                                    <div className="no_data_s">
+                                      <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                    </div>
                                   </div>
-                                  <div className="price_heading">
-                                    {item?.base_currency} / {item?.quote_currency}
-                                    <br />
-                                    <span>{item?.base_currency_fullname}</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="right_t price_tb">
-                                {item?.buy_price}
-                                <span className={item?.change_percentage > 0 ? "green" : "red"}>
-                                  {item?.change_percentage}%
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      )}
                     </div>
                   </div>
                 </div>

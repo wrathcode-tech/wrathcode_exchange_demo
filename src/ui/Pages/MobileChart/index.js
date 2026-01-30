@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TVChartContainer from "../../../customComponents/Libraries/TVChartContainer/indexmobile";
-import { SocketContext } from '../../../customComponents/SocketContext';
 
 const MobileChart = () => {
-    const { socket } = useContext(SocketContext);
     const params = useParams();
     const theme = params?.theme;
 
@@ -14,8 +12,6 @@ const MobileChart = () => {
         base_currency: initialPair[0],
         quote_currency: initialPair[1]
     });
-
-    let socketId = localStorage.getItem("socketId");
 
     // Listen for RN WebView messages to change symbol without reload
     useEffect(() => {
@@ -44,22 +40,8 @@ const MobileChart = () => {
         };
     }, []);
 
-    // Send socket updates
-    useEffect(() => {
-        let interval;
-        if (selectedCoin && socket) {
-            interval = setInterval(() => {
-                const payload = {
-                    message: 'phone-chart',
-                    socketId: socketId,
-                    base_currency: selectedCoin.base_currency,
-                    quote_currency: selectedCoin.quote_currency,
-                };
-                socket.emit('message', payload);
-            }, 1000);
-        }
-        return () => clearInterval(interval);
-    }, [selectedCoin, socket, socketId]);
+    // Chart handles its own socket subscription via mobileStreaming.js
+    // No need for separate SocketContext subscription here
 
     // Apply theme
     useEffect(() => {

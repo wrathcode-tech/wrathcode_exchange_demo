@@ -3,6 +3,7 @@ import { widget } from '../charting_library'; // same path you already use
 import FuturesDatafeed from './datafeedFutures';
 import './index.css';
 import { ProfileContext } from '../../../context/ProfileProvider';
+import { disconnectFuturesChartSocket } from './streamingFutures';
 
 /**
  * Usage:
@@ -137,6 +138,19 @@ export default function TVFuturesChartContainer({ symbol }) {
       initChart(symbol);
       initOnceRef.current = true;
     }
+    
+    // Cleanup on unmount
+    return () => {
+      disconnectFuturesChartSocket();
+      if (tvWidget) {
+        try {
+          tvWidget.remove();
+        } catch (e) {
+          console.warn("Error removing futures TV widget:", e);
+        }
+      }
+      console.log("🧹 Futures TVChartContainer cleanup completed");
+    };
   }, [symbol]);
 
   // theme switch
@@ -184,7 +198,7 @@ export default function TVFuturesChartContainer({ symbol }) {
     /> */}
 
 
-<div style={{ position: "relative" }}>
+<div style={{ position: "relative", minHeight: "600px", height: "600px", backgroundColor: "#111114" }}>
       {/* Chart Container */}
       <div
         id="TVFuturesChartContainer"
@@ -192,8 +206,7 @@ export default function TVFuturesChartContainer({ symbol }) {
           opacity: ready ? 1 : 0,
           transition: "opacity 0.1s ease",
           backgroundColor: "#111114",
-          height: "100%", // ensure it has visible height
-          minHeight: "400px",
+          height: "100%",
         }}
       />
   
@@ -209,11 +222,11 @@ export default function TVFuturesChartContainer({ symbol }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            background: "rgba(17, 17, 20, 0.9)",
+            background: "#111114",
             zIndex: 10,
           }}
         >
-          <div className="spinner-border text-white" role="status" />
+          <div className="spinner-border text-primary" role="status" style={{ width: '2rem', height: '2rem' }} />
         </div>
       )}
     </div>

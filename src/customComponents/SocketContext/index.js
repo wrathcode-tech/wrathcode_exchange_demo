@@ -1,77 +1,276 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { ApiConfig } from '../../api/apiConfig/apiConfig';
 
 export const SocketContext = createContext();
 
+// =====================================================================
+// 🔧 SOCKET CONFIGURATION
+// =====================================================================
+const SOCKET_CONFIG = {
+  transports: ['websocket'],
+  upgrade: false,
+  rejectUnauthorized: false,
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 10000,
+  timeout: 20000,
+};
+
 const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [marketData, setMarketData] = useState({ pairs: [], futures_pairs: [], hot_pairs_chart: {} });
+  const [exchangeData, setExchangeData] = useState(null);
+  const [futuresData, setFuturesData] = useState(null);
   const reconnectAttempts = useRef(0);
   const maxReconnectAttempts = 5;
+  const socketRef = useRef(null);
+  
+  // Track pending subscriptions to apply when socket connects
+  const pendingSubscriptions = useRef({
+    market: false,
+    exchange: null,
+    futures: null
+  });
 
-  const connectSocket = () => {
+  // =====================================================================
+  // 🔗 SOCKET CONNECTION
+  // =====================================================================
+  const connectSocket = useCallback(() => {
+    // Don't create multiple connections - check if socket exists (connected or connecting)
+    if (socketRef.current) {
+      // If already connected, just return
+      if (socketRef.current.connected) {
+        return socketRef.current;
+      }
+      // If socket exists but disconnected, try to reconnect
+      if (!socketRef.current.connected && !socketRef.current.connecting) {
+        socketRef.current.connect();
+      }
+      return socketRef.current;
+    }
+
+    // Get auth token if available
+    const token = localStorage.getItem('token');
+
     const newSocket = io(`${ApiConfig?.webSocketUrl}`, {
-      transports: ['websocket'],
-      upgrade: false,
-      rejectUnauthorized: false,
-      reconnection: false, // we handle reconnection manually
-      timeout: 20000, // 20 second connection timeout
+      ...SOCKET_CONFIG,
+      auth: token ? { token } : undefined,
     });
 
+    socketRef.current = newSocket;
+
+    // =====================================================================
+    // 📡 CONNECTION EVENTS
+    // =====================================================================
     newSocket.on('connect', () => {
+      console.log('[Socket] Connected:', newSocket.id);
+      setIsConnected(true);
       reconnectAttempts.current = 0;
+      
+      // Apply pending subscriptions (market is NOT auto-subscribed anymore)
+      if (pendingSubscriptions.current.market) {
+        newSocket.emit('market:subscribe');
+      }
+      if (pendingSubscriptions.current.exchange) {
+        newSocket.emit('exchange:subscribe', pendingSubscriptions.current.exchange);
+      }
+      if (pendingSubscriptions.current.futures) {
+        newSocket.emit('futures:subscribe', pendingSubscriptions.current.futures);
+      }
     });
 
-    newSocket.on('disconnect', () => {
+    newSocket.on('disconnect', (reason) => {
+      console.log('[Socket] Disconnected:', reason);
+      setIsConnected(false);
+      
+      // Auto reconnect for certain disconnect reasons
+      if (reason === 'io server disconnect') {
+        newSocket.connect();
+      }
+    });
+
+    newSocket.on('connect_error', (error) => {
+      console.error('[Socket] Connection error:', error.message);
+      setIsConnected(false);
       attemptReconnect();
     });
 
-    newSocket.on('connect_error', () => {
-      attemptReconnect();
+    newSocket.on('error', (error) => {
+      console.error('[Socket] Error:', error);
     });
 
-    newSocket.on('error', () => {
-      // Silent error handling
+    // =====================================================================
+    // 📊 MARKET DATA EVENTS (Server-push)
+    // =====================================================================
+    newSocket.on('market:update', (data) => {
+      // Handle market data update (full data from server)
+      setMarketData({
+        pairs: data.pairs || [],
+        futures_pairs: data.futures_pairs || [],
+        hot_pairs_chart: data.hot_pairs_chart || {}
+      });
+    });
+
+    // =====================================================================
+    // 💱 EXCHANGE DATA EVENTS (Server-push)
+    // =====================================================================
+    newSocket.on('exchange:update', (data) => {
+      if (data) {
+        setExchangeData(data);
+      }
+    });
+
+    // =====================================================================
+    // 📈 FUTURES DATA EVENTS (Server-push)
+    // =====================================================================
+    newSocket.on('futures:update', (data) => {
+      if (data) {
+        setFuturesData(data);
+      }
     });
 
     setSocket(newSocket);
     return newSocket;
-  };
+  }, []);
 
-  const attemptReconnect = () => {
+  // =====================================================================
+  // 🔄 RECONNECTION LOGIC
+  // =====================================================================
+  const attemptReconnect = useCallback(() => {
     if (reconnectAttempts.current >= maxReconnectAttempts) {
+      console.error('[Socket] Max reconnection attempts reached');
       return;
     }
 
-    const delay = Math.min(2000 * reconnectAttempts.current, 10000); // exponential backoff
+    const delay = Math.min(2000 * Math.pow(2, reconnectAttempts.current), 10000);
     reconnectAttempts.current += 1;
 
-    setTimeout(() => {
-      const reconnectedSocket = connectSocket();
-      setSocket(reconnectedSocket);
-    }, delay);
-  };
+    console.log(`[Socket] Attempting reconnect in ${delay}ms (attempt ${reconnectAttempts.current})`);
 
+    setTimeout(() => {
+      if (!socketRef.current?.connected) {
+        connectSocket();
+      }
+    }, delay);
+  }, [connectSocket]);
+
+  // =====================================================================
+  // 📊 SUBSCRIPTION HELPERS
+  // =====================================================================
+  const subscribeToMarket = useCallback(() => {
+    pendingSubscriptions.current.market = true;
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('market:subscribe');
+    }
+  }, []);
+
+  const unsubscribeFromMarket = useCallback(() => {
+    pendingSubscriptions.current.market = false;
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('market:unsubscribe');
+    }
+  }, []);
+
+  // Track current exchange subscription to avoid duplicates
+  const currentExchangeSubscription = useRef(null);
+
+  const subscribeToExchange = useCallback((baseCurrencyId, quoteCurrencyId) => {
+    // If no pair specified, request pairs list only (for initial page load)
+    if (!baseCurrencyId || !quoteCurrencyId) {
+      if (socketRef.current?.connected) {
+        socketRef.current.emit('exchange:subscribe', {});
+      }
+      return;
+    }
+    
+    const subKey = `${baseCurrencyId}-${quoteCurrencyId}`;
+    
+    // Avoid duplicate subscription to the same pair
+    if (currentExchangeSubscription.current === subKey) {
+      return;
+    }
+    
+    currentExchangeSubscription.current = subKey;
+    pendingSubscriptions.current.exchange = { base_currency_id: baseCurrencyId, quote_currency_id: quoteCurrencyId };
+    
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('exchange:subscribe', {
+        base_currency_id: baseCurrencyId,
+        quote_currency_id: quoteCurrencyId
+      });
+    }
+  }, []);
+
+  const unsubscribeFromExchange = useCallback((baseCurrencyId, quoteCurrencyId) => {
+    currentExchangeSubscription.current = null;
+    pendingSubscriptions.current.exchange = null;
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('exchange:unsubscribe', {
+        base_currency_id: baseCurrencyId,
+        quote_currency_id: quoteCurrencyId
+      });
+    }
+  }, []);
+
+  const subscribeToFutures = useCallback((baseCurrencyId, quoteCurrencyId) => {
+    // If no pair specified, request futures pairs list only (for initial page load)
+    if (!baseCurrencyId || !quoteCurrencyId) {
+      if (socketRef.current?.connected) {
+        socketRef.current.emit('futures:subscribe', {});
+      }
+      return;
+    }
+    
+    pendingSubscriptions.current.futures = { base_currency_id: baseCurrencyId, quote_currency_id: quoteCurrencyId };
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('futures:subscribe', {
+        base_currency_id: baseCurrencyId,
+        quote_currency_id: quoteCurrencyId
+      });
+    }
+  }, []);
+
+  const unsubscribeFromFutures = useCallback((baseCurrencyId, quoteCurrencyId) => {
+    pendingSubscriptions.current.futures = null;
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('futures:unsubscribe', {
+        base_currency_id: baseCurrencyId,
+        quote_currency_id: quoteCurrencyId
+      });
+    }
+  }, []);
+
+  // =====================================================================
+  // 🚀 INITIALIZATION
+  // =====================================================================
   useEffect(() => {
     const activeSocket = connectSocket();
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        if (!activeSocket.connected) {
-          attemptReconnect();
+        if (!socketRef.current?.connected) {
+          reconnectAttempts.current = 0;
+          connectSocket();
         }
       }
     };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      activeSocket.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (activeSocket) {
+        activeSocket.disconnect();
+      }
     };
-  }, []);
+  }, [connectSocket]);
 
-  // All your slider settings
+  // =====================================================================
+  // 🎨 SLIDER SETTINGS (unchanged)
+  // =====================================================================
   const settings = {
     centerMode: true,
     centerPadding: "30px",
@@ -139,8 +338,29 @@ const SocketContextProvider = ({ children }) => {
     ],
   };
 
+  // =====================================================================
+  // 📤 CONTEXT VALUE
+  // =====================================================================
+  const contextValue = {
+    socket,
+    isConnected,
+    marketData,
+    exchangeData,
+    futuresData,
+    subscribeToMarket,
+    unsubscribeFromMarket,
+    subscribeToExchange,
+    unsubscribeFromExchange,
+    subscribeToFutures,
+    unsubscribeFromFutures,
+    settings,
+    settingstwo,
+    Sliderpartners,
+    Sliderpartners2
+  };
+
   return (
-    <SocketContext.Provider value={{ socket, settings, Sliderpartners, Sliderpartners2, settingstwo }}>
+    <SocketContext.Provider value={contextValue}>
       {children}
     </SocketContext.Provider>
   );

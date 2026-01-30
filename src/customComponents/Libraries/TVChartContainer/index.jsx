@@ -3,6 +3,7 @@ import './index.css';
 import { widget } from '../charting_library';
 import Datafeed from './datafeed';
 import { ProfileContext } from '../../../context/ProfileProvider';
+import { disconnectChartSocket } from './streaming';
 
 
 export default function TVChartContainer({ symbol }) {
@@ -156,6 +157,24 @@ useEffect(() => {
     };
   }, [symbol]);
 
+  // Cleanup on unmount - disconnect chart socket and remove widget
+  useEffect(() => {
+    return () => {
+      // Disconnect the chart socket when leaving the page
+      disconnectChartSocket();
+      
+      // Remove the TradingView widget
+      if (tvWidget) {
+        try {
+          tvWidget.remove();
+        } catch (e) {
+          console.warn("Error removing TV widget:", e);
+        }
+      }
+      console.log("🧹 TVChartContainer cleanup completed");
+    };
+  }, [tvWidget]);
+
   useEffect(() => {
     if (tvWidget) {
       tvWidget.onChartReady(() => {
@@ -291,17 +310,21 @@ useEffect(() => {
   
   
 
+  const isMobile = window.innerWidth <= 480;
+  const chartHeight = isMobile ? '400px' : '625px';
+  const Theme = localStorage.getItem('theme');
+  const bgColor = Theme === 'light' ? '#ffffff' : '#181A20';
+
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", minHeight: chartHeight, height: chartHeight, backgroundColor: bgColor }}>
       {/* Chart Container */}
       <div
         id="TVChartContainer"
         style={{
           opacity: isReady ? 1 : 0,
           transition: "opacity 0.1s ease",
-          backgroundColor: "rgba(17, 17, 20, 0.9)",
-          height: "100%", // ensure it has visible height
-          // minHeight: "400px",
+          backgroundColor: bgColor,
+          height: "100%",
         }}
       />
   
@@ -317,11 +340,11 @@ useEffect(() => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            background: "rgb(24 26 33)",
+            background: bgColor,
             zIndex: 10,
           }}
         >
-          <div className="spinner-border text-primary" role="status" />
+          <div className="spinner-border text-primary" role="status" style={{ width: '1.5rem', height: '1.5rem', borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }}  />
         </div>
       )}
     </div>

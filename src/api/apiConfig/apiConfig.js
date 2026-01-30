@@ -56,6 +56,7 @@ export const ApiConfig = {
   reffercode: 'user_refer_code',
   getPairs: 'get-pairs',
   getMemePairs: 'get-meme-pairs',
+  getHotPairs: 'get-hot-pairs',
   convertToken: "v1/swapping/convertToken",
   swapToken: "v1/swapping/swapToken",
   coinListedDetails: "send-coin-listing-request",

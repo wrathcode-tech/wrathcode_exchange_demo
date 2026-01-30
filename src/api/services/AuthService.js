@@ -1408,6 +1408,17 @@ const AuthService = {
     return ApiCallGet(url, headers);
   },
 
+  getHotPairs: async () => {
+    const token = localStorage.getItem('token');
+    const { baseAuth, getHotPairs } = ApiConfig;
+    const url = baseAuth + getHotPairs;
+    const headers = {
+      'Content-Type': 'application/json',
+      "Authorization": token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
   get_top_GL: async () => {
     const token = localStorage.getItem('token');
     const { baseAuth, get_top_GL } = ApiConfig;
