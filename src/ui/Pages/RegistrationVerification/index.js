@@ -132,7 +132,7 @@ const RegistrationVerification = () => {
         <meta name="description" content="Verify your Wrathcode account to start trading securely." />
       </Helmet>
 
-      <div className="login_fullhieght">
+      <div className="login_fullhieght verificationregister">
         <div className="login_section">
           <div className="login_form_right">
             <div className="form_block_login">

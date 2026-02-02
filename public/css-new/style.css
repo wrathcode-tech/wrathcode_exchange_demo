@@ -3868,11 +3868,15 @@ button:disabled {
 }
 
 .email_code .get_otp.otpcode {
-    background-color: #f3bb2b;
+    background-color: #46454300;
     font-size: 14px;
-    padding: 9px 12px;
-    top: 8px;
+    padding: 9px 5px;
+    color: #fff;
+    top: 6px;
 }
+
+.login_section .form_block_login span.text-primary { color: #fff !important; }
+.verificationregister h2{ text-align: center; padding-bottom: 7px; }
 
 .email_code .get_otp {
     color: #505050;
@@ -17160,6 +17164,14 @@ button.p2p-submit-button {
         margin-top: 18px;
     }
 
+    .register_verified_form p {
+        font-size: 16px;
+    }
+
+    .register_verified_form h1 {
+        font-size: 28px;
+    }
+
     .referral_events_slider h6 {
         font-size: 16px;
     }
@@ -21188,8 +21200,12 @@ button.p2p-submit-button {
     }
 
     .register_verified_form p {
-        font-size: 18px;
-        line-height: 24px;
+        font-size: 13px;
+        line-height: 19px;
+    }
+
+    .register_verified_form.account_activate {
+        padding: 0px;
     }
 
     .register_verified_form button a {
@@ -25380,8 +25396,13 @@ button.p2p-submit-button {
 }
 
 @media screen and (max-width:480px) {
+
     .twofactor_outer_s {
         padding: 12px !important;
+    }
+
+    .register_verified_form h1 {
+        font-size: 22px;
     }
 
     .factor_bl {
