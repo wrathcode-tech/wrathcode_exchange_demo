@@ -3868,11 +3868,12 @@ button:disabled {
 }
 
 .email_code .get_otp.otpcode {
-    background-color: #46454300;
+    background-color: #fff;
     font-size: 14px;
-    padding: 9px 5px;
-    color: #fff;
-    top: 6px;
+    padding: 5px 10px;
+    color: #000000;
+    top: 10px;
+    border-radius: 50px;
 }
 
 .login_section .form_block_login span.text-primary { color: #fff !important; }
@@ -9156,6 +9157,9 @@ p.user_info a {
     button.btn.btn-success {
         padding: 7px 16px;
     }
+
+    .email_code .get_otp.otpcode {
+        top: 9px; }
 
     .crypto_section .hot_spot_outer .top_heading {
         display: none;
@@ -19920,6 +19924,9 @@ button.p2p-submit-button {
         width: 100%;
         margin-top: 10px;
     }
+
+    .email_code .get_otp.otpcode {
+        top: 6px; }
 
     .referral_events_slider_wrapper {
         margin-top: 20px;
