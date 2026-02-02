@@ -2221,6 +2221,8 @@ section.hot_articles_s .row {
     align-items: center;
 }
 
+.resend.otp-button-disabled{ color: #fff; }
+
 .login_section.verifiedform .form_block_login h4 {
     /* color: #000; */
 }
