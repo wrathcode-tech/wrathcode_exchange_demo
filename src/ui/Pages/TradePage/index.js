@@ -48,19 +48,19 @@ const Trade = () => {
     const [pastOrders, setpastOrders] = useState([]);
     const [pastOrder2, setpastOrder2] = useState([]);
     const [favCoins, setfavCoins] = useState([]);
-    const [sellOrderPrice, setsellOrderPrice] = useState(undefined);
-    const [buyOrderPrice, setbuyOrderPrice] = useState(undefined);
-    const [priceChange, setpriceChange] = useState();
-    const [changesHour, setChangesHour] = useState();
-    const [priceHigh, setpriceHigh] = useState();
-    const [priceLow, setpriceLow] = useState();
-    const [volume, setvolume] = useState();
+    const [sellOrderPrice, setsellOrderPrice] = useState('');
+    const [buyOrderPrice, setbuyOrderPrice] = useState('');
+    const [priceChange, setpriceChange] = useState('');
+    const [changesHour, setChangesHour] = useState('');
+    const [priceHigh, setpriceHigh] = useState('');
+    const [priceLow, setpriceLow] = useState('');
+    const [volume, setvolume] = useState('');
     const [showCoinList, setShowCoinList] = useState(false);
     const [loader, setloader] = useState(true);
-    const [baseCurId, setbaseCurId] = useState();
-    const [quoteCurId, setquoteCurId] = useState();
-    const [buyprice, setbuyprice] = useState();
-    const [sellPrice, setsellPrice] = useState();
+    const [baseCurId, setbaseCurId] = useState(null);
+    const [quoteCurId, setquoteCurId] = useState(null);
+    const [buyprice, setbuyprice] = useState('');
+    const [sellPrice, setsellPrice] = useState('');
     const [SelectedCoin, setSelectedCoin] = useState();
     const [isPricePositive, setIsPricePositive] = useState(true);
     const [showTab, setShowTab] = useState("chart");
@@ -207,8 +207,8 @@ const Trade = () => {
             
             navigate(`/trade/${Pair?.base_currency}_${Pair?.quote_currency}`);
             setloader(true);
-            setsellOrderPrice(undefined);
-            setbuyOrderPrice(undefined);
+            setsellOrderPrice('');
+            setbuyOrderPrice('');
             setSelectedCoin(Pair);
             setbaseCurId(Pair?.base_currency_id);
             setquoteCurId(Pair?.quote_currency_id);
@@ -338,8 +338,8 @@ const Trade = () => {
                 LoaderHelper.loaderStatus(false);
                 try {
                     alertSuccessMessage('Order Placed Successfully!!')
-                    setbuyOrderPrice(undefined);
-                    setsellOrderPrice(undefined);
+                    setbuyOrderPrice('');
+                    setsellOrderPrice('');
                     // Re-subscribe to exchange to refresh order data
                     subscribeToExchange(SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id);
                 } catch (error) {
@@ -408,8 +408,8 @@ const Trade = () => {
         setinfoPlaceOrder("LIMIT");
         navigate(`/trade/${data?.base_currency}_${data?.quote_currency}`);
         setloader(true);
-        setsellOrderPrice(undefined);
-        setbuyOrderPrice(undefined);
+        setsellOrderPrice('');
+        setbuyOrderPrice('');
         setSelectedCoin(data);
         setbaseCurId(data?.base_currency_id);
         setquoteCurId(data?.quote_currency_id);
@@ -436,8 +436,8 @@ const Trade = () => {
         // if (SelectedCoin?.available === "LOCAL") return;
         setinfoPlaceOrder(e.target.value);
         if (e.target.value === 'MARKET') {
-            setsellOrderPrice(undefined);
-            setbuyOrderPrice(undefined);
+            setsellOrderPrice('');
+            setbuyOrderPrice('');
             setbuyprice(SelectedCoin?.buy_price)
             setsellPrice(SelectedCoin?.sell_price)
         };
@@ -975,8 +975,8 @@ const Trade = () => {
                                         <div className="headline_leftItem__7BFYq ms-0 d-flex d-lg-none ">
                                             <div className="headline_withBorder__a6ZD2 me-1 ">24h Change</div>
                                             <div className={`headline_title__x1csO font-weight-boldd ${priceChange >= 0 ? "text-green" : "text-danger"}`}  >
-                                                {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange?.toFixed(2))) || "0.00"}%
-                                                <span className="ms-1"> {parseFloat(parseFloat(changesHour?.toFixed(2))) || "0.00"}</span>
+                                                {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange||0?.toFixed(2))) || "0.00"}%
+                                                <span className="ms-1"> {parseFloat(parseFloat(changesHour||0?.toFixed(2))) || "0.00"}</span>
                                             </div>
                                         </div>
 
@@ -995,25 +995,25 @@ const Trade = () => {
                                                     <div className="headline_leftItem__7BFYq d-none d-lg-block">
                                                         <div className="headline_withBorder__a6ZD2 ">24h Change</div>
                                                         <div className={`headline_title__x1csO font-weight-boldd ${priceChange >= 0 ? "text-green" : "text-danger"}`}  >
-                                                            {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange?.toFixed(2))) || "0.00"}%
+                                                            {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange||0?.toFixed(2))) || "0.00"}%
                                                             {/* <span className="mx-1"> {parseFloat(parseFloat(changesHour?.toFixed(2))) || "0.00"}</span> */}
                                                         </div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2 ">24h High ({SelectedCoin?.quote_currency})</div>
                                                         <div className="headline_title__x1csO text-success font-weight-boldd"  >
-                                                            {parseFloat(priceHigh?.toFixed(2)) || "0.00"}
+                                                            {parseFloat(priceHigh||0?.toFixed(2)) || "0.00"}
                                                         </div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2 ">24h Low ({SelectedCoin?.quote_currency})</div>
                                                         <div className="headline_title__x1csO text-danger font-weight-boldd" >
-                                                            {parseFloat(priceLow?.toFixed(2)) || "0.00"}
+                                                            {parseFloat(priceLow||0?.toFixed(2)) || "0.00"}
                                                         </div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2">24h Volume ({SelectedCoin?.base_currency})</div>
-                                                        <div className="headline_title__x1csO font-weight-boldd">{parseFloat(volume?.toFixed(2)) || "0.00"}</div>
+                                                        <div className="headline_title__x1csO font-weight-boldd">{parseFloat(volume||0?.toFixed(2)) || "0.00"}</div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2">24h Volume ({SelectedCoin?.quote_currency}) </div>
@@ -1204,7 +1204,7 @@ const Trade = () => {
                                                                     {formatPrice(buyprice)}
                                                                 </b>
                                                                 <i className={`ri-arrow-${isPricePositive ? "up" : "down"}-line ri-xl mx-3 ${isPricePositive ? "text-green" : "text-danger"}`} />
-                                                                <span>{parseFloat(priceChange?.toFixed(2))}%</span>
+                                                                <span>{parseFloat(priceChange||0?.toFixed(2))}%</span>
                                                             </div>
 
                                                             {/* BUY ORDERS */}
@@ -1707,7 +1707,7 @@ const Trade = () => {
                                                                                     : "ri-arrow-down-line ri-xl mx-3 text-danger"
                                                                             }
                                                                         />
-                                                                        <span>{parseFloat(priceChange?.toFixed(2))}%</span>
+                                                                        <span>{parseFloat(priceChange||0?.toFixed(2))}%</span>
                                                                     </div>
 
                                                                     {/* BUY ORDERS */}
@@ -1906,7 +1906,7 @@ const Trade = () => {
                                                                         <div className="form-group  mb-3" >
                                                                             <label>Price</label>
                                                                             <div className="input-group">
-                                                                                {infoPlaceOrder === 'MARKET' ? <input type="text" className="form-control" value={"---Best Market Price---"} readOnly /> : <input type="text" className="form-control" disabled={infoPlaceOrder === 'MARKET'} value={buyOrderPrice !== undefined || buyOrderPrice ? buyOrderPrice : formatTotal(buyprice)}
+                                                                                {infoPlaceOrder === 'MARKET' ? <input type="text" className="form-control" value={"---Best Market Price---"} readOnly /> : <input type="text" className="form-control" disabled={infoPlaceOrder === 'MARKET'} value={buyOrderPrice !== '' ? buyOrderPrice : formatTotal(buyprice || 0)}
                                                                                     step={SelectedCoin?.tick_size || 0.01}
                                                                                     min={SelectedCoin?.tick_size || 0.01}
                                                                                     onChange={(e) => handlePriceInput(e.target.value, setbuyOrderPrice)}
@@ -1931,9 +1931,9 @@ const Trade = () => {
                                                                         <div className="form-group  mb-3" >
                                                                             <div className="input-group  ">
                                                                                 <input type="text" className="form-control" value={
-                                                                                    (buyOrderPrice !== undefined && buyOrderPrice && buyamount) ? formatTotal(+buyOrderPrice * +buyamount) :
+                                                                                    (buyOrderPrice !== '' && buyOrderPrice && buyamount) ? formatTotal(+buyOrderPrice * +buyamount) :
                                                                                         (buyprice && buyamount) ? formatTotal(+buyprice * +buyamount) : formatTotal(0)
-                                                                                } />
+                                                                                } readOnly />
                                                                                 <span className="input-group-text text-start"><small>Total</small></span>
                                                                             </div>
                                                                         </div>
@@ -1941,13 +1941,13 @@ const Trade = () => {
                                                                             <div className="btn-group btn-group-mini  mb-3 process_step" role="group" aria-label="Basic radio toggle button group">
 
                                                                                 <input type="radio" className="btn-check" name="btnradio" id="btnradio125" autoComplete="off" checked={activeBuyPercent === 25} readOnly />
-                                                                                <label className={`btn btn-outline-success ${activeBuyPercent === 25 ? 'active' : ''}`} htmlFor="btnradio125" onClick={() => { setActiveBuyPercent(25); setbuyamount(toFixed8(((BuyCoinBal / 100) * 25) / (buyOrderPrice !== undefined || buyOrderPrice ? buyOrderPrice : buyprice))) }} >25%</label>
+                                                                                <label className={`btn btn-outline-success ${activeBuyPercent === 25 ? 'active' : ''}`} htmlFor="btnradio125" onClick={() => { setActiveBuyPercent(25); setbuyamount(toFixed8(((BuyCoinBal / 100) * 25) / (buyOrderPrice !== '' && buyOrderPrice ? buyOrderPrice : buyprice))) }} >25%</label>
                                                                                 <input type="radio" className="btn-check" name="btnradio" id="btnradio250" autoComplete="off" checked={activeBuyPercent === 50} readOnly />
-                                                                                <label className={`btn btn-outline-success ${activeBuyPercent === 50 ? 'active' : ''}`} htmlFor="btnradio250" onClick={() => { setActiveBuyPercent(50); setbuyamount(toFixed8(((BuyCoinBal / 100) * 50) / (buyOrderPrice !== undefined || buyOrderPrice ? buyOrderPrice : buyprice))) }}>50%</label>
+                                                                                <label className={`btn btn-outline-success ${activeBuyPercent === 50 ? 'active' : ''}`} htmlFor="btnradio250" onClick={() => { setActiveBuyPercent(50); setbuyamount(toFixed8(((BuyCoinBal / 100) * 50) / (buyOrderPrice !== '' && buyOrderPrice ? buyOrderPrice : buyprice))) }}>50%</label>
                                                                                 <input type="radio" className="btn-check" name="btnradio" id="btnradio375" autoComplete="off" checked={activeBuyPercent === 75} readOnly />
-                                                                                <label className={`btn btn-outline-success ${activeBuyPercent === 75 ? 'active' : ''}`} htmlFor="btnradio375" onClick={() => { setActiveBuyPercent(75); setbuyamount(toFixed8(((BuyCoinBal / 100) * 75) / (buyOrderPrice !== undefined || buyOrderPrice ? buyOrderPrice : buyprice))) }}>75%</label>
+                                                                                <label className={`btn btn-outline-success ${activeBuyPercent === 75 ? 'active' : ''}`} htmlFor="btnradio375" onClick={() => { setActiveBuyPercent(75); setbuyamount(toFixed8(((BuyCoinBal / 100) * 75) / (buyOrderPrice !== '' && buyOrderPrice ? buyOrderPrice : buyprice))) }}>75%</label>
                                                                                 <input type="radio" className="btn-check" name="btnradio" id="btnradio3100" autoComplete="off" checked={activeBuyPercent === 100} readOnly />
-                                                                                <label className={`btn btn-outline-success last-child ${activeBuyPercent === 100 ? 'active' : ''}`} htmlFor="btnradio3100" onClick={() => { setActiveBuyPercent(100); setbuyamount(toFixed8(((BuyCoinBal)) / (buyOrderPrice !== undefined || buyOrderPrice ? buyOrderPrice : buyprice))) }}>100%</label>
+                                                                                <label className={`btn btn-outline-success last-child ${activeBuyPercent === 100 ? 'active' : ''}`} htmlFor="btnradio3100" onClick={() => { setActiveBuyPercent(100); setbuyamount(toFixed8(((BuyCoinBal)) / (buyOrderPrice !== '' && buyOrderPrice ? buyOrderPrice : buyprice))) }}>100%</label>
                                                                             </div>
                                                                         </div>
 
@@ -1960,7 +1960,7 @@ const Trade = () => {
                                                                                         {KycStatus === 1 ? "Verification Pending" : KycStatus === 0 ? "Submit Kyc" : "Kyc Rejected Verify Again"}
                                                                                     </Link> :
                                                                                     <button type='button' className="btn custom-btn btn-success btn-mini  w-100 my-3 my-md-0"
-                                                                                        onClick={() => handleOrderPlace(infoPlaceOrder, buyOrderPrice !== undefined || buyOrderPrice ? buyOrderPrice : buyprice, buyamount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'BUY')}>
+                                                                                        onClick={() => handleOrderPlace(infoPlaceOrder, buyOrderPrice !== '' && buyOrderPrice ? buyOrderPrice : buyprice, buyamount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'BUY')}>
                                                                                         Buy {SelectedCoin?.base_currency}
                                                                                     </button>
                                                                                 :
@@ -1995,7 +1995,7 @@ const Trade = () => {
                                                                             <div className="input-group ">
                                                                                 {infoPlaceOrder === 'MARKET' ? <input type="text" className="form-control" value={"Best Market Price"} readOnly />
                                                                                     :
-                                                                                    <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)" value={sellOrderPrice !== undefined || sellOrderPrice ? sellOrderPrice : formatTotal(sellPrice)}
+                                                                                    <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)" value={sellOrderPrice !== '' ? sellOrderPrice : formatTotal(sellPrice || 0)}
                                                                                         step={SelectedCoin?.tick_size || 0.01}
                                                                                         min={SelectedCoin?.tick_size || 0.01}
                                                                                         onChange={(e) => handlePriceInput(e.target.value, setsellOrderPrice)}
@@ -2019,8 +2019,8 @@ const Trade = () => {
                                                                         </div>
                                                                         <div className="form-group  mb-3" >
                                                                             <div className="input-group  ">
-                                                                                <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)" value=
-                                                                                    {(sellOrderPrice !== undefined && sellOrderPrice && sellAmount) ? formatTotal(+sellOrderPrice * +sellAmount) :
+                                                                                <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)" readOnly value=
+                                                                                    {(sellOrderPrice !== '' && sellOrderPrice && sellAmount) ? formatTotal(+sellOrderPrice * +sellAmount) :
                                                                                         (sellPrice && sellAmount) ? formatTotal(+sellPrice * +sellAmount) : formatTotal(0)}
 
                                                                                 />
@@ -2050,7 +2050,7 @@ const Trade = () => {
                                                                                         {KycStatus === 1 ? "Verification Pending" : KycStatus === 0 ? "Submit Kyc" : "Kyc Rejected Verify Again"}
                                                                                     </Link> :
                                                                                     <button type='button' className="btn custom-btn btn-danger btn-mini w-100 my-3 my-md-0"
-                                                                                        onClick={() => handleOrderPlace(infoPlaceOrder, sellOrderPrice !== undefined || sellOrderPrice ? sellOrderPrice : sellPrice, sellAmount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'SELL')} disabled={!sellAmount || !token || sellAmount === '0'}>
+                                                                                        onClick={() => handleOrderPlace(infoPlaceOrder, sellOrderPrice !== '' && sellOrderPrice ? sellOrderPrice : sellPrice, sellAmount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'SELL')} disabled={!sellAmount || !token || sellAmount === '0'}>
                                                                                         Sell {SelectedCoin?.base_currency}
                                                                                     </button>
                                                                                 :

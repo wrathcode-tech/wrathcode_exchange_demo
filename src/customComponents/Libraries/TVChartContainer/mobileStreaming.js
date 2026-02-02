@@ -4,51 +4,116 @@ const { io } = require("socket.io-client");
 
 const channelToSubscription = new Map();
 
-let socket;
+let socket = null;
 let isSocketInitialized = false;
+let marketUpdateHandler = null;
+let pendingStreamParams = null;
 
+/**
+ * Initialize socket connection for mobile chart
+ * Creates its own socket since mobile chart runs in a separate WebView
+ */
 const initializeSocket = () => {
-  if (!socket || !isSocketInitialized) {
-    socket = io(ApiConfig?.webSocketUrl, {
-      transports: ['websocket'],
-      upgrade: false,
-      rejectUnauthorized: false,
-      reconnection: true,
-      reconnectionAttempts: 5,
-      reconnectionDelay: 2000,
-    });
-
-    isSocketInitialized = true;
-
-    socket.on('connect', () => {
-      console.log("✅ Mobile chart socket connected");
-      // Subscribe to market data for pairs updates
-      socket.emit('market:subscribe');
-    });
-
-    socket.on('disconnect', (reason) => {
-      console.warn("⚠️ Socket disconnected:", reason);
-    });
+  if (socket && isSocketInitialized) {
+    return;
   }
+
+  socket = io(ApiConfig?.webSocketUrl, {
+    transports: ['websocket'],
+    upgrade: false,
+    rejectUnauthorized: false,
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 2000,
+  });
+
+  isSocketInitialized = true;
+
+  socket.on('connect', () => {
+    // Subscribe to market data
+    socket.emit('market:subscribe');
+    
+    // If there's a pending stream subscription, set it up now
+    if (pendingStreamParams) {
+      setupStreamWithSocket(pendingStreamParams);
+      pendingStreamParams = null;
+    }
+  });
+
+  socket.on('disconnect', () => {
+    // Socket will auto-reconnect based on config
+  });
 };
 
-let interval;
-
-export async function subscribeOnStream(
-  symbolInfo,
-  resolution,
-  onRealtimeCallback,
-  subscriberUID,
-  onResetCacheNeededCallback,
-  lastDailyBar
-) {
-  if (interval) {
-    clearInterval(interval);
-    interval = null;
+/**
+ * Setup the market:update listener
+ */
+function setupMarketListener(channelString, parsedSymbol, onRealtimeCallback) {
+  if (!socket) {
+    return;
   }
+  
+  // Remove any existing listener first
+  if (marketUpdateHandler) {
+    socket.off('market:update', marketUpdateHandler);
+  }
+  
+  marketUpdateHandler = (data) => {
+    try {
+      const currPair = data?.pairs?.find(
+        item => item?.base_currency === parsedSymbol.fromSymbol && 
+                item?.quote_currency === parsedSymbol.toSymbol
+      );
+      if (!currPair) return;
 
-  initializeSocket(); // Initialize or reuse socket
+      const changeMiliSecond = currPair?.available === "LOCAL" ? 1000 : 1;
+      const tradeTime = currPair.time;
+      const volume = 0;
+      const tradePrice = currPair?.buy_price;
 
+      const subscriptionItem = channelToSubscription.get(channelString);
+      if (!subscriptionItem?.lastDailyBar) return;
+
+      const lastBarTime = getStartOfMinute(subscriptionItem.lastDailyBar.time);
+      const currentTradeMinute = getStartOfMinute(tradeTime * changeMiliSecond);
+
+      let bar;
+
+      if (currentTradeMinute > lastBarTime) {
+        bar = {
+          time: tradeTime * changeMiliSecond,
+          open: subscriptionItem.lastDailyBar.close,
+          high: tradePrice,
+          low: tradePrice,
+          close: tradePrice,
+          volume: volume,
+        };
+      } else {
+        bar = {
+          ...subscriptionItem.lastDailyBar,
+          high: Math.max(subscriptionItem.lastDailyBar?.high, tradePrice),
+          low: Math.min(subscriptionItem.lastDailyBar?.low, tradePrice),
+          close: tradePrice,
+          volume: volume,
+        };
+      }
+
+      subscriptionItem.lastDailyBar = bar;
+      onRealtimeCallback(bar);
+    } catch (error) {
+      // Silently handle errors
+    }
+  };
+
+  socket.on('market:update', marketUpdateHandler);
+}
+
+/**
+ * Setup stream with socket
+ */
+function setupStreamWithSocket(params) {
+  const { symbolInfo, resolution, onRealtimeCallback, subscriberUID, lastDailyBar } = params;
+  
   const channelString = symbolInfo.name;
   const handler = {
     id: subscriberUID,
@@ -72,53 +137,55 @@ export async function subscribeOnStream(
 
   channelToSubscription.set(channelString, subscriptionItem);
 
-  // Subscribe to market data for pairs updates
-  socket.emit('market:subscribe');
+  // Subscribe to market data
+  if (socket?.connected) {
+    socket.emit('market:subscribe');
+  }
 
-  socket.off('market:update'); // Ensure no duplicate listeners
-
-  socket.on('market:update', (data) => {
-    const currPair = data?.pairs?.find(item => item?.base_currency === parsedSymbol.fromSymbol && item?.quote_currency === parsedSymbol.toSymbol);
-    if (!currPair) return;
-
-    let changeMiliSecond = currPair?.available === "LOCAL" ? 1000 : 1;
-
-    const tradeTime = currPair.time;
-    const volume = 0;
-    const tradePrice = currPair?.buy_price;
-
-    const subscriptionItem = channelToSubscription.get(channelString);
-    if (subscriptionItem === undefined || !subscriptionItem?.lastDailyBar) return;
-
-    const lastBarTime = getStartOfMinute(subscriptionItem.lastDailyBar.time);
-    const currentTradeMinute = getStartOfMinute(tradeTime * changeMiliSecond);
-
-    let bar;
-
-    if (currentTradeMinute > lastBarTime) {
-      bar = {
-        time: tradeTime * changeMiliSecond,
-        open: subscriptionItem.lastDailyBar.close,
-        high: tradePrice,
-        low: tradePrice,
-        close: tradePrice,
-        volume: volume,
-      };
-    } else {
-      bar = {
-        ...subscriptionItem.lastDailyBar,
-        high: Math.max(subscriptionItem.lastDailyBar?.high, tradePrice),
-        low: Math.min(subscriptionItem.lastDailyBar?.low, tradePrice),
-        close: tradePrice,
-        volume: volume,
-      };
-    }
-
-    subscriptionItem.lastDailyBar = bar;
-    onRealtimeCallback(bar);
-  });
+  setupMarketListener(channelString, parsedSymbol, onRealtimeCallback);
 }
 
+let interval;
+
+/**
+ * Subscribe to real-time stream for mobile chart updates
+ */
+export async function subscribeOnStream(
+  symbolInfo,
+  resolution,
+  onRealtimeCallback,
+  subscriberUID,
+  onResetCacheNeededCallback,
+  lastDailyBar
+) {
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
+
+  // Initialize socket if not already
+  initializeSocket();
+
+  const params = {
+    symbolInfo,
+    resolution,
+    onRealtimeCallback,
+    subscriberUID,
+    lastDailyBar
+  };
+
+  // If socket is connected, setup immediately
+  if (socket?.connected) {
+    setupStreamWithSocket(params);
+  } else {
+    // Store params and wait for socket to connect
+    pendingStreamParams = params;
+  }
+}
+
+/**
+ * Unsubscribe from real-time stream
+ */
 export function unsubscribeFromStream(subscriberUID) {
   for (const [channelString, subscriptionItem] of channelToSubscription) {
     const handlerIndex = subscriptionItem.handlers.findIndex(handler => handler.id === subscriberUID);
@@ -129,11 +196,9 @@ export function unsubscribeFromStream(subscriberUID) {
       if (subscriptionItem.handlers?.length === 0) {
         channelToSubscription.delete(channelString);
         
-        // Unsubscribe from socket when no more handlers
-        if (socket) {
-          socket.emit('market:unsubscribe');
-          socket.off('market:update');
-          console.log("🔌 Unsubscribed from mobile market stream");
+        if (socket && marketUpdateHandler) {
+          socket.off('market:update', marketUpdateHandler);
+          marketUpdateHandler = null;
         }
         break;
       }
@@ -141,27 +206,34 @@ export function unsubscribeFromStream(subscriberUID) {
   }
 }
 
-// Cleanup function to disconnect socket completely (call when leaving chart page)
+/**
+ * Cleanup - call when leaving the mobile chart page
+ */
 export function disconnectMobileChartSocket() {
   if (socket) {
     // Unsubscribe from market
-    socket.emit('market:unsubscribe');
+    if (socket.connected) {
+      socket.emit('market:unsubscribe');
+    }
     
-    // Remove all listeners
-    socket.off('market:update');
+    // Remove listener
+    if (marketUpdateHandler) {
+      socket.off('market:update', marketUpdateHandler);
+      marketUpdateHandler = null;
+    }
+    
+    // Remove connection listeners
     socket.off('connect');
     socket.off('disconnect');
     
-    // Disconnect the socket
+    // Disconnect
     socket.disconnect();
     socket = null;
     isSocketInitialized = false;
-    
-    // Clear all subscriptions
-    channelToSubscription.clear();
-    
-    console.log("🔌 Mobile chart socket disconnected and cleaned up");
   }
+  
+  pendingStreamParams = null;
+  channelToSubscription.clear();
 }
 
 function getStartOfMinute(timestamp) {

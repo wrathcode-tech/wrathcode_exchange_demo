@@ -3,14 +3,26 @@ import './index.css';
 import { widget } from '../charting_library';
 import Datafeed from './datafeed';
 import { ProfileContext } from '../../../context/ProfileProvider';
-import { disconnectChartSocket } from './streaming';
+import { SocketContext } from '../../SocketContext';
+import { disconnectChartSocket, setSharedSocket } from './streaming';
 
 
 export default function TVChartContainer({ symbol }) {
   
   const { newStoredTheme } = useContext(ProfileContext);
+  const { getSocket, isConnected } = useContext(SocketContext);
   const [tvWidget, setTvWidget] = useState();
   const functCheckRef = useRef(true);
+
+  // Set shared socket for chart to use the same connection as TradePage
+  useEffect(() => {
+    if (isConnected) {
+      const socket = getSocket();
+      if (socket) {
+        setSharedSocket(socket);
+      }
+    }
+  }, [isConnected, getSocket]);
 
   const getChart = (symbol) => {
     const chartContainer = document.getElementById("TVChartContainer");
@@ -148,6 +160,8 @@ useEffect(() => {
 
 
 
+  // Initialize chart when symbol is valid
+  // Socket subscription is handled by streaming.js (queues if socket not ready yet)
   useEffect(() => {
     if (symbol.split('/')[0] !== 'undefined') {
       if (functCheckRef.current) {
@@ -168,10 +182,9 @@ useEffect(() => {
         try {
           tvWidget.remove();
         } catch (e) {
-          console.warn("Error removing TV widget:", e);
+          // Widget removal error - safe to ignore
         }
       }
-      console.log("🧹 TVChartContainer cleanup completed");
     };
   }, [tvWidget]);
 

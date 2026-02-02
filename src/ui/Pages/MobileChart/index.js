@@ -26,7 +26,7 @@ const MobileChart = () => {
                     }
                 }
             } catch (err) {
-                console.error("Invalid message received:", event.data);
+                // Invalid JSON message - ignore
             }
         };
     

@@ -341,6 +341,12 @@ const SocketContextProvider = ({ children }) => {
   // =====================================================================
   // 📤 CONTEXT VALUE
   // =====================================================================
+  
+  // Expose getSocket function for external components (like chart) to use the same socket
+  const getSocket = useCallback(() => {
+    return socketRef.current;
+  }, []);
+
   const contextValue = {
     socket,
     isConnected,
@@ -353,6 +359,7 @@ const SocketContextProvider = ({ children }) => {
     unsubscribeFromExchange,
     subscribeToFutures,
     unsubscribeFromFutures,
+    getSocket, // Expose socket getter for chart to use same connection
     settings,
     settingstwo,
     Sliderpartners,

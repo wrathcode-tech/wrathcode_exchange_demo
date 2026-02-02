@@ -123,10 +123,9 @@ export default function TVChartContainer({ symbol, theme }) {
           tvWidgetRef.current.remove();
           tvWidgetRef.current = null;
         } catch (e) {
-          console.warn("Error removing mobile TV widget:", e);
+          // Widget removal error - safe to ignore
         }
       }
-      console.log("🧹 Mobile TVChartContainer cleanup completed");
     };
   }, []);
 
