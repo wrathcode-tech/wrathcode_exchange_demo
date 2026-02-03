@@ -257,7 +257,7 @@ function Earning() {
     }
     resetInput();
     setPackageDetails(data);
-    
+
     // Find all packages for this currency from packageList
     if (allCurrencyPackages) {
       // Sort by duration_days ascending
@@ -265,7 +265,7 @@ function Earning() {
       setSelectedCurrencyPackages(sortedPackages);
     } else {
       // Find from packageList by currency_id
-      const currencyGroup = packageList.find(group => 
+      const currencyGroup = packageList.find(group =>
         Array.isArray(group) && group.some(pkg => pkg.currency_id === data.currency_id)
       );
       if (currencyGroup) {
@@ -275,7 +275,7 @@ function Earning() {
         setSelectedCurrencyPackages([data]);
       }
     }
-    
+
     $("#package_details").modal('show');
     getWalletType();
   }, [token, navigate, resetInput, getWalletType, packageList]);
@@ -493,29 +493,33 @@ function Earning() {
                                 <ul>
                                   <li>
                                     <div className="currency_bit">
-                                      <img
-                                        src={ApiConfig?.baseImage + item?.icon_path}
-                                        className="img-fluid"
-                                        alt={item?.currency_fullname}
-                                        onError={(e) => { e.target.src = '/images/default-coin.png'; }}
-                                      />
-                                      <h2>
-                                        {item?.currency}
-                                        <span>({item?.currency_fullname})</span>
-                                      </h2>
+                                      <div className="currency_bit_inner">
+                                        <img
+                                          src={ApiConfig?.baseImage + item?.icon_path}
+                                          className="img-fluid"
+                                          alt={item?.currency_fullname}
+                                          onError={(e) => { e.target.src = '/images/default-coin.png'; }}
+                                        />
+                                        <h2>
+                                          {item?.currency}
+                                          <span>({item?.currency_fullname})</span>
+                                        </h2>
+                                      </div>
                                       <span className='newtag'>Trending<i className="ri-fire-line"></i></span>
                                     </div>
                                     <ul className='usd_detail_list'>
                                       <li><span>{item?.duration_days}</span> Days</li>
                                       <li className='pricevalue'><span>% APY</span>{item?.return_percentage?.toFixed(2)}</li>
                                     </ul>
-                                    <button className="subscribe_btn">
-                                      {token ? (
-                                        <a href="#/" onClick={(e) => { e.preventDefault(); showPackageDetails(item, packages); }}>Subscribe</a>
-                                      ) : (
-                                        <Link to="/login">Login</Link>
-                                      )}
-                                    </button>
+                                    <div className="currency_bit_footer">
+                                      <button className="subscribe_btn">
+                                        {token ? (
+                                          <a href="#/" onClick={(e) => { e.preventDefault(); showPackageDetails(item, packages); }}>Subscribe</a>
+                                        ) : (
+                                          <Link to="/login">Login</Link>
+                                        )}
+                                      </button>
+                                    </div>
                                   </li>
                                 </ul>
                               </div>
@@ -606,7 +610,7 @@ function Earning() {
                           <tr>
                             <th>Token</th>
                             <th>Est. APR</th>
-                            <th>Duration</th>
+                            <th className='action_td'>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -621,9 +625,9 @@ function Earning() {
                                 <tr key={group.currency + index} onClick={() => showPackageDetails(group.packages[0], group.packages)} style={{ cursor: 'pointer' }}>
                                   <td>
                                     <div className="td_div">
-                                      <span className="star_btn btn_icon">
+                                      {/* <span className="star_btn btn_icon">
                                         <i className="ri ri-star-line me-2"></i>
-                                      </span>
+                                      </span> */}
                                       <img
                                         alt={group.currency}
                                         src={ApiConfig?.baseImage + group.icon_path}
@@ -634,7 +638,13 @@ function Earning() {
                                     </div>
                                   </td>
                                   <td>{minApr.toFixed(2)}% ~ {maxApr.toFixed(2)}%</td>
-                                  <td>{minDays}/{maxDays} days</td>
+                                  <td className='action_td'>
+                                    <span className="btn custom-btn subscribebtn">
+                                      <button onClick={() => showPackageDetails(group.packages[0], group.packages)}>
+                                        Subscribe
+                                      </button>
+                                    </span>
+                                  </td>
                                 </tr>
                               );
                             })
@@ -655,148 +665,202 @@ function Earning() {
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Earning Dashboard Tab */}
-              <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div className='exchange_earning_bnr'>
-                  <div className='earningbnr_cnt'>
-                    <h2>Wrathcode Exchange Earning Balance</h2>
-                    <p>View your total earnings, rewards, and growth in one place.</p>
-                    {!token && (
-                      <button className='signbtn' onClick={() => navigate('/register')}>Sign Up Now</button>
-                    )}
-                  </div>
-                  <div className='earning_bnr'>
-                    <img src="/images/earning_balance_vector.png" alt="Exchange Earning" />
-                  </div>
-                </div>
-
-                <ul className='balance_list_s'>
-                  <li>
-                    <div className='balance_cnt'>
-                      <h4>{formatNumber(portfolioSummary?.total_invested || 0)} $</h4>
-                      <p>Total Invested</p>
-                    </div>
-                    <div className='balance_vector'>
-                      <img src="/images/wallet_coins_balance.svg" alt="Earning Balance" />
-                    </div>
-                  </li>
-                  <li>
-                    <div className='balance_cnt'>
-                      <h4>{formatNumber(portfolioSummary?.total_expected_return || 0)} $</h4>
-                      <p>Expected Return</p>
-                    </div>
-                    <div className='balance_vector'>
-                      <img src="/images/wallet_coins_balance2.svg" alt="Earning Balance" />
-                    </div>
-                  </li>
-                  <li>
-                    <div className='balance_cnt'>
-                      <h4>{formatNumber(portfolioSummary?.total_running_investment || 0)} $</h4>
-                      <p>Running Investment</p>
-                    </div>
-                    <div className='balance_vector'>
-                      <img src="/images/wallet_coins_balance3.svg" alt="Earning Balance" />
-                    </div>
-                  </li>
-                  <li>
-                    <div className='balance_cnt'>
-                      <h4>{formatNumber(portfolioSummary?.total_bonus_remaining || 0)} $</h4>
-                      <p>Bonus Remaining</p>
-                    </div>
-                    <div className='balance_vector'>
-                      <img src="/images/wallet_coins_balance4.svg" alt="Earning Balance" />
-                    </div>
-                  </li>
-                </ul>
-
-                <div className="wallet_balance_tb">
-                  <div className="user_list_top walletbalance_t">
-                    <div className="user_list_l">
-                      <h4>Earning Assets</h4>
-                    </div>
-                  </div>
-
-                  {portfolio?.length > 0 ? (
-                    portfolio.map((item, index) => (
-                      <ul className='earning_assets_list' key={item._id || index}>
-                        <li>
-                          <span>
-                            <img 
-                              src={ApiConfig?.baseImage + item?.icon_path} 
-                              alt={item?.currency} 
-                              width="20" 
-                              height="20" 
-                              style={{ marginRight: '8px', verticalAlign: 'middle' }}
-                              onError={(e) => { e.target.src = '/images/default-coin.png'; }}
-                            />
-                            {item?.currency}
-                          </span>
-                          {item?.currency_fullname}
-                        </li>
-                        <li><span>Total Invested</span>{formatNumber(item?.invested_amount || 0)} {item?.currency}</li>
-                        <li><span>Expected Return</span>{formatNumber(item?.expected_return || 0)} {item?.currency}</li>
-                        <li><span>Running</span>{formatNumber(item?.running_investment || 0)} {item?.currency}</li>
-                        <li><span>Bonus Remaining</span>{formatNumber(item?.bonus_remaining || 0)} {item?.currency}</li>
-                      </ul>
-                    ))
-                  ) : (
-                    <ul className='earning_assets_list'>
-                      <li><span>No earning assets</span>Start investing to see your portfolio</li>
-                    </ul>
+            {/* Earning Dashboard Tab */}
+            <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div className='exchange_earning_bnr'>
+                <div className='earningbnr_cnt'>
+                  <h2>Wrathcode Exchange Earning Balance</h2>
+                  <p>View your total earnings, rewards, and growth in one place.</p>
+                  {!token && (
+                    <button className='signbtn' onClick={() => navigate('/register')}>Sign Up Now</button>
                   )}
                 </div>
+                <div className='earning_bnr'>
+                  <img src="/images/earning_balance_vector.png" alt="Exchange Earning" />
+                </div>
+              </div>
 
-                <div className="dashboard_recent_s productdata position_order">
-                  <div className='d-flex justify-content-between align-items-center'>
-                    <h4>Earning Balance History</h4>
-                    <div className="searchBar custom-tabs">
-                      <i className="ri-search-2-line"></i>
-                      <input
-                        type="search"
-                        className="custom_search"
-                        placeholder="Search token"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                      />
-                    </div>
+              <ul className='balance_list_s'>
+                <li>
+                  <div className='balance_cnt'>
+                    <h4>{formatNumber(portfolioSummary?.total_invested || 0)} $</h4>
+                    <p>Total Invested</p>
                   </div>
-
-                  <div className="user_list_top rowtable">
-                    <div className="user_list_l earning_section_cate responsive-table">
-                      <ul className="position_list nav nav-tabs" id="earningHistoryTab" role="tablist">
-                        <li className="nav-item" role="presentation">
-                          <button
-                            className="nav-link active"
-                            id="active-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#activeTab"
-                            type="button"
-                            role="tab"
-                          >
-                            Active
-                          </button>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                          <button
-                            className="nav-link"
-                            id="completed-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#completedTab"
-                            type="button"
-                            role="tab"
-                          >
-                            Completed
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
+                  <div className='balance_vector'>
+                    <img src="/images/wallet_coins_balance.svg" alt="Earning Balance" />
                   </div>
+                </li>
+                <li>
+                  <div className='balance_cnt'>
+                    <h4>{formatNumber(portfolioSummary?.total_expected_return || 0)} $</h4>
+                    <p>Expected Return</p>
+                  </div>
+                  <div className='balance_vector'>
+                    <img src="/images/wallet_coins_balance2.svg" alt="Earning Balance" />
+                  </div>
+                </li>
+                <li>
+                  <div className='balance_cnt'>
+                    <h4>{formatNumber(portfolioSummary?.total_running_investment || 0)} $</h4>
+                    <p>Running Investment</p>
+                  </div>
+                  <div className='balance_vector'>
+                    <img src="/images/wallet_coins_balance3.svg" alt="Earning Balance" />
+                  </div>
+                </li>
+                <li>
+                  <div className='balance_cnt'>
+                    <h4>{formatNumber(portfolioSummary?.total_bonus_remaining || 0)} $</h4>
+                    <p>Bonus Remaining</p>
+                  </div>
+                  <div className='balance_vector'>
+                    <img src="/images/wallet_coins_balance4.svg" alt="Earning Balance" />
+                  </div>
+                </li>
+              </ul>
 
-                  <div className='table-responsive recenttable_s'>
-                    <div className="tab-content" id="earningHistoryTabContent">
-                      {/* Active Subscriptions */}
-                      <div className="tab-pane fade show active" id="activeTab" role="tabpanel">
+              <div className="wallet_balance_tb">
+                <div className="user_list_top walletbalance_t">
+                  <div className="user_list_l">
+                    <h4>Earning Assets</h4>
+                  </div>
+                </div>
+
+          <div className='table-responsive'>      
+
+                {portfolio?.length > 0 ? (
+                  portfolio.map((item, index) => (
+                    <ul className='earning_assets_list' key={item._id || index}>
+                      <li>
+                        <span>
+                          <img
+                            src={ApiConfig?.baseImage + item?.icon_path}
+                            alt={item?.currency}
+                            width="20"
+                            height="20"
+                            style={{ marginRight: '8px', verticalAlign: 'middle' }}
+                            onError={(e) => { e.target.src = '/images/default-coin.png'; }}
+                          />
+                          {item?.currency}
+                        </span>
+                        {item?.currency_fullname}
+                      </li>
+                      <li><span>Total Invested</span>{formatNumber(item?.invested_amount || 0)} {item?.currency}</li>
+                      <li><span>Expected Return</span>{formatNumber(item?.expected_return || 0)} {item?.currency}</li>
+                      <li><span>Running</span>{formatNumber(item?.running_investment || 0)} {item?.currency}</li>
+                      <li><span>Bonus Remaining</span>{formatNumber(item?.bonus_remaining || 0)} {item?.currency}</li>
+                    </ul>
+                  ))
+                ) : (
+                  <ul className='earning_assets_list'>
+                    <li><span>No earning assets</span>Start investing to see your portfolio</li>
+                  </ul>
+                )}
+                </div>
+              </div>
+
+              <div className="dashboard_recent_s productdata position_order">
+                <div className='d-flex justify-content-between align-items-center'>
+                  <h4>Earning Balance History</h4>
+                  <div className="searchBar custom-tabs">
+                    <i className="ri-search-2-line"></i>
+                    <input
+                      type="search"
+                      className="custom_search"
+                      placeholder="Search token"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="user_list_top rowtable">
+                  <div className="user_list_l earning_section_cate responsive-table">
+                    <ul className="position_list nav nav-tabs" id="earningHistoryTab" role="tablist">
+                      <li className="nav-item" role="presentation">
+                        <button
+                          className="nav-link active"
+                          id="active-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#activeTab"
+                          type="button"
+                          role="tab"
+                        >
+                          Active
+                        </button>
+                      </li>
+                      <li className="nav-item" role="presentation">
+                        <button
+                          className="nav-link"
+                          id="completed-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#completedTab"
+                          type="button"
+                          role="tab"
+                        >
+                          Completed
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className='table-responsive recenttable_s'>
+                  <div className="tab-content" id="earningHistoryTabContent">
+                    {/* Active Subscriptions */}
+                    <div className="tab-pane fade show active" id="activeTab" role="tabpanel">
+
+                      <div className='order_history_mobile_view'>
+
+                        <div className='d-flex'>
+                          <div className='order_datalist'>
+                            <ul className='listdata'>
+                              <li>
+                                <span className='date'>Currency</span>
+                                <span className='date_light'>USDT</span>
+                              </li>
+                              <li>
+                                <span>Deducted From</span>
+                                <span>Main Wallet</span>
+                              </li>
+                              <li>
+                                <span>Duration</span>
+                                <span>360 days</span>
+                              </li>
+                              <li>
+                                <span>Start Date</span>
+                                <span>2026-01-31</span>
+                              </li>
+                              <li>
+                                <span>Mature Date</span>
+                                <span>2027-01-26</span>
+                              </li>
+                              <li>
+                                <span>Subscription Amount</span>
+                                <span>10</span>
+                              </li>
+                              <li>
+                                <span>Bonus Amount</span>
+                                <span>+4.8</span>
+                              </li>
+                              <li>
+                                <span>Receivable Amount</span>
+                                <span>14.8</span>
+                              </li>
+                              <li>
+                                <span>Status</span>
+                                <span>ACTIVE</span>
+                              </li>
+
+                            </ul>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className='desktop_view'>
                         <table>
                           <thead>
                             <tr>
@@ -847,9 +911,60 @@ function Earning() {
                           </tbody>
                         </table>
                       </div>
+                    </div>
 
-                      {/* Completed Subscriptions */}
-                      <div className="tab-pane fade" id="completedTab" role="tabpanel">
+                    {/* Completed Subscriptions */}
+                    <div className="tab-pane fade" id="completedTab" role="tabpanel">
+
+                      <div className='order_history_mobile_view'>
+
+                        <div className='d-flex'>
+                          <div className='order_datalist'>
+                            <ul className='listdata'>
+                              <li>
+                                <span className='date'>Currency</span>
+                                <span className='date_light'>USDT</span>
+                              </li>
+                              <li>
+                                <span>Deducted From</span>
+                                <span>Main Wallet</span>
+                              </li>
+                              <li>
+                                <span>Duration</span>
+                                <span>360 days</span>
+                              </li>
+                              <li>
+                                <span>Start Date</span>
+                                <span>2026-01-31</span>
+                              </li>
+                              <li>
+                                <span>Mature Date</span>
+                                <span>2027-01-26</span>
+                              </li>
+                              <li>
+                                <span>Subscription Amount</span>
+                                <span>10</span>
+                              </li>
+                              <li>
+                                <span>Bonus Amount</span>
+                                <span>+4.8</span>
+                              </li>
+                              <li>
+                                <span>Receivable Amount</span>
+                                <span>14.8</span>
+                              </li>
+                              <li>
+                                <span>Status</span>
+                                <span>ACTIVE</span>
+                              </li>
+
+                            </ul>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className='desktop_view'>
                         <table>
                           <thead>
                             <tr>
@@ -934,8 +1049,8 @@ function Earning() {
               <div className='earining_popup_exchange'>
                 <div className='lft_pop_cnt'>
                   <h3>
-                    <img 
-                      src={packageDetails?.icon_path ? ApiConfig?.baseImage + packageDetails?.icon_path : "/images/tether_icon.png"} 
+                    <img
+                      src={packageDetails?.icon_path ? ApiConfig?.baseImage + packageDetails?.icon_path : "/images/tether_icon.png"}
                       alt={packageDetails?.currency || "coin"}
                       onError={(e) => { e.target.src = '/images/tether_icon.png'; }}
                     />
@@ -945,8 +1060,8 @@ function Earning() {
                   <ul className='daylist'>
                     {selectedCurrencyPackages.length > 0 ? (
                       selectedCurrencyPackages.map((pkg) => (
-                        <li 
-                          key={pkg._id} 
+                        <li
+                          key={pkg._id}
                           className={packageDetails?._id === pkg._id ? 'active' : ''}
                           onClick={() => handleDurationSelect(pkg)}
                           style={{ cursor: 'pointer' }}
@@ -973,7 +1088,7 @@ function Earning() {
                     <div className='payment_inquery'>
                       <h3>Payment Method</h3>
                       <div className='select_option'>
-                        <select 
+                        <select
                           value={selectedWallet}
                           onChange={(e) => setSelectedWallet(e.target.value)}
                         >
@@ -989,8 +1104,8 @@ function Earning() {
                     <div className='payment_inquery'>
                       <h3>Subscription Amount </h3>
                       <div className='amount_input'>
-                        <input 
-                          type='text' 
+                        <input
+                          type='text'
                           placeholder={`Enter Subscription Amount (Min ${packageDetails?.min_amount} ${packageDetails?.currency})`}
                           value={subscriptionAmount}
                           onChange={handleSubscriptionAmountChange}
@@ -1037,13 +1152,13 @@ function Earning() {
                       <li>* Early withdrawals are not permitted. In case of cancellation before maturity, profits will not be applicable.</li>
                     </ul>
                     <label>
-                      <input 
-                        type='checkbox' 
+                      <input
+                        type='checkbox'
                         checked={agreeTerms}
                         onChange={(e) => setAgreeTerms(e.target.checked)}
                       /> I have read and agree to the <a href='/terms'>Earn Service Agreement.</a>
                     </label>
-                    <button 
+                    <button
                       className='subscribebtn'
                       onClick={subscribeEarningPackage}
                       disabled={isSubscribing || !agreeTerms || !subscriptionAmount || parseFloat(subscriptionAmount) <= 0}

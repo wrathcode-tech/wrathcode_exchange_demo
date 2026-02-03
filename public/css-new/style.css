@@ -9400,7 +9400,7 @@ button.subscribe_btn {
     width: 100%;
     /* border: 1px solid #FFFFFF; */
     border-radius: 50px;
-    padding: 10px 15px;
+    padding: 8px 15px;
     margin-top: 20px;
 }
 
@@ -11667,6 +11667,18 @@ button.signbtn {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.currency_bit_inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.currency_bit_footer {
+    width: 100%;
 }
 
 .currency_list_b ul li .currency_bit img {
@@ -19927,6 +19939,12 @@ button.p2p-submit-button {
         margin-top: 10px;
     }
 
+    .currency_bit_footer {
+        padding: 0px 15px 6px;
+    }
+
+    .dashboard_summary td span{ font-size: 10px; }
+
     .email_code .get_otp.otpcode {
         top: 6px; }
 
@@ -20693,6 +20711,10 @@ button.p2p-submit-button {
 
     .footer_logo .darklogo {
         width: 100% !important;
+    }
+
+    .earning_section_cate .recenttable_s .tab-content {
+        padding-top: 0px;
     }
 
 
@@ -22057,7 +22079,7 @@ button.p2p-submit-button {
 
     .exchange_earning_bnr {
         padding: 0px 0px 20px;
-        flex-direction: column;
+        flex-direction: row;
         /* text-align: center; */
     }
 
@@ -22067,7 +22089,7 @@ button.p2p-submit-button {
 
     .earningbnr_cnt {
         width: 100%;
-        text-align: center;
+        text-align: start;
     }
 
     .exchange_earning_bnr p {
@@ -22085,7 +22107,7 @@ button.p2p-submit-button {
 
     .earning_bnr {
         max-width: 250px;
-        margin-top: 20px;
+        margin-top:0px;
     }
 
     ul.balance_list_s {
@@ -22956,9 +22978,9 @@ button.p2p-submit-button {
     }
 
     .mobile_view span {
-        position: absolute;
-        right: 26px;
-        font-size: 20px;
+        position:inherit;
+        right: 0px;
+        font-size: 15px;
     }
 
     .banner_content h1 {
@@ -25402,12 +25424,20 @@ button.p2p-submit-button {
         padding-top: 5px;
     }
 
+    .earning_list_block .slick-dots {
+        bottom: -24px;
+    }
+
 }
 
 @media screen and (max-width:480px) {
 
     .twofactor_outer_s {
         padding: 12px !important;
+    }
+
+    .exchange_earning_bnr h2 {
+        font-size: 18px;
     }
 
     .register_verified_form h1 {
@@ -26357,6 +26387,11 @@ button.p2p-submit-button {
         padding-left: 0px;
     }
 
+.dashboard_right .search_form form.profile_form {
+        margin-top: 8px;
+        gap: 24px;
+    } 
+
     .select-option::before {
         height: 142%;
     }
@@ -26393,7 +26428,7 @@ button.p2p-submit-button {
     }
 
     .modal.fade .modal-content {
-        border-radius: 10px;
+        border-radius: 0px;
         border: none;
         margin: 0;
         max-height: 90vh;
@@ -26421,6 +26456,34 @@ button.p2p-submit-button {
     .modal.fade.show .modal-dialog {
         transform: translateY(0);
     }
+
+.modal.search_form .profile_form button.submit {
+    margin-top: 0px;
+}
+
+.slider_group_wrapper .currency_list_b ul li {
+    padding: 0px;
+}
+
+.currency_list_b ul li .currency_bit {
+    background-color: #515a69;
+    padding: 15px;
+}
+
+.earning_list_block .slider_group_wrapper .currency_list_b ul li ul.usd_detail_list {
+    padding: 0px 15px;
+}
+
+.earning_list_block .slider_group_wrapper .slick-slide {
+    margin-right: 0px;
+}
+
+.earning_list_block .slick-slider .currency_list_b ul li h2 {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
     .modal.fade:not(.show) .modal-dialog {
         transform: translateY(100%);
