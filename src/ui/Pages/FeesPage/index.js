@@ -59,13 +59,13 @@ const FeesPage = () => {
                       <p className="title  mb-2"><h3>Wrathcode:</h3>  Offers tiered maker-taker fees, starting at 0.1% for makers and 0.1% for takers. </p>
                     </div>
                   </div>
-                  <div className="row align-items-center pb-5">
+                  <div className="row align-items-center pb-0">
                     <div className="col-lg-12">
                       <div>
-                        <h3 className="title  mb-3"> Understanding Fee Types: </h3>
+                        <h3 className="title"> Understanding Fee Types: </h3>
                         <p>• Maker Fees: Paid by users who add liquidity to the market by placing limit orders.</p>
                         <p>• Taker Fees: Paid by users who remove liquidity from the market by placing market orders.</p>
-                        <p>• Spread: The difference between the buying and selling price of an asset on an exchange.</p>
+                        <p className="mb-0">• Spread: The difference between the buying and selling price of an asset on an exchange.</p>
                       </div>
                     </div>
                   </div>
@@ -74,7 +74,7 @@ const FeesPage = () => {
             </div>
           </div>
         </section>
-        <div className="tab-pane show container active  fade form-field-wrapper table_scroll p-0 switch_btn border-dashed border-gray-300 bg-lighten card-rounded" id="quickbuySell">
+        <div className="tab-pane show container active mt-5  fade form-field-wrapper table_scroll p-0 switch_btn border-dashed border-gray-300 bg-lighten card-rounded" id="quickbuySell">
           <div className="table-responsive">
             <table className="table ">
               <thead>
