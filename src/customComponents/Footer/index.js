@@ -1,13 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProfileContext } from "../../context/ProfileProvider";
 
 const Footer = () => {
-    const { setActiveTab } = useContext(ProfileContext)
+    const { setActiveTab } = useContext(ProfileContext);
+    const [activeFooterSection, setActiveFooterSection] = useState(null);
 
     const handleupper = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    };
+
+    const toggleFooterSection = (key) => (e) => {
+        e.preventDefault();
+        setActiveFooterSection((prev) => (prev === key ? null : key));
+    };
 
     return (
 
@@ -23,8 +29,8 @@ const Footer = () => {
                         <div className="mobile_grid_list">
 
                             <div className="col-sm-3 border_hr">
-                                <div className="footer_section">
-                                    <div className="topheading_footer">
+                                <div className={`footer_section ${activeFooterSection === 'about' ? 'active' : ''}`}>
+                                    <div className="topheading_footer" onClick={toggleFooterSection('about')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFooterSection('about')(e); } }} aria-expanded={activeFooterSection === 'about'}>
                                         <h3>About Us</h3>
                                         <div className="icon_i"><i className="ri-add-fill"></i><i className="ri-subtract-fill"></i></div>
                                     </div>
@@ -36,8 +42,8 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div className="col-sm-3">
-                                <div className="footer_section">
-                                    <div className="topheading_footer">
+                                <div className={`footer_section ${activeFooterSection === 'services' ? 'active' : ''}`}>
+                                    <div className="topheading_footer" onClick={toggleFooterSection('services')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFooterSection('services')(e); } }} aria-expanded={activeFooterSection === 'services'}>
                                         <h3>Services</h3>
                                         <div className="icon_i"><i className="ri-add-fill"></i><i className="ri-subtract-fill"></i></div>
                                     </div>
@@ -53,8 +59,8 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div className="col-sm-3 border_hr">
-                                <div className="footer_section">
-                                    <div className="topheading_footer">
+                                <div className={`footer_section ${activeFooterSection === 'support' ? 'active' : ''}`}>
+                                    <div className="topheading_footer" onClick={toggleFooterSection('support')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFooterSection('support')(e); } }} aria-expanded={activeFooterSection === 'support'}>
                                         <h3>Support</h3>
                                         <div className="icon_i"><i className="ri-add-fill"></i><i className="ri-subtract-fill"></i></div>
                                     </div>
@@ -67,8 +73,8 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div className="col-sm-3">
-                                <div className="footer_section">
-                                    <div className="topheading_footer">
+                                <div className={`footer_section ${activeFooterSection === 'legal' ? 'active' : ''}`}>
+                                    <div className="topheading_footer" onClick={toggleFooterSection('legal')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFooterSection('legal')(e); } }} aria-expanded={activeFooterSection === 'legal'}>
                                         <h3>Legal</h3>
                                         <div className="icon_i"><i className="ri-add-fill"></i><i className="ri-subtract-fill"></i></div>
                                     </div>

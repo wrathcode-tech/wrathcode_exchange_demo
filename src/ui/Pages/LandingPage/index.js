@@ -820,9 +820,14 @@ const LandingPage = () => {
                 <div className="col-sm-6">
                   <div className="address_footer">
                     <h5>Contact Us</h5>
-                    <div className="address_cnt">
-                      <address><img src="/images/email-icon.png" alt="email" /> support@wrathcode.com</address>
-                      <address><img src="/images/email-icon.png" alt="email" /> admin@wrathcode.com</address>
+                    <div className="address_cntemail">
+                      <address>
+                        <img src="/images/email-icon.png" alt="email" /> 
+                       <div className="emaildiv">
+                        support@wrathcode.com
+                       <span className="admin_email">admin@wrathcode.com</span>
+                       </div></address>
+
                     </div>
                   </div>
                 </div>

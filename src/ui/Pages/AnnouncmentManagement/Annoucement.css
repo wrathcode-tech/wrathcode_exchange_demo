@@ -1056,6 +1056,12 @@ table {
     font-family: "Afacad", sans-serif;
 }
 
+.two_factor_list .currency_list_b ul li .currency_bit {
+    justify-content: center;
+    background-color: transparent;
+    padding: 0px;
+}
+
 
 .faq_section .accordion .accordion-item {
     background-color: transparent !important;
@@ -1405,10 +1411,9 @@ img.icon_icon {
 
 section.announcement_section {
     width: 100%;
-    background-image: url(/public/images/AnnouncementImg/notificationbg.jpg);
+    /* background-image: url(/public/images/AnnouncementImg/notificationbg.jpg);
     background-repeat: no-repeat;
-    background-position: center top;
-    background-color: #000;
+    background-position: center top; */
     color: #fff;
     padding-bottom: 60px;
 }
@@ -2589,6 +2594,11 @@ ul.exclusive_list li span.sellsub {
         margin: 18px 0px;
     }
 
+    .slider_group_wrapper .currency_list_b ul li.pricevalue {
+        padding-right: 4px;
+        font-size: 18px;
+    }
+
     .subscribe_data_info {
         gap: 20px;
         margin-top: 18px;
@@ -3065,6 +3075,10 @@ ul.exclusive_list li span.sellsub {
         padding: 20px 0px;
     }
 
+    .dashboard_recent_s.productdata.position_order .order_datalist .listdata {
+        padding-bottom: 0px;
+    }
+
 }
 
 @media screen and (max-width:660px) {
@@ -3074,8 +3088,49 @@ ul.exclusive_list li span.sellsub {
         gap: 20px;
     }
 
+    .order_datalist .listdata li span.date {
+        font-size: 12px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
     p {
         font-size: 12px;
+    }
+
+    .info_list {
+        overflow: auto;
+    }
+
+    .earning_bnr {
+        max-width: 120px;
+    }
+
+    .announcement_hero_s p {
+        font-size: 13px;
+    }
+
+    body button.viewdel_btn {
+        padding: 0px !important;
+    }
+
+    .project_coin .viewmorebtn {
+        margin-top: 15px;
+    }
+
+    .tbl_flex button.poolbtn {
+        font-size: 13px;
+    }
+
+    ul.registration_list li {
+        font-size: 12px;
+    }
+
+    .subscribe_user_lft h4 span.off {
+        font-size: 10px;
+        padding: 4px 8px;
     }
 
     .dashboard_right .dashboard_listing_section.Overview_mid .coin_right {
@@ -3102,7 +3157,7 @@ ul.exclusive_list li span.sellsub {
         width: 100%;
     }
 
-.project_top .coin_cnt .hd.d-flex {
+    .project_top .coin_cnt .hd.d-flex {
         gap: 18px;
     }
 

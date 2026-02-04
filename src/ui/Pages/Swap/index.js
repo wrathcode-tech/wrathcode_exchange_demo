@@ -838,7 +838,7 @@ const Swap = () => {
       {/* <!-- Modal  more details Pop Up Start --> */}
 
 
-      <div className="modal fade search_form search_coin"
+      <div className="modal fade search_form search_form_modal_2 search_coin"
         id="search_coin" tabIndex="-1" aria-labelledby="exampleModalLabel">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
