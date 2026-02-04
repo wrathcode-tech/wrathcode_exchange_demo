@@ -25523,7 +25523,7 @@ button.p2p-submit-button {
         font-size: 12px;
     }
 
-    .mobiletable table tr th {
+.custom-tab-content .mobiletable table tr th {
         padding: 5px !important;
     }
 
