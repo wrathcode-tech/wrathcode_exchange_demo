@@ -4352,6 +4352,10 @@ form.profile_form {
     flex-direction: column;
     gap: 18px;
 }
+form.profile_form2 {
+  
+    gap: 5px !important;
+}
 
 button.morebtn:hover {
     background-color: transparent !important;
@@ -11607,6 +11611,11 @@ button.signbtn {
 .earning_list_block ul.currency_list_b li img {
     max-width: 40px;
 }
+.all_product_data .desktop_view{
+    border: 1px solid #2b313c;
+    padding: 10px;
+    border-radius: 10px;
+}
 
 .currency_list_b ul li h2 {
     font-size: 18px;
@@ -11711,6 +11720,8 @@ button.signbtn {
     max-width: 100%;
     justify-content: space-between;
     margin: 0px;
+    background: #0f0f0f;
+    border-radius: 10px;
 }
 
 .slider_group_wrapper .currency_list_b ul.usd_detail_list li {
@@ -11888,11 +11899,18 @@ table td.action_td {
     text-align: center;
     position: relative;
     overflow: hidden;
-    background-color: #2B313C;
+    /* background-color: #2B313C; */
     transition: 1s all;
     gap: 15px;
     align-items: center;
     justify-content: center;
+  
+}
+.currency_list_b_li{
+    background-image: url('/images/34222219_7_qsasa144.jpg');
+    background-size: cover ;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .currency_list_b ul li svg path {
@@ -15767,7 +15785,7 @@ ul.kyclist li img {
     border-radius: 8px;
     padding: 0 14px;
     font-size: 12px;
-    color: #949AA4;
+    color: #fff;
     border-radius: 4px;
     border: 1px solid #949AA4;
 }
@@ -26588,7 +26606,7 @@ button.p2p-submit-button {
     }
 
     .currency_list_b ul li .currency_bit {
-        background-color: #515a69;
+        /* background-color: #515a69; */
         padding: 15px;
     }
 

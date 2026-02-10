@@ -1503,7 +1503,7 @@ const Trade = () => {
                                                         <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
                                                             <div className="no_data_s">
                                                                 <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
-                                                                <p className="text-muted mt-2">Please login to view your wallets</p>
+                                                                <p className=" mt-2">Please login to view your wallets</p>
                                                                 <Link to="/login" className="btn btn-primary btn-sm mt-2">Login</Link>
                                                             </div>
                                                         </div>
@@ -2514,7 +2514,7 @@ const Trade = () => {
                                                 <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
                                                     <div className="no_data_s">
                                                         <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
-                                                        <p className="text-muted mt-2">Please login to view your wallets</p>
+                                                        <p className=" mt-2">Please login to view your wallets</p>
                                                         <Link to="/login" className="btn btn-primary btn-sm mt-2">Login</Link>
                                                     </div>
                                                 </div>

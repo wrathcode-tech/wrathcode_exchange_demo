@@ -98,6 +98,7 @@ export const ApiConfig = {
   transferFunds: "swaping_wallets",
   submitTicket: "submit-ticket",
   getUserTickets: "get-user-tickets",
+  getTicketCategories: "get-categories",
   replyTicket: "user-reply-ticket",
   swapHistory: "swapping_history",
   getLatestNews: "get_latest_news",

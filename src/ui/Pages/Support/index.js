@@ -4,6 +4,7 @@ import AuthService from "../../../api/services/AuthService";
 import { alertErrorMessage, alertSuccessMessage } from "../../../customComponents/CustomAlertMessage";
 import { ProfileContext } from "../../../context/ProfileProvider";
 import copy from "copy-to-clipboard";
+import moment from "moment";
 
 const SupportPage = () => {
 
@@ -18,21 +19,47 @@ const SupportPage = () => {
     const [messageQuery, setMessageQuery] = useState([]);
     const [ticketId, setTicketId] = useState("");
     const [selectedTicketId, setSelectedTicketId] = useState("");
-    const [selectedSubject, setSelectedSubject] = useState("");
+    const [ selectedSubject, setSelectedSubject] = useState("");
+    const [ selectedCreatedAt, setSelectedCreatedAt] = useState("");
     const [selectedDescription, setSelectedDescription] = useState("");
     const [messageReply, setMessageReply] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [status, setStatus] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [category, setCategory] = useState("");
+    const [priority, setPriority] = useState("medium");
+    const [categories, setCategories] = useState([]);
+    const [priorities, setPriorities] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedPriority, setSelectedPriority] = useState("");
 
     const resetInputChange = useCallback(() => {
         setSubject("");
         setMessage("");
         setMyfile(null);
+        setCategory("");
+        setPriority("medium");
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
         }
     }, []);
+
+    // Fetch ticket categories and priorities
+    const getTicketCategories = useCallback(async () => {
+        try {
+            const result = await AuthService.getTicketCategories();
+            if (result?.success) {
+                setCategories(result?.data?.categories || []);
+                setPriorities(result?.data?.priorities || []);
+            }
+        } catch (error) {
+            console.error("Failed to fetch categories:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        getTicketCategories();
+    }, [getTicketCategories]);
 
     const handleChangeImage = useCallback((event) => {
         event.preventDefault();
@@ -101,6 +128,11 @@ const SupportPage = () => {
             return;
         }
 
+        if (!category) {
+            alertErrorMessage("Please select a category");
+            return;
+        }
+
         if (!message?.trim()) {
             alertErrorMessage("Please enter a description");
             return;
@@ -113,8 +145,10 @@ const SupportPage = () => {
             const formData = new FormData();
             formData.append("subject", subject.trim());
             formData.append("description", message.trim());
+            formData.append("category", category);
+            formData.append("priority", priority);
             if (myfile) {
-                formData.append("issue-image", myfile);
+                formData.append("issue_image", myfile);
             }
 
             const result = await AuthService.submitTicket(formData);
@@ -132,7 +166,7 @@ const SupportPage = () => {
             setIsSubmitting(false);
             LoaderHelper.loaderStatus(false);
         }
-    }, [subject, message, myfile, isSubmitting, resetInputChange, getIssueList]);
+    }, [subject, message, category, priority, myfile, isSubmitting, resetInputChange, getIssueList]);
 
     const handleViewTicket = useCallback((row) => {
         if (!row) return;
@@ -140,7 +174,10 @@ const SupportPage = () => {
         setTicketId(row?.ticketId || "");
         setSelectedTicketId(row?._id || "");
         setSelectedSubject(row?.subject || "");
+        setSelectedCreatedAt(row?.createdAt || "");
         setSelectedDescription(row?.description || "");
+        setSelectedCategory(row?.category || "");
+        setSelectedPriority(row?.priority || "");
         setStatus(row?.status || "");
         setMessageQuery(Array.isArray(row?.ticket) ? row.ticket : []);
         setMessageReply("");
@@ -261,6 +298,43 @@ const SupportPage = () => {
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="emailinput">
+                                        <label>Category</label>
+                                        <div className="d-flex">
+                                            <select
+                                                value={category}
+                                                onChange={(e) => setCategory(e.target.value)}
+                                                className="form-select"
+                                            >
+                                                <option value="" hidden>Select Category</option>
+                                                {categories.map((cat) => (
+                                                    <option key={cat.id} value={cat.id}>
+                                                        {cat.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="emailinput">
+                                        <label>Priority</label>
+                                        <div className="d-flex">
+                                            <select
+                                                value={priority}
+                                                onChange={(e) => setPriority(e.target.value)}
+                                                className="form-select"
+                                            >
+                                                {priorities.map((pri) => (
+                                                    <option key={pri.id} value={pri.id}>
+                                                        {pri.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="emailinput">
                                         <label>Supporting documents (Optional)</label>
                                         <div className="d-flex">
                                             <input
@@ -291,7 +365,7 @@ const SupportPage = () => {
                                     <button
                                         type="submit"
                                         className="submit"
-                                        disabled={isSubmitting || !subject?.trim() || !message?.trim()}
+                                        disabled={isSubmitting || !subject?.trim() || !category || !message?.trim()}
                                     >
                                         {isSubmitting ? "Submitting..." : "Submit"}
                                     </button>
@@ -311,7 +385,7 @@ const SupportPage = () => {
                                 <input
                                     type="search"
                                     className="custom_search"
-                                    placeholder="Search tickets..."
+                                    placeholder="Search ticket id"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -328,7 +402,9 @@ const SupportPage = () => {
                                             <tr>
                                                 <th>Sr No.</th>
                                                 <th>Ticket ID</th>
+                                                <th>Category</th>
                                                 <th>Subject</th>
+                                                <th>Priority</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -338,12 +414,17 @@ const SupportPage = () => {
                                                 <tr key={item?._id || index} className={` ${(item?.seen === 0 && item?.status === 'Open') ? " font-weight-bold issue_text" : "issue_text"}`} >
                                                     <td>{index + 1}</td>
                                                     <td>{item?.ticketId || "N/A"} <button type="button" className="btn btn-link p-0" onClick={() => handleCopyTicketId(item?.ticketId)}><i className="ri-file-copy-line"></i></button></td>
+                                                    <td className="text-capitalize">{item?.category?.replace(/_/g, ' ') || "N/A"}</td>
                                                     <td>{item?.subject || "N/A"}</td>
+                                                    <td className={`badge bg-secondary  text-capitalize`}>
+                                                            {item?.priority || "N/A"}
+                                                        
+                                                    </td>
                                                     <td>{item?.status || "N/A"} <small>{(item?.seen === 0 && item?.status === 'Open') && <i className="ri-circle-fill" style={{ color: 'green' }}></i>}</small></td>
                                                     <td><button type="button" className="btn btn-xs btn-success" data-bs-toggle="modal" data-bs-target="#security_verification" onClick={() => handleViewTicket(item)}><span>View</span></button></td>
                                                 </tr>
                                             ) : <tr>
-                                                <td colSpan="5">
+                                                <td colSpan="7">
                                                     <div style={{ textAlign: "center" }} className="no-data justify-content-center h-100 d-flex align-items-center">
                                                         <div className="favouriteData">
                                                             <div className="no_data_s">
@@ -365,6 +446,8 @@ const SupportPage = () => {
                                         <thead>
                                             <tr>
                                                 <th>Ticket ID</th>
+                                                <th>Category</th>
+                                                <th>Priority</th>
                                                 <th>Status</th>
                                                 <th className="right_t">Action</th>
                                             </tr>
@@ -379,6 +462,12 @@ const SupportPage = () => {
                                                             {item?.ticketId || "N/A"}
                                                         </div>
                                                     </td>
+                                                    <td><small>{item?.category?.replace(/_/g, ' ') || "N/A"}</small></td>
+                                                    <td>
+                                                        <span className={`badge ${item?.priority === 'high' ? 'bg-danger' : item?.priority === 'medium' ? 'bg-warning' : 'bg-info'}`} style={{ fontSize: '10px' }}>
+                                                            {item?.priority || "N/A"}
+                                                        </span>
+                                                    </td>
                                                     <td>{item?.status || "N/A"} <small>{(item?.seen === 0 && item?.status === 'Open') && <i className="ri-circle-fill" style={{ color: 'green' }}></i>}</small></td>
 
 
@@ -386,7 +475,7 @@ const SupportPage = () => {
                                                 </tr>
 
                                             ) : <tr>
-                                                <td colSpan="3">
+                                                <td colSpan="5">
                                                     <div style={{ textAlign: "center" }} className="no-data justify-content-center h-100 d-flex align-items-center">
                                                         <div className="favouriteData">
                                                             <div className="no_data_s">
@@ -434,8 +523,24 @@ const SupportPage = () => {
                             <div className="chat-body">
                             <div className="ticket-details mb-4" style={{ padding: '12px 16px', borderBottom: '1px solid #444', backgroundColor: 'rgb(47 53 66)' }}>
                                 <div style={{ marginBottom: '8px' }}>
+                                    <span style={{ fontSize: '12px', color: '#888', marginRight: '8px' }}>Ticket Created On:</span>
+                                    <span style={{ fontSize: '14px', color: '#fff' }}>{moment(selectedCreatedAt).format('DD/MM/YYYY hh:mm A') || "N/A"}</span>
+                                </div>  
+                                <div style={{ marginBottom: '8px' }}>
                                     <span style={{ fontSize: '12px', color: '#888', marginRight: '8px' }}>Subject:</span>
                                     <span style={{ fontSize: '14px', color: '#fff' }}>{selectedSubject || "N/A"}</span>
+                                </div>
+                                <div style={{ marginBottom: '8px', display: 'flex', gap: '16px' }}>
+                                    <div>
+                                        <span style={{ fontSize: '12px', color: '#888', marginRight: '8px' }}>Category:</span>
+                                        <span className="badge bg-secondary text-capitalize" style={{ fontSize: '12px' }}>{selectedCategory?.replace(/_/g, ' ') || "N/A"}</span>
+                                    </div>
+                                    <div>
+                                        <span style={{ fontSize: '12px', color: '#888', marginRight: '8px' }}>Priority:</span>
+                                        <span className={`badge bg-secondary text-capitalize`} style={{ fontSize: '12px' }}>
+                                            {selectedPriority || "N/A"}
+                                        </span>
+                                    </div>
                                 </div>
                                 <div>
                                     <span style={{ fontSize: '12px', color: '#888', marginRight: '8px' }}>Description:</span>
@@ -484,7 +589,7 @@ const SupportPage = () => {
                                         <input
                                             type="text"
                                             placeholder="Write your message here..."
-                                            value={messageReply}
+                                            value={messageReply || ""}
                                             onChange={(e) => setMessageReply(e.target.value)}
                                             onKeyDown={(e) => {
                                                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -502,7 +607,9 @@ const SupportPage = () => {
                                     <input
                                         type="text"
                                         placeholder="This ticket has been resolved"
+                                        value=""
                                         disabled
+                                        readOnly
                                     />
                                 )}
                             </div>

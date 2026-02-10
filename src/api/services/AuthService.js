@@ -538,6 +538,38 @@ const AuthService = {
     return ApiCallPost(url, formData, headers);
   },
 
+  // KYC API methods
+  getCountries: async () => {
+    const { baseUrl } = ApiConfig;
+    const url = baseUrl + "api/meta/countries";
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  getKycConfig: async (countryCode) => {
+    const token = localStorage.getItem("token");
+    const { baseUrl } = ApiConfig;
+    const url = baseUrl + `api/kyc/config/${countryCode}`;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  getKycStatus: async () => {
+    const token = localStorage.getItem("token");
+    const { baseAuth } = ApiConfig;
+    const url = baseAuth + "kyc-status";
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
   categoryList: async () => {
     const token = localStorage.getItem('token');
     const { baseAdmin, categoryList } = ApiConfig;
@@ -1998,6 +2030,16 @@ const AuthService = {
     const headers = {
       "Content-Type": "application/json",
       'Authorization': token
+    };
+
+    return ApiCallGet(url, headers);
+  },
+
+  getTicketCategories: async () => {
+    const { baseSupport, getTicketCategories } = ApiConfig;
+    const url = baseSupport + getTicketCategories;
+    const headers = {
+      "Content-Type": "application/json"
     };
 
     return ApiCallGet(url, headers);

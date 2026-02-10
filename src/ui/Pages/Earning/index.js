@@ -42,6 +42,10 @@ function Earning() {
   // Agreement checkbox
   const [agreeTerms, setAgreeTerms] = useState(false);
 
+  // Expand row states for mobile view
+  const [showActiveExpandedRows, setShowActiveExpandedRows] = useState({});
+  const [showCompletedExpandedRows, setShowCompletedExpandedRows] = useState({});
+
   // Store all packages for selected currency (for duration selection)
   const [selectedCurrencyPackages, setSelectedCurrencyPackages] = useState([]);
 
@@ -62,6 +66,27 @@ function Earning() {
       maximumFractionDigits: decimals
     });
   }, []);
+
+  // Filtered subscribed packages based on search
+  const filteredActivePackages = useMemo(() => {
+    if (!search.trim()) return subscribedActivePackages;
+    const searchLower = search.toLowerCase().trim();
+    return subscribedActivePackages.filter(item =>
+      item?.currency?.toLowerCase().includes(searchLower) ||
+      item?.wallet_type?.toLowerCase().includes(searchLower) ||
+      item?.status?.toLowerCase().includes(searchLower)
+    );
+  }, [subscribedActivePackages, search]);
+
+  const filteredCompletedPackages = useMemo(() => {
+    if (!search.trim()) return subscribedCompletedPackage;
+    const searchLower = search.toLowerCase().trim();
+    return subscribedCompletedPackage.filter(item =>
+      item?.currency?.toLowerCase().includes(searchLower) ||
+      item?.credited_wallet_type?.toLowerCase().includes(searchLower) ||
+      item?.status?.toLowerCase().includes(searchLower)
+    );
+  }, [subscribedCompletedPackage, search]);
 
   // API calls with proper error handling
   const getPackageList = useCallback(async () => {
@@ -489,9 +514,9 @@ function Earning() {
                         <div key={groupIndex} className="slider_group_wrapper">
                           <Slider {...groupSettings}>
                             {packages.map((item) => (
-                              <div key={item._id} className="currency_list_b">
+                              <div key={item._id} className="currency_list_b ">
                                 <ul>
-                                  <li>
+                                  <li className="currency_list_b_li">
                                     <div className="currency_bit">
                                       <div className="currency_bit_inner">
                                         <img
@@ -728,36 +753,43 @@ function Earning() {
                   </div>
                 </div>
 
-          <div className='table-responsive'>      
+                <div className='table-responsive'>
 
-                {portfolio?.length > 0 ? (
-                  portfolio.map((item, index) => (
-                    <ul className='earning_assets_list' key={item._id || index}>
-                      <li>
-                        <span>
-                          <img
-                            src={ApiConfig?.baseImage + item?.icon_path}
-                            alt={item?.currency}
-                            width="20"
-                            height="20"
-                            style={{ marginRight: '8px', verticalAlign: 'middle' }}
-                            onError={(e) => { e.target.src = '/images/default-coin.png'; }}
-                          />
-                          {item?.currency}
-                        </span>
-                        {item?.currency_fullname}
-                      </li>
-                      <li><span>Total Invested</span>{formatNumber(item?.invested_amount || 0)} {item?.currency}</li>
-                      <li><span>Expected Return</span>{formatNumber(item?.expected_return || 0)} {item?.currency}</li>
-                      <li><span>Running</span>{formatNumber(item?.running_investment || 0)} {item?.currency}</li>
-                      <li><span>Bonus Remaining</span>{formatNumber(item?.bonus_remaining || 0)} {item?.currency}</li>
-                    </ul>
-                  ))
-                ) : (
-                  <ul className='earning_assets_list'>
-                    <li><span>No earning assets</span>Start investing to see your portfolio</li>
-                  </ul>
-                )}
+                  {portfolio?.length > 0 ? (
+                    portfolio.map((item, index) => (
+                      <ul className='earning_assets_list' key={item._id || index}>
+                        <li>
+                          <span>
+                            <img
+                              src={ApiConfig?.baseImage + item?.icon_path}
+                              alt={item?.currency}
+                              width="20"
+                              height="20"
+                              style={{ marginRight: '8px', verticalAlign: 'middle' }}
+                              onError={(e) => { e.target.src = '/images/default-coin.png'; }}
+                            />
+                            {item?.currency}
+                          </span>
+                          {item?.currency_fullname}
+                        </li>
+                        <li><span>Total Invested</span>{formatNumber(item?.invested_amount || 0)} {item?.currency}</li>
+                        <li><span>Expected Return</span>{formatNumber(item?.expected_return || 0)} {item?.currency}</li>
+                        <li><span>Running</span>{formatNumber(item?.running_investment || 0)} {item?.currency}</li>
+                        <li><span>Bonus Remaining</span>{formatNumber(item?.bonus_remaining || 0)} {item?.currency}</li>
+                      </ul>
+                    ))
+                  ) : (
+                    <>
+                     
+                      <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
+                        <div className="no_data_s">
+                          <img src="/images/no_data_vector.svg" className="img-fluid"  alt="" />
+                          <small className=" mt-2">Start investing to see your portfolio</small>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  
                 </div>
               </div>
 
@@ -813,51 +845,70 @@ function Earning() {
                     <div className="tab-pane fade show active" id="activeTab" role="tabpanel">
 
                       <div className='order_history_mobile_view'>
-
-                        <div className='d-flex'>
-                          <div className='order_datalist'>
-                            <ul className='listdata'>
-                              <li>
-                                <span className='date'>Currency</span>
-                                <span className='date_light'>USDT</span>
-                              </li>
-                              <li>
-                                <span>Deducted From</span>
-                                <span>Main Wallet</span>
-                              </li>
-                              <li>
-                                <span>Duration</span>
-                                <span>360 days</span>
-                              </li>
-                              <li>
-                                <span>Start Date</span>
-                                <span>2026-01-31</span>
-                              </li>
-                              <li>
-                                <span>Mature Date</span>
-                                <span>2027-01-26</span>
-                              </li>
-                              <li>
-                                <span>Subscription Amount</span>
-                                <span>10</span>
-                              </li>
-                              <li>
-                                <span>Bonus Amount</span>
-                                <span>+4.8</span>
-                              </li>
-                              <li>
-                                <span>Receivable Amount</span>
-                                <span>14.8</span>
-                              </li>
-                              <li>
-                                <span>Status</span>
-                                <span>ACTIVE</span>
-                              </li>
-
-                            </ul>
-
+                        {filteredActivePackages?.length > 0 ? (
+                          filteredActivePackages.map((item, index) => (
+                            <div className='d-flex mb-3' key={item._id || index}>
+                              <div className='order_datalist'>
+                                <ul className='listdata'>
+                                  <li>
+                                    <span className='date'>{item?.currency}</span>
+                                    <span className='date_light'>{moment(item.start_date).format("DD/MM/YYYY")}</span>
+                                  </li>
+                                  <li>
+                                    <span>Subscription Amount</span>
+                                    <span>{formatToNineDecimals(parseFloat(item?.invested_amount?.$numberDecimal || 0))} {item?.currency}</span>
+                                  </li>
+                                  <li>
+                                    <span>Receivable Amount</span>
+                                    <span>{formatToNineDecimals(parseFloat(item?.expected_return?.$numberDecimal || 0))} {item?.currency}</span>
+                                  </li>
+                                  <li>
+                                    <span>Status</span>
+                                    <span className='text-white '> <strong>{item?.status}</strong></span>
+                                  </li>
+                                  {showActiveExpandedRows[index] && (
+                                    <>
+                                      <li>
+                                        <span>Deducted From</span>
+                                        <span >{item?.wallet_type?.charAt(0).toUpperCase() + item?.wallet_type?.slice(1)} Wallet</span>
+                                      </li>
+                                      <li>
+                                        <span>Duration</span>
+                                        <span>{item?.duration_days} days</span>
+                                      </li>
+                                      <li>
+                                        <span>Start Date</span>
+                                        <span>{moment(item.start_date).format("YYYY-MM-DD")}</span>
+                                      </li>
+                                      <li>
+                                        <span>Mature Date</span>
+                                        <span>{moment(item.end_date).format("YYYY-MM-DD")}</span>
+                                      </li>
+                                      <li>
+                                        <span>Bonus Amount</span>
+                                        <span >+{formatToNineDecimals(parseFloat(item?.expected_return?.$numberDecimal || 0) - parseFloat(item?.invested_amount?.$numberDecimal || 0))}</span>
+                                      </li>
+                                    </>
+                                  )}
+                                </ul>
+                                <button
+                                  type="button"
+                                  className="view_more_btn"
+                                  onClick={() => setShowActiveExpandedRows({ ...showActiveExpandedRows, [index]: !showActiveExpandedRows[index] })}
+                                >
+                                  {showActiveExpandedRows[index] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
+                                </button>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="no-data-wrapper">
+                            <div className="no_data_s">
+                              <img src="/images/no_data_vector.svg" alt="no-data" />
+                            </div>
+                            {!token && <p>Please <Link to='/login'>Login</Link> to continue</p>}
                           </div>
-                        </div>
+                        )}
                       </div>
 
                       <div className='desktop_view'>
@@ -877,23 +928,23 @@ function Earning() {
                             </tr>
                           </thead>
                           <tbody>
-                            {subscribedActivePackages?.length > 0 ? (
-                              subscribedActivePackages.map((item, index) => (
+                            {filteredActivePackages?.length > 0 ? (
+                              filteredActivePackages.map((item, index) => (
                                 <tr key={item._id || index}>
                                   <td>{skipActive + index + 1}</td>
                                   <td>{item?.currency}</td>
-                                  <td className='text-warning'>
+                                  <td >
                                     {item?.wallet_type?.charAt(0).toUpperCase() + item?.wallet_type?.slice(1)} Wallet
                                   </td>
                                   <td>{item?.duration_days} days</td>
                                   <td>{moment(item.start_date).format("YYYY-MM-DD")}</td>
                                   <td>{moment(item.end_date).format("YYYY-MM-DD")}</td>
                                   <td>{formatToNineDecimals(parseFloat(item?.invested_amount?.$numberDecimal || 0))}</td>
-                                  <td className='text-warning'>
+                                  <td>
                                     +{formatToNineDecimals(parseFloat(item?.expected_return?.$numberDecimal || 0) - parseFloat(item?.invested_amount?.$numberDecimal || 0))}
                                   </td>
                                   <td>{formatToNineDecimals(parseFloat(item?.expected_return?.$numberDecimal || 0))}</td>
-                                  <td className='text-warning'>{item?.status}</td>
+                                  <td className='text-white'><strong>{item?.status}</strong> </td>
                                 </tr>
                               ))
                             ) : (
@@ -917,51 +968,70 @@ function Earning() {
                     <div className="tab-pane fade" id="completedTab" role="tabpanel">
 
                       <div className='order_history_mobile_view'>
-
-                        <div className='d-flex'>
-                          <div className='order_datalist'>
-                            <ul className='listdata'>
-                              <li>
-                                <span className='date'>Currency</span>
-                                <span className='date_light'>USDT</span>
-                              </li>
-                              <li>
-                                <span>Deducted From</span>
-                                <span>Main Wallet</span>
-                              </li>
-                              <li>
-                                <span>Duration</span>
-                                <span>360 days</span>
-                              </li>
-                              <li>
-                                <span>Start Date</span>
-                                <span>2026-01-31</span>
-                              </li>
-                              <li>
-                                <span>Mature Date</span>
-                                <span>2027-01-26</span>
-                              </li>
-                              <li>
-                                <span>Subscription Amount</span>
-                                <span>10</span>
-                              </li>
-                              <li>
-                                <span>Bonus Amount</span>
-                                <span>+4.8</span>
-                              </li>
-                              <li>
-                                <span>Receivable Amount</span>
-                                <span>14.8</span>
-                              </li>
-                              <li>
-                                <span>Status</span>
-                                <span>ACTIVE</span>
-                              </li>
-
-                            </ul>
-
+                        {filteredCompletedPackages?.length > 0 ? (
+                          filteredCompletedPackages.map((item, index) => (
+                            <div className='d-flex mb-3' key={item._id || index}>
+                              <div className='order_datalist'>
+                                <ul className='listdata'>
+                                  <li>
+                                    <span className='date'>{item?.currency}</span>
+                                    <span className='date_light'>{moment(item.start_date).format("DD/MM/YYYY")}</span>
+                                  </li>
+                                  <li>
+                                    <span>Subscription Amount</span>
+                                    <span>{formatToNineDecimals(parseFloat(item?.invested_amount?.$numberDecimal || 0))} {item?.currency}</span>
+                                  </li>
+                                  <li>
+                                    <span>Received Amount</span>
+                                    <span className='text-success'>{formatToNineDecimals(parseFloat(item?.expected_return?.$numberDecimal || 0))} {item?.currency}</span>
+                                  </li>
+                                  <li>
+                                    <span>Status</span>
+                                    <span className='text-success'>{item?.status}</span>
+                                  </li>
+                                  {showCompletedExpandedRows[index] && (
+                                    <>
+                                      <li>
+                                        <span>Received In</span>
+                                        <span className='text-success'>{item?.credited_wallet_type?.charAt(0).toUpperCase() + item?.credited_wallet_type?.slice(1)} Wallet</span>
+                                      </li>
+                                      <li>
+                                        <span>Duration</span>
+                                        <span>{item?.duration_days} days</span>
+                                      </li>
+                                      <li>
+                                        <span>Start Date</span>
+                                        <span>{moment(item.start_date).format("YYYY-MM-DD")}</span>
+                                      </li>
+                                      <li>
+                                        <span>Mature Date</span>
+                                        <span>{moment(item.end_date).format("YYYY-MM-DD")}</span>
+                                      </li>
+                                      <li>
+                                        <span>Bonus</span>
+                                        <span className='text-success'>+{formatToNineDecimals(parseFloat(item?.expected_return?.$numberDecimal || 0) - parseFloat(item?.invested_amount?.$numberDecimal || 0))}</span>
+                                      </li>
+                                    </>
+                                  )}
+                                </ul>
+                                <button
+                                  type="button"
+                                  className="view_more_btn"
+                                  onClick={() => setShowCompletedExpandedRows({ ...showCompletedExpandedRows, [index]: !showCompletedExpandedRows[index] })}
+                                >
+                                  {showCompletedExpandedRows[index] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
+                                </button>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="no-data-wrapper">
+                            <div className="no_data_s">
+                              <img src="/images/no_data_vector.svg" alt="no-data" />
+                            </div>
+                            {!token && <p>Please <Link to='/login'>Login</Link> to continue</p>}
                           </div>
-                        </div>
+                        )}
                       </div>
 
                       <div className='desktop_view'>
@@ -981,8 +1051,8 @@ function Earning() {
                             </tr>
                           </thead>
                           <tbody>
-                            {subscribedCompletedPackage?.length > 0 ? (
-                              subscribedCompletedPackage.map((item, index) => (
+                            {filteredCompletedPackages?.length > 0 ? (
+                              filteredCompletedPackages.map((item, index) => (
                                 <tr key={item._id || index}>
                                   <td>{skipCompleted + index + 1}</td>
                                   <td>{item?.currency}</td>
