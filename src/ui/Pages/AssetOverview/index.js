@@ -190,6 +190,10 @@ const AssetOverview = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+ }, []);
+
   return (
     <>
       <div className="dashboard_right">

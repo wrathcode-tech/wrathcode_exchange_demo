@@ -48,12 +48,40 @@ const LoginPage = () => {
         return;
       }
       
+      // Detect iOS/iPadOS
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      
+      // Detect Safari on iOS
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      
       // Check if platform authenticator (fingerprint/Face ID/Windows Hello) is available
       try {
         const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+        
+        // On iOS Safari 16+, passkeys are supported even if this returns false sometimes
+        // This can happen if iCloud Keychain is temporarily unavailable
+        if (!available && isIOS && isSafari) {
+          // Check iOS version - passkeys require iOS 16+
+          const match = navigator.userAgent.match(/OS (\d+)_/);
+          const iosVersion = match ? parseInt(match[1], 10) : 0;
+          
+          if (iosVersion >= 16) {
+            // iOS 16+ Safari should support passkeys, enable the option
+            console.log('iOS 16+ detected, enabling passkey support');
+            setPasskeySupported(true);
+            return;
+          }
+        }
+        
         setPasskeySupported(available);
       } catch (error) {
-        // If check fails, assume not supported
+        // If check fails on iOS Safari, still allow trying passkeys
+        if (isIOS && isSafari) {
+          console.log('Passkey check failed on iOS Safari, allowing anyway');
+          setPasskeySupported(true);
+          return;
+        }
         setPasskeySupported(false);
       }
     };

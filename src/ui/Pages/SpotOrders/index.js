@@ -53,7 +53,9 @@ const SpotOrders = (props) => {
     handleTradeHistory(skip, limit);
   }, [skip]);
 
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+ }, []);
 
   return (
     <div className="dashboard_right">

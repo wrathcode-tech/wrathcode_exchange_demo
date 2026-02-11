@@ -118,8 +118,10 @@ const ProfilePage = (props) => {
       </Helmet>
       <div className="mobile_view" id="toggleBtn" onClick={() => toggleContent()}>
         <img src={getPageIcon} alt={currentPage} width={20} height={20} style={{ marginRight: '8px' }} />
+        <div className="d-flex align-items-center justify-content-between w-100">
         {currentPage}
         <span><i className="ri-arrow-down-s-line"></i></span>
+        </div>
       </div>
 
 

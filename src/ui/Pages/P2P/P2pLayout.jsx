@@ -15,7 +15,7 @@ const P2pLayout = ({ children, title }) => {
   return (
     <div 
       className="p2p-layout-wrapper"
-      style={{ backgroundImage: 'url(/images/p2p/p2pBg.png)' }}
+      // style={{ backgroundImage: 'url(/images/p2p/p2pBg.png)' }}
     >
       {/* Sidebar */}
       <P2pSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />

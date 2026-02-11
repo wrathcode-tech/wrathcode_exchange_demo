@@ -56,6 +56,10 @@ const SupportPage = () => {
             console.error("Failed to fetch categories:", error);
         }
     }, []);
+    
+    useEffect(() => {
+        window.scrollTo(0, 0);
+     }, []);
 
     useEffect(() => {
         getTicketCategories();

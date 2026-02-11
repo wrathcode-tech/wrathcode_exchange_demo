@@ -232,6 +232,7 @@ const WalletPage = () => {
       setToWalletType(defaultTo);
     };
 
+    
     switch (walletType) {
       case 'spot':
         return (
@@ -367,6 +368,8 @@ const WalletPage = () => {
   if (isValidWallet === false) {
     return null; // Will redirect
   }
+
+  
 
   return (
     <>

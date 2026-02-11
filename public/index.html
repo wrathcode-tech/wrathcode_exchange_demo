@@ -453,6 +453,157 @@
 
 </script>
 
+<!-- Mobile Keyboard Handler - Scroll focused input into view -->
+<script>
+  (function() {
+    'use strict';
+    
+    // Only run on mobile/touch devices
+    function isMobileDevice() {
+      return (
+        ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (window.innerWidth <= 768)
+      );
+    }
+    
+    // Safe scroll into view with fallback
+    function safeScrollIntoView(element) {
+      if (!element || typeof element.scrollIntoView !== 'function') return;
+      
+      try {
+        // Find the scrollable modal container
+        var modalBody = element.closest('.modal-body');
+        var modalContent = element.closest('.modal-content');
+        
+        if (modalBody) {
+          // Calculate position relative to modal body
+          var elementRect = element.getBoundingClientRect();
+          var modalRect = modalBody.getBoundingClientRect();
+          var scrollTop = modalBody.scrollTop;
+          var relativeTop = elementRect.top - modalRect.top + scrollTop;
+          
+          // Scroll to center the element in view
+          var targetScroll = relativeTop - (modalRect.height / 3);
+          
+          modalBody.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: 'smooth'
+          });
+        } else if (modalContent) {
+          // Fallback to modal-content if no modal-body
+          element.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center',
+            inline: 'nearest'
+          });
+        }
+      } catch (e) {
+        // Ultimate fallback - simple scrollIntoView
+        try {
+          element.scrollIntoView({ block: 'center' });
+        } catch (e2) {
+          // Silently fail if scrollIntoView not supported
+        }
+      }
+    }
+    
+    function initMobileKeyboardHandler() {
+      if (!isMobileDevice()) return;
+      
+      var activeInput = null;
+      var scrollTimeout = null;
+      var lastViewportHeight = window.innerHeight;
+      
+      // Debounce function
+      function debounce(func, wait) {
+        var timeout;
+        return function() {
+          var context = this, args = arguments;
+          clearTimeout(timeout);
+          timeout = setTimeout(function() {
+            func.apply(context, args);
+          }, wait);
+        };
+      }
+      
+      // Handle viewport resize (keyboard open/close)
+      function handleViewportResize() {
+        if (!activeInput) return;
+        
+        var currentHeight = window.visualViewport 
+          ? window.visualViewport.height 
+          : window.innerHeight;
+        
+        // Keyboard opened (viewport got smaller by at least 150px)
+        if (lastViewportHeight - currentHeight > 150) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+            if (activeInput && document.activeElement === activeInput) {
+              safeScrollIntoView(activeInput);
+            }
+          }, 50);
+        }
+        
+        lastViewportHeight = currentHeight;
+      }
+      
+      // Track focused input
+      function handleFocus(event) {
+        var el = event.target;
+        var tagName = el.tagName ? el.tagName.toLowerCase() : '';
+        
+        // Only handle input elements inside modals
+        if ((tagName === 'input' || tagName === 'select' || tagName === 'textarea')) {
+          var modal = el.closest('.modal');
+          if (modal && modal.classList.contains('show')) {
+            activeInput = el;
+            
+            // Delayed scroll for keyboard animation
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(function() {
+              if (document.activeElement === el) {
+                safeScrollIntoView(el);
+              }
+            }, 350);
+          }
+        }
+      }
+      
+      // Clear tracked input on blur
+      function handleBlur() {
+        clearTimeout(scrollTimeout);
+        // Delay clearing so resize handler can still access it
+        setTimeout(function() {
+          if (document.activeElement && 
+              document.activeElement.tagName && 
+              !['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+            activeInput = null;
+          }
+        }, 100);
+      }
+      
+      // Attach event listeners
+      document.addEventListener('focusin', handleFocus, { passive: true });
+      document.addEventListener('focusout', handleBlur, { passive: true });
+      
+      // Use Visual Viewport API if available (more reliable)
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', debounce(handleViewportResize, 50), { passive: true });
+      } else {
+        // Fallback to window resize
+        window.addEventListener('resize', debounce(handleViewportResize, 100), { passive: true });
+      }
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMobileKeyboardHandler);
+    } else {
+      initMobileKeyboardHandler();
+    }
+  })();
+</script>
 
 <body>
 

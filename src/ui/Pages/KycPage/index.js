@@ -282,11 +282,46 @@ const KycPage = (props) => {
 
     const checkPasskeySupport = async () => {
         try {
-            if (window.PublicKeyCredential) {
-                const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-                setPasskeySupported(available);
+            // First check if WebAuthn API exists
+            if (!window.PublicKeyCredential) {
+                setPasskeySupported(false);
+                return;
             }
+            
+            // Detect iOS/iPadOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            
+            // Detect Safari on iOS
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            
+            const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+            
+            // On iOS Safari 16+, passkeys are supported even if this returns false sometimes
+            if (!available && isIOS && isSafari) {
+                // Check iOS version - passkeys require iOS 16+
+                const match = navigator.userAgent.match(/OS (\d+)_/);
+                const iosVersion = match ? parseInt(match[1], 10) : 0;
+                
+                if (iosVersion >= 16) {
+                    console.log('iOS 16+ detected, enabling passkey support');
+                    setPasskeySupported(true);
+                    return;
+                }
+            }
+            
+            setPasskeySupported(available);
         } catch (e) {
+            // If check fails on iOS Safari, still allow trying passkeys
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            
+            if (isIOS && isSafari) {
+                console.log('Passkey check failed on iOS Safari, allowing anyway');
+                setPasskeySupported(true);
+                return;
+            }
             setPasskeySupported(false);
         }
     };
@@ -1096,6 +1131,11 @@ const KycPage = (props) => {
         { q: "Do I need to upload both front and back of my ID?", a: "Some ID documents require both front and back images. The upload fields will appear based on the selected document type." },
         { q: "Is live selfie mandatory for KYC?", a: "Yes, a live selfie captured through your device camera is required to complete KYC verification." }
     ];
+
+
+    useEffect(() => {
+       window.scrollTo(0, 0);
+    }, []);
 
 
     // =========================================================================

@@ -23164,6 +23164,7 @@ button.p2p-submit-button {
 
     .leftside_menu.active {
         display: block;
+        height: 100vh;
     }
 
     .dashboard_right {
@@ -26728,4 +26729,72 @@ ul.security-tips-list {
 
 .text-activity {
     color: #aaadb3;
+}
+
+/* ===== iOS Safari - Prevent zoom on input focus ===== */
+/* iOS Safari zooms in on inputs with font-size < 16px */
+@supports (-webkit-touch-callout: none) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="search"],
+    input[type="date"],
+    input:not([type]),
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+    
+    /* Maintain visual hierarchy with transform scale for smaller appearance */
+    .form-control,
+    .form-select {
+        font-size: 16px !important;
+    }
+}
+
+/* ===== Mobile - Fix keyboard overlaying modal inputs ===== */
+/* Works with existing bottom-sheet modal animation */
+@media screen and (max-width: 767px) {
+    /* Ensure modal body is scrollable for keyboard */
+    .modal-body {
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        /* Extra padding at bottom for keyboard clearance */
+        padding-bottom: 30px !important;
+    }
+    
+    /* Ensure inputs have scroll margin when focused */
+    .modal input:focus,
+    .modal select:focus,
+    .modal textarea:focus {
+        scroll-margin-bottom: 100px;
+        scroll-margin-top: 20px;
+    }
+    
+    /* KYC and form modals - limit height to leave room for keyboard */
+    .kyc_modal .modal-body,
+    #kycModal .modal-body,
+    #kycVerificationModal .modal-body,
+    #kycResubmitModal .modal-body,
+    .search_form .modal-body,
+    .scaner_pop_up .modal-body {
+        max-height: calc(80vh - 80px);
+        overflow-y: auto;
+    }
+    
+    /* Use dynamic viewport height where supported */
+    @supports (height: 1dvh) {
+        .kyc_modal .modal-body,
+        #kycModal .modal-body,
+        #kycVerificationModal .modal-body,
+        #kycResubmitModal .modal-body,
+        .search_form .modal-body,
+        .scaner_pop_up .modal-body {
+            max-height: calc(80dvh - 80px);
+        }
+    }
 }

@@ -63,7 +63,10 @@ const InternalWalletTransHistory = (props) => {
     getTransferHistory(0, limit)
 
   }, []);
-
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+ }, []);
 
   return (
     <>

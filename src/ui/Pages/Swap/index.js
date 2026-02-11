@@ -34,11 +34,17 @@ const Swap = () => {
   const [isSwapping, setIsSwapping] = useState(false);
   const [modalType, setModalType] = useState("from"); // 'from' or 'to'
   const [historySearch, setHistorySearch] = useState("");
+  const [kycStatus, setKycStatus] = useState(null); // null = loading, 0 = not submitted, 1 = pending, 2 = verified, 3 = rejected, 4 = partial rejection
 
   // Check if user is logged in
   const isLoggedIn = useMemo(() => {
     return !!localStorage.getItem("token");
   }, []);
+
+  // Check if KYC is verified
+  const isKycVerified = useMemo(() => {
+    return kycStatus === 2 || kycStatus === "2";
+  }, [kycStatus]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -65,6 +71,32 @@ const Swap = () => {
     const num = new BigNumber(value);
     return num.isNaN() || !num.isFinite() ? new BigNumber(0) : num;
   }, []);
+
+  // Fetch KYC status
+  const fetchKycStatus = useCallback(async () => {
+    if (!isLoggedIn) return;
+    
+    try {
+      const result = await AuthService.getKycStatus();
+      if (!isMountedRef.current) return;
+      
+      if (result?.success) {
+        // Map status string to number
+        const statusMap = {
+          'draft': 0,
+          'submitted': 1,
+          'under_review': 1,
+          'approved': 2,
+          'rejected': 3,
+          'partial_reject': 4
+        };
+        const status = result?.data?.status || result?.status;
+        setKycStatus(statusMap[status] ?? 0);
+      }
+    } catch (error) {
+      console.error("Failed to fetch KYC status:", error);
+    }
+  }, [isLoggedIn]);
 
   // Fetch available currencies
   const getAvailableCurrency = useCallback(async (shouldResetSelection = true) => {
@@ -499,6 +531,7 @@ const Swap = () => {
     if (isLoggedIn) {
       getAvailableCurrency(true);
       getBuySellHistory();
+      fetchKycStatus();
     }
   }, [isLoggedIn]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -526,6 +559,10 @@ const Swap = () => {
     };
   }, [fromCurrency?.short_name, receiveCurrency?.short_name]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+ }, []);
+
   // Render login prompt for non-authenticated users
   const renderLoginPrompt = () => (
     <button className="btn" onClick={() => navigate("/login")}>
@@ -537,6 +574,18 @@ const Swap = () => {
   const renderSwapButton = () => {
     if (!isLoggedIn) {
       return renderLoginPrompt();
+    }
+
+    // KYC not verified - show verify KYC button
+    if (!isKycVerified) {
+      return (
+        <button
+          className="btn"
+          onClick={() => navigate("/user_profile/kyc")}
+        >
+          {kycStatus === 1 ? "KYC Pending Verification" : "Complete KYC to Swap"}
+        </button>
+      );
     }
 
     if (isSwapping) {

@@ -128,6 +128,10 @@ const ActivitylogPage = () => {
     return `${start}-${end} of ${activityLength}`;
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+ }, []);
+
   return (
     <div className="dashboard_right">
       <div className="dashboard_listing_section Overview_mid">

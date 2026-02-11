@@ -107,13 +107,42 @@ const TwofactorPage = (props) => {
       return false;
     }
     
+    // Detect iOS/iPadOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    // Detect Safari on iOS
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    
     // Check if platform authenticator (fingerprint/Face ID/Windows Hello) is available
     try {
       const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      
+      // On iOS Safari 16+, passkeys are supported even if this returns false sometimes
+      // This can happen if iCloud Keychain is temporarily unavailable
+      if (!available && isIOS && isSafari) {
+        // Check iOS version - passkeys require iOS 16+
+        const match = navigator.userAgent.match(/OS (\d+)_/);
+        const iosVersion = match ? parseInt(match[1], 10) : 0;
+        
+        if (iosVersion >= 16) {
+          // iOS 16+ Safari should support passkeys, enable the option
+          // The actual registration/authentication will fail gracefully if not available
+          console.log('iOS 16+ detected, enabling passkey support');
+          setPasskeySupported(true);
+          return true;
+        }
+      }
+      
       setPasskeySupported(available);
       return available;
     } catch (error) {
-      // If check fails, assume not supported
+      // If check fails on iOS Safari, still allow trying passkeys
+      if (isIOS && isSafari) {
+        console.log('Passkey check failed on iOS Safari, allowing anyway');
+        setPasskeySupported(true);
+        return true;
+      }
       setPasskeySupported(false);
       return false;
     }
@@ -1979,7 +2008,7 @@ const TwofactorPage = (props) => {
 
           <div className="two_factor_list">
             {/* Email Verification */}
-            <div className={`factor_bl ${hasEmail ? 'active' : ''}`}>
+            <div className={`factor_bl ${hasEmail ? '' : ''}`}>
               <div className="lftcnt">
                 <h6><img src="/images/email_icon2.svg" alt="Email" /> Email Verification</h6>
                 <p>Use your email address for login verification and security confirmations.</p>
@@ -2009,7 +2038,7 @@ const TwofactorPage = (props) => {
             </div>
 
             {/* Mobile Verification */}
-            <div className={`factor_bl ${hasMobile ? 'active' : ''}`}>
+            <div className={`factor_bl ${hasMobile ? '' : ''}`}>
               <div className="lftcnt">
                 <h6><img src="/images/mobile_icon.svg" alt="Mobile" /> Mobile Verification</h6>
                 <p>Receive SMS verification codes for login and security confirmations.</p>
@@ -2037,7 +2066,7 @@ const TwofactorPage = (props) => {
             </div>
 
             {/* Google Authenticator */}
-            <div className={`factor_bl ${hasGoogleAuth ? 'active' : ''}`}>
+            <div className={`factor_bl ${hasGoogleAuth ? '' : ''}`}>
               <div className="lftcnt">
                 <h6>
                   <img src="/images/lock_icon.svg" alt="Authenticator" />
@@ -2073,7 +2102,7 @@ const TwofactorPage = (props) => {
 
             {/* Passkey Authentication */}
             {passkeySupported && (
-              <div className={`factor_bl ${hasPasskey ? 'active' : ''}`}>
+              <div className={`factor_bl ${hasPasskey ? '' : ''}`}>
                 <div className="lftcnt">
                   <h6>
                     <i className="ri-fingerprint-line" style={{ fontSize: '20px', marginRight: '8px' }}></i>

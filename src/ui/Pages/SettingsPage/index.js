@@ -563,6 +563,10 @@ const SettingsPage = (props) => {
   const canSubmitPassword = !isSubmitting && validatePasswordSettings(password).isValid && password && 
                            matchPassword(password, conPassword) === undefined && passwordOtp && passwordOtp.length >= 6;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+ }, []);
+
   return (
     <>
       <div className="dashboard_right">
