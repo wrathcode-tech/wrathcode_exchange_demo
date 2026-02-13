@@ -456,6 +456,10 @@ function Earning() {
     }
   }, [selectedWallet, packageDetails?.currency_id, getWalletBalance]);
 
+  useEffect(() => {
+ window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Helmet>

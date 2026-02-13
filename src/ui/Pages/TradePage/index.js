@@ -1928,6 +1928,7 @@ const Trade = () => {
                                                                             </div>
                                                                         </div>
                                                                         <div className="form-group  mb-3" >
+                                                                            <label>Total</label>
                                                                             <div className="input-group  ">
                                                                                 <input type="text" className="form-control" value={
                                                                                     (buyOrderPrice !== '' && buyOrderPrice && buyamount) ? formatTotal(+buyOrderPrice * +buyamount) :
@@ -2017,6 +2018,7 @@ const Trade = () => {
                                                                             </div>
                                                                         </div>
                                                                         <div className="form-group  mb-3" >
+                                                                            <label>Total</label>
                                                                             <div className="input-group  ">
                                                                                 <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)" readOnly value=
                                                                                     {(sellOrderPrice !== '' && sellOrderPrice && sellAmount) ? formatTotal(+sellOrderPrice * +sellAmount) :

@@ -17,12 +17,10 @@ export default {
   },
 
   resolveSymbol: async (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
-    console.log("🚀 ~ symbolName:", symbolName)
     try {
       // Expected format: "BTCUSDT_PERP" (USDT-M Perpetual)
       const raw = symbolName.replace('/', '').trim();
       const parsed = parseFuturesSymbol(raw); // { base:'BTC', quote:'USDT', raw:'BTCUSDT', isPerp:true }
-      console.log("🚀 ~ parsed:", parsed)
 
       // Pull tickSize/stepSize from Binance Futures exchangeInfo
       const meta = await fetchExchangeInfo(parsed.raw); // { priceScale, minQty, tickSizeDecimalPlaces }

@@ -24,7 +24,7 @@ import SecuritySystem from "../ui/Pages/SecuritySystem";
 import RefrealList from "../ui/Pages/RefrealList";
 import BlogList from "../ui/Pages/Blog/BlogList";
 import MobileChart from "../ui/Pages/MobileChart";
-import BlogDetails from "../ui/Pages/Blog/BlodDetails";
+import BlogDetails from "../ui/Pages/Blog/BlogDetails";
 import SettingsPage from "../ui/Pages/SettingsPage";
 import SupportPage from "../ui/Pages/Support";
 import TwofactorPage from "../ui/Pages/TwofactorPage";
@@ -53,11 +53,8 @@ import RegistrationResult from "../ui/Pages/RegistrationResult";
 import QuickBuySellHistory from "../ui/Pages/QuickBuySellHistory";
 import InternalWalletTransHistory from "../ui/Pages/InternalWalletTransHistory";
 import EarningPlanHistory from "../ui/Pages/EarningPlanHistory";
-import CoinFutures from "../ui/Pages/FuturesAndOptions/CoinFutures";
 import UsdMFutures from "../ui/Pages/FuturesAndOptions/UsdMFutures";
-import ClassicOptions from "../ui/Pages/FuturesAndOptions/ClassicOptions";
 import BonusHistory from "../ui/Pages/Bonus History";
-import OptionHome from "../ui/Pages/FuturesAndOptions/OptionsHome";
 import AnnouncementList from "../ui/Pages/AnnouncmentManagement/AnnouncementList";
 import AnnouncementDetails from "../ui/Pages/AnnouncmentManagement/AnnouncementDetails";
 import Announcement from "../ui/Pages/AnnouncmentManagement/Announcement";
@@ -123,9 +120,7 @@ function Routing() {
         <Route exact path="/login" element={!token ? <LoginPage /> : <Navigate to="/user_profile/dashboard" replace />} />
         <Route exact path="/market" element={<Market />} />
         <Route exact path="/earning" element={<Earning />} />
-        <Route exact path="/coin_futures" element={<CoinFutures />} />
         <Route exact path="/usd_futures/:pairs" element={<UsdMFutures />} />
-        <Route exact path="/options/:contractSymbol" element={<ClassicOptions />} />
 
         <Route exact path="/meme" element={<MemePage />} />
         <Route exact path="/trade/:pairs" element={<Trade />}></Route>
@@ -154,7 +149,6 @@ function Routing() {
         <Route path="/announcement_list/:title/:announce_title_id" element={<AnnouncementList />} />
         <Route path="/announcement_details/:title/:announce_title_id" element={<AnnouncementDetails />} />
         <Route path="/*" element={<ComingSoonPage />} />
-        <Route path="/optionHome" element={<OptionHome />} />
 
         {/* P2P Routes */}
         <Route path="/p2p-dashboard" element={token ? <P2pDashboard /> : <Navigate to="/login" replace />} />

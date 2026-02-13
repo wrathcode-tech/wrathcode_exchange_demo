@@ -466,9 +466,9 @@ const SupportPage = () => {
                                                             {item?.ticketId || "N/A"}
                                                         </div>
                                                     </td>
-                                                    <td><small>{item?.category?.replace(/_/g, ' ') || "N/A"}</small></td>
+                                                    <td className="text-capitalize"><small>{item?.category?.replace(/_/g, ' ') || "N/A"}</small></td>
                                                     <td>
-                                                        <span className={`badge ${item?.priority === 'high' ? 'bg-danger' : item?.priority === 'medium' ? 'bg-warning' : 'bg-info'}`} style={{ fontSize: '10px' }}>
+                                                        <span className={`badge  bg-secondary  text-capitalize`} style={{ fontSize: '10px' }}>
                                                             {item?.priority || "N/A"}
                                                         </span>
                                                     </td>

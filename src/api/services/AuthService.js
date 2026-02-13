@@ -413,15 +413,6 @@ const AuthService = {
   },
 
 
-  getbannerdata: async () => {
-    const { baseAdmin, bannerList } = ApiConfig;
-    const url = baseAdmin + bannerList;
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    return ApiCallGet(url, headers);
-  },
-
 
   generateAddress: async (generate, chain) => {
     const token = localStorage.getItem("token");
@@ -594,16 +585,6 @@ const AuthService = {
     return ApiCallGet(url, headers);
   },
 
-  categoryList: async () => {
-    const token = localStorage.getItem('token');
-    const { baseAdmin, categoryList } = ApiConfig;
-    const url = baseAdmin + categoryList;
-    const headers = {
-      'Content-Type': 'application/json',
-      "Authorization": token,
-    };
-    return ApiCallGet(url, headers);
-  },
   getAnnouncementCategoryList: async () => {
     const token = localStorage.getItem('token');
     const { baseAuth, getAnnouncementCategoryList } = ApiConfig;
@@ -1178,16 +1159,6 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
-  getBankDetails: async () => {
-    const token = localStorage.getItem("token");
-    const { baseAdmin, adminBankDetails } = ApiConfig;
-    const url = baseAdmin + adminBankDetails;
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: token,
-    };
-    return ApiCallGet(url, headers);
-  },
 
   getUserBankDetails: async () => {
     const token = localStorage.getItem("token");
@@ -1226,8 +1197,8 @@ const AuthService = {
 
   getApk: async () => {
     const token = localStorage.getItem('token');
-    const { baseAdmin, getApk } = ApiConfig;
-    const url = baseAdmin + getApk;
+    const { baseAuth, getApk } = ApiConfig;
+    const url = baseAuth + getApk;
     const headers = { 'Content-Type': 'application/json', "Authorization": token };
     return ApiCallGet(url, headers);
   },

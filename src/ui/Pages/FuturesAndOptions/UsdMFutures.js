@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './CoinFutures.css'
+import './OptionHome.css'
 import TVFuturesChartContainer from '../../../customComponents/Libraries/FuturesChartContainer';
 import { SocketContext } from '../../../customComponents/SocketContext';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -7,20 +8,22 @@ import { ApiConfig } from '../../../api/apiConfig/apiConfig';
 import AuthService from '../../../api/services/AuthService';
 import LoaderHelper from '../../../customComponents/Loading/LoaderHelper';
 import { alertErrorMessage, alertSuccessMessage } from '../../../customComponents/CustomAlertMessage';
+import {
+    getTickSize,
+    getStepSize,
+    formatPriceByTick,
+    formatQtyByStep,
+    validateFuturesOrderInputs,
+    normalizeOrderbookOrders,
+} from './futuresUtils';
+
 function UsdMFutures() {
-    const socketId = localStorage.getItem("socketIdFuture")
-    const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
     const orderBookColor = { buy: "#1c2a2b", sell: "#301e27" };
 
-    let params = useParams()
-    const wsRef = useRef(null);
-    const reconnectIntervalRef = useRef(null);
-    const currentSubscriptionRef = useRef(null);
-    const navigate = useNavigate()
-
+    const params = useParams();
+    const navigate = useNavigate();
     const { isConnected, futuresData, subscribeToFutures, unsubscribeFromFutures } = useContext(SocketContext);
-    const binanceEndpoint = 'wss://fstream.binance.com/ws';
 
     let URL = params?.pairs?.split('_');
     const [urlPath, setUrlPath] = useState(URL ? URL : []);
@@ -63,38 +66,54 @@ function UsdMFutures() {
 
 
 
-    // Handle futures data updates from SocketContext
+    // Handle futures data updates from SocketContext (orderbook & trades from backend, like spot)
     useEffect(() => {
         if (!futuresData) return;
-        
+
         if (futuresData?.pairs) {
             setPairData(futuresData.pairs);
-            let filteredData = futuresData.pairs?.filter((item) => item?.short_name === "BTC" || item?.short_name === "ETH" || item?.short_name === "BNB")
-            setTopPairs(filteredData)
+            const filteredData = futuresData.pairs?.filter(
+                (item) => item?.short_name === "BTC" || item?.short_name === "ETH" || item?.short_name === "BNB"
+            );
+            setTopPairs(filteredData || []);
         }
+
         const positions = futuresData?.open_position || [];
         setOpenPositions(positions);
-        setClosePositions(futuresData?.close_position);
+        setClosePositions(futuresData?.close_position || []);
         setOpenOrders(futuresData?.open_orders || []);
         setOrdersHistory(futuresData?.orders_history || []);
         setTradeHistory(futuresData?.trade_history || []);
-        const totalMaint = positions.reduce(
-            (sum, pos) => sum + (pos.maintenanceMargin || 0),
-            0
-        );
-        const totalPnl = positions.reduce(
-            (sum, pos) => sum + (pos.unrealizedPnl || 0),
-            0
-        );
-        const totalIM = positions.reduce(
-            (sum, pos) => sum + (pos.isolatedMargin || 0),
-            0
-        );
+
+        // Orderbook & recent trades from backend (see docs/FUTURES_WEBSOCKET_SPEC.md)
+        if (futuresData?.buy_order !== undefined) {
+            setBuyOrders(normalizeOrderbookOrders(futuresData.buy_order || []));
+        }
+        if (futuresData?.sell_order !== undefined) {
+            setSellOrders(normalizeOrderbookOrders(futuresData.sell_order || []));
+        }
+        if (futuresData?.recent_trades !== undefined) {
+            setRecentTrade(
+                (futuresData.recent_trades || []).map((t) => ({
+                    price: parseFloat(t.price) || 0,
+                    quantity: parseFloat(t.quantity) || 0,
+                    side: t.side || "BUY",
+                    time: t.time || new Date().toLocaleTimeString("en-GB", { hour12: false }),
+                }))
+            );
+        }
+
+        const totalMaint = positions.reduce((sum, pos) => sum + (pos.maintenanceMargin || 0), 0);
+        const totalPnl = positions.reduce((sum, pos) => sum + (pos.unrealizedPnl || 0), 0);
+        const totalIM = positions.reduce((sum, pos) => sum + (pos.isolatedMargin || 0), 0);
         setTotalMaintenanceMargin(toFixedFive(totalMaint));
         setTotalUnrealizedPnl(toFixedFive(totalPnl));
         setTotalIsolatedMargin(toFixedFive(totalIM));
 
-        setBalance({ baseCurrency: toFixedFive(futuresData?.balance?.base_currency_balance) || 0, quoteCurrency: toFixedFive(futuresData?.balance?.quote_currency_balance) || 0 })
+        setBalance({
+            baseCurrency: toFixedFive(futuresData?.balance?.base_currency_balance) || 0,
+            quoteCurrency: toFixedFive(futuresData?.balance?.quote_currency_balance) || 0,
+        });
     }, [futuresData]);
 
     // Subscribe to futures data when pair changes
@@ -142,12 +161,9 @@ function UsdMFutures() {
                 options.push(val < 1 ? 1 : val); // ensure minimum 1x
             }
 
-            setLeverageOptions(options.slice(0, 6))
-            setLimitPrice(Pair?.buy_price)
+            setLeverageOptions(options.slice(0, 6));
+            setLimitPrice(Pair?.buy_price);
 
-            subscribeToFuturesPair(Pair);
-
-            // Subscribe to futures data for this pair
             subscribeToFutures(Pair?.base_currency_id, Pair?.quote_currency_id);
         } else if (Object.keys(selectedCoin)?.length > 0 && pairData?.length > 0) {
             let selectedItem = pairData?.filter?.((item) => {
@@ -166,167 +182,12 @@ function UsdMFutures() {
         }
     }, [pairData]);
 
-
-    const connectFuturesWebSocket = () => {
-        if (!selectedCoin) return;
-
-        const endpoint = `wss://fstream.binance.com/stream`;
-        const ws = new WebSocket(endpoint);
-        wsRef.current = ws;
-
-        let bufferBids = [];
-        let bufferAsks = [];
-        let initializedTrades = false; // flag per pair session
-
-        ws.onopen = () => {
-            subscribeToFuturesPair(selectedCoin);
-        };
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            const message = data?.data;
-
-            if (message?.a && message?.b) {
-                const transform = (arr) =>
-                    arr.map(([p, q], i) => ({
-                        price: parseFloat(p),
-                        size: parseFloat(q),
-                        sum: arr.slice(0, i + 1).reduce((acc, [_, qty]) => acc + parseFloat(qty), 0),
-                    }));
-
-                bufferBids = transform(message.b.slice(0, 30));
-                bufferAsks = transform(message.a.slice(0, 30));
-
-                // 🔥 Only prefill once per pair
-                if (!initializedTrades && bufferBids.length && bufferAsks.length) {
-                    const trades = Array.from({ length: 20 }, () =>
-                        generateFakeTrade(bufferBids, bufferAsks)
-                    );
-                    setRecentTrade(trades); // dump 20 trades instantly
-                    initializedTrades = true;
-                }
-            }
-        };
-
-        const orderbookInterval = setInterval(() => {
-            if (bufferBids.length) setBuyOrders(bufferBids);
-            if (bufferAsks.length) setSellOrders(bufferAsks?.reverse());
-        }, 1500);
-
-        const fakeTradeInterval = setInterval(() => {
-            if (!initializedTrades) return;
-            if (!bufferBids.length || !bufferAsks.length) return;
-
-            const newTrade = generateFakeTrade(bufferBids, bufferAsks);
-            setRecentTrade((prev) => {
-                const next = [newTrade, ...prev];
-                if (next.length > 20) next.pop(); // keep max 20
-                return next;
-            });
-        }, 1500);
-
-        ws.onerror = (e) => console.warn("❌ Futures WebSocket error:", e);
-
-        ws.onclose = () => {
-            console.warn("🔌 WebSocket closed. Reconnecting...");
-            clearInterval(orderbookInterval);
-            clearInterval(fakeTradeInterval);
-            reconnectIntervalRef.current = setTimeout(connectFuturesWebSocket, 3000);
-        };
-    };
-
     const handleSelectCoin = (data) => {
-
         navigate(`/usd_futures/${data?.short_name}_${data?.margin_asset}`);
-        setSelectedCoin(data)
-        setLimitPrice(data?.buy_price)
-        subscribeToFuturesPair(data);
-        // Subscribe to futures data for the new pair
+        setSelectedCoin(data);
+        setLimitPrice(data?.buy_price);
         subscribeToFutures(data?.base_currency_id, data?.quote_currency_id);
     };
-
-    // 🔧 Helper function for generating fake trades
-    function generateFakeTrade(bids, asks) {
-        const isBuy = Math.random() > 0.5;
-        const orders = isBuy ? bids : asks;
-        const selected = orders[Math.floor(Math.random() * orders.length)];
-        if (!selected) return null;
-
-        const qty = Math.max(Math.random() * selected.size, 0.001);
-
-        return {
-            id: Date.now() + Math.random(),
-            side: isBuy ? "BUY" : "SELL",
-            price: selected.price,
-            quantity: parseFloat(qty.toFixed(3)),
-            time: new Date().toLocaleTimeString("en-GB", { hour12: false }),
-        };
-    }
-
-    // Subscribe to a Futures Pair
-    const subscribeToFuturesPair = (pair) => {
-        setSellOrders([]);
-        setBuyOrders([]);
-        setRecentTrade([]);
-
-        if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-            wsRef.current.onopen = () => subscribeToFuturesPair(pair);
-            return;
-        }
-
-        // 🔴 Unsubscribe old subscription if exists
-        if (currentSubscriptionRef.current?.length) {
-            const unsubscribeMsg = {
-                method: "UNSUBSCRIBE",
-                params: currentSubscriptionRef.current,
-                id: Date.now(),
-            };
-            wsRef.current.send(JSON.stringify(unsubscribeMsg));
-            currentSubscriptionRef.current = [];
-        }
-
-        if (!pair) return; // ⚡ do not subscribe if no coin selected
-
-        const data = `${pair?.short_name?.toLowerCase()}${pair?.margin_asset?.toLowerCase()}`;
-        const depthStream = `${data}@depth20@100ms`;
-        const tradeStream = `${data}@trade`;
-
-        // ✅ Subscribe new
-        const subscribeMsg = {
-            method: "SUBSCRIBE",
-            params: [depthStream, tradeStream],
-            id: Date.now(),
-        };
-        wsRef.current.send(JSON.stringify(subscribeMsg));
-
-        currentSubscriptionRef.current = [depthStream, tradeStream];
-    };
-
-    useEffect(() => {
-        connectFuturesWebSocket();
-
-        const handleVisibilityChange = () => {
-            if (document.visibilityState === "visible") {
-                if (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED) {
-                    connectFuturesWebSocket();
-                }
-            }
-        };
-
-        document.addEventListener("visibilitychange", handleVisibilityChange);
-
-        return () => {
-            document.removeEventListener("visibilitychange", handleVisibilityChange);
-            if (wsRef.current) {
-                try {
-                    wsRef.current.close();
-                } catch (e) {
-                    console.warn("Failed to close WebSocket on unmount");
-                }
-            }
-            clearTimeout(reconnectIntervalRef.current);
-        };
-    }, [binanceEndpoint]);
 
     const estimatedPortfolio = async () => {
         try {
@@ -361,37 +222,27 @@ function UsdMFutures() {
     };
 
     const qunaityPrecision = (data) => {
-        if (typeof (data) === "number") {
-            return parseFloat(data?.toFixed(selectedCoin?.quantity_precision));
-        } else {
-            return data;
+        if (typeof data === "number") {
+            return formatQtyByStep(data, selectedCoin);
         }
+        return data;
     };
 
     const pricePrecision = (data) => {
-        if (typeof (data) === "number") {
-            return parseFloat(data?.toFixed(selectedCoin?.price_precision));
-        } else {
-            return data;
+        if (typeof data === "number") {
+            return formatPriceByTick(data, selectedCoin);
         }
+        return data;
     };
 
-    const orderTabs = document.getElementById('orderTabs');
-    if (orderTabs) {
-        orderTabs.addEventListener('shown.bs.tab', function (e) {
-            // remove active from dropdown toggle always
-            orderTabs.querySelectorAll('.dropdown-toggle').forEach(el => el.classList.remove('active'));
-
-            // if the newly activated tab is inside dropdown -> mark parent active
-            if (e.target.closest('.dropdown-menu')) {
-                e.target.closest('.dropdown').querySelector('.dropdown-toggle').classList.add('active');
-            }
-        });
-    }
-
-
-    const maxBuyVolume = Math.max(...BuyOrders.map(order => order.sum), 1);
-    const maxSellVolume = Math.max(...SellOrders.map(order => order.sum), 1);
+    const maxBuyVolume = Math.max(
+        ...BuyOrders.map((o) => o.remaining ?? o.size ?? o.sum ?? 0),
+        1
+    );
+    const maxSellVolume = Math.max(
+        ...SellOrders.map((o) => o.remaining ?? o.size ?? o.sum ?? 0),
+        1
+    );
 
 
 
@@ -575,6 +426,17 @@ function UsdMFutures() {
                 return alertErrorMessage("Please enter a valid quantity.");
             }
 
+            // Tick/step size validation (like spot Trade page)
+            const validation = validateFuturesOrderInputs({
+                price: orderType === "Limit" ? limitPrice : selectedCoin?.buy_price,
+                quantity,
+                pair: selectedCoin,
+                orderType,
+            });
+            if (!validation.valid) {
+                return alertErrorMessage(validation.message);
+            }
+
             // Cost check
             if (balance?.quoteCurrency < futuresRisk?.cost) {
                 return alertErrorMessage("Insufficient balance for this order.");
@@ -586,12 +448,10 @@ function UsdMFutures() {
                 return alertErrorMessage("Invalid order type. Must be LIMIT or MARKET.");
             }
 
-
             // ====== Prepare data with precision ======
             const finalPrice = finalOrderType === "LIMIT"
                 ? pricePrecision(limitPrice)
                 : pricePrecision(selectedCoin?.buy_price);
-            console.log("🚀 ~ placeFutureOrder ~ finalPrice:", finalPrice)
 
             if (!finalPrice || finalPrice <= 0) {
                 return alertErrorMessage("Please enter a valid limit price.");
@@ -648,7 +508,7 @@ function UsdMFutures() {
             const feePer = 0.0004; // Fee%
             const price = pair.buy_price * fractionPer;
 
-            const finalQuantity = qunaityPrecision(quantityToReverse);
+            const finalQuantity = formatQtyByStep(quantityToReverse, pair);
 
             // ====== Cost check ======
             const estimatedCost = (price * finalQuantity) / leverage;
@@ -1050,11 +910,12 @@ function UsdMFutures() {
                                                                         </thead>
                                                                         <tbody>
                                                                             {SellOrders?.length > 0 ? (
-                                                                                SellOrders.map((item) => {
-                                                                                    const fillPercentage = (item.size / maxSellVolume) * 100;
+                                                                                SellOrders.map((item, idx) => {
+                                                                                    const vol = item.remaining ?? item.size ?? 0;
+                                                                                    const fillPercentage = maxSellVolume ? (vol / maxSellVolume) * 100 : 0;
                                                                                     return (
                                                                                         <tr
-                                                                                            key={item?._id}
+                                                                                            key={item?._id || `sell-${idx}`}
                                                                                             style={{
                                                                                                 background: `linear-gradient(to left, ${orderBookColor?.sell} ${fillPercentage}%, transparent ${fillPercentage}%)`,
                                                                                             }}
@@ -1065,13 +926,13 @@ function UsdMFutures() {
                                                                                             }}
                                                                                         >
                                                                                             <td className="danger">{pricePrecision(item?.price)}</td>
-                                                                                            <td>{qunaityPrecision(item?.size)}</td>
-                                                                                            <td>{toFixedFive(item?.sum)}</td>
+                                                                                            <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                                            <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
                                                                                         </tr>
                                                                                     );
                                                                                 })
                                                                             ) : (
-                                                                                <tr colSpan="12">
+                                                                                <tr>
                                                                                     <td colSpan="12">
                                                                                         <div className="favouriteData lodericon d-flex justify-content-center align-items-center">
                                                                                             <div className="spinner-border" role="status"></div>
@@ -1124,11 +985,12 @@ function UsdMFutures() {
                                                                     <tbody>
 
                                                                         {BuyOrders?.length > 0 ? (
-                                                                            BuyOrders.map((item) => {
-                                                                                const fillPercentage = (item.size / maxBuyVolume) * 100;
+                                                                            BuyOrders.map((item, idx) => {
+                                                                                const vol = item.remaining ?? item.size ?? 0;
+                                                                                const fillPercentage = maxBuyVolume ? (vol / maxBuyVolume) * 100 : 0;
                                                                                 return (
                                                                                     <tr
-                                                                                        key={item?._id}
+                                                                                        key={item?._id || `buy-${idx}`}
                                                                                         style={{
                                                                                             background: `linear-gradient(to left, ${orderBookColor?.buy} ${fillPercentage}%, transparent ${fillPercentage}%)`,
                                                                                         }}
@@ -1139,8 +1001,8 @@ function UsdMFutures() {
                                                                                         }}
                                                                                     >
                                                                                         <td className="sucess">{pricePrecision(item?.price)}</td>
-                                                                                        <td>{qunaityPrecision(item?.size)}</td>
-                                                                                        <td>{toFixedFive(item?.sum)}</td>
+                                                                                        <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                                        <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
                                                                                     </tr>
                                                                                 );
                                                                             })
@@ -1181,11 +1043,12 @@ function UsdMFutures() {
                                                                     </thead>
                                                                     <tbody>
                                                                         {BuyOrders?.length > 0 ? (
-                                                                            BuyOrders.map((item) => {
-                                                                                const fillPercentage = (item.size / maxBuyVolume) * 100;
+                                                                            BuyOrders.map((item, idx) => {
+                                                                                const vol = item.remaining ?? item.size ?? 0;
+                                                                                const fillPercentage = maxBuyVolume ? (vol / maxBuyVolume) * 100 : 0;
                                                                                 return (
                                                                                     <tr
-                                                                                        key={item?._id}
+                                                                                        key={item?._id || `buy-${idx}`}
                                                                                         style={{
                                                                                             background: `linear-gradient(to left, ${orderBookColor?.buy} ${fillPercentage}%, transparent ${fillPercentage}%)`,
                                                                                         }}
@@ -1196,8 +1059,8 @@ function UsdMFutures() {
                                                                                         }}
                                                                                     >
                                                                                         <td className="sucess">{pricePrecision(item?.price)}</td>
-                                                                                        <td>{qunaityPrecision(item?.size)}</td>
-                                                                                        <td>{toFixedFive(item?.sum)}</td>
+                                                                                        <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                                        <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
                                                                                     </tr>
                                                                                 );
                                                                             })
@@ -1239,11 +1102,12 @@ function UsdMFutures() {
                                                                         </thead>
                                                                         <tbody>
                                                                             {SellOrders?.length > 0 ? (
-                                                                                SellOrders.map((item) => {
-                                                                                    const fillPercentage = (item.size / maxSellVolume) * 100;
+                                                                                SellOrders.map((item, idx) => {
+                                                                                    const vol = item.remaining ?? item.size ?? 0;
+                                                                                    const fillPercentage = maxSellVolume ? (vol / maxSellVolume) * 100 : 0;
                                                                                     return (
                                                                                         <tr
-                                                                                            key={item?._id}
+                                                                                            key={item?._id || `sell-${idx}`}
                                                                                             style={{
                                                                                                 background: `linear-gradient(to left, ${orderBookColor?.sell} ${fillPercentage}%, transparent ${fillPercentage}%)`,
                                                                                             }}
@@ -1254,8 +1118,8 @@ function UsdMFutures() {
                                                                                             }}
                                                                                         >
                                                                                             <td className="danger">{pricePrecision(item?.price)}</td>
-                                                                                            <td>{qunaityPrecision(item?.size)}</td>
-                                                                                            <td>{toFixedFive(item?.sum)}</td>
+                                                                                            <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                                            <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
                                                                                         </tr>
                                                                                     );
                                                                                 })
@@ -1550,7 +1414,7 @@ function UsdMFutures() {
                                     <div className="price_inputbl">
                                         <label>Price</label>
                                         <div className="price_select_option">
-                                            <input className="inputtype" type="number" placeholder="Price" value={limitPrice} onWheel={(e) => e.target.blur()} onChange={(e) => { setLimitPrice(pricePrecision(+e.target.value)); setPercentage(0) }} />
+                                            <input className="inputtype" type="number" placeholder="Price" value={limitPrice} onWheel={(e) => e.target.blur()} step={getTickSize(selectedCoin)} min={getTickSize(selectedCoin)} onChange={(e) => { setLimitPrice(pricePrecision(+e.target.value)); setPercentage(0) }} />
                                             <select>
                                                 <option>{selectedCoin?.margin_asset}</option>
                                                 {/* <option>BTC</option> */}
@@ -1562,7 +1426,7 @@ function UsdMFutures() {
 
                                         </span></label>
                                         <div className="price_select_option">
-                                            <input className="inputtype" type="number" placeholder="Size" value={quantity} onWheel={(e) => e.target.blur()} onChange={(e) => { setQuantity(qunaityPrecision(+e.target.value)); setPercentage(0) }} />
+                                            <input className="inputtype" type="number" placeholder="Size" value={quantity} onWheel={(e) => e.target.blur()} step={getStepSize(selectedCoin)} min={getStepSize(selectedCoin)} onChange={(e) => { setQuantity(qunaityPrecision(+e.target.value)); setPercentage(0) }} />
                                             <select>
                                                 <option>{selectedCoin?.short_name}</option>
                                                 {/* <option>BTC</option> */}
@@ -1753,7 +1617,7 @@ function UsdMFutures() {
                                         <label>Amount <span className="btctoggle">({selectedCoin?.short_name}) <img
                                             src="/images/futures_img/arrowright_dotted.svg" /></span></label>
                                         <div className="price_select_option">
-                                            <input className="inputtype" type="number" placeholder="Size" value={quantity} onWheel={(e) => e.target.blur()} onChange={(e) => { setQuantity(e.target.value); setPercentage(0) }} />                                                <select>
+                                            <input className="inputtype" type="number" placeholder="Size" value={quantity} onWheel={(e) => e.target.blur()} step={getStepSize(selectedCoin)} min={getStepSize(selectedCoin)} onChange={(e) => { setQuantity(qunaityPrecision(+e.target.value)); setPercentage(0) }} />                                                <select>
                                                 <option>{selectedCoin?.short_name}</option>
                                                 {/* <option>USDT</option> */}
                                             </select>

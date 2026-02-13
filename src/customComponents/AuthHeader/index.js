@@ -234,11 +234,7 @@ const AuthHeader = () => {
                                 USDⓈ-M Futures
                               </Link>
                             </li>
-                            <li>
-                              <Link className="dropdown-item" to="/options/contract" onClick={closeNavbar}>
-                                Classic Options
-                              </Link>
-                            </li>
+                          
                           </ul>
                         </li>
 

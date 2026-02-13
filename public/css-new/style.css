@@ -17378,6 +17378,10 @@ button.p2p-submit-button {
         font-size: 26px;
     }
 
+
+.referral_list_top{
+    display: none;
+}
     .order_history_mobile_view {
         display: block;
     }
@@ -23189,6 +23193,9 @@ button.p2p-submit-button {
         padding: 10px 15px 5px 15px;
         font-size: 13px;
         border-bottom: 1px solid #444c5b;
+    }
+    #toggleBtn{
+        align-items: center;
     }
 
     .dashboard_summary th,

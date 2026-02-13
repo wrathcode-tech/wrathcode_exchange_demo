@@ -25,6 +25,7 @@ const LoginPage = () => {
   const [selectedAuthMethod, setSelectedAuthMethod] = useState(1); // 1=email, 2=google, 3=mobile, 4=passkey
   const [availableMethods, setAvailableMethods] = useState([]);
   const [resendTimer, setResendTimer] = useState(0);
+  console.log("🚀 ~ LoginPage ~ resendTimer:", resendTimer)
   const [loginSignId, setLoginSignId] = useState(""); // Store the signId used for login
   const [otpDigits, setOtpDigits] = useState(['', '', '', '', '', '']);
   const [passkeySupported, setPasskeySupported] = useState(false);
@@ -39,7 +40,7 @@ const LoginPage = () => {
   // Add loginbg class on mount
   useEffect(() => {
     $("body").addClass("loginbg");
-    
+
     // Check if WebAuthn/Passkey is supported AND platform authenticator is available
     const checkPasskeySupport = async () => {
       // First check if WebAuthn API exists
@@ -47,25 +48,25 @@ const LoginPage = () => {
         setPasskeySupported(false);
         return;
       }
-      
+
       // Detect iOS/iPadOS
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
       // Detect Safari on iOS
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-      
+
       // Check if platform authenticator (fingerprint/Face ID/Windows Hello) is available
       try {
         const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-        
+
         // On iOS Safari 16+, passkeys are supported even if this returns false sometimes
         // This can happen if iCloud Keychain is temporarily unavailable
         if (!available && isIOS && isSafari) {
           // Check iOS version - passkeys require iOS 16+
           const match = navigator.userAgent.match(/OS (\d+)_/);
           const iosVersion = match ? parseInt(match[1], 10) : 0;
-          
+
           if (iosVersion >= 16) {
             // iOS 16+ Safari should support passkeys, enable the option
             console.log('iOS 16+ detected, enabling passkey support');
@@ -73,7 +74,7 @@ const LoginPage = () => {
             return;
           }
         }
-        
+
         setPasskeySupported(available);
       } catch (error) {
         // If check fails on iOS Safari, still allow trying passkeys
@@ -85,9 +86,9 @@ const LoginPage = () => {
         setPasskeySupported(false);
       }
     };
-    
+
     checkPasskeySupport();
-    
+
     return () => {
       $("body").removeClass("loginbg");
     };
@@ -112,21 +113,21 @@ const LoginPage = () => {
   // Priority: Passkey (4) > Google Auth (2) > Email (1) > Mobile (3)
   const determineAvailableMethods = (responseData) => {
     let methods = [];
-    
+
     if (responseData?.availableMethods && responseData.availableMethods.length > 0) {
       methods = responseData.availableMethods.map(m => ({
         ...m,
-        icon: m.type === 1 ? 'ri-mail-line' : 
-              m.type === 2 ? 'ri-shield-keyhole-line' : 
-              m.type === 3 ? 'ri-smartphone-line' :
+        icon: m.type === 1 ? 'ri-mail-line' :
+          m.type === 2 ? 'ri-shield-keyhole-line' :
+            m.type === 3 ? 'ri-smartphone-line' :
               'ri-fingerprint-line',
         description: m.type === 1 ? 'Receive verification codes via email' :
-                     m.type === 2 ? 'Use Google Authenticator app' :
-                     m.type === 3 ? 'Receive verification codes via SMS' :
-                     'Use Face ID, Touch ID, or Windows Hello'
+          m.type === 2 ? 'Use Google Authenticator app' :
+            m.type === 3 ? 'Receive verification codes via SMS' :
+              'Use Face ID, Touch ID, or Windows Hello'
       }));
     }
-    
+
     // Check if user has passkey and browser supports it
     if (responseData?.hasPasskey && passkeySupported) {
       // Add passkey as first option (type 4)
@@ -141,7 +142,7 @@ const LoginPage = () => {
       // Insert passkey at the beginning
       methods = [passkeyMethod, ...methods.filter(m => m.type !== 4)];
     }
-    
+
     return methods;
   };
 
@@ -158,7 +159,7 @@ const LoginPage = () => {
       // Determine sendTo based on verification method
       // method 1 = email, method 3 = mobile
       const sendTo = method === 3 ? 'mobile' : 'email';
-      
+
       // Get the correct identifier based on selected method
       let otpSignId = loginSignId;
       if (method === 3) {
@@ -226,20 +227,20 @@ const LoginPage = () => {
 
       // Step 3: Verify credential with server
       const verifyResult = await AuthService.passkeyVerifyAuth(loginSignId, credential);
-      
+
       if (verifyResult?.success) {
         // Complete login - get token from backend
         const loginResult = await AuthService.completePasskeyLogin(loginSignId, verifyResult.data);
-        
+
         if (loginResult?.success && loginResult?.data?.token) {
           alertSuccessMessage('Login successful!');
           localStorage.setItem("token", loginResult.data.token);
           localStorage.setItem("userId", loginResult.data.userId);
           setLoginDetails(loginResult.data);
-          
+
           // Close modal
           $("#Confirmation_model").modal('hide');
-          
+
           const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
           navigate(redirectPath, { replace: true });
           // window.location.reload();
@@ -288,7 +289,7 @@ const LoginPage = () => {
 
       // Step 3: Verify credential with server
       const verifyResult = await AuthService.passkeyVerifyAuth(signIdForPasskey, credential);
-      
+
       if (verifyResult?.success) {
         return { success: true, verifyData: verifyResult.data };
       } else {
@@ -308,9 +309,13 @@ const LoginPage = () => {
       if (result?.success) {
         const responseData = result?.data;
 
+        console.log("🚀 ~ handleLogin ~ responseData:", responseData)
         if (responseData?.requiresVerification) {
           setLoginSignId(inputSignId);
-
+          if (responseData?.defaultMethod === 1 || responseData?.defaultMethod === 3) {
+            setResendTimer(60);
+            alertSuccessMessage(result?.message);
+          }
           const methods = determineAvailableMethods(responseData);
           setAvailableMethods(methods);
 
@@ -323,13 +328,13 @@ const LoginPage = () => {
             if (passkeyResult.success) {
               // Passkey verification succeeded - complete login directly
               const loginResult = await AuthService.completePasskeyLogin(inputSignId, passkeyResult.verifyData);
-              
+
               if (loginResult?.success && loginResult?.data?.token) {
                 alertSuccessMessage('Login successful!');
                 localStorage.setItem("token", loginResult.data.token);
                 localStorage.setItem("userId", loginResult.data.userId);
                 setLoginDetails(loginResult.data);
-                
+
                 const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
                 navigate(redirectPath, { replace: true });
                 return; // Exit early - login complete
@@ -340,21 +345,20 @@ const LoginPage = () => {
 
           // Priority: Passkey (4) > Google Auth (2) > Email (1) > Mobile (3)
           let defaultMethod = responseData?.defaultMethod || 1;
-          
+
           // If passkey is available and supported, use it as default (in case user wants to retry)
           if (responseData?.hasPasskey && passkeySupported) {
             defaultMethod = 4;
           } else if (methods.find(m => m.type === 4)) {
             defaultMethod = 4;
           }
-          
+
           setSelectedAuthMethod(defaultMethod);
 
           // Reset OTP digits
           setOtpDigits(['', '', '', '', '', '']);
           // Reset timer to 0 - user will click "GET OTP" button to send OTP
           // This prevents confusion where timer shows 60 but no OTP was sent
-          setResendTimer(0);
 
           // Show verification modal
           $("#Confirmation_model").modal('show');
@@ -433,7 +437,7 @@ const LoginPage = () => {
       // For email verification (type 1), use the email
       // For Google Auth (type 2), the loginSignId (email/phone used for login) works
       let verifySignId = loginSignId;
-      
+
       if (selectedAuthMethod === 3) {
         // Find mobile method and get its actual value (not masked)
         const mobileMethod = availableMethods.find(m => m.type === 3);
@@ -447,7 +451,7 @@ const LoginPage = () => {
           verifySignId = emailMethod.value;
         }
       }
-      
+
       const result = await AuthService.getCode(verifySignId, selectedAuthMethod, otpCode);
 
       if (result?.success) {
@@ -539,7 +543,7 @@ const LoginPage = () => {
         if (responseData?.requiresVerification) {
           const googleLoginSignId = responseData?.signId || "";
           setLoginSignId(googleLoginSignId);
-          
+
           const methods = determineAvailableMethods(responseData);
           setAvailableMethods(methods);
 
@@ -552,13 +556,13 @@ const LoginPage = () => {
             if (passkeyResult.success) {
               // Passkey verification succeeded - complete login directly
               const loginResult = await AuthService.completePasskeyLogin(googleLoginSignId, passkeyResult.verifyData);
-              
+
               if (loginResult?.success && loginResult?.data?.token) {
                 alertSuccessMessage('Login successful!');
                 localStorage.setItem("token", loginResult.data.token);
                 localStorage.setItem("userId", loginResult.data.userId);
                 setLoginDetails(loginResult.data);
-                
+
                 const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
                 navigate(redirectPath, { replace: true });
                 return; // Exit early - login complete
@@ -569,14 +573,14 @@ const LoginPage = () => {
 
           // Priority: Passkey (4) > Google Auth (2) > Email (1) > Mobile (3)
           let defaultMethod = responseData?.defaultMethod || 1;
-          
+
           // If passkey is available and supported, use it as default (in case user wants to retry)
           if (responseData?.hasPasskey && passkeySupported) {
             defaultMethod = 4;
           } else if (methods.find(m => m.type === 4)) {
             defaultMethod = 4;
           }
-          
+
           setSelectedAuthMethod(defaultMethod);
           setOtpDigits(['', '', '', '', '', '']);
           // Reset timer to 0 - user will click "GET OTP" button to send OTP
@@ -760,7 +764,7 @@ const LoginPage = () => {
                         </div>
                       </div>
 
-                  
+
 
                       <div className="col-sm-12 login_btn">
                         <input
@@ -778,20 +782,20 @@ const LoginPage = () => {
                           <img src="/images/google_icon.svg" alt="google" />Sign in with Google
                         </button>
                         {passkeySupported && (
-                        <div className="col-sm-12" style={{ marginTop: '10px' }}>
-                          <button 
-                            className="google_btn" 
-                            type="button" 
-                            onClick={handlePasskeyLogin}
-                            disabled={isPasskeyLoading}
-                          >
-                            <i className="ri-fingerprint-line" style={{ fontSize: '20px', marginRight: '8px' }}></i>
-                            {isPasskeyLoading ? 'Authenticating...' : 'Sign in with Passkey'}
-                          </button>
-                        </div>
-                      )}
+                          <div className="col-sm-12" style={{ marginTop: '10px' }}>
+                            <button
+                              className="google_btn"
+                              type="button"
+                              onClick={handlePasskeyLogin}
+                              disabled={isPasskeyLoading}
+                            >
+                              <i className="ri-fingerprint-line" style={{ fontSize: '20px', marginRight: '8px' }}></i>
+                              {isPasskeyLoading ? 'Authenticating...' : 'Sign in with Passkey'}
+                            </button>
+                          </div>
+                        )}
                       </div>
-                    
+
                       <div className="col-sm-12 registration__info bottom agreetext">
                         <p>Do you have an account? <Link to="/signup">Register</Link></p>
                       </div>
@@ -851,7 +855,7 @@ const LoginPage = () => {
                           </div>
                         </div>
                       </div>
-                      
+
 
                       <div className="col-sm-12 login_btn">
                         <input type="button" value="Login" onClick={handlePhoneLogin} />
@@ -866,9 +870,9 @@ const LoginPage = () => {
                       </div>
                       {passkeySupported && (
                         <div className="col-sm-12" style={{ marginTop: '10px' }}>
-                          <button 
-                            className="google_btn" 
-                            type="button" 
+                          <button
+                            className="google_btn"
+                            type="button"
                             onClick={handlePasskeyLogin}
                             disabled={isPasskeyLoading}
                           >
@@ -902,16 +906,33 @@ const LoginPage = () => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
+              {selectedAuthMethod !== 4 && (
+                <div className="verify_authenticator_s remove_authenticator_s">
+                  <div style={{
+                    width: '70px',
+                    height: '70px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgb(55 62 75) 0%, rgb(117, 117, 117) 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 20px'
+                  }}>
+                    <i className="ri-shield-keyhole-line" style={{ fontSize: '35px', color: '#fff' }}></i>
+                  </div>
+
+                </div>)
+              }
               <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
 
                 {/* Passkey Authentication UI */}
                 {selectedAuthMethod === 4 ? (
                   <>
-                    <div className="" style={{ textAlign: 'center',}}>
-                      <div style={{ 
-                        width: '80px', 
-                        height: '80px', 
-                        borderRadius: '50%', 
+                    <div className="" style={{ textAlign: 'center', }}>
+                      <div style={{
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: '50%',
                         background: 'linear-gradient(135deg, #00c853 0%, #00a844 100%)',
                         display: 'flex',
                         alignItems: 'center',

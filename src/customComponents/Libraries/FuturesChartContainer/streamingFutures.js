@@ -1,42 +1,120 @@
-import { ApiConfig } from "../../../api/apiConfig/apiConfig";
-import { makeApiRequest2 } from "../TVChartContainer/helpers";
 import { parseFuturesSymbol } from "./helpersFutures";
-const { io } = require("socket.io-client");
 
 const channelToSubscription = new Map();
 
-let socket;
-let isSocketInitialized = false;
-let pendingSubscription = null;
+let socket = null;
+let futuresUpdateHandler = null;
+let listenerAttached = false;
 
-const initializeSocket = () => {
-  if (!socket || !isSocketInitialized) {
-    socket = io(ApiConfig?.webSocketUrl, {
-      transports: ['websocket'],
-      upgrade: false,
-      rejectUnauthorized: false,
-      reconnection: true,
-      reconnectionAttempts: 5,
-      reconnectionDelay: 2000,
-    });
-
-    isSocketInitialized = true;
-
-    socket.on('connect', () => {
-      console.log("✅ Futures chart socket connected");
-      if (pendingSubscription) {
-        socket.emit('futures:subscribe', pendingSubscription);
-        console.log("🔁 Re-subscribed to futures after reconnect");
-      }
-    });
-
-    socket.on('disconnect', (reason) => {
-      console.warn("⚠️ Socket disconnected:", reason);
-    });
+/**
+ * Set the shared socket from SocketContext.
+ * UsdMFutures already subscribes to futures - chart just listens to futures:update.
+ */
+export function setSharedSocket(socketInstance) {
+  if (socketInstance && socket !== socketInstance) {
+    if (socket && futuresUpdateHandler) {
+      socket.off('futures:update', futuresUpdateHandler);
+      listenerAttached = false;
+    }
+    socket = socketInstance;
+    if (channelToSubscription.size > 0) {
+      ensureFuturesUpdateListener();
+    }
   }
-};
+}
 
-let interval;
+function ensureFuturesUpdateListener() {
+  if (!socket || listenerAttached || futuresUpdateHandler) return;
+  if (channelToSubscription.size === 0) return;
+
+  futuresUpdateHandler = (data) => {
+    try {
+      const pairs = data?.pairs;
+      if (!pairs?.length) return;
+
+      const tickerData = data?.ticker;
+
+      for (const [channelString, subscriptionItem] of channelToSubscription) {
+        const parsed = parseFuturesSymbol(channelString);
+        if (!parsed?.base || !parsed?.quote) continue;
+
+        const currPair = pairs.find(
+          (p) =>
+            (String(p?.short_name).toUpperCase() === parsed.base &&
+              String(p?.margin_asset).toUpperCase() === parsed.quote) ||
+            (String(p?.base).toUpperCase() === parsed.base &&
+              String(p?.quote).toUpperCase() === parsed.quote)
+        );
+        const tradePrice =
+          currPair?.buy_price ??
+          currPair?.sell_price ??
+          tickerData?.buy_price ??
+          tickerData?.sell_price;
+        if (currPair == null || tradePrice == null) continue;
+
+        const changeMiliSecond = currPair?.available === "LOCAL" ? 1000 : 1;
+        const tradeTime =
+          currPair?.available === "LOCAL"
+            ? tickerData?.time
+            : currPair?.time ?? currPair?.updatedAt ?? Date.now();
+        const volume = tickerData?.volume ?? currPair?.volume ?? 0;
+
+        if (!subscriptionItem.lastDailyBar) {
+          const barTime =
+            typeof tradeTime === "number" ? tradeTime * changeMiliSecond : Date.now();
+          subscriptionItem.lastDailyBar = {
+            time: barTime,
+            open: tradePrice,
+            high: tradePrice,
+            low: tradePrice,
+            close: tradePrice,
+            volume: volume ?? 0,
+          };
+          subscriptionItem.handlers?.forEach((h) => h.callback(subscriptionItem.lastDailyBar));
+          continue;
+        }
+
+        const timeMs =
+          typeof tradeTime === "number" ? tradeTime * changeMiliSecond : Date.now();
+        const lastBarTime = getStartOfMinute(subscriptionItem.lastDailyBar.time);
+        const currentTradeMinute = getStartOfMinute(timeMs);
+
+        let bar;
+        if (currentTradeMinute > lastBarTime) {
+          bar = {
+            time: timeMs,
+            open: subscriptionItem.lastDailyBar.close,
+            high: tradePrice,
+            low: tradePrice,
+            close: tradePrice,
+            volume: volume ?? subscriptionItem.lastDailyBar.volume ?? 0,
+          };
+        } else {
+          bar = {
+            ...subscriptionItem.lastDailyBar,
+            high: Math.max(
+              subscriptionItem.lastDailyBar?.high ?? 0,
+              tradePrice
+            ),
+            low: Math.min(
+              subscriptionItem.lastDailyBar?.low ?? Infinity,
+              tradePrice
+            ),
+            close: tradePrice,
+            volume: volume ?? subscriptionItem.lastDailyBar?.volume ?? 0,
+          };
+        }
+        subscriptionItem.lastDailyBar = bar;
+        subscriptionItem.handlers?.forEach((h) => h.callback(bar));
+      }
+    } catch (err) {
+      // Prevent chart crashes
+    }
+  };
+
+  socket.on("futures:update", futuresUpdateHandler);
+  listenerAttached = true;
+}
 
 export async function subscribeFuturesOnStream(
   symbolInfo,
@@ -46,27 +124,16 @@ export async function subscribeFuturesOnStream(
   onResetCacheNeededCallback,
   lastDailyBar
 ) {
-  console.log("🚀 ~ subscribeFuturesOnStream ~ symbolInfo:", symbolInfo)
-  if (interval) {
-    clearInterval(interval);
-    interval = null;
-  }
-
-  initializeSocket(); // Initialize or reuse socket
-
   const channelString = symbolInfo.name;
   const handler = {
     id: subscriberUID,
     callback: onRealtimeCallback,
   };
 
-  const parsedSymbol = parseFuturesSymbol(symbolInfo?.name);
-  const ApiData = await makeApiRequest2(parsedSymbol?.base, parsedSymbol?.quote);
-  let CoinID = ApiData?.currency_ids;
-
   let subscriptionItem = channelToSubscription.get(channelString);
   if (subscriptionItem) {
     subscriptionItem.handlers.push(handler);
+    ensureFuturesUpdateListener();
     return;
   }
 
@@ -78,106 +145,37 @@ export async function subscribeFuturesOnStream(
   };
 
   channelToSubscription.set(channelString, subscriptionItem);
-
-  // Subscribe to futures data using proper event
-  pendingSubscription = {
-    base_currency_id: CoinID?.base_currency_id,
-    quote_currency_id: CoinID?.quote_currency_id,
-  };
-
-  socket.emit('futures:subscribe', pendingSubscription);
-
-  socket.off('futures:update'); // Ensure no duplicate listeners
-
-  socket.on('futures:update', (data) => {
-    const currPair = data?.pairs?.find(item => item?.short_name === parsedSymbol.base && item?.margin_asset === parsedSymbol.quote);
-    if (!currPair) return;
-
-    let changeMiliSecond = currPair?.available === "LOCAL" ? 1000 : 1;
-    const tickerData = data?.ticker;
-
-    const tradeTime = currPair?.available === "LOCAL" ? tickerData?.time : currPair.time;
-    const volume = tickerData?.volume;
-    const tradePrice = currPair?.buy_price;
-
-    const subscriptionItem = channelToSubscription.get(channelString);
-    if (subscriptionItem === undefined || !subscriptionItem?.lastDailyBar) return;
-
-    const lastBarTime = getStartOfMinute(subscriptionItem.lastDailyBar.time);
-    const currentTradeMinute = getStartOfMinute(tradeTime * changeMiliSecond);
-
-    let bar;
-
-    if (currentTradeMinute > lastBarTime) {
-      bar = {
-        time: tradeTime * changeMiliSecond,
-        open: subscriptionItem.lastDailyBar.close,
-        high: tradePrice,
-        low: tradePrice,
-        close: tradePrice,
-        volume: volume,
-      };
-    } else {
-      bar = {
-        ...subscriptionItem.lastDailyBar,
-        high: Math.max(subscriptionItem.lastDailyBar?.high, tradePrice),
-        low: Math.min(subscriptionItem.lastDailyBar?.low, tradePrice),
-        close: tradePrice,
-        volume: volume,
-      };
-    }
-
-    subscriptionItem.lastDailyBar = bar;
-    onRealtimeCallback(bar);
-  });
+  ensureFuturesUpdateListener();
 }
 
 export function unsubscribeFuturesFromStream(subscriberUID) {
   for (const [channelString, subscriptionItem] of channelToSubscription) {
-    const handlerIndex = subscriptionItem.handlers.findIndex(handler => handler.id === subscriberUID);
+    const handlerIndex = subscriptionItem.handlers.findIndex(
+      (h) => h.id === subscriberUID
+    );
 
     if (handlerIndex !== -1) {
       subscriptionItem.handlers.splice(handlerIndex, 1);
 
       if (subscriptionItem.handlers?.length === 0) {
         channelToSubscription.delete(channelString);
-        
-        // Unsubscribe from socket when no more handlers
-        if (socket && pendingSubscription) {
-          socket.emit('futures:unsubscribe', pendingSubscription);
-          socket.off('futures:update');
-          console.log("🔌 Unsubscribed from futures stream");
-        }
-        break;
       }
+      break;
     }
   }
 }
 
-// Cleanup function to disconnect socket completely (call when leaving futures page)
+/**
+ * Cleanup when leaving futures page - remove listener only.
+ * Do NOT disconnect socket; UsdMFutures and SocketContext own it.
+ */
 export function disconnectFuturesChartSocket() {
-  if (socket) {
-    // Unsubscribe from any active subscription
-    if (pendingSubscription) {
-      socket.emit('futures:unsubscribe', pendingSubscription);
-      pendingSubscription = null;
-    }
-    
-    // Remove all listeners
-    socket.off('futures:update');
-    socket.off('connect');
-    socket.off('disconnect');
-    
-    // Disconnect the socket
-    socket.disconnect();
-    socket = null;
-    isSocketInitialized = false;
-    
-    // Clear all subscriptions
-    channelToSubscription.clear();
-    
-    console.log("🔌 Futures chart socket disconnected and cleaned up");
+  if (socket && futuresUpdateHandler) {
+    socket.off("futures:update", futuresUpdateHandler);
+    futuresUpdateHandler = null;
+    listenerAttached = false;
   }
+  channelToSubscription.clear();
 }
 
 function getStartOfMinute(timestamp) {

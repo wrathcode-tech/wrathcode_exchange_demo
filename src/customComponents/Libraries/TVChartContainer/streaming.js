@@ -3,9 +3,9 @@ import { makeApiRequest2, parseFullSymbol } from "./helpers";
 const channelToSubscription = new Map();
 
 let socket = null;
-let pendingSubscription = null;
-let exchangeUpdateHandler = null;
 let pendingStreamParams = null;
+let exchangeUpdateHandler = null;
+let listenerAttached = false;
 
 /**
  * Set the shared socket from SocketContext
@@ -13,116 +13,125 @@ let pendingStreamParams = null;
  */
 export function setSharedSocket(socketInstance) {
   if (socketInstance) {
+    if (socket && socket !== socketInstance && exchangeUpdateHandler) {
+      socket.off('exchange:update', exchangeUpdateHandler);
+      listenerAttached = false;
+      exchangeUpdateHandler = null;
+    }
     socket = socketInstance;
-    
-    // If there's a pending stream subscription waiting for socket, set it up now
     if (pendingStreamParams) {
       setupStreamWithSocket(pendingStreamParams);
       pendingStreamParams = null;
+    } else if (channelToSubscription.size > 0) {
+      ensureExchangeListener();
     }
   }
 }
 
 /**
  * Clear shared socket reference
- * Only removes the listener, doesn't null out socket (managed by SocketContext)
  */
 export function clearSharedSocket() {
   if (socket && exchangeUpdateHandler) {
     socket.off('exchange:update', exchangeUpdateHandler);
     exchangeUpdateHandler = null;
+    listenerAttached = false;
   }
 }
 
 /**
  * Full disconnect - call when leaving the trade page
- * Cleans up listeners and local state
  */
 export function disconnectChartSocket() {
   if (socket && exchangeUpdateHandler) {
     socket.off('exchange:update', exchangeUpdateHandler);
   }
-  
   exchangeUpdateHandler = null;
-  pendingSubscription = null;
+  listenerAttached = false;
+  pendingStreamParams = null;
   channelToSubscription.clear();
 }
 
-/**
- * Check if socket is ready for use
- */
 export function isSocketReady() {
   return socket !== null && socket.connected;
 }
 
 /**
- * Setup the exchange:update listener on the socket
+ * Ensure the exchange:update listener is attached. Uses a single persistent listener
+ * that dispatches to all active subscriptions - never removed on symbol/resolution change.
  */
-function setupExchangeListener(channelString, parsedSymbol, onRealtimeCallback) {
-  if (!socket) {
-    return;
-  }
-  
-  // Remove any existing listener first to prevent duplicates
-  if (exchangeUpdateHandler) {
-    socket.off('exchange:update', exchangeUpdateHandler);
-  }
-  
-  // Create the exchange update handler
+function ensureExchangeListener() {
+  if (!socket || listenerAttached || exchangeUpdateHandler) return;
+  if (channelToSubscription.size === 0) return;
+
   exchangeUpdateHandler = (data) => {
     try {
-      const currPair = data?.pairs?.find(
-        item => item?.base_currency === parsedSymbol.fromSymbol && 
-                item?.quote_currency === parsedSymbol.toSymbol
-      );
-      if (!currPair) return;
-
-      const changeMiliSecond = currPair?.available === "LOCAL" ? 1000 : 1;
+      const pairs = data?.pairs;
       const tickerData = data?.ticker;
-      if (!tickerData) return;
+      if (!pairs?.length || !tickerData) return;
 
-      const tradeTime = currPair?.available === "LOCAL" ? tickerData?.time : currPair.time;
-      const volume = tickerData?.volume;
-      const tradePrice = currPair?.buy_price;
+      for (const [channelString, subscriptionItem] of channelToSubscription) {
+        const parsed = parseFullSymbol(channelString);
+        if (!parsed?.fromSymbol || !parsed?.toSymbol) continue;
 
-      const subscriptionItem = channelToSubscription.get(channelString);
-      if (!subscriptionItem?.lastDailyBar) return;
+        const currPair = pairs.find(
+          p => p?.base_currency === parsed.fromSymbol && p?.quote_currency === parsed.toSymbol
+        );
+        if (!currPair) continue;
 
-      const lastBarTime = getStartOfMinute(subscriptionItem.lastDailyBar.time);
-      const currentTradeMinute = getStartOfMinute(tradeTime * changeMiliSecond);
+        const changeMiliSecond = currPair?.available === "LOCAL" ? 1000 : 1;
+        const tradeTime = currPair?.available === "LOCAL" ? tickerData?.time : currPair.time;
+        const volume = tickerData?.volume;
+        const tradePrice = currPair?.buy_price;
 
-      let bar;
+        if (tradePrice == null) continue;
 
-      if (currentTradeMinute > lastBarTime) {
-        // New bar
-        bar = {
-          time: tradeTime * changeMiliSecond,
-          open: subscriptionItem.lastDailyBar.close,
-          high: tradePrice,
-          low: tradePrice,
-          close: tradePrice,
-          volume: volume,
-        };
-      } else {
-        // Update existing bar
-        bar = {
-          ...subscriptionItem.lastDailyBar,
-          high: Math.max(subscriptionItem.lastDailyBar?.high, tradePrice),
-          low: Math.min(subscriptionItem.lastDailyBar?.low, tradePrice),
-          close: tradePrice,
-          volume: volume,
-        };
+        if (!subscriptionItem.lastDailyBar) {
+          const barTime = tradeTime * changeMiliSecond;
+          subscriptionItem.lastDailyBar = {
+            time: barTime,
+            open: tradePrice,
+            high: tradePrice,
+            low: tradePrice,
+            close: tradePrice,
+            volume: volume ?? 0,
+          };
+          subscriptionItem.handlers?.forEach(h => h.callback(subscriptionItem.lastDailyBar));
+          continue;
+        }
+
+        const lastBarTime = getStartOfMinute(subscriptionItem.lastDailyBar.time);
+        const currentTradeMinute = getStartOfMinute(tradeTime * changeMiliSecond);
+        let bar;
+
+        if (currentTradeMinute > lastBarTime) {
+          bar = {
+            time: tradeTime * changeMiliSecond,
+            open: subscriptionItem.lastDailyBar.close,
+            high: tradePrice,
+            low: tradePrice,
+            close: tradePrice,
+            volume: volume ?? subscriptionItem.lastDailyBar.volume,
+          };
+        } else {
+          bar = {
+            ...subscriptionItem.lastDailyBar,
+            high: Math.max(subscriptionItem.lastDailyBar?.high ?? 0, tradePrice),
+            low: Math.min(subscriptionItem.lastDailyBar?.low ?? Infinity, tradePrice),
+            close: tradePrice,
+            volume: volume ?? subscriptionItem.lastDailyBar?.volume ?? 0,
+          };
+        }
+        subscriptionItem.lastDailyBar = bar;
+        subscriptionItem.handlers?.forEach(h => h.callback(bar));
       }
-
-      subscriptionItem.lastDailyBar = bar;
-      onRealtimeCallback(bar);
-    } catch (error) {
-      // Silently handle errors to prevent chart crashes
+    } catch (err) {
+      // Prevent chart crashes
     }
   };
 
-  // Add the handler
   socket.on('exchange:update', exchangeUpdateHandler);
+  listenerAttached = true;
 }
 
 /**
@@ -137,15 +146,13 @@ async function setupStreamWithSocket(params) {
     callback: onRealtimeCallback,
   };
 
-  const parsedSymbol = parseFullSymbol(symbolInfo?.name);
   
   try {
-    const ApiData = await makeApiRequest2(parsedSymbol?.fromSymbol, parsedSymbol?.toSymbol);
-    const CoinID = ApiData?.currency_ids;
 
     let subscriptionItem = channelToSubscription.get(channelString);
     if (subscriptionItem) {
       subscriptionItem.handlers.push(handler);
+      ensureExchangeListener();
       return;
     }
 
@@ -158,14 +165,7 @@ async function setupStreamWithSocket(params) {
 
     channelToSubscription.set(channelString, subscriptionItem);
 
-    pendingSubscription = {
-      base_currency_id: CoinID?.base_currency_id,
-      quote_currency_id: CoinID?.quote_currency_id,
-    };
-
-    // Setup the listener on the shared socket
-    // NOTE: We don't emit 'exchange:subscribe' here because TradePage already handles that
-    setupExchangeListener(channelString, parsedSymbol, onRealtimeCallback);
+    ensureExchangeListener();
   } catch (error) {
     // Handle API errors gracefully
   }
@@ -220,15 +220,8 @@ export function unsubscribeFromStream(subscriberUID) {
 
       if (subscriptionItem.handlers?.length === 0) {
         channelToSubscription.delete(channelString);
-        
-        // Remove the listener (TradePage manages the actual subscription)
-        if (socket && exchangeUpdateHandler) {
-          socket.off('exchange:update', exchangeUpdateHandler);
-          exchangeUpdateHandler = null;
-        }
-        pendingSubscription = null;
-        break;
       }
+      break;
     }
   }
 }

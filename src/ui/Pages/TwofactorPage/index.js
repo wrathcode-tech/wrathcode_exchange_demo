@@ -60,6 +60,10 @@ const TwofactorPage = (props) => {
   // Change Email/Mobile verification method states
   const [changeVerifyMethod, setChangeVerifyMethod] = useState('email'); // passkey, totp, email, mobile
   const [changeAvailableMethods, setChangeAvailableMethods] = useState([]);
+
+  // Add Mobile verification method states (single verification, user chooses one)
+  const [addMobileVerifyMethod, setAddMobileVerifyMethod] = useState('email'); // passkey, totp, email
+  const [addMobileAvailableMethods, setAddMobileAvailableMethods] = useState([]);
   const [passkeyVerificationResult, setPasskeyVerificationResult] = useState(null);
 
   // Timer and loading states
@@ -289,7 +293,7 @@ const TwofactorPage = (props) => {
       'blockingModal', 'disableGoogleAuthModal', 'disableAuthOptionsModal',
       'securityReminderModal', 'addPasskeyModal', 'addPasskeyVerifyModal', 'addPasskeyVerifyOptionsModal',
       'deletePasskeyModal', 'deletePasskeyOptionsModal',
-      'changeVerifyOptionsModal', 'changeMobileVerifyOptionsModal',
+      'changeVerifyOptionsModal', 'changeMobileVerifyOptionsModal', 'addMobileVerifyOptionsModal',
       'changeEmailConsentModal', 'changeMobileConsentModal', 'disablePasskeyConsentModal', 'disableGoogleAuthConsentModal',
       'viewPasskeysModal'
     ];
@@ -1345,62 +1349,74 @@ const TwofactorPage = (props) => {
   };
 
   // ============ ADD MOBILE FLOW ============
-  // User wants to add mobile number (requires passkey, 2FA or email verification first)
+  // User chooses ONE verification method (like change email/mobile)
   const handleAddMobileStart = async () => {
     resetModalStates();
     setPasskeyVerificationResult(null);
 
-    // If passkey is available, try silent verification first
+    // Try passkey silent verification first (if available)
     if (hasPasskey && passkeySupported) {
       const verificationResult = await attemptSilentPasskeyVerification('add_mobile');
       if (verificationResult) {
-        // Passkey verified successfully - skip to step 3 (enter new mobile)
         setPasskeyVerificationResult(verificationResult);
-        setCurrentStep(3);
+        setCurrentStep(2); // Skip to step 2: enter mobile (step 1 = verify, step 2 = mobile, step 3 = mobile OTP)
         openModal('addMobileModal');
         return;
       }
-      // Passkey failed or cancelled - show fallback options
     }
 
-    // If user has Google Auth enabled, verify that first
-    if (hasGoogleAuth) {
-      openModal('addMobileModal');
-      setCurrentStep(1); // Step 1: Google Auth verification
-    } else if (hasEmail) {
-      // Just open modal - user will click "Send OTP" button
-      openModal('addMobileModal');
-      setCurrentStep(2); // Step 2: Email verification
-    } else {
-      alertErrorMessage('You need email verification to add a mobile number');
+    // Build available verification methods (Passkey, Google Auth, Email - no mobile since adding it)
+    const methods = [];
+    if (hasPasskey && passkeySupported) {
+      methods.push({ value: 'passkey', label: 'Passkey', icon: 'ri-fingerprint-line', description: 'Use Face ID, Touch ID, or Windows Hello' });
     }
+    if (hasGoogleAuth) {
+      methods.push({ value: 'totp', label: 'Google Authenticator', icon: 'ri-shield-keyhole-line', description: 'Use your authenticator app' });
+    }
+    if (hasEmail) {
+      methods.push({ value: 'email', label: 'Email Verification', icon: 'ri-mail-line', description: `Send code to ${maskEmail(emailID)}` });
+    }
+
+    if (methods.length === 0) {
+      alertErrorMessage('You need at least one verification method (Email, Google Auth, or Passkey) to add a mobile number');
+      return;
+    }
+
+    setAddMobileAvailableMethods(methods);
+    setAddMobileVerifyMethod(methods[0].value);
+    setCurrentStep(1); // Step 1: Verify identity (user chooses one method)
+    openModal('addMobileModal');
   };
 
-  // Verify identity for add mobile
+  // Step 1: Verify identity based on selected method (one only)
   const handleAddMobileVerifyIdentity = async () => {
-    if (currentStep === 1 && hasGoogleAuth) {
-      // Verify Google Auth code
+    if (addMobileVerifyMethod === 'passkey') {
+      const verificationResult = await handlePasskeyVerification('add_mobile');
+      if (verificationResult) {
+        setPasskeyVerificationResult(verificationResult);
+        setCurrentStep(2); // Move to enter mobile number
+      }
+      return;
+    }
+    if (addMobileVerifyMethod === 'totp') {
       if (!googleAuthCode || googleAuthCode.length !== 6) {
         alertErrorMessage('Please enter a valid 6-digit code');
         return;
       }
-      // Move to email verification step - user will click "Send OTP" button
       setCurrentStep(2);
-    } else if (currentStep === 2) {
-      // Verify email OTP
+      return;
+    }
+    if (addMobileVerifyMethod === 'email') {
       if (!emailOtpCode || emailOtpCode.length !== 6) {
         alertErrorMessage('Please enter a valid 6-digit OTP');
         return;
       }
-
-      const verified = await handleVerifyOtp('email', emailOtpCode, 'add_mobile');
-      if (verified) {
-        setCurrentStep(3); // Move to enter mobile number
-      }
+      setCurrentStep(2); // Actual verification happens in addMobile API
+      return;
     }
   };
 
-  // Validate and move to verify new mobile step
+  // Step 2: Validate and move to verify new mobile step
   const handleAddMobileNext = () => {
     if (!newMobileNumber || newMobileNumber.length < 6) {
       alertErrorMessage('Please enter a valid mobile number');
@@ -1414,7 +1430,7 @@ const TwofactorPage = (props) => {
       return;
     }
 
-    setCurrentStep(4); // Move to verify new mobile - user will click "Send OTP" button
+    setCurrentStep(3); // Move to verify new mobile - user will click "Send OTP" button
   };
 
   // Complete add mobile
@@ -1428,11 +1444,22 @@ const TwofactorPage = (props) => {
       setIsLoading(true);
       LoaderHelper.loaderStatus(true);
 
-      const result = await AuthService.securityMobileAdd({
+      const payload = {
         mobileNumber: newMobileNumber,
         countryCode: newCountryCode,
         mobileOtp: newMobileOtpCode
-      });
+      };
+      // Send ONE verification method (user chose one)
+      if (passkeyVerificationResult) {
+        payload.passkeyVerified = true;
+        payload.passkeyUserId = passkeyVerificationResult.userId;
+      } else if (addMobileVerifyMethod === 'totp') {
+        payload.tofaCode = googleAuthCode;
+      } else if (addMobileVerifyMethod === 'email') {
+        payload.emailOtp = emailOtpCode;
+      }
+
+      const result = await AuthService.securityMobileAdd(payload);
 
       if (result?.success) {
         alertSuccessMessage(result?.message || 'Mobile number added successfully!');
@@ -1689,6 +1716,65 @@ const TwofactorPage = (props) => {
       setResendTimer(60);
     }
     return sent;
+  };
+
+  // Add Mobile verification helpers (single method - same pattern as change email)
+  const getAddMobileVerificationTitle = () => {
+    if (addMobileVerifyMethod === 'passkey') return 'Passkey Verification';
+    if (addMobileVerifyMethod === 'totp') return 'Google Authenticator';
+    if (addMobileVerifyMethod === 'email') return 'Email Verification';
+    return 'Verify Your Identity';
+  };
+
+  const getAddMobileVerificationDescription = () => {
+    if (addMobileVerifyMethod === 'passkey') return 'Use your passkey to verify your identity';
+    if (addMobileVerifyMethod === 'totp') return 'Enter the 6-digit code from your authenticator app';
+    if (addMobileVerifyMethod === 'email') return `We'll send a verification code to ${maskEmail(emailID)}`;
+    return '';
+  };
+
+  const getAddMobileOtpCode = () => {
+    if (addMobileVerifyMethod === 'totp') return googleAuthCode;
+    if (addMobileVerifyMethod === 'email') return emailOtpCode;
+    return '';
+  };
+
+  const setAddMobileOtpCode = (value) => {
+    if (addMobileVerifyMethod === 'totp') setGoogleAuthCode(value);
+    else if (addMobileVerifyMethod === 'email') setEmailOtpCode(value);
+  };
+
+  const sendAddMobileOtp = async () => {
+    if (addMobileVerifyMethod === 'passkey') return true;
+    if (addMobileVerifyMethod === 'totp') return true;
+    const sent = await handleSendOtp('email', 'add_mobile');
+    if (sent) {
+      setResendTimer(60);
+    }
+    return sent;
+  };
+
+  const handleOpenAddMobileOptions = () => {
+    const modal = window.bootstrap?.Modal?.getInstance(document.getElementById('addMobileModal'));
+    if (modal) modal.hide();
+    setTimeout(() => openModal('addMobileVerifyOptionsModal'), 100);
+  };
+
+  const handleSelectAddMobileMethod = (method) => {
+    setAddMobileVerifyMethod(method.value);
+    setEmailOtpCode('');
+    setGoogleAuthCode('');
+    setResendTimer(0);
+    setPasskeyVerificationResult(null);
+    const optionsModal = window.bootstrap?.Modal?.getInstance(document.getElementById('addMobileVerifyOptionsModal'));
+    if (optionsModal) optionsModal.hide();
+    setTimeout(() => openModal('addMobileModal'), 100);
+  };
+
+  const handleCloseAddMobileOptionsPopup = () => {
+    const optionsModal = window.bootstrap?.Modal?.getInstance(document.getElementById('addMobileVerifyOptionsModal'));
+    if (optionsModal) optionsModal.hide();
+    setTimeout(() => openModal('addMobileModal'), 100);
   };
 
   // ============ CHANGE MOBILE FLOW ============
@@ -2313,17 +2399,11 @@ const TwofactorPage = (props) => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              {/* {currentStep > 1 && (
-                <button type="button" className="btn-back" onClick={() => handleGoBack('addMobile')} title="Go back">
-                  <i className="ri-arrow-left-line"></i>
-                </button>
-              )} */}
-              <h5 className="modal-title">  {currentStep > 2 && (<i className="ri-arrow-left-line cursor-pointer" onClick={() => handleGoBack('addMobile')} ></i>)}Add Mobile Number</h5>
+              <h5 className="modal-title">{currentStep > 1 && (<i className="ri-arrow-left-line cursor-pointer me-2" onClick={() => handleGoBack('addMobile')}></i>)}Add Mobile Number</h5>
               <p>
-                {currentStep === 1 && hasGoogleAuth && 'Step 1: Verify Google Authenticator'}
-                {currentStep === 2 && 'Step 2: Verify your email'}
-                {currentStep === 3 && 'Step 3: Enter your mobile number'}
-                {currentStep === 4 && 'Step 4: Verify your mobile number'}
+                {currentStep === 1 && getAddMobileVerificationTitle()}
+                {currentStep === 2 && 'Step 2: Enter your mobile number'}
+                {currentStep === 3 && 'Step 3: Verify your mobile number'}
               </p>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -2331,51 +2411,49 @@ const TwofactorPage = (props) => {
               <div className="verify_authenticator_form">
                 <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
 
-                  {/* Step 1: Google Auth (if enabled) */}
-                  {currentStep === 1 && hasGoogleAuth && (
-                    <div className="emailinput">
-                      <label>Google Authenticator Code</label>
-                      <div className="d-flex">
-                        <input
-                          type="text"
-                          placeholder="123456"
-                          maxLength={6}
-                          value={googleAuthCode}
-                          onChange={(e) => setGoogleAuthCode(e.target.value.replace(/\D/g, ''))}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 2: Email OTP */}
-                  {currentStep === 2 && (
+                  {/* Step 1: Verify identity (user chooses ONE method: Passkey, Google Auth, or Email) */}
+                  {currentStep === 1 && (
                     <>
-                      <p style={{ marginBottom: '10px' }}>Click "Send OTP" to receive a code on <strong>{maskEmail(emailID)}</strong></p>
-
-                      <div className="emailinput">
-                        <label>Email Verification Code</label>
-                        <div className="d-flex">
-                          <input
-                            type="text"
-                            placeholder="123456"
-                            maxLength={6}
-                            value={emailOtpCode}
-                            onChange={(e) => setEmailOtpCode(e.target.value.replace(/\D/g, ''))}
-                          />
-                          {resendTimer > 0 ? (
-                            <div className="resend otp-button-disabled">Resend ({resendTimer}s)</div>
-                          ) : (
-                            <div className="getotp cursor-pointer" onClick={() => handleSendOtp('email', 'add_mobile').then(() => setResendTimer(60))}>
-                              Send OTP
-                            </div>
-                          )}
+                      {addMobileVerifyMethod === 'passkey' ? (
+                        <div style={{ textAlign: 'center' }}>
+                          <div style={{
+                            width: '80px', height: '80px', borderRadius: '50%',
+                            background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            margin: '0 auto 20px'
+                          }}>
+                            <i className="ri-fingerprint-line" style={{ fontSize: '40px', color: '#fff' }}></i>
+                          </div>
+                          <p className="text-white mb-3">{getAddMobileVerificationDescription()}</p>
+                          <button type="button" className="submit w-100" onClick={handleAddMobileVerifyIdentity} disabled={isLoading || isPasskeyVerifying}>
+                            {isPasskeyVerifying ? 'Authenticating...' : 'Authenticate with Passkey'}
+                          </button>
                         </div>
-                      </div>
+                      ) : (
+                        <>
+                          <p style={{ marginBottom: '10px' }}>{getAddMobileVerificationDescription()}</p>
+                          <div className="emailinput">
+                            <label>Enter 6-digit Code</label>
+                            <div className="d-flex">
+                              <input type="text" placeholder="123456" maxLength={6} value={getAddMobileOtpCode()} onChange={(e) => setAddMobileOtpCode(e.target.value.replace(/\D/g, ''))} />
+                              {addMobileVerifyMethod !== 'totp' && (resendTimer > 0 ? (
+                                <div className="resend otp-button-disabled">Resend ({resendTimer}s)</div>
+                              ) : (
+                                <button type="button" className="getotp otp-button-enabled getotp_mobile" onClick={sendAddMobileOtp}>GET OTP</button>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {addMobileAvailableMethods.length > 1 && (
+                        <div className="cursor-pointer" onClick={(e) => { e.preventDefault(); handleOpenAddMobileOptions(); }} style={{ marginTop: '15px' }}>
+                          <small className="text-white">Switch to Another Verification Option <i className="ri-external-link-line"></i></small>
+                        </div>
+                      )}
                     </>
                   )}
 
-                  {/* Step 3: Enter mobile number */}
-                  {currentStep === 3 && (
+                  {/* Step 2: Enter mobile number */}
+                  {currentStep === 2 && (
                     <>
 
                       <div className="input_block">
@@ -2407,8 +2485,8 @@ const TwofactorPage = (props) => {
                     </>
                   )}
 
-                  {/* Step 4: Verify new mobile */}
-                  {currentStep === 4 && (
+                  {/* Step 3: Verify new mobile */}
+                  {currentStep === 3 && (
                     <>
                       <p style={{ marginBottom: '10px' }}>Click "Send OTP" to receive a code on <strong>{newCountryCode} {newMobileNumber}</strong></p>
 
@@ -2437,20 +2515,53 @@ const TwofactorPage = (props) => {
                     </>
                   )}
 
-                  <button
-                    className="submit"
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => {
-                      if (currentStep <= 2) handleAddMobileVerifyIdentity();
-                      else if (currentStep === 3) handleAddMobileNext();
-                      else if (currentStep === 4) handleAddMobileComplete();
-                    }}
-                  >
-                    {isLoading ? 'Processing...' : currentStep === 4 ? 'Add Mobile Number' : 'Continue'}
-                  </button>
+                  {(currentStep === 2 || currentStep === 3 || (currentStep === 1 && addMobileVerifyMethod !== 'passkey')) && (
+                    <button
+                      className="submit"
+                      type="button"
+                      disabled={isLoading || (currentStep === 1 && getAddMobileOtpCode().length < 6)}
+                      onClick={() => {
+                        if (currentStep === 1) handleAddMobileVerifyIdentity();
+                        else if (currentStep === 2) handleAddMobileNext();
+                        else if (currentStep === 3) handleAddMobileComplete();
+                      }}
+                    >
+                      {isLoading ? 'Processing...' : currentStep === 3 ? 'Add Mobile Number' : 'Continue'}
+                    </button>
+                  )}
                 </form>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Add Mobile Verification Options Modal */}
+      <div className="modal fade search_form" id="addMobileVerifyOptionsModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Select a Verification Option</h5>
+              <p>Choose how you want to verify your identity</p>
+              <button type="button" className="btn-close" onClick={handleCloseAddMobileOptionsPopup} aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
+                {addMobileAvailableMethods.map((method) => (
+                  <div key={method.value}>
+                    <div className="d-flex align-items-center justify-content-between text-white" onClick={() => handleSelectAddMobileMethod(method)} role="button">
+                      <div className="d-flex align-items-center">
+                        <i className={`${method.icon} me-3`}></i>
+                        <div>
+                          <strong>{method.label}</strong>
+                          <p className="mb-0 small">{method.description}</p>
+                        </div>
+                      </div>
+                      <i className="ri-arrow-right-s-line"></i>
+                    </div>
+                  </div>
+                ))}
+              </form>
             </div>
           </div>
         </div>
