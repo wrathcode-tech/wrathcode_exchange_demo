@@ -2154,6 +2154,138 @@ section.hot_articles_s .row {
     padding: 20px 24px !important;
 }
 
+/* Export Trade History Modal */
+.export_modal .modal-body {
+    padding: 20px 24px 28px;
+}
+.export_modal_body .export_section {
+    margin-bottom: 24px;
+}
+.export_modal_body .export_section:last-child {
+    margin-bottom: 0;
+}
+.export_label {
+    display: block;
+    color: #949AA4;
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-weight: 400;
+}
+.export_btn_group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.export_btn_group_lg .export_btn {
+    padding: 12px 24px;
+    font-size: 15px;
+}
+.export_presets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+@media (max-width: 576px) {
+    .export_presets {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.export_btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #4a5160;
+    background: rgba(255, 255, 255, 0.05);
+    color: #949AA4;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+.export_btn:hover {
+    border-color: #6b7280;
+    color: #fff;
+}
+.export_btn.active {
+    /* background: rgba(243, 187, 43, 0.2); */
+    border-color: #f3bb2b;
+    color: #fff;
+}
+.export_date_range {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+.export_date_input {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #4a5160;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 14px;
+}
+.export_date_input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.7;
+}
+.export_date_arrow {
+    color: #949AA4;
+    font-size: 18px;
+}
+.export_note {
+    display: block;
+    margin-top: 10px;
+    color: #6b7280;
+    font-size: 12px;
+}
+.export_dropdown_group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.export_dropdown {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px 36px 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #4a5160;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23949AA4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+.export_dropdown option {
+    background: #2a2e36;
+    color: #fff;
+}
+.export_actions {
+    margin-top: 28px;
+    padding-top: 20px;
+}
+.export_submit_btn {
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 50px;
+    border: none;
+    background: #fff;
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.export_submit_btn:hover:not(:disabled) {
+    background: #ffff;
+}
+.export_submit_btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
 .form_block_login .email_code .input_filed {
     padding-right: 110px;
     width: 100%;
@@ -11209,6 +11341,8 @@ ul.funds_tab.market_tabs {
     padding: 6px 8px;
     display: flex;
     align-items: center;
+    justify-content: center;
+
     background-color: #2B313C;
     border: none;
     font-size: 16px;
@@ -16456,9 +16590,8 @@ body .trade_summary_table_lft .table-responsive .table-responsive {
 
 .order_datalist {
     width: 100%;
-    /* background-color: rgb(255 255 255); */
-    padding: 15px;
-    border: 1.5px solid rgb(43 49 60);
+    padding: 10px 0px;
+    border-bottom: 1.5px solid rgb(43 49 60);
     border-radius: 5px;
 }
 
@@ -16467,7 +16600,7 @@ body .trade_summary_table_lft .table-responsive .table-responsive {
     flex-direction: column;
     gap: 10px;
     /* border-bottom: 1px solid #ffffff9c; */
-    padding-bottom: 24px;
+    padding-bottom: 5px;
 }
 
 .order_datalist_2 .listdata {
@@ -16505,10 +16638,10 @@ body .trade_summary_table_lft .table-responsive .table-responsive {
 
 button.view_more_btn {
     background-color: transparent;
-    color: #f3bb2b;
+    color: #9fa0a2;
     border: none;
     padding: 0px;
-    text-align: center;
+    text-align: start;
     width: 100%;
     margin-top: -22px;
     font-weight: 400;
@@ -23053,7 +23186,7 @@ button.p2p-submit-button {
 
     body .mobile_view {
         display: flex;
-        padding: 10px 15px 10px 15px;
+        padding: 10px 15px 5px 15px;
         font-size: 13px;
         border-bottom: 1px solid #444c5b;
     }
@@ -23070,7 +23203,7 @@ button.p2p-submit-button {
     .mobile_view span {
         position: inherit;
         right: 0px;
-        font-size: 15px;
+        font-size: 20px;
     }
 
     .banner_content h1 {

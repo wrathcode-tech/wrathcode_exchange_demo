@@ -339,6 +339,30 @@ const AuthService = {
     return ApiCallGet(url, headers);
   },
 
+  tradeHistoryExport: async (from, to, limit = 10000) => {
+    const token = localStorage.getItem('token');
+    const { baseTrans, tradeHistoryExport } = ApiConfig;
+    const url = `${baseTrans}${tradeHistoryExport}?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&limit=${limit}`;
+    const headers = {
+      'Content-Type': 'application/json',
+      "Authorization": token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  walletHistoryExport: async (from, to, type = 'all', limit = 10000) => {
+    const token = localStorage.getItem('token');
+    const { baseTrans, walletHistoryExport } = ApiConfig;
+    const params = new URLSearchParams({ from, to, limit: String(limit) });
+    if (type && type !== 'all') params.set('type', type);
+    const url = `${baseTrans}${walletHistoryExport}?${params.toString()}`;
+    const headers = {
+      'Content-Type': 'application/json',
+      "Authorization": token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
   blogList: async () => {
     const token = localStorage.getItem('token');
     const { baseAuth, blogList } = ApiConfig;

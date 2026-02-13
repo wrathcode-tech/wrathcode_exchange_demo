@@ -9,9 +9,16 @@ const OpenOrders = (props) => {
   const [totalAllOpen, setTotalAllOpen] = useState([]);
   const [skipAllOrder, setSkipAllOrder] = useState(0);
   const limitAllorder = 10;
-  const [showAllListItems, setShowAllListItems] = useState({ 0: false, 1: false, 2: false });
-  const [showExecutedTrades, setShowExecutedTrades] = useState({ 0: false, 1: false, 2: false });
+  const [searchQuery, setSearchQuery] = useState('');
 
+  const filteredOpenOrders = (allOpenOrders ?? []).filter((item) => {
+    if (!searchQuery?.trim()) return true;
+    const pair = `${item?.base_currency_short_name}/${item?.quote_currency_short_name}`;
+    const q = searchQuery.trim().toUpperCase();
+    return pair?.toUpperCase().includes(q) ||
+      item?.base_currency_short_name?.toUpperCase().includes(q) ||
+      item?.quote_currency_short_name?.toUpperCase().includes(q);
+  });
 
   const handleOpenOrders = async (skipAllOrder, limitAllorder) => {
     try {
@@ -94,7 +101,19 @@ const OpenOrders = (props) => {
 
             <div className="market_section spotorderhist">
               <div className="top_heading">
-                <h4>All open orders </h4>
+                <h4>Open orders </h4>
+                <div className="coin_right">
+                  <div className="searchBar custom-tabs">
+                    <i className="ri-search-2-line"></i>
+                    <input
+                      type="search"
+                      className="custom_search"
+                      placeholder="Search Crypto"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="dashboard_summary">
                 <div className='table-responsive'>
@@ -114,8 +133,8 @@ const OpenOrders = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {allOpenOrders?.length > 0 ? (
-                        allOpenOrders?.map((item, index) => (
+                      {filteredOpenOrders?.length > 0 ? (
+                        filteredOpenOrders?.map((item, index) => (
                           <tr key={index}>
                             <td >{index + 1}</td>
                             <td >
@@ -152,7 +171,7 @@ const OpenOrders = (props) => {
                   </table>
                 </div>
 
-                {allOpenOrders?.length > 0 ?
+                {filteredOpenOrders?.length > 0 ?
                   <div className="hVPalX gap-2">
                     <span>{skipAllOrder + 1}-{Math.min(skipAllOrder + limitAllorder, totalAllOpen)} of {totalAllOpen}</span>
                     <div className="sc-eAKtBH gVtWSU">
@@ -183,98 +202,106 @@ const OpenOrders = (props) => {
           </div>
 
           <div className='order_history_mobile_view'>
-          <h5>All open orders</h5>
+          <div className="coin_right d-flex flex-row justify-content-between align-items-center p-0">
+          <h5>Open orders</h5>
+          <div className="d-flex flex-row justify-content-end align-items-end mb-3">
+            <div className="searchBar custom-tabs">
+              <i className="ri-search-2-line"></i>
+              <input
+                type="search"
+                className="custom_search"
+                placeholder="Search Crypto"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
+          </div>
           <div className='d-flex'>
-            <div className='order_datalist'>
-              <ul className='listdata'>
-                <li>
-                  <span className='date'>USDT (TRC20)</span>
-                  <span className='date_light'>2025-08-14</span>
-                </li>
-                <li>
-                  <span>Time</span>
-                  <span>12:00:00</span>
-                </li>
-                <li>
-                  <span>Currency Pair</span>
-                  <span>BTC/USD</span>
-                </li>
-                <li>
-                  <span>Side</span>
-                  <span>Buy</span>
-                </li>
-                <li>
-                  <span>Price</span>
-                  <span>10000</span>
-                </li>
-                {showAllListItems[0] && (
-                  <>
+            {filteredOpenOrders?.length > 0 ? (
+              filteredOpenOrders.map((item, index) => (
+                <div key={index} className='order_datalist'>
+                  <ul className='listdata'>
                     <li>
-                      <span>Average</span>
-                      <span>10000</span>
+                      <span className='date'>Date</span>
+                      <span className='date_light'>{moment(item?.createdAt).format("DD/MM/YYYY")}</span>
+                    </li>
+                    <li>
+                      <span>Time</span>
+                      <span>{moment(item?.createdAt).format("hh:mm A")}</span>
+                    </li>
+                    <li>
+                      <span>Currency Pair</span>
+                      <span>{item?.base_currency_short_name}/{item?.quote_currency_short_name}</span>
+                    </li>
+                    <li>
+                      <span>Side</span>
+                      <span>{item?.side}</span>
+                    </li>
+                    <li>
+                      <span>Price</span>
+                      <span>{toFixed(item?.price)}</span>
                     </li>
                     <li>
                       <span>Quantity</span>
-                      <span>10000</span>
+                      <span>{toFixed(item?.quantity)}</span>
                     </li>
                     <li>
-                      <span>Remaining</span>
-                      <span>10000</span>
+                      <span>Filled</span>
+                      <span>{toFixed(item?.filled)}</span>
                     </li>
                     <li>
                       <span>Total</span>
-                      <span>10000</span>
-                    </li>
-                    <li>
-                      <span>Fee</span>
-                      <span>10000</span>
-                    </li>
-                    <li>
-                      <span>Order Type</span>
-                      <span>Market</span>
+                      <span>{toFixed(item?.price * item?.quantity)}</span>
                     </li>
                     <li>
                       <span>Status</span>
-                      <span className='text-success'>Executed</span>
+                      <span>{item?.status}</span>
                     </li>
                     <li>
-                      <span>Status</span>
-                      <span className='text-danger'>Executed</span>
+                      <span>Action</span>
+                      <span>
+                        
+                        <button
+                          className="btn text-danger "
+                          type="button"
+                          title="Cancel order"
+                          onClick={() => cancelOrder(item?._id)}
+                        >
+                          <i className="ri-delete-bin-6-line pr-0"></i>
+                        </button>
+                      </span>
                     </li>
-                    <li>
-                      <span>Status</span>
-                      <span className='text-warning'>Executed</span>
-                    </li>
-                  </>
-                )}
-              </ul>
-              <button
-                type="button"
-                className="view_more_btn"
-                onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-              >
-                {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-              </button>
-
-              <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                  <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                </button>
-                {showExecutedTrades[0] && (
-                  <div className='executed_trades_list_items'>
-                    <ul>
-                      <li>Trade #1:</li>
-                      <li>Trading Price: <span>10000</span></li>
-                      <li>Executed: <span>10000</span></li>
-                      <li>Trading Fee: <span>10000</span></li>
-                      <li>Total: <span>10000</span></li>
-                    </ul>
-                  </div>
-                )}
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <div className="no-data-wrapper w-100">
+                <div className="no_data_vector">
+                  <img src="/images/no_data_vector.svg" alt="no-data" className="img-fluid" width="96" height="96" />
+                </div>
               </div>
-
-            </div>
+            )}
           </div>
+          {filteredOpenOrders?.length > 0 && (
+            <div className="hVPalX gap-2 mt-3">
+              <span>{skipAllOrder + 1}-{Math.min(skipAllOrder + limitAllorder, totalAllOpen)} of {totalAllOpen}</span>
+              <div className="sc-eAKtBH gVtWSU">
+                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationAllOrder('first')}>
+                  <i className="ri-skip-back-fill text-white"></i>
+                </button>
+                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationAllOrder('prev')}>
+                  <i className="ri-arrow-left-s-line text-white"></i>
+                </button>
+                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationAllOrder('next')}>
+                  <i className="ri-arrow-right-s-line text-white"></i>
+                </button>
+                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationAllOrder('last')}>
+                  <i className="ri-skip-forward-fill text-white"></i>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
 

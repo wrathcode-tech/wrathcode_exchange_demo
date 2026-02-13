@@ -28,7 +28,7 @@ export default {
             const filteredPair = allPairs?.data?.filter((item) => item?.base_currency === pair[0] && item?.quote_currency === pair[1])
             const isLocal = filteredPair?.map((item) => item?.available === 'LOCAL')[0];
             const decimals = (filteredPair?.map((item) => item?.buy_price)[0]?.toString()?.split('.')[1] || '')?.length;
-            let decimalFormater = Math.min(Math.pow(10, decimals + 1), 100000000000)
+            let decimalFormater = Math.min(Math.pow(10, decimals ), 100000000000)
             const symbolInfo = {
                 ticker: symbolName,
                 name: symbolName,

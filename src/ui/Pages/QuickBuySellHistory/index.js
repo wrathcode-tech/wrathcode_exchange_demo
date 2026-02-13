@@ -11,6 +11,13 @@ const QuickBuySellHistory = (props) => {
   const [showAllListItems, setShowAllListItems] = useState({});
 
   const limit = 10;
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredHistory = (buySellHist ?? []).filter((item) => {
+    if (!searchQuery?.trim()) return true;
+    const q = searchQuery.trim().toUpperCase();
+    return item?.from?.toUpperCase().includes(q) || item?.to?.toUpperCase().includes(q);
+  });
 
   const getBuySellHistory = async (skip) => {
     LoaderHelper.loaderStatus(true);
@@ -82,6 +89,18 @@ const QuickBuySellHistory = (props) => {
 
               <div className="top_heading">
                 <h4>Swap History</h4>
+                <div className="coin_right">
+                  <div className="searchBar custom-tabs">
+                    <i className="ri-search-2-line"></i>
+                    <input
+                      type="search"
+                      className="custom_search"
+                      placeholder="Search Crypto"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
 
 
@@ -100,8 +119,8 @@ const QuickBuySellHistory = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {buySellHist?.length > 0 ? (
-                      buySellHist?.map((item, index) => (
+                    {filteredHistory?.length > 0 ? (
+                      filteredHistory?.map((item, index) => (
                         <tr key={index}>
                           <td >{index + skipQbsHistory + 1}</td>
                           <td >
@@ -135,7 +154,7 @@ const QuickBuySellHistory = (props) => {
                   </tbody>
                 </table>
 
-                {buySellHist?.length > 0 ?
+                {filteredHistory?.length > 0 ?
                   <div className="hVPalX gap-2">
                     <span>{skipQbsHistory + 1}-{Math.min(skipQbsHistory + limit, totalDataLength)} of {totalDataLength}</span>
                     <div className="sc-eAKtBH gVtWSU">
@@ -167,9 +186,23 @@ const QuickBuySellHistory = (props) => {
           </div>
 
           <div className='order_history_mobile_view'>
+          <div className="coin_right d-flex flex-row justify-content-between align-items-center p-0">
             <h5>Swap History</h5>
-            {buySellHist?.length > 0 ? (
-              buySellHist.map((item, index) => (
+            <div className="d-flex flex-row justify-content-end align-items-end mb-3">
+              <div className="searchBar custom-tabs">
+                <i className="ri-search-2-line"></i>
+                <input
+                  type="search"
+                  className="custom_search"
+                  placeholder="Search Crypto"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+            </div>
+            {filteredHistory?.length > 0 ? (
+              filteredHistory.map((item, index) => (
                 <div className='d-flex mb-3' key={index}>
                   <div className='order_datalist'>
                     <ul className='listdata'>
@@ -220,7 +253,7 @@ const QuickBuySellHistory = (props) => {
               </div>
             )}
 
-            {buySellHist?.length > 0 && (
+            {filteredHistory?.length > 0 && (
               <div className="hVPalX gap-2 mt-3">
                 <span>{skipQbsHistory + 1}-{Math.min(skipQbsHistory + limit, totalDataLength)} of {totalDataLength}</span>
                 <div className="sc-eAKtBH gVtWSU">

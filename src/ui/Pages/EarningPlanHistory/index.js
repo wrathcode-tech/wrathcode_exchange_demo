@@ -8,10 +8,16 @@ const EarningPlanHistory = (props) => {
   const [skipQbsHistory, setSkipQbsHistory] = useState(0);
   const [buySellHist, setBuySellHist] = useState([]);
   const [totalDataLength, setTotalDataLength] = useState();
-  const [showAllListItems, setShowAllListItems] = useState({ 0: false, 1: false, 2: false });
-  const [showExecutedTrades, setShowExecutedTrades] = useState({ 0: false, 1: false, 2: false });
 
   const limit = 10;
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredHistory = (buySellHist ?? []).filter((item) => {
+    if (!searchQuery?.trim()) return true;
+    const q = searchQuery.trim().toUpperCase();
+    return item?.currency?.toUpperCase().includes(q) ||
+      item?.wallet_type?.toUpperCase().includes(q);
+  });
 
   const getTransferHistory = async (skip) => {
     LoaderHelper.loaderStatus(true);
@@ -61,8 +67,7 @@ const EarningPlanHistory = (props) => {
   }
 
   useEffect(() => {
-    getTransferHistory(0, limit)
-
+    getTransferHistory(0);
   }, []);
 
   useEffect(() => {
@@ -84,6 +89,18 @@ const EarningPlanHistory = (props) => {
 
               <div className="top_heading">
                 <h4>Earning History</h4>
+                <div className="coin_right">
+                  <div className="searchBar custom-tabs">
+                    <i className="ri-search-2-line"></i>
+                    <input
+                      type="search"
+                      className="custom_search"
+                      placeholder="Search Crypto"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
 
 
@@ -105,8 +122,8 @@ const EarningPlanHistory = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {buySellHist?.length > 0 ? (
-                      buySellHist?.map((item, index) => (
+                    {filteredHistory?.length > 0 ? (
+                      filteredHistory?.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{item?.currency}</td>
@@ -137,7 +154,7 @@ const EarningPlanHistory = (props) => {
                   </tbody>
                 </table>
 
-                {buySellHist?.length > 0 ?
+                {filteredHistory?.length > 0 ?
                   <div className="hVPalX gap-2">
                     <span>{skipQbsHistory + 1}-{Math.min(skipQbsHistory + limit, totalDataLength)} of {totalDataLength}</span>
                     <div className="sc-eAKtBH gVtWSU">
@@ -169,98 +186,94 @@ const EarningPlanHistory = (props) => {
           </div>
 
           <div className='order_history_mobile_view'>
+          <div className="coin_right d-flex flex-row justify-content-between align-items-center p-0">
           <h5>Earning History</h5>
-          <div className='d-flex'>
-            <div className='order_datalist'>
-              <ul className='listdata'>
-                <li>
-                  <span className='date'>USDT (TRC20)</span>
-                  <span className='date_light'>2025-08-14</span>
-                </li>
-                <li>
-                  <span>Time</span>
-                  <span>12:00:00</span>
-                </li>
-                <li>
-                  <span>Currency Pair</span>
-                  <span>BTC/USD</span>
-                </li>
-                <li>
-                  <span>Side</span>
-                  <span>Buy</span>
-                </li>
-                <li>
-                  <span>Price</span>
-                  <span>10000</span>
-                </li>
-                {showAllListItems[0] && (
-                  <>
-                    <li>
-                      <span>Average</span>
-                      <span>10000</span>
-                    </li>
-                    <li>
-                      <span>Quantity</span>
-                      <span>10000</span>
-                    </li>
-                    <li>
-                      <span>Remaining</span>
-                      <span>10000</span>
-                    </li>
-                    <li>
-                      <span>Total</span>
-                      <span>10000</span>
-                    </li>
-                    <li>
-                      <span>Fee</span>
-                      <span>10000</span>
-                    </li>
-                    <li>
-                      <span>Order Type</span>
-                      <span>Market</span>
-                    </li>
-                    <li>
-                      <span>Status</span>
-                      <span className='text-success'>Executed</span>
-                    </li>
-                    <li>
-                      <span>Status</span>
-                      <span className='text-danger'>Executed</span>
-                    </li>
-                    <li>
-                      <span>Status</span>
-                      <span className='text-warning'>Executed</span>
-                    </li>
-                  </>
-                )}
-              </ul>
-              <button
-                type="button"
-                className="view_more_btn"
-                onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-              >
-                {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-              </button>
-
-              <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                  <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                </button>
-                {showExecutedTrades[0] && (
-                  <div className='executed_trades_list_items'>
-                    <ul>
-                      <li>Trade #1:</li>
-                      <li>Trading Price: <span>10000</span></li>
-                      <li>Executed: <span>10000</span></li>
-                      <li>Trading Fee: <span>10000</span></li>
-                      <li>Total: <span>10000</span></li>
-                    </ul>
-                  </div>
-                )}
-              </div>
-
+          <div className="d-flex flex-row justify-content-end align-items-end mb-3">
+            <div className="searchBar custom-tabs">
+              <i className="ri-search-2-line"></i>
+              <input
+                type="search"
+                className="custom_search"
+                placeholder="Search Crypto"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
           </div>
+          </div>
+          <div className='d-flex'>
+            {filteredHistory?.length > 0 ? (
+              filteredHistory.map((item, index) => (
+                <div key={item?._id || index} className='order_datalist'>
+                  <ul className='listdata'>
+                    <li>
+                      <span className='date'>Currency</span>
+                      <span className='date_light'>{item?.currency}</span>
+                    </li>
+                    <li>
+                      <span>Wallet</span>
+                      <span>{item?.wallet_type?.charAt(0).toUpperCase() + item?.wallet_type?.slice(1)} Wallet</span>
+                    </li>
+                    <li>
+                      <span>Duration</span>
+                      <span>{item?.duration_days} days</span>
+                    </li>
+                    <li>
+                      <span>Start Date</span>
+                      <span>{moment(item?.start_date).format("YYYY-MM-DD")}</span>
+                    </li>
+                    <li>
+                      <span>Mature Date</span>
+                      <span>{moment(item?.end_date).format("YYYY-MM-DD")}</span>
+                    </li>
+                    <li>
+                      <span>Subscription Amount</span>
+                      <span>{parseFloat(item?.invested_amount?.$numberDecimal || 0)}</span>
+                    </li>
+                    <li>
+                      <span>Bonus Amount</span>
+                      <span className={item?.status === "COMPLETED" ? "text-success" : "text-warning"}>
+                        +{toFixed(parseFloat(item?.expected_return?.$numberDecimal || 0) - parseFloat(item?.invested_amount?.$numberDecimal || 0))}
+                      </span>
+                    </li>
+                    <li>
+                      <span>Receivable Amount</span>
+                      <span>{parseFloat(item?.expected_return?.$numberDecimal || 0)}</span>
+                    </li>
+                    <li>
+                      <span>Status</span>
+                      <span className={item?.status === "COMPLETED" ? "text-success" : "text-warning"}>{item?.status}</span>
+                    </li>
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <div className="no-data-wrapper w-100">
+                <div className="no_data_vector">
+                  <img src="/images/Group 1171275449 (1).svg" alt="no-data" className="img-fluid" width="96" height="96" />
+                </div>
+              </div>
+            )}
+          </div>
+          {filteredHistory?.length > 0 && (
+            <div className="hVPalX gap-2 mt-3">
+              <span>{skipQbsHistory + 1}-{Math.min(skipQbsHistory + limit, totalDataLength)} of {totalDataLength}</span>
+              <div className="sc-eAKtBH gVtWSU">
+                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationQbsHistory('first')}>
+                  <i className="ri-skip-back-fill text-white"></i>
+                </button>
+                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationQbsHistory('prev')}>
+                  <i className="ri-arrow-left-s-line text-white"></i>
+                </button>
+                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationQbsHistory('next')}>
+                  <i className="ri-arrow-right-s-line text-white"></i>
+                </button>
+                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf" onClick={() => handlePaginationQbsHistory('last')}>
+                  <i className="ri-skip-forward-fill text-white"></i>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
 

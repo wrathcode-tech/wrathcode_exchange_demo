@@ -67,8 +67,7 @@ const Trade = () => {
     const [showBuySellTab, setShowBuySellTab] = useState("");
     const [orderBookActiveTab, setOrderBookActiveTab] = useState("orderbook");
     const [positionOrderTab, setPositionOrderTab] = useState("positions");
-    const [showAllListItems, setShowAllListItems] = useState({ 0: false, 1: false, 2: false, 3: false, 4: false, 5: false });
-    const [showExecutedTrades, setShowExecutedTrades] = useState({ 0: false, 1: false, 2: false, 3: false, 4: false, 5: false });
+  const [showExecutedTrades, setShowExecutedTrades] = useState({});
     const [Coins, setCoins] = useState([]);
     const [expandedRowIndex, setExpandedRowIndex] = useState(null);
     const [activeBuyPercent, setActiveBuyPercent] = useState(null);
@@ -2186,98 +2185,71 @@ const Trade = () => {
                                         </div>
 
                                         <div className='order_history_mobile_view'>
-
                                             <div className='d-flex'>
-                                                <div className='order_datalist'>
-                                                    <ul className='listdata'>
-                                                        <li>
-                                                            <span className='date'>USDT (TRC20)</span>
-                                                            <span className='date_light'>2025-08-14</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Time</span>
-                                                            <span>12:00:00</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Currency Pair</span>
-                                                            <span>BTC/USD</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Side</span>
-                                                            <span>Buy</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Price</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        {showAllListItems[0] && (
-                                                            <>
-                                                                <li>
-                                                                    <span>Average</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Quantity</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Remaining</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Total</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Fee</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Order Type</span>
-                                                                    <span>Market</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Status</span>
-                                                                    <span className='text-success'>Executed</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Status</span>
-                                                                    <span className='text-danger'>Executed</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Status</span>
-                                                                    <span className='text-warning'>Executed</span>
-                                                                </li>
-                                                            </>
-                                                        )}
-                                                    </ul>
-                                                    <button
-                                                        type="button"
-                                                        className="view_more_btn"
-                                                        onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-                                                    >
-                                                        {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-
-                                                    </button>
-
-                                                    <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                                                        <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                                                            <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                                                        </button>
-                                                        {showExecutedTrades[0] && (
-                                                            <div className='executed_trades_list_items'>
-                                                                <ul>
-                                                                    <li>Trade #1:</li>
-                                                                    <li>Trading Price: <span>10000</span></li>
-                                                                    <li>Executed: <span>10000</span></li>
-                                                                    <li>Trading Fee: <span>10000</span></li>
-                                                                    <li>Total: <span>10000</span></li>
+                                                {openOrders?.length > 0 ? (
+                                                    openOrders
+                                                        .filter((item) => orderType === item?.side || orderType === 'All')
+                                                        .map((item, index) => (
+                                                            <div key={item?._id || index} className='order_datalist'>
+                                                                <ul className='listdata'>
+                                                                    <li>
+                                                                        <span className='date'>Date</span>
+                                                                        <span className='date_light'>{moment(item?.updatedAt).format("DD/MM/YYYY")}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Time</span>
+                                                                        <span>{moment(item?.updatedAt).format("hh:mm")}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Currency Pair</span>
+                                                                        <span>{SelectedCoin?.base_currency}/{SelectedCoin?.quote_currency}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Type</span>
+                                                                        <span>{item?.order_type}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Side</span>
+                                                                        <span>{item?.side}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Price</span>
+                                                                        <span>{item?.price?.toFixed(8)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Amount</span>
+                                                                        <span>{item?.quantity?.toFixed(8)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Remaining</span>
+                                                                        <span>{item?.remaining?.toFixed(8)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Filled</span>
+                                                                        <span>{item?.filled?.toFixed(8)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Total</span>
+                                                                        <span>{(item?.price * item?.quantity)?.toFixed(8)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Action</span>
+                                                                        <span>
+                                                                            <button className="btn text-danger btn-sm btn-icon p-0" type="button" onClick={() => cancelOrder(item?._id)}>
+                                                                                <i className="ri-delete-bin-6-line pr-0"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
-                                                        )}
+                                                        ))
+                                                ) : (
+                                                    <div className="no-data-wrapper w-100">
+                                                        <div className="no_data_s">
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        </div>
                                                     </div>
-
-                                                </div>
+                                                )}
                                             </div>
                                         </div>
 
@@ -2388,99 +2360,94 @@ const Trade = () => {
                                             </div>
                                         </div>
                                         <div className='order_history_mobile_view'>
-
                                             <div className='d-flex'>
-                                                <div className='order_datalist'>
-                                                    <ul className='listdata'>
-                                                        <li>
-                                                            <span className='date'>USDT (TRC20)</span>
-                                                            <span className='date_light'>2025-08-14</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Time</span>
-                                                            <span>12:00:00</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Currency Pair</span>
-                                                            <span>BTC/USD</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Side</span>
-                                                            <span>Buy</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Price</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        {showAllListItems[0] && (
-                                                            <>
-                                                                <li>
-                                                                    <span>Average</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Quantity</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Remaining</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Total</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Fee</span>
-                                                                    <span>10000</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Order Type</span>
-                                                                    <span>Market</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Status</span>
-                                                                    <span className='text-success'>Executed</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Status</span>
-                                                                    <span className='text-danger'>Executed</span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Status</span>
-                                                                    <span className='text-warning'>Executed</span>
-                                                                </li>
-                                                            </>
-                                                        )}
-                                                    </ul>
-                                                    <button
-                                                        type="button"
-                                                        className="view_more_btn"
-                                                        onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-                                                    >
-                                                        {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-                                                    </button>
-
-                                                    <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                                                        <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                                                            <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                                                        </button>
-                                                        {showExecutedTrades[0] && (
-                                                            <div className='executed_trades_list_items'>
-                                                                <ul>
-                                                                    <li>Trade #1:</li>
-                                                                    <li>Trading Price: <span>10000</span></li>
-                                                                    <li>Executed: <span>10000</span></li>
-                                                                    <li>Trading Fee: <span>10000</span></li>
-                                                                    <li>Total: <span>10000</span></li>
+                                                {pastOrders?.length > 0 ? (
+                                                    pastOrders
+                                                        .filter((item) => item?.side === pastOrderType || pastOrderType === 'All')
+                                                        .map((item, index) => (
+                                                            <div key={item?._id || index} className='order_datalist'>
+                                                                <ul className='listdata'>
+                                                                    <li>
+                                                                        <span className='date'>Date</span>
+                                                                        <span className='date_light'>{moment(item?.updatedAt).format("DD/MM/YYYY")}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Time</span>
+                                                                        <span>{moment(item?.updatedAt).format("hh:mm")}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Currency Pair</span>
+                                                                        <span>{item?.side === "BUY" ? `${item?.ask_currency}/${item?.pay_currency}` : `${item?.pay_currency}/${item?.ask_currency}`}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Side</span>
+                                                                        <span>{item?.side}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Price</span>
+                                                                        <span>{nineDecimalFormat(item?.price)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Average</span>
+                                                                        <span>{nineDecimalFormat(item?.avg_execution_price)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Quantity</span>
+                                                                        <span>{nineDecimalFormat(item?.quantity)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Remaining</span>
+                                                                        <span>{nineDecimalFormat(item?.remaining)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Total</span>
+                                                                        <span>{nineDecimalFormat(item?.quantity * item?.avg_execution_price)}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Fee</span>
+                                                                        <span>{nineDecimalFormat(item?.total_fee)} {item?.ask_currency}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Order Type</span>
+                                                                        <span>{item?.order_type}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Status</span>
+                                                                        <span className={`text-${item?.status === "FILLED" ? "success" : item?.status === "CANCELLED" ? "danger" : "warning"}`}>
+                                                                            {item?.status === 'FILLED' ? 'EXECUTED' : item?.status}
+                                                                        </span>
+                                                                    </li>
                                                                 </ul>
+
+                                                                {item?.executed_prices?.length > 0 && (
+                                                                    <div className={`executed_trades_list ${showExecutedTrades[item?._id] ? 'active' : ''}`}>
+                                                                        <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, [item?._id]: !showExecutedTrades[item?._id] })}>
+                                                                            <i className={`ri-arrow-drop-down-line ${showExecutedTrades[item?._id] ? 'rotated' : ''}`}></i>Executed Trades
+                                                                        </button>
+                                                                        {showExecutedTrades[item?._id] && (
+                                                                            <div className='executed_trades_list_items'>
+                                                                                {item.executed_prices.map((trade, i) => (
+                                                                                    <ul key={i}>
+                                                                                        <li>Trade #{i + 1}:</li>
+                                                                                        <li>Trading Price: <span>{nineDecimalFormat(trade.price)} {item?.side === "BUY" ? item?.pay_currency : item?.ask_currency}</span></li>
+                                                                                        <li>Executed: <span>{nineDecimalFormat(trade.quantity)} {item?.side === "BUY" ? item?.ask_currency : item?.pay_currency}</span></li>
+                                                                                        <li>Trading Fee: <span>{nineDecimalFormat(+trade.fee)} {item?.ask_currency}</span></li>
+                                                                                        <li>Total: <span>{nineDecimalFormat(+trade.price * trade.quantity)}</span></li>
+                                                                                    </ul>
+                                                                                ))}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                        )}
+                                                        ))
+                                                ) : (
+                                                    <div className="no-data-wrapper w-100">
+                                                        <div className="no_data_s">
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        </div>
                                                     </div>
-
-                                                </div>
-
-
+                                                )}
                                             </div>
                                         </div>
 

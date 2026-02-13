@@ -1,5 +1,5 @@
-const appUrl = "http://localhost:5001";
-// const appUrl = "https://backend.demoexchange.wrathcode.com";
+// const appUrl = "http://localhost:5001";
+const appUrl = "https://backend.demoexchange.wrathcode.com";
 const appUrl2 = appUrl;
 
 
@@ -266,6 +266,8 @@ export const ApiConfig = {
   baseEarning: `${appUrl}/v1/earning/`,
   basePartner: `${appUrl}/v1/partnerShip/`,
   baseTrans: `${appUrl}/v1/transaction/`,
+  tradeHistoryExport: 'trade-history-export',
+  walletHistoryExport: 'wallet-history-export',
   baseExchange: `${appUrl}/v1/exchange/`,
   baseAdmin: `${appUrl}/v1/admin/`,
   baseWallet: `${appUrl}/v1/wallet/`,

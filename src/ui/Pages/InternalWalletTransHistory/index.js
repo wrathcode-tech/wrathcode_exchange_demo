@@ -8,9 +8,17 @@ const InternalWalletTransHistory = (props) => {
   const [skipQbsHistory, setSkipQbsHistory] = useState(0);
   const [buySellHist, setBuySellHist] = useState([]);
   const [totalDataLength, setTotalDataLength] = useState();
-  const [showAllListItems, setShowAllListItems] = useState({});
 
   const limit = 10;
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredHistory = (buySellHist ?? []).filter((item) => {
+    if (!searchQuery?.trim()) return true;
+    const q = searchQuery.trim().toUpperCase();
+    return item?.short_name?.toUpperCase().includes(q) ||
+      item?.from_wallet?.toUpperCase().includes(q) ||
+      item?.to_wallet?.toUpperCase().includes(q);
+  });
 
   const getTransferHistory = async (skip) => {
     LoaderHelper.loaderStatus(true);
@@ -60,8 +68,7 @@ const InternalWalletTransHistory = (props) => {
   }
 
   useEffect(() => {
-    getTransferHistory(0, limit)
-
+    getTransferHistory(0);
   }, []);
   
   useEffect(() => {
@@ -82,6 +89,18 @@ const InternalWalletTransHistory = (props) => {
 
               <div className="top_heading">
                 <h4>Internal Wallet Transfer History</h4>
+                <div className="coin_right">
+                  <div className="searchBar custom-tabs">
+                    <i className="ri-search-2-line"></i>
+                    <input
+                      type="search"
+                      className="custom_search"
+                      placeholder="Search Crypto"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
 
 
@@ -98,9 +117,9 @@ const InternalWalletTransHistory = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {buySellHist?.length > 0 ? (
-                      buySellHist?.map((item, index) => (
-                        <tr>
+                    {filteredHistory?.length > 0 ? (
+                      filteredHistory?.map((item, index) => (
+                        <tr key={item?._id || index}>
                           <td>{index + 1} </td>
                           <td>{moment(item.createdAt).format("YYYY-MM-DD hh:mm A")} </td>
                           <td>
@@ -131,7 +150,7 @@ const InternalWalletTransHistory = (props) => {
                   </tbody>
                 </table>
 
-                {buySellHist?.length > 0 ?
+                {filteredHistory?.length > 0 ?
                   <div className="hVPalX gap-2">
                     <span>{skipQbsHistory + 1}-{Math.min(skipQbsHistory + limit, totalDataLength)} of {totalDataLength}</span>
                     <div className="sc-eAKtBH gVtWSU">
@@ -163,9 +182,23 @@ const InternalWalletTransHistory = (props) => {
           </div>
 
           <div className='order_history_mobile_view'>
+          <div className="coin_right d-flex flex-row justify-content-between align-items-center p-0">
             <h5>Internal Wallet Transfer History</h5>
-            {buySellHist?.length > 0 ? (
-              buySellHist.map((item, index) => (
+            <div className="d-flex flex-row justify-content-end align-items-end mb-3">
+              <div className="searchBar custom-tabs">
+                <i className="ri-search-2-line"></i>
+                <input
+                  type="search"
+                  className="custom_search"
+                  placeholder="Search Crypto"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              </div>
+            </div>
+            {filteredHistory?.length > 0 ? (
+              filteredHistory.map((item, index) => (
                 <div className='d-flex mb-3' key={index}>
                   <div className='order_datalist order_datalist_2'>
                     <ul className='listdata'>
@@ -199,7 +232,7 @@ const InternalWalletTransHistory = (props) => {
               </div>
             )}
 
-            {buySellHist?.length > 0 && (
+            {filteredHistory?.length > 0 && (
               <div className="hVPalX gap-2 mt-3">
                 <span>{skipQbsHistory + 1}-{Math.min(skipQbsHistory + limit, totalDataLength)} of {totalDataLength}</span>
                 <div className="sc-eAKtBH gVtWSU">

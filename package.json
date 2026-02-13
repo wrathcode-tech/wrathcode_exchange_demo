@@ -11,6 +11,8 @@
     "bignumber.js": "^9.3.0",
     "bootstrap": "^5.3.6",
     "copy-to-clipboard": "^3.3.3",
+    "jspdf": "^4.1.0",
+    "jspdf-autotable": "^5.0.7",
     "libphonenumber-js": "^1.12.10",
     "moment": "^2.29.4",
     "qrcode.react": "^3.2.0",
@@ -29,7 +31,8 @@
     "socket.io-client": "^4.7.0",
     "sweetalert2": "^11.7.11",
     "swiper": "^9.3.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
