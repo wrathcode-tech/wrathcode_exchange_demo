@@ -108,7 +108,7 @@ const ProfilePage = (props) => {
   const logOut = () => {
     localStorage.clear();
     navigate("/");
-    // window.location.reload()
+    window.location.reload()
   }
 
   return (
