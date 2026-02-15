@@ -243,6 +243,17 @@ const SocketContextProvider = ({ children }) => {
     }
   }, []);
 
+  // futures:set_history_tab – atomic history tab switch (orders | trades | positions | null)
+  const setFuturesHistoryTab = useCallback((tab, skip = 0, limit = 50) => {
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('futures:set_history_tab', {
+        tab,
+        skip: Math.max(0, skip),
+        limit: Math.min(100, Math.max(1, limit))
+      });
+    }
+  }, []);
+
   // =====================================================================
   // 🚀 INITIALIZATION
   // =====================================================================
@@ -359,6 +370,7 @@ const SocketContextProvider = ({ children }) => {
     unsubscribeFromExchange,
     subscribeToFutures,
     unsubscribeFromFutures,
+    setFuturesHistoryTab,
     getSocket, // Expose socket getter for chart to use same connection
     settings,
     settingstwo,

@@ -23,7 +23,7 @@ function UsdMFutures() {
 
     const params = useParams();
     const navigate = useNavigate();
-    const { isConnected, futuresData, subscribeToFutures, unsubscribeFromFutures } = useContext(SocketContext);
+    const { isConnected, futuresData, subscribeToFutures, unsubscribeFromFutures, setFuturesHistoryTab } = useContext(SocketContext);
 
     let URL = params?.pairs?.split('_');
     const [urlPath, setUrlPath] = useState(URL ? URL : []);
@@ -57,7 +57,11 @@ function UsdMFutures() {
     const [ordersHistory, setOrdersHistory] = useState([]);
     const [tradeHistory, setTradeHistory] = useState([]);
     const [closePositions, setClosePositions] = useState([]);
-
+    const [historySkip, setHistorySkip] = useState(0);
+    const [totalOrderHistory, setTotalOrderHistory] = useState(0);
+    const [totalTradeHistory, setTotalTradeHistory] = useState(0);
+    const [totalPositionHistory, setTotalPositionHistory] = useState(0);
+    const HISTORY_LIMIT = 20;
 
     const [activeMainTab, setActiveMainTab] = useState("order");
     const [activeInnerTab, setActiveInnerTab] = useState("all_orders");
@@ -80,10 +84,23 @@ function UsdMFutures() {
 
         const positions = futuresData?.open_position || [];
         setOpenPositions(positions);
-        setClosePositions(futuresData?.close_position || []);
         setOpenOrders(futuresData?.open_orders || []);
-        setOrdersHistory(futuresData?.orders_history || []);
-        setTradeHistory(futuresData?.trade_history || []);
+        // History only when backend sends it (tab set via futures:set_history_tab)
+        if (futuresData?.orders_history !== undefined) {
+            const arr = futuresData.orders_history || [];
+            setOrdersHistory(arr);
+            setTotalOrderHistory(futuresData.orders_history_total ?? Math.max(arr.length, historySkip + arr.length));
+        }
+        if (futuresData?.trade_history !== undefined) {
+            const arr = futuresData.trade_history || [];
+            setTradeHistory(arr);
+            setTotalTradeHistory(futuresData.trade_history_total ?? Math.max(arr.length, historySkip + arr.length));
+        }
+        if (futuresData?.close_position !== undefined) {
+            const arr = futuresData.close_position || [];
+            setClosePositions(arr);
+            setTotalPositionHistory(futuresData.close_position_total ?? (historySkip + arr.length));
+        }
 
         // Orderbook & recent trades from backend (see docs/FUTURES_WEBSOCKET_SPEC.md)
         if (futuresData?.buy_order !== undefined) {
@@ -134,6 +151,43 @@ function UsdMFutures() {
             subscribeToFutures();
         }
     }, [isConnected, pairData?.length, subscribeToFutures]);
+
+    // futures:set_history_tab – request history only when user opens that tab
+    const prevHistoryTabRef = React.useRef(null);
+    useEffect(() => {
+        const tabMap = {
+            order_history: 'orders',
+            exercise_history: 'trades',
+            position_history: 'positions'
+        };
+        if (['positions', 'open'].includes(activePositionTab)) {
+            setFuturesHistoryTab(null);
+            prevHistoryTabRef.current = null;
+        } else if (tabMap[activePositionTab]) {
+            const isSameTab = prevHistoryTabRef.current === activePositionTab;
+            const skip = isSameTab ? historySkip : 0;
+            if (!isSameTab) setHistorySkip(0);
+            prevHistoryTabRef.current = activePositionTab;
+            setFuturesHistoryTab(tabMap[activePositionTab], skip, HISTORY_LIMIT);
+        }
+    }, [activePositionTab, historySkip, setFuturesHistoryTab]);
+
+    const handleHistoryPagination = (action) => {
+        const tabMap = { order_history: 'orders', exercise_history: 'trades', position_history: 'positions' };
+        const totalMap = { order_history: totalOrderHistory, exercise_history: totalTradeHistory, position_history: totalPositionHistory };
+        const total = totalMap[activePositionTab] ?? 0;
+        let newSkip = historySkip;
+        if (action === 'prev' && historySkip >= HISTORY_LIMIT) newSkip = historySkip - HISTORY_LIMIT;
+        else if (action === 'next') {
+            if (historySkip + HISTORY_LIMIT < total) newSkip = historySkip + HISTORY_LIMIT;
+            else if (total === HISTORY_LIMIT && historySkip === 0) newSkip = HISTORY_LIMIT; // optimistic: full page, try next
+        } else if (action === 'first') newSkip = 0;
+        else if (action === 'last' && total > 0) newSkip = Math.max(0, total - HISTORY_LIMIT);
+        if (newSkip === historySkip) return;
+        setHistorySkip(newSkip);
+        const tab = tabMap[activePositionTab];
+        if (tab) setFuturesHistoryTab(tab, newSkip, HISTORY_LIMIT);
+    };
 
     // ********* Auto Select Coin Pair after Socket Connection ********** //
     useEffect(() => {
@@ -1592,10 +1646,10 @@ function UsdMFutures() {
                                         </div>
                                         <div className="d-flex justify-content-between costbtc_total">
                                             <div className="d-flex align-items-center">
-                                                <h5>Taker Fee <span> 0.4%</span></h5>
+                                                <h5>Taker Fee <span> {selectedCoin?.taker_fee||"---"}%</span></h5>
                                             </div>
                                             <div className="d-flex align-items-center">
-                                                <h5>Maker Fee <span> 0.2%</span></h5>
+                                                <h5>Maker Fee <span> {selectedCoin?.maker_fee||"---"}%</span></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -2091,100 +2145,56 @@ function UsdMFutures() {
                                 </div>
 
                                 <div className='order_history_mobile_view'>
-
-                                    <div className='d-flex'>
-                                        <div className='order_datalist'>
-                                            <ul className='listdata'>
-                                                <li>
-                                                    <span className='date'>USDT (TRC20)</span>
-                                                    <span className='date_light'>2025-08-14</span>
-                                                </li>
-                                                <li>
-                                                    <span>Time</span>
-                                                    <span>12:00:00</span>
-                                                </li>
-                                                <li>
-                                                    <span>Currency Pair</span>
-                                                    <span>BTC/USD</span>
-                                                </li>
-                                                <li>
-                                                    <span>Side</span>
-                                                    <span>Buy</span>
-                                                </li>
-                                                <li>
-                                                    <span>Price</span>
-                                                    <span>10000</span>
-                                                </li>
-                                                {showAllListItems[0] && (
-                                                    <>
-                                                        <li>
-                                                            <span>Average</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Quantity</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Remaining</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Total</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Fee</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Order Type</span>
-                                                            <span>Market</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-success'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-danger'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-warning'>Executed</span>
-                                                        </li>
-                                                    </>
-                                                )}
-                                            </ul>
-                                            <button
-                                                type="button"
-                                                className="view_more_btn"
-                                                onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-                                            >
-                                                {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-                                            </button>
-
-                                            <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                                                <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                                                    <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                                                </button>
-                                                {showExecutedTrades[0] && (
-                                                    <div className='executed_trades_list_items'>
-                                                        <ul>
-                                                            <li>Trade #1:</li>
-                                                            <li>Trading Price: <span>10000</span></li>
-                                                            <li>Executed: <span>10000</span></li>
-                                                            <li>Trading Fee: <span>10000</span></li>
-                                                            <li>Total: <span>10000</span></li>
+                                    {openPositions?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {openPositions.map((pos) => (
+                                                <div key={pos._id} className='d-flex'>
+                                                    <div className='order_datalist'>
+                                                        <ul className='listdata'>
+                                                            <li>
+                                                                <span className='date'>Symbol</span>
+                                                                <span className={`date_light ${pos?.side === "LONG" ? "text-green" : "text-red"}`}>{pos.symbol} Perp {pos.leverage}x</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Size</span>
+                                                                <span>{toFixedFive(pos.quantity)} {pos.baseCurrency}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Entry Price</span>
+                                                                <span>{toFixedFive(pos.entryPrice)}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Mark Price</span>
+                                                                <span>{toFixedFive(pos.lastMarkPrice)}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Liq. Price</span>
+                                                                <span>{toFixedFive(pos.liquidationPrice) || "---"}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Isolated Margin</span>
+                                                                <span>{toFixedFive(pos.isolatedMargin)} {pos.marginAsset || "USDT"}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>PNL</span>
+                                                                <span className={pos.unrealizedPnl >= 0 ? "text-green" : "text-red"}>{toFixedFive(pos.unrealizedPnl)}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span className='yellowcolor'>Action</span>
+                                                                <span><button type='button' className='market-close' onClick={() => closePosition(pos._id)}>Market Close</button></span>
+                                                            </li>
                                                         </ul>
                                                     </div>
-                                                )}
-                                            </div>
-
+                                                </div>
+                                            ))}
                                         </div>
-
-
-                                    </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
 
@@ -2321,100 +2331,76 @@ function UsdMFutures() {
                                 </div>
 
                                 <div className='order_history_mobile_view'>
-
-                                    <div className='d-flex'>
-                                        <div className='order_datalist'>
-                                            <ul className='listdata'>
-                                                <li>
-                                                    <span className='date'>USDT (TRC20)</span>
-                                                    <span className='date_light'>2025-08-14</span>
-                                                </li>
-                                                <li>
-                                                    <span>Time</span>
-                                                    <span>12:00:00</span>
-                                                </li>
-                                                <li>
-                                                    <span>Currency Pair</span>
-                                                    <span>BTC/USD</span>
-                                                </li>
-                                                <li>
-                                                    <span>Side</span>
-                                                    <span>Buy</span>
-                                                </li>
-                                                <li>
-                                                    <span>Price</span>
-                                                    <span>10000</span>
-                                                </li>
-                                                {showAllListItems[0] && (
-                                                    <>
-                                                        <li>
-                                                            <span>Average</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Quantity</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Remaining</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Total</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Fee</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Order Type</span>
-                                                            <span>Market</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-success'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-danger'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-warning'>Executed</span>
-                                                        </li>
-                                                    </>
-                                                )}
-                                            </ul>
-                                            <button
-                                                type="button"
-                                                className="view_more_btn"
-                                                onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-                                            >
-                                                {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-                                            </button>
-
-                                            <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                                                <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                                                    <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                                                </button>
-                                                {showExecutedTrades[0] && (
-                                                    <div className='executed_trades_list_items'>
-                                                        <ul>
-                                                            <li>Trade #1:</li>
-                                                            <li>Trading Price: <span>10000</span></li>
-                                                            <li>Executed: <span>10000</span></li>
-                                                            <li>Trading Fee: <span>10000</span></li>
-                                                            <li>Total: <span>10000</span></li>
-                                                        </ul>
+                                    {OpenOrders?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {OpenOrders.map((order) => {
+                                                let triggerCondition = "---";
+                                                if (order.isSL && order.positionSide) {
+                                                    triggerCondition = order.positionSide === "LONG" ? `<= ${pricePrecision(order.price)}` : `>= ${pricePrecision(order.price)}`;
+                                                } else if (order.isTP && order.positionSide) {
+                                                    triggerCondition = order.positionSide === "LONG" ? `>= ${pricePrecision(order.price)}` : `<= ${pricePrecision(order.price)}`;
+                                                }
+                                                return (
+                                                    <div key={order._id} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Date</span>
+                                                                    <span className='date_light'>{new Date(order.createdAt).toLocaleDateString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Time</span>
+                                                                    <span>{new Date(order.createdAt).toLocaleTimeString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Symbol</span>
+                                                                    <span>{order.symbol} Perp</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Type</span>
+                                                                    <span>{order.type} {order.isTP ? "TAKE PROFIT" : order.isSL ? "STOP LOSS" : ""}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Side</span>
+                                                                    <span className={order.side === "LONG" ? "text-green" : "text-red"}>{order.side === "LONG" ? "Buy" : "Sell"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Price</span>
+                                                                    <span>{!order.isTP && !order.isSL && order.price ? pricePrecision(order.price) : "---"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Average</span>
+                                                                    <span>{pricePrecision(order.avgFillPrice) || "---"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Amount</span>
+                                                                    <span>{order.quantity} {order.baseCurrency}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Filled</span>
+                                                                    <span>{order.filledQty || 0} {order.baseCurrency}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Trigger</span>
+                                                                    <span>{triggerCondition}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='yellowcolor'>Action</span>
+                                                                    <span><button type='button' className='market-close' onClick={() => cancelFutureOrder(order?.orderId)}>Cancel <i className="ri-delete-bin-6-line"></i></button></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                )}
-                                            </div>
-
+                                                );
+                                            })}
                                         </div>
-
-
-                                    </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
 
@@ -2518,103 +2504,128 @@ function UsdMFutures() {
                                             </td>
                                         </tr>}
                                     </div>
+                                    {ordersHistory?.length > 0 && activePositionTab === "order_history" && (
+                                        <div className="hVPalX gap-2 d-flex justify-content-end align-items-center mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalOrderHistory)} of {totalOrderHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className='order_history_mobile_view'>
-
-                                    <div className='d-flex'>
-                                        <div className='order_datalist'>
-                                            <ul className='listdata'>
-                                                <li>
-                                                    <span className='date'>USDT (TRC20)</span>
-                                                    <span className='date_light'>2025-08-14</span>
-                                                </li>
-                                                <li>
-                                                    <span>Time</span>
-                                                    <span>12:00:00</span>
-                                                </li>
-                                                <li>
-                                                    <span>Currency Pair</span>
-                                                    <span>BTC/USD</span>
-                                                </li>
-                                                <li>
-                                                    <span>Side</span>
-                                                    <span>Buy</span>
-                                                </li>
-                                                <li>
-                                                    <span>Price</span>
-                                                    <span>10000</span>
-                                                </li>
-                                                {showAllListItems[0] && (
-                                                    <>
-                                                        <li>
-                                                            <span>Average</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Quantity</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Remaining</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Total</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Fee</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Order Type</span>
-                                                            <span>Market</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-success'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-danger'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-warning'>Executed</span>
-                                                        </li>
-                                                    </>
-                                                )}
-                                            </ul>
-                                            <button
-                                                type="button"
-                                                className="view_more_btn"
-                                                onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-                                            >
-                                                {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-                                            </button>
-
-                                            <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                                                <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                                                    <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                                                </button>
-                                                {showExecutedTrades[0] && (
-                                                    <div className='executed_trades_list_items'>
-                                                        <ul>
-                                                            <li>Trade #1:</li>
-                                                            <li>Trading Price: <span>10000</span></li>
-                                                            <li>Executed: <span>10000</span></li>
-                                                            <li>Trading Fee: <span>10000</span></li>
-                                                            <li>Total: <span>10000</span></li>
-                                                        </ul>
+                                    {ordersHistory?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {ordersHistory.map((order) => {
+                                                const orderId = order._id;
+                                                const orderDate = new Date(order.createdAt);
+                                                return (
+                                                    <div key={orderId} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Date</span>
+                                                                    <span className='date_light'>{orderDate.toLocaleDateString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Time</span>
+                                                                    <span>{orderDate.toLocaleTimeString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Symbol</span>
+                                                                    <span>{order.symbol}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Side</span>
+                                                                    <span className={order.side === "LONG" ? "text-green" : "text-red"}>{order.side === "LONG" ? "Buy" : "Sell"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Price</span>
+                                                                    <span>{order.price ? toFixedFive(order.price) : "---"}</span>
+                                                                </li>
+                                                                {showAllListItems[orderId] && (
+                                                                    <>
+                                                                        <li>
+                                                                            <span>Average</span>
+                                                                            <span>{order.avgFillPrice ? toFixedFive(order.avgFillPrice) : "-"}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Amount</span>
+                                                                            <span>{toFixedFive(order.quantity)} {order.baseCurrency}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Filled</span>
+                                                                            <span>{toFixedFive(order.filledQty)} {order.baseCurrency}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Reduce Only</span>
+                                                                            <span>{order.reduceOnly ? "Yes" : "No"}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>TP/SL</span>
+                                                                            <span>{order.isTP ? "TP" : order.isSL ? "SL" : "--"}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Status</span>
+                                                                            <span className={order.status ? "text-success" : "text-danger"}>{order.status}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Description</span>
+                                                                            <span className="yellowcolor">{order.error || "---"}</span>
+                                                                        </li>
+                                                                    </>
+                                                                )}
+                                                            </ul>
+                                                            <button
+                                                                type="button"
+                                                                className="view_more_btn"
+                                                                onClick={() => setShowAllListItems({ ...showAllListItems, [orderId]: !showAllListItems[orderId] })}
+                                                            >
+                                                                {showAllListItems[orderId] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                )}
-                                            </div>
-
+                                                );
+                                            })}
                                         </div>
-
-
-                                    </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    {ordersHistory?.length > 0 && activePositionTab === "order_history" && (
+                                        <div className="hVPalX d-flex flex-row justify-content-center align-items-center gap-0 flex-wrap mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalOrderHistory)} of {totalOrderHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex flex-row gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                             </div>
@@ -2693,103 +2704,102 @@ function UsdMFutures() {
                                         </tr>}
 
                                     </div>
+                                    {tradeHistory?.length > 0 && activePositionTab === "exercise_history" && (
+                                        <div className="hVPalX d-flex flex-row justify-content-center align-items-center gap-0 flex-wrap mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalTradeHistory)} of {totalTradeHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex flex-row gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className='order_history_mobile_view'>
-
-                                    <div className='d-flex'>
-                                        <div className='order_datalist'>
-                                            <ul className='listdata'>
-                                                <li>
-                                                    <span className='date'>USDT (TRC20)</span>
-                                                    <span className='date_light'>2025-08-14</span>
-                                                </li>
-                                                <li>
-                                                    <span>Time</span>
-                                                    <span>12:00:00</span>
-                                                </li>
-                                                <li>
-                                                    <span>Currency Pair</span>
-                                                    <span>BTC/USD</span>
-                                                </li>
-                                                <li>
-                                                    <span>Side</span>
-                                                    <span>Buy</span>
-                                                </li>
-                                                <li>
-                                                    <span>Price</span>
-                                                    <span>10000</span>
-                                                </li>
-                                                {showAllListItems[0] && (
-                                                    <>
-                                                        <li>
-                                                            <span>Average</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Quantity</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Remaining</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Total</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Fee</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Order Type</span>
-                                                            <span>Market</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-success'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-danger'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-warning'>Executed</span>
-                                                        </li>
-                                                    </>
-                                                )}
-                                            </ul>
-                                            <button
-                                                type="button"
-                                                className="view_more_btn"
-                                                onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-                                            >
-                                                {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-                                            </button>
-
-                                            <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                                                <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                                                    <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                                                </button>
-                                                {showExecutedTrades[0] && (
-                                                    <div className='executed_trades_list_items'>
-                                                        <ul>
-                                                            <li>Trade #1:</li>
-                                                            <li>Trading Price: <span>10000</span></li>
-                                                            <li>Executed: <span>10000</span></li>
-                                                            <li>Trading Fee: <span>10000</span></li>
-                                                            <li>Total: <span>10000</span></li>
-                                                        </ul>
+                                    {tradeHistory?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {tradeHistory.map((trade) => {
+                                                const createdAt = new Date(trade.createdAt);
+                                                const date = createdAt.toLocaleDateString();
+                                                const time = createdAt.toLocaleTimeString();
+                                                return (
+                                                    <div key={trade._id} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Date</span>
+                                                                    <span className='date_light'>{date}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Time</span>
+                                                                    <span>{time}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Symbol</span>
+                                                                    <span className={trade.side === "LONG" ? "text-green" : "text-red"}>{trade.symbol}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Type</span>
+                                                                    <span>{trade.role === "TAKER" ? "Market" : "Limit"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Side</span>
+                                                                    <span className={trade.side === "LONG" ? "text-green" : "text-red"}>{trade.side === "LONG" ? "BUY" : "SELL"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Price</span>
+                                                                    <span>{toFixedFive(trade.price)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Amount</span>
+                                                                    <span>{toFixedFive(trade.quantity)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Fee</span>
+                                                                    <span>{toFixedFive(trade.fee)}</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                )}
-                                            </div>
-
+                                                );
+                                            })}
                                         </div>
-
-
-                                    </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    {tradeHistory?.length > 0 && activePositionTab === "exercise_history" && (
+                                        <div className="hVPalX d-flex flex-row justify-content-center align-items-center gap-0 flex-wrap mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalTradeHistory)} of {totalTradeHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                             </div>
@@ -2871,103 +2881,105 @@ function UsdMFutures() {
                                         </tr>}
 
                                     </div>
+                                    {closePositions?.length > 0 && activePositionTab === "position_history" && (
+                                        <div className="hVPalX gap-2 d-flex justify-content-end align-items-center mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalPositionHistory)} of {totalPositionHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex flex-row gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className='order_history_mobile_view'>
-
-                                    <div className='d-flex'>
-                                        <div className='order_datalist'>
-                                            <ul className='listdata'>
-                                                <li>
-                                                    <span className='date'>USDT (TRC20)</span>
-                                                    <span className='date_light'>2025-08-14</span>
-                                                </li>
-                                                <li>
-                                                    <span>Time</span>
-                                                    <span>12:00:00</span>
-                                                </li>
-                                                <li>
-                                                    <span>Currency Pair</span>
-                                                    <span>BTC/USD</span>
-                                                </li>
-                                                <li>
-                                                    <span>Side</span>
-                                                    <span>Buy</span>
-                                                </li>
-                                                <li>
-                                                    <span>Price</span>
-                                                    <span>10000</span>
-                                                </li>
-                                                {showAllListItems[0] && (
-                                                    <>
-                                                        <li>
-                                                            <span>Average</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Quantity</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Remaining</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Total</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Fee</span>
-                                                            <span>10000</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Order Type</span>
-                                                            <span>Market</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-success'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-danger'>Executed</span>
-                                                        </li>
-                                                        <li>
-                                                            <span>Status</span>
-                                                            <span className='text-warning'>Executed</span>
-                                                        </li>
-                                                    </>
-                                                )}
-                                            </ul>
-                                            <button
-                                                type="button"
-                                                className="view_more_btn"
-                                                onClick={() => setShowAllListItems({ ...showAllListItems, 0: !showAllListItems[0] })}
-                                            >
-                                                {showAllListItems[0] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
-                                            </button>
-
-                                            <div className={`executed_trades_list ${showExecutedTrades[0] ? 'active' : ''}`}>
-                                                <button onClick={() => setShowExecutedTrades({ ...showExecutedTrades, 0: !showExecutedTrades[0] })}>
-                                                    <i className={`ri-arrow-drop-down-line ${showExecutedTrades[0] ? 'rotated' : ''}`}></i>Executed Trades
-                                                </button>
-                                                {showExecutedTrades[0] && (
-                                                    <div className='executed_trades_list_items'>
-                                                        <ul>
-                                                            <li>Trade #1:</li>
-                                                            <li>Trading Price: <span>10000</span></li>
-                                                            <li>Executed: <span>10000</span></li>
-                                                            <li>Trading Fee: <span>10000</span></li>
-                                                            <li>Total: <span>10000</span></li>
-                                                        </ul>
+                                    {closePositions?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {closePositions.map((pos) => {
+                                                const createdAt = new Date(pos.createdAt);
+                                                const updatedAt = new Date(pos.updatedAt);
+                                                const openDate = createdAt.toLocaleDateString();
+                                                const openTime = createdAt.toLocaleTimeString();
+                                                const closeDate = updatedAt.toLocaleDateString();
+                                                const closeTime = updatedAt.toLocaleTimeString();
+                                                return (
+                                                    <div key={pos._id} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Symbol</span>
+                                                                    <span className={`date_light ${pos?.side === "LONG" ? "text-green" : "text-red"}`}>{pos.symbol} Perp {pos?.side} {pos.leverage}x</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Size</span>
+                                                                    <span>{pos?.side === "LONG" ? toFixedFive(pos.totalLongQty) : toFixedFive(pos.totalShortQty)} {pos.baseCurrency}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Entry Price</span>
+                                                                    <span>{toFixedFive(pos.entryPrice)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Exit Price</span>
+                                                                    <span>{toFixedFive(pos.exit_price)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>PNL</span>
+                                                                    <span className={pos.realizedPnl >= 0 ? "text-green" : "text-red"}>{toFixedFive(pos.realizedPnl)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Open</span>
+                                                                    <span>{openDate} <span className="time">{openTime}</span></span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Closed</span>
+                                                                    <span>{closeDate} <span className="time">{closeTime}</span></span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Liquidated</span>
+                                                                    <span>{pos.liquidated ? "YES" : "NO"}</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                )}
-                                            </div>
-
+                                                );
+                                            })}
                                         </div>
-
-
-                                    </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    {closePositions?.length > 0 && activePositionTab === "position_history" && (
+                                        <div className="hVPalX gap-2 d-flex justify-content-between align-items-center mt-2 flex-wrap">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalPositionHistory)} of {totalPositionHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                             </div>

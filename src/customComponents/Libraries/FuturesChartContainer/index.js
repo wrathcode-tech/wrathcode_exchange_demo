@@ -98,14 +98,13 @@ export default function TVFuturesChartContainer({ symbol }) {
           'mainSeriesProperties.style': 1,
         });
 
-        // Remove default volume (if any) and add volume in a separate pane (match spot)
+        // Remove volume from chart
         const studies = chart.getAllStudies?.() || [];
         studies.forEach(study => {
           if (study?.name?.toLowerCase?.().includes('volume')) {
             chart.removeEntity(study.id);
           }
         });
-        chart.createStudy?.('Volume', false, true);
 
         // === Custom timeframe buttons ===
         w.headerReady?.().then(() => {
