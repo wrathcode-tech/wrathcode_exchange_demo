@@ -2237,7 +2237,6 @@ function UsdMFutures() {
                 <div className="trade_account_summary_assets futuresflex">
 
                     <div className="trade_summary_table_lft mt-0 position_order">
-                        <div className='position_list_top d-flex justify-content-between align-items-center gap-2'>
 
                             <ul className="position_list">
                                 <li
@@ -2249,40 +2248,41 @@ function UsdMFutures() {
                                 <li
                                     className={`nav-item open ${activePositionTab === "open" ? "active" : ""}`}
                                     role="presentation"
-                                > <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("open"); }}>Open Orders({OpenOrders?.length || 0})</button>
-
+                                >
+                                    <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("open"); }}>Open Orders({OpenOrders?.length || 0})</button>
                                 </li>
-                                {/* <li
+                                <li
                                     className={`nav-item order_history ${activePositionTab === "order_history" ? "active" : ""}`}
                                     role="presentation"
                                 >
+                                    <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("order_history"); }}>Order History</button>
                                 </li>
                                 <li
                                     className={`nav-item exercise_history ${activePositionTab === "exercise_history" ? "active" : ""}`}
                                     role="presentation"
                                 >
-                              </li>
-
+                                    <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("exercise_history"); }}>Trade History</button>
+                                </li>
                                 <li
                                     className={`nav-item position_history ${activePositionTab === "position_history" ? "active" : ""}`}
                                     role="presentation"
                                 >
-                                   </li> */}
-
+                                    <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("position_history"); }}>Position History</button>
+                                </li>
                             </ul>
-                            <div className='select_option_box'>
-                                <select>
-                                    <option value="1"><button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("position_history"); }}>Position History</button>
-                                    </option>
-                                    <option value="2">      <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("exercise_history"); }}>Trade History</button>
-                                    </option>
-                                    <option value="3">     <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("order_history"); }}>Order History</button>
-                                    </option>
 
-                                </select>
-                            </div>
+                           
+                                <div className='d-flex'>
+                                <div class="order_history_mobile_view">
+                                <div class="no-data-wrapper py-4">
+                                    <div class="no_data_s">
+                                <img src="/images/no_data_vector.svg" class="img-fluid" width="96" height="96" alt="no data" />
+                                </div>
+                                </div>
+                                </div>
+                                </div>
 
-                        </div>
+                      
 
                     </div>
 

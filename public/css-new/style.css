@@ -20120,16 +20120,6 @@ button.p2p-submit-button {
         width: 100%;
         margin-top: 10px;
     }
-
-    .select_option_box select {
-        background-color: transparent;
-        border: 1px solid #b4b4b4;
-        color: #b4b4b4;
-        font-size: 12px;
-        padding: 4px;
-        border-radius: 4px;
-    }
-
     .currency_bit_footer {
         padding: 0px 15px 6px;
     }
