@@ -1335,6 +1335,12 @@ span.green {
     height: 600px !important;
 }
 
+@media (max-width: 480px) {
+    #TVFuturesChartContainer,
+    #TVFuturesChartContainer iframe {
+        height: 400px !important;
+    }
+}
 
 .recent_trades_options h6 {
     font-size: 12px;
@@ -3253,7 +3259,7 @@ button.bn-button.button__buy.sellbtn {
     }
 
     .top_bar_usd_future {
-        overflow: auto;
+        /* overflow: auto; */
     }
 
 }
@@ -3693,7 +3699,7 @@ button.bn-button.button__buy.sellbtn {
 
     .future_data_mobile>div {
         min-height: auto !important;
-        height: auto !important;
+        /* height: auto !important; */
     }
 
     .assets_right {
@@ -3778,7 +3784,7 @@ button.bn-button.button__buy.sellbtn {
     }
 
     #TVFuturesChartContainer iframe {
-        height: 600px !important;
+        /* height: 600px !important; */
     }
 
     .modal.currency_popup_s .modal-dialog .modal-content {

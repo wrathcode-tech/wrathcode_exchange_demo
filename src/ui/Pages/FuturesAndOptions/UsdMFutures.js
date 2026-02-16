@@ -801,14 +801,14 @@ function UsdMFutures() {
 
 
                                 {/* Change & % */}
-                                {(selectedCoin?.change || selectedCoin?.change_percentage) && (
+                                {/* {(selectedCoin?.change || selectedCoin?.change_percentage) && (
                                     <li>
                                         <span>24h Change</span>
                                         <div className={`price_tag ${selectedCoin.change > 0 ? "text-green" : "text-red"}`}>
                                             {toFixedThree(selectedCoin.change)} ({toFixedThree(selectedCoin.change_percentage)}%)
                                         </div>
                                     </li>
-                                )}
+                                )} */}
 
                                 {/* Volume */}
                                 {selectedCoin?.volume && (
@@ -817,12 +817,12 @@ function UsdMFutures() {
                                         <div className="price_tag">{toFixedThree(selectedCoin.volume)} {selectedCoin?.short_name}</div>
                                     </li>
                                 )}
-                                {selectedCoin?.volumeQuote && (
+                                {/* {selectedCoin?.volumeQuote && (
                                     <li>
                                         <span>24h Turnover</span>
                                         <div className="price_tag">{toFixedFive(selectedCoin.volumeQuote)} {selectedCoin?.margin_asset}</div>
                                     </li>
-                                )}
+                                )} */}
 
                                 {/* Leverage */}
 
@@ -880,9 +880,9 @@ function UsdMFutures() {
                         </ul>
                         <div className='future_data_mobile'>
                             {activeMobileTab === 'chart' && (
-                                Object.keys(selectedCoin)?.length > 0 ?
+                                Object.keys(selectedCoin)?.length >0 ?
                                     <TVFuturesChartContainer symbol={`${selectedCoin?.short_name}${selectedCoin?.margin_asset}_PERP`} />
-                                    : <div className="favouriteData dsfdsf" style={{ width: '100%', height: '100%', alignItems: 'center' }}>
+                                    : <div className="favouriteData dsfdsf" style={{ width: '100%', height: '400px', alignItems: 'center' }}>
                                         <div className="spinner-border m-5" role="status">
                                             <span className="sr-only"></span>
                                         </div>
@@ -2033,203 +2033,17 @@ function UsdMFutures() {
                                         </div>
                                         <div className="d-flex justify-content-between costbtc_total">
                                             <div className="d-flex align-items-center">
-                                                <h5>Taker Fee <span> 0.4%</span></h5>
+                                                <h5>Taker Fee <span> {selectedCoin?.taker_fee || "---"}%</span></h5>
                                             </div>
                                             <div className="d-flex align-items-center">
-                                                <h5>Maker Fee <span> 0.2%</span></h5>
+                                                <h5>Maker Fee <span> {selectedCoin?.maker_fee || "---"}%</span></h5>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
 
-                            {/* <div className="tab-content pt-1" id="myTabContent2">
-                                <div className="tab-pane fade show active" id="limit" role="tabpanel" aria-labelledby="limit-tab">
-
-                                
-
-                                </div>
-                                <div className="tab-pane fade" id="market" role="tabpanel" aria-labelledby="market-tab">
-                                   
-
-                                </div>
-                                <div className="tab-pane fade" id="stop-market" role="tabpanel" aria-labelledby="stop-market-tab">
-
-                                    <form className="price_info">
-                                        <div className="price_inputbl">
-                                            <label>Price</label>
-                                            <div className="price_select_option">
-                                                <input className="inputtype" type="text" placeholder="29197" />
-                                                <select>
-                                                    <option>USDT</option>
-                                                    <option>BTC</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <label>Price 2</label>
-                                            <div className="price_select_option">
-                                                <input className="inputtype" type="text" placeholder="29197" />
-                                                <select>
-                                                    <option>USDT</option>
-                                                    <option>BTC</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <label>Amount <span className="btctoggle">(BTC) <img
-                                                src="/images/futures_img/arrowright_dotted.svg" /></span></label>
-                                            <div className="price_select_option">
-                                                <input className="inputtype" type="text" placeholder="0.000" />
-                                                <select>
-                                                    <option>BTC</option>
-                                                    <option>USDT</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <ul>
-                                                <li><button>20%</button></li>
-                                                <li><button>40%</button></li>
-                                                <li><button>60%</button></li>
-                                                <li><button>80%</button></li>
-                                                <li><button>100%</button></li>
-                                            </ul>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <div className="avail_total_usd">
-                                                <label>Avail.</label>
-                                                <div className="usd_price">0 USDT <img src="/images/futures_img/usd_icon_refersh.svg" /></div>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <div className="tpsl_reduce d-flex gap-3">
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" id="tp-sl" />
-                                                    <label className="form-check-label" for="tp-sl">TP/SL</label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" id="reduce-only" />
-                                                    <label className="form-check-label" for="reduce-only">Reduce only</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <div className="buysell_btn d-flex gap-2 align-items-center">
-                                                <button className="buybtn" data-bs-toggle="modal" data-bs-target="#buypop">Buy/Long</button>
-                                                <button className="sellbtn" data-bs-toggle="modal" data-bs-target="#buypop">Sell/Short</button>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl  mt-2">
-                                            <div className="d-flex justify-content-between costbtc_total">
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Cost <span>- BTC</span></h5>
-                                                </div>
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Cost <span>- BTC</span></h5>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex justify-content-between costbtc_total">
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Max long <span> 0.1230 BTC</span></h5>
-                                                </div>
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Max short <span> 0.0845 BTC</span></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-                                <div className="tab-pane fade" id="stop-limit" role="tabpanel" aria-labelledby="stop-limit-tab">
-
-                                    <form className="price_info">
-                                        <div className="price_inputbl">
-                                            <label>Price</label>
-                                            <div className="price_select_option">
-                                                <input className="inputtype" type="text" placeholder="29197" />
-                                                <select>
-                                                    <option>USDT</option>
-                                                    <option>BTC</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <label>Price 2</label>
-                                            <div className="price_select_option">
-                                                <input className="inputtype" type="text" placeholder="29197" />
-                                                <select>
-                                                    <option>USDT</option>
-                                                    <option>BTC</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <label>Amount <span className="btctoggle">(BTC) <img
-                                                src="/images/futures_img/arrowright_dotted.svg" /></span></label>
-                                            <div className="price_select_option">
-                                                <input className="inputtype" type="text" placeholder="0.000" />
-                                                <select>
-                                                    <option>BTC</option>
-                                                    <option>USDT</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl value_choose">
-                                            <ul>
-                                                <li><button>20%</button></li>
-                                                <li><button>40%</button></li>
-                                                <li><button>60%</button></li>
-                                                <li><button>80%</button></li>
-                                                <li><button>100%</button></li>
-                                            </ul>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <div className="avail_total_usd">
-                                                <label>Avail.</label>
-                                                <div className="usd_price">0 USDT <img src="/images/futures_img/usd_icon_refersh.svg" /></div>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <div className="tpsl_reduce d-flex gap-3">
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" id="tp-sl" />
-                                                    <label className="form-check-label" for="tp-sl">TP/SL</label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" id="reduce-only" />
-                                                    <label className="form-check-label" for="reduce-only">Reduce only</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl">
-                                            <div className="buysell_btn d-flex gap-2 align-items-center">
-                                                <button className="buybtn" data-bs-toggle="modal" data-bs-target="#buypop">Buy/Long</button>
-                                                <button className="sellbtn" data-bs-toggle="modal" data-bs-target="#buypop">Sell/Short</button>
-                                            </div>
-                                        </div>
-                                        <div className="price_inputbl  mt-2">
-                                            <div className="d-flex justify-content-between costbtc_total">
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Cost <span>- BTC</span></h5>
-                                                </div>
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Cost <span>- BTC</span></h5>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex justify-content-between costbtc_total">
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Max long <span> 0.1230 BTC</span></h5>
-                                                </div>
-                                                <div className="d-flex align-items-center">
-                                                    <h5>Max short <span> 0.0845 BTC</span></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div> */}
+                         
                         </div>
                     </div>
                 </div>
@@ -2270,9 +2084,920 @@ function UsdMFutures() {
                                     <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("position_history"); }}>Position History</button>
                                 </li>
                             </ul>
+                            <div className={`cnt_table positions ${activePositionTab === "positions" ? "active" : ""}`}>
+                                <div className="desktop_view2">
+                                    <div className="table-responsive">
+                                        {openPositions?.length > 0 ?
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Symbol</th>
+                                                        <th>Size</th>
+                                                        <th>Entry Price</th>
+                                                        <th>Mark Price</th>
+                                                        <th>Liq. Price</th>
+                                                        <th>Isolated Margin</th>
+                                                        <th>Maintenance Margin</th>
+                                                        <th>PNL</th>
+                                                        <th className='yellowcolor'>MKT Close</th>
+                                                        {/* <th>Reverse</th> */}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {openPositions?.map((pos) => {
+                                                        const oppositeSide = pos.side === "LONG" ? "SHORT" : "LONG";
+
+                                                        const handleReverse = () => {
+                                                            // place double quantity opposite order
+                                                            placeReverseOrder(oppositeSide, pos.quantity, pos.leverage, pos._id, pos.side, pos.pair_id);
+                                                        };
+
+
+                                                        return (
+                                                            <tr key={pos._id}>
+                                                                <td className={pos?.side === "LONG" ? "text-green" : "text-red"}>
+                                                                    {pos.symbol}
+                                                                    <div className='fulltbl'>
+                                                                        <span className='subtxt'>Perp </span>
+                                                                        <span className='subtxt'>{pos.leverage}x</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td >{toFixedFive(pos.quantity)} {pos.baseCurrency} </td>
+                                                                <td>{toFixedFive(pos.entryPrice)}</td>
+                                                                <td>{toFixedFive(pos.lastMarkPrice)}</td>
+                                                                <td>{toFixedFive(pos.liquidationPrice) || "---"}</td>
+                                                                <td >{toFixedFive(pos.isolatedMargin)} {pos.marginAsset || "USDT"} (Cross)</td>
+                                                                <td>{toFixedFive(pos.maintenanceMargin)} {pos.marginAsset || "USDT"}</td>
+                                                                <td className={pos.unrealizedPnl >= 0 ? "text-green" : "text-red"}>{toFixedFive(pos.unrealizedPnl)} </td>
+                                                                <td>
+                                                                    <button type='button' onClick={() => closePosition(pos._id)}>Market Close</button>
+                                                                </td>
+                                                                {/* <td>
+                                                                <button className='reverse' type='button' onClick={handleReverse}>Reverse</button>
+                                                            </td> */}
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                </tbody>
+                                            </table> : <tr rowSpan="5" className="no-data-row">
+                                                <td colSpan="12">
+                                                    <div className="no-data-wrapper">
+                                                        <div className="no_data_s">
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>}
+
+                                    </div>
+                                </div>
+
+                                <div className='order_history_mobile_view'>
+                                    {openPositions?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {openPositions.map((pos) => (
+                                                <div key={pos._id} className='d-flex'>
+                                                    <div className='order_datalist'>
+                                                        <ul className='listdata'>
+                                                            <li>
+                                                                <span className='date'>Symbol</span>
+                                                                <span className={`date_light ${pos?.side === "LONG" ? "text-green" : "text-red"}`}>{pos.symbol} Perp {pos.leverage}x</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Size</span>
+                                                                <span>{toFixedFive(pos.quantity)} {pos.baseCurrency}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Entry Price</span>
+                                                                <span>{toFixedFive(pos.entryPrice)}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Mark Price</span>
+                                                                <span>{toFixedFive(pos.lastMarkPrice)}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Liq. Price</span>
+                                                                <span>{toFixedFive(pos.liquidationPrice) || "---"}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Isolated Margin</span>
+                                                                <span>{toFixedFive(pos.isolatedMargin)} {pos.marginAsset || "USDT"}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>PNL</span>
+                                                                <span className={pos.unrealizedPnl >= 0 ? "text-green" : "text-red"}>{toFixedFive(pos.unrealizedPnl)}</span>
+                                                            </li>
+                                                            <li>
+                                                                <span className='yellowcolor'>Action</span>
+                                                                <span><button type='button' className='market-close' onClick={() => closePosition(pos._id)}>Market Close</button></span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+
+                            </div>
+
+                            <div className={`cnt_table open ${activePositionTab === "open" ? "active" : ""}`}>
+                                <div className="desktop_view2">
+                                    <div className="table-responsive">
+                                        {OpenOrders?.length > 0 ?
+                                            <table>
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>Time</th>
+                                                        <th>Symbol</th>
+                                                        <th>Type</th>
+                                                        <th>Side</th>
+                                                        <th>Price</th>
+                                                        <th>Average</th>
+                                                        <th>Amount</th>
+                                                        <th>Filled</th>
+                                                        <th>Reduce Only</th>
+                                                        <th>Post Only</th>
+                                                        <th>Trigger Conditi ons</th>
+                                                        <th>TP/SL</th>
+                                                        <th>TIF</th>
+                                                        <th className='yellowcolor'>Cancel All</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {(
+                                                        OpenOrders.map((order) => {
+                                                            // Determine trigger condition display
+                                                            let triggerCondition = "---";
+                                                            if (order.isSL && order.positionSide) {
+                                                                triggerCondition =
+                                                                    order.positionSide === "LONG"
+                                                                        ? `<= ${pricePrecision(order.price)}`
+                                                                        : `>= ${pricePrecision(order.price)}`;
+                                                            } else if (order.isTP && order.positionSide) {
+                                                                triggerCondition =
+                                                                    order.positionSide === "LONG"
+                                                                        ? `>=  ${pricePrecision(order.price)}`
+                                                                        : `<= ${pricePrecision(order.price)}`;
+                                                            }
+
+                                                            return (
+                                                                <tr key={order._id}>
+                                                                    {/* Time */}
+                                                                    <td>
+                                                                        {new Date(order.createdAt).toLocaleDateString()}{" "}
+                                                                        <span className="time">{new Date(order.createdAt).toLocaleTimeString()}</span>
+                                                                    </td>
+
+                                                                    {/* Symbol */}
+                                                                    <td>
+                                                                        {order.symbol}
+                                                                        <div className="fulltbl">
+                                                                            <span className="subtxt">Perp </span>
+                                                                        </div>
+                                                                    </td>
+
+                                                                    {/* Type */}
+                                                                    <td>{order.type} {order.isTP ? "TAKE PROFIT" : order.isSL ? "STOP LOSS" : ""}</td>
+
+                                                                    {/* Side */}
+                                                                    <td className={order.side === "LONG" ? "greencolor" : "redcolor"}>
+                                                                        {order.side === "LONG" ? "Buy" : "Sell"}
+                                                                    </td>
+
+                                                                    {/* Price */}
+                                                                    <td>
+                                                                        {!order.isTP && !order.isSL
+                                                                            ? order.price
+                                                                                ? pricePrecision(order.price)
+                                                                                : "-"
+                                                                            : "---"}
+                                                                    </td>
+
+                                                                    {/* Avg Filled Price */}
+                                                                    <td>{pricePrecision(order.avgFillPrice) || "---"}</td>
+
+                                                                    {/* Amount / Quantity */}
+                                                                    <td>{order.quantity} {order.baseCurrency}</td>
+
+                                                                    {/* Filled */}
+                                                                    <td>{order.filledQty || 0} {order.baseCurrency}</td>
+
+                                                                    {/* Reduce Only */}
+                                                                    <td>{order.reduceOnly ? "Yes" : "No"}</td>
+
+                                                                    {/* Post Only */}
+                                                                    <td>{order.postOnly ? "Yes" : "No"}</td>
+
+                                                                    {/* Trigger Conditions */}
+                                                                    <td>{triggerCondition}</td>
+
+                                                                    {/* TP/SL */}
+                                                                    <td className={order.isTP ? "text-green" : order.isSL ? "text-red" : ""}>
+                                                                        {order.isTP
+                                                                            ? pricePrecision(order.takeProfitPnl)
+                                                                            : order.isSL
+                                                                                ? pricePrecision(order.stopLossPnl)
+                                                                                : "---"}
+                                                                    </td>
+
+
+                                                                    {/* TIF */}
+                                                                    <td>{order.timeInForce || "GTC"}</td>
+
+                                                                    {/* Cancel / Action */}
+                                                                    <td className="yellowcolor">
+                                                                        <button type='button' onClick={() => cancelFutureOrder(order?.orderId)}>
+                                                                            Cancel <i className="ri-delete-bin-6-line"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        })
+                                                    )}
+                                                </tbody>
+
+                                            </table> : <tr rowSpan="5" className="no-data-row">
+                                                <td colSpan="12">
+                                                    <div className="no-data-wrapper">
+                                                        <div className="no_data_s">
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div className='order_history_mobile_view'>
+                                    {OpenOrders?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {OpenOrders.map((order) => {
+                                                let triggerCondition = "---";
+                                                if (order.isSL && order.positionSide) {
+                                                    triggerCondition = order.positionSide === "LONG" ? `<= ${pricePrecision(order.price)}` : `>= ${pricePrecision(order.price)}`;
+                                                } else if (order.isTP && order.positionSide) {
+                                                    triggerCondition = order.positionSide === "LONG" ? `>= ${pricePrecision(order.price)}` : `<= ${pricePrecision(order.price)}`;
+                                                }
+                                                return (
+                                                    <div key={order._id} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Date</span>
+                                                                    <span className='date_light'>{new Date(order.createdAt).toLocaleDateString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Time</span>
+                                                                    <span>{new Date(order.createdAt).toLocaleTimeString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Symbol</span>
+                                                                    <span>{order.symbol} Perp</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Type</span>
+                                                                    <span>{order.type} {order.isTP ? "TAKE PROFIT" : order.isSL ? "STOP LOSS" : ""}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Side</span>
+                                                                    <span className={order.side === "LONG" ? "text-green" : "text-red"}>{order.side === "LONG" ? "Buy" : "Sell"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Price</span>
+                                                                    <span>{!order.isTP && !order.isSL && order.price ? pricePrecision(order.price) : "---"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Average</span>
+                                                                    <span>{pricePrecision(order.avgFillPrice) || "---"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Amount</span>
+                                                                    <span>{order.quantity} {order.baseCurrency}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Filled</span>
+                                                                    <span>{order.filledQty || 0} {order.baseCurrency}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Trigger</span>
+                                                                    <span>{triggerCondition}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='yellowcolor'>Action</span>
+                                                                    <span><button type='button' className='market-close' onClick={() => cancelFutureOrder(order?.orderId)}>Cancel <i className="ri-delete-bin-6-line"></i></button></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+
+                            </div>
+
+                            <div className={`cnt_table order_history ${activePositionTab === "order_history" ? "active" : ""}`}>
+                                <div className="desktop_view2">
+                                    <div className="table-responsive">
+                                        {ordersHistory?.length > 0 ? <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <th>Symbol</th>
+                                                    <th>Type</th>
+                                                    <th>Side</th>
+                                                    <th>Price</th>
+                                                    <th>Average</th>
+                                                    <th>Amount</th>
+                                                    <th>Filled</th>
+                                                    <th>Reduce Only</th>
+                                                    <th>TP/SL</th>
+                                                    <th>Status</th>
+                                                    <th className="yellowcolor">Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {ordersHistory.map((order) => (
+                                                    <tr key={order._id}>
+                                                        {/* Time */}
+                                                        <td>
+                                                            {new Date(order.createdAt).toLocaleDateString()}{" "}
+                                                            <span className="time">
+                                                                {new Date(order.createdAt).toLocaleTimeString()}
+                                                            </span>
+                                                        </td>
+
+                                                        {/* Symbol */}
+                                                        <td>
+                                                            {order.symbol}
+                                                            <div className="fulltbl">
+                                                                <span className="subtxt">Perp</span>
+                                                            </div>
+                                                        </td>
+
+                                                        {/* Type */}
+                                                        <td>{order.type}</td>
+
+                                                        {/* Side */}
+                                                        <td className={order.side === "LONG" ? "text-green" : "text-red"}>
+                                                            {order.side === "LONG" ? "Buy" : "Sell"}
+                                                        </td>
+
+                                                        {/* Price */}
+                                                        <td>
+                                                            {order.price
+                                                                ? toFixedFive(order.price)
+                                                                : "---"}
+                                                        </td>
+                                                        <td>
+                                                            {order.avgFillPrice
+                                                                ? toFixedFive(order.avgFillPrice)
+                                                                : "-"}
+                                                        </td>
+
+                                                        {/* Amount */}
+                                                        <td>
+                                                            {toFixedFive(order.quantity)} {order.baseCurrency}
+                                                        </td>
+
+                                                        {/* Filled */}
+                                                        <td>
+                                                            {toFixedFive(order.filledQty)} {order.baseCurrency}
+                                                        </td>
+
+                                                        {/* Reduce Only */}
+                                                        <td>{order.reduceOnly ? "Yes" : "No"}</td>
+
+
+                                                        {/* TP/SL */}
+                                                        <td>
+                                                            {order.isTP ? "TP" : order.isSL ? "SL" : "--"}
+                                                        </td>
+
+                                                        {/* Status */}
+                                                        <td className={order.status ? "text-green" : "text-red"}>{order.status}</td>
+
+                                                        {/* Error  */}
+                                                        <td className="yellowcolor">
+                                                            {order.error || "---"}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table> : <tr rowSpan="5" className="no-data-row">
+                                            <td colSpan="12">
+                                                <div className="no-data-wrapper">
+                                                    <div className="no_data_s">
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>}
+                                    </div>
+                                    {ordersHistory?.length > 0 && activePositionTab === "order_history" && (
+                                        <div className="hVPalX gap-2 d-flex justify-content-end align-items-center mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalOrderHistory)} of {totalOrderHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className='order_history_mobile_view'>
+                                    {ordersHistory?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {ordersHistory.map((order) => {
+                                                const orderId = order._id;
+                                                const orderDate = new Date(order.createdAt);
+                                                return (
+                                                    <div key={orderId} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Date</span>
+                                                                    <span className='date_light'>{orderDate.toLocaleDateString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Time</span>
+                                                                    <span>{orderDate.toLocaleTimeString()}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Symbol</span>
+                                                                    <span>{order.symbol}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Side</span>
+                                                                    <span className={order.side === "LONG" ? "text-green" : "text-red"}>{order.side === "LONG" ? "Buy" : "Sell"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Price</span>
+                                                                    <span>{order.price ? toFixedFive(order.price) : "---"}</span>
+                                                                </li>
+                                                                {showAllListItems[orderId] && (
+                                                                    <>
+                                                                        <li>
+                                                                            <span>Average</span>
+                                                                            <span>{order.avgFillPrice ? toFixedFive(order.avgFillPrice) : "-"}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Amount</span>
+                                                                            <span>{toFixedFive(order.quantity)} {order.baseCurrency}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Filled</span>
+                                                                            <span>{toFixedFive(order.filledQty)} {order.baseCurrency}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Reduce Only</span>
+                                                                            <span>{order.reduceOnly ? "Yes" : "No"}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>TP/SL</span>
+                                                                            <span>{order.isTP ? "TP" : order.isSL ? "SL" : "--"}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Status</span>
+                                                                            <span className={order.status ? "text-success" : "text-danger"}>{order.status}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span>Description</span>
+                                                                            <span className="yellowcolor">{order.error || "---"}</span>
+                                                                        </li>
+                                                                    </>
+                                                                )}
+                                                            </ul>
+                                                            <button
+                                                                type="button"
+                                                                className="view_more_btn"
+                                                                onClick={() => setShowAllListItems({ ...showAllListItems, [orderId]: !showAllListItems[orderId] })}
+                                                            >
+                                                                {showAllListItems[orderId] ? <i className="ri-arrow-down-s-line"></i> : <i className="ri-arrow-up-s-line"></i>}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    {ordersHistory?.length > 0 && activePositionTab === "order_history" && (
+                                        <div className="hVPalX d-flex flex-row justify-content-center align-items-center gap-0 flex-wrap mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalOrderHistory)} of {totalOrderHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex flex-row gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                            </div>
+                            <div className={`cnt_table exercise_history ${activePositionTab === "exercise_history" ? "active" : ""}`}>
+                                <div className="desktop_view2">
+                                    <div className="table-responsive">
+                                        {tradeHistory.length > 0 ? <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <th>Symbol</th>
+                                                    <th>Type</th>
+                                                    <th>Side</th>
+                                                    <th>Price</th>
+                                                    <th>Amount</th>
+                                                    <th>Fee</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {(
+                                                    tradeHistory.map((trade) => {
+                                                        const createdAt = new Date(trade.createdAt);
+                                                        const date = createdAt.toISOString().split("T")[0];
+                                                        const time = createdAt.toTimeString().split(" ")[0];
+
+                                                        return (
+                                                            <tr key={trade._id}>
+                                                                {/* Time */}
+                                                                <td>
+                                                                    {date} <span className="time">{time}</span>
+                                                                </td>
+
+                                                                {/* Symbol */}
+                                                                <td className={trade.side === "LONG" ? "text-green" : "text-red"}>
+                                                                    {trade.symbol}
+                                                                    <div className="fulltbl">
+                                                                        <span className="subtxt">Perp</span>
+                                                                    </div>
+                                                                </td>
+
+                                                                {/* Order Type */}
+                                                                <td>{trade.role === "TAKER" ? "Market" : "Limit"}</td>
+
+                                                                {/* Side */}
+                                                                <td className={trade.side === "LONG" ? "text-green" : "text-red"}>
+                                                                    {trade.side === "LONG" ? "BUY" : "SELL"}
+                                                                </td>
+
+                                                                {/* Price */}
+                                                                <td>
+                                                                    {toFixedFive(trade.price)}{" "}
+                                                                </td>
+
+                                                                {/* Amount */}
+                                                                <td>
+                                                                    {toFixedFive(trade.quantity)}{" "}
+                                                                </td>
+
+                                                                {/* Fee */}
+                                                                <td>{toFixedFive(trade.fee)}</td>
+
+
+                                                            </tr>
+                                                        );
+                                                    })
+                                                )}
+                                            </tbody>
+                                        </table> : <tr rowSpan="5" className="no-data-row">
+                                            <td colSpan="12">
+                                                <div className="no-data-wrapper">
+                                                    <div className="no_data_s">
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>}
+
+                                    </div>
+                                    {tradeHistory?.length > 0 && activePositionTab === "exercise_history" && (
+                                        <div className="hVPalX d-flex flex-row justify-content-center align-items-center gap-0 flex-wrap mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalTradeHistory)} of {totalTradeHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex flex-row gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className='order_history_mobile_view'>
+                                    {tradeHistory?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {tradeHistory.map((trade) => {
+                                                const createdAt = new Date(trade.createdAt);
+                                                const date = createdAt.toLocaleDateString();
+                                                const time = createdAt.toLocaleTimeString();
+                                                return (
+                                                    <div key={trade._id} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Date</span>
+                                                                    <span className='date_light'>{date}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Time</span>
+                                                                    <span>{time}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Symbol</span>
+                                                                    <span className={trade.side === "LONG" ? "text-green" : "text-red"}>{trade.symbol}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Type</span>
+                                                                    <span>{trade.role === "TAKER" ? "Market" : "Limit"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Side</span>
+                                                                    <span className={trade.side === "LONG" ? "text-green" : "text-red"}>{trade.side === "LONG" ? "BUY" : "SELL"}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Price</span>
+                                                                    <span>{toFixedFive(trade.price)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Amount</span>
+                                                                    <span>{toFixedFive(trade.quantity)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Fee</span>
+                                                                    <span>{toFixedFive(trade.fee)}</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    {tradeHistory?.length > 0 && activePositionTab === "exercise_history" && (
+                                        <div className="hVPalX d-flex flex-row justify-content-center align-items-center gap-0 flex-wrap mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalTradeHistory)} of {totalTradeHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                            </div>
+                            <div className={`cnt_table position_history ${activePositionTab === "position_history" ? "active" : ""}`}>
+                                <div className="desktop_view2">
+                                    <div className="table-responsive">
+                                        {closePositions?.length > 0 ? <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Symbol</th>
+                                                    <th>Size</th>
+                                                    <th>Entry Price</th>
+                                                    <th>Exit Price</th>
+                                                    <th>PNL</th>
+                                                    <th>Open</th>
+                                                    <th>Closed</th>
+                                                    <th>Is liquidated?</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    closePositions?.map((pos) => {
+                                                        const createdAt = new Date(pos.createdAt);
+                                                        const updatedAt = new Date(pos.updatedAt);
+
+                                                        const openDate = createdAt.toISOString().split("T")[0];
+                                                        const openTime = createdAt.toTimeString().split(" ")[0];
+
+                                                        const closeDate = updatedAt.toISOString().split("T")[0];
+                                                        const closeTime = updatedAt.toTimeString().split(" ")[0];
+
+                                                        return (
+                                                            <tr key={pos._id}>
+                                                                <td className={pos?.side === "LONG" ? "text-green" : "text-red"}>
+                                                                    {pos.symbol}
+                                                                    <div className="fulltbl">
+                                                                        <span className="subtxt">Perp </span>
+                                                                        <span className="subtxt">{pos?.side} </span>
+                                                                        <span className="subtxt">{pos.leverage}x</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    {pos?.side === "LONG"
+                                                                        ? toFixedFive(pos.totalLongQty)
+                                                                        : toFixedFive(pos.totalShortQty)}{" "}
+                                                                    {pos.baseCurrency}
+                                                                </td>
+                                                                <td>{toFixedFive(pos.entryPrice)}</td>
+                                                                <td>{toFixedFive(pos.exit_price)}</td>
+                                                                <td
+                                                                    className={
+                                                                        pos.realizedPnl >= 0 ? "text-green" : "text-red"
+                                                                    }
+                                                                >
+                                                                    {toFixedFive(pos.realizedPnl)}
+                                                                </td>
+                                                                <td>
+                                                                    {openDate} <span className="time">{openTime}</span>
+                                                                </td>
+                                                                <td>
+                                                                    {closeDate} <span className="time">{closeTime}</span>
+                                                                </td>
+                                                                <td>
+                                                                    {pos.liquidated ? "YES" : "NO"}
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })
+                                                }
+                                            </tbody>
+                                        </table> : <tr rowSpan="5" className="no-data-row">
+                                            <td colSpan="12">
+                                                <div className="no-data-wrapper">
+                                                    <div className="no_data_s">
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>}
+
+                                    </div>
+                                    {closePositions?.length > 0 && activePositionTab === "position_history" && (
+                                        <div className="hVPalX gap-2 d-flex justify-content-end align-items-center mt-2">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalPositionHistory)} of {totalPositionHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex flex-row gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className='order_history_mobile_view'>
+                                    {closePositions?.length > 0 ? (
+                                        <div className='d-flex flex-column gap-2'>
+                                            {closePositions.map((pos) => {
+                                                const createdAt = new Date(pos.createdAt);
+                                                const updatedAt = new Date(pos.updatedAt);
+                                                const openDate = createdAt.toLocaleDateString();
+                                                const openTime = createdAt.toLocaleTimeString();
+                                                const closeDate = updatedAt.toLocaleDateString();
+                                                const closeTime = updatedAt.toLocaleTimeString();
+                                                return (
+                                                    <div key={pos._id} className='d-flex'>
+                                                        <div className='order_datalist'>
+                                                            <ul className='listdata'>
+                                                                <li>
+                                                                    <span className='date'>Symbol</span>
+                                                                    <span className={`date_light ${pos?.side === "LONG" ? "text-green" : "text-red"}`}>{pos.symbol} Perp {pos?.side} {pos.leverage}x</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Size</span>
+                                                                    <span>{pos?.side === "LONG" ? toFixedFive(pos.totalLongQty) : toFixedFive(pos.totalShortQty)} {pos.baseCurrency}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Entry Price</span>
+                                                                    <span>{toFixedFive(pos.entryPrice)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Exit Price</span>
+                                                                    <span>{toFixedFive(pos.exit_price)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>PNL</span>
+                                                                    <span className={pos.realizedPnl >= 0 ? "text-green" : "text-red"}>{toFixedFive(pos.realizedPnl)}</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Open</span>
+                                                                    <span>{openDate} <span className="time">{openTime}</span></span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Closed</span>
+                                                                    <span>{closeDate} <span className="time">{closeTime}</span></span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Liquidated</span>
+                                                                    <span>{pos.liquidated ? "YES" : "NO"}</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <div className="no-data-wrapper py-4">
+                                            <div className="no_data_s">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    {closePositions?.length > 0 && activePositionTab === "position_history" && (
+                                        <div className="hVPalX gap-2 d-flex justify-content-between align-items-center mt-2 flex-wrap">
+                                            <span className="text-white">{historySkip + 1}-{Math.min(historySkip + HISTORY_LIMIT, totalPositionHistory)} of {totalPositionHistory}</span>
+                                            <div className="sc-eAKtBH gVtWSU d-flex gap-1">
+                                                <button type="button" aria-label="First Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('first')}>
+                                                    <i className="ri-skip-back-fill text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Previous Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('prev')}>
+                                                    <i className="ri-arrow-left-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Next Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('next')}>
+                                                    <i className="ri-arrow-right-s-line text-white"></i>
+                                                </button>
+                                                <button type="button" aria-label="Last Page" className="sc-gjLLEI kuPCgf btn btn-sm btn-outline-secondary" onClick={() => handleHistoryPagination('last')}>
+                                                    <i className="ri-skip-forward-fill text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                            </div>
+
+                        {/* </div> */}
+
+                    {/* </div> */}
 
                            
-                                <div className='d-flex'>
+                                {/* <div className='d-flex'>
                                 <div class="order_history_mobile_view">
                                 <div class="no-data-wrapper py-4">
                                     <div class="no_data_s">
@@ -2280,7 +3005,7 @@ function UsdMFutures() {
                                 </div>
                                 </div>
                                 </div>
-                                </div>
+                                </div> */}
 
                       
 

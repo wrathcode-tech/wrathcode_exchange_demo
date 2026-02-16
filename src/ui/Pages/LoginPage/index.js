@@ -243,7 +243,7 @@ const LoginPage = () => {
 
           const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
           navigate(redirectPath, { replace: true });
-          // window.location.reload();
+          window.location.reload();
         } else {
           alertErrorMessage(loginResult?.message || 'Login failed');
         }
@@ -337,6 +337,7 @@ const LoginPage = () => {
 
                 const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
                 navigate(redirectPath, { replace: true });
+                window.location.reload();
                 return; // Exit early - login complete
               }
             }
@@ -369,7 +370,7 @@ const LoginPage = () => {
             localStorage.setItem("userId", responseData.userId);
             const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
             navigate(redirectPath, { replace: true });
-            // window.location.reload();
+            window.location.reload();
           }
         }
 
@@ -462,7 +463,7 @@ const LoginPage = () => {
         $("#Confirmation_model").modal('hide');
         const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
         navigate(redirectPath, { replace: true });
-        // window.location.reload();
+        window.location.reload();
       } else {
         alertErrorMessage(result?.message || "Verification failed");
       }
@@ -565,6 +566,7 @@ const LoginPage = () => {
 
                 const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
                 navigate(redirectPath, { replace: true });
+                window.location.reload();
                 return; // Exit early - login complete
               }
             }
@@ -594,7 +596,7 @@ const LoginPage = () => {
           setLoginDetails(responseData);
           const redirectPath = location?.state?.redirectTo || "/user_profile/dashboard";
           navigate(redirectPath, { replace: true });
-          // window.location.reload();
+          window.location.reload();
         }
       } else {
         alertErrorMessage(result?.message);

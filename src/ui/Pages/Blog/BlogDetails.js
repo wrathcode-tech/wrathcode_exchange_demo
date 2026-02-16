@@ -11,22 +11,22 @@ const BlogDetails = () => {
 
   const currentBlog = BLOG_CONTENT.find((item) => item.index === blogId);
 
-  useEffect(() => {
+    useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [blogId]);
 
-  return (
-    <>
-      <div className="blog_detail">
-        <section className="inner-page-banner bg-2 bg-image">
-          <div className="container">
+    return (
+        <>
+        <div className="blog_detail">
+            <section className="inner-page-banner bg-2 bg-image">
+                <div className="container">
             <Link to="/blogs" className="mb-3">
               {"<"} Back
             </Link>
-            <div className="inner text-center">
-              <h1 className="title">Wrathcode Blog</h1>
-              <nav className="mt-4">
-                <ol className="breadcrumb justify-content-center">
+                    <div className="inner text-center">
+                        <h1 className="title">Wrathcode Blog</h1>
+                        <nav className="mt-4">
+                            <ol className="breadcrumb justify-content-center">
                   <li className="breadcrumb-item">
                     <Link to="/">Home</Link>
                   </li>
@@ -36,14 +36,14 @@ const BlogDetails = () => {
                   <li className="breadcrumb-item active" aria-current="page">
                     Blog Details
                   </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </section>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </section>
 
-        <section className="pt-120 pb-90 blog_list">
-          <div className="container">
+            <section className="pt-120 pb-90 blog_list">
+                <div className="container">
             {currentBlog ? (
               <>
                 <Helmet>
@@ -73,14 +73,14 @@ const BlogDetails = () => {
                       <h2 className="mb-2">{currentBlog.title}</h2>
                       <ul className="meta" />
                       <p>{currentBlog.description}</p>
-                    </div>
-                  </div>
+                                    </div>
+                        </div>
 
                   <div className="col-xl-4 col-lg-4">
-                    <aside className="sidebar">
+                            <aside className="sidebar">
                       <div className="single-widget recent-post mt-5">
                         <h3 className="title">Recent Posts</h3>
-                        <div className="inner">
+                                    <div className="inner">
                           <ul className="list_with_img">
                             {BLOG_CONTENT.map((item, index) => (
                               <li
@@ -90,7 +90,7 @@ const BlogDetails = () => {
                                   navigate(`/blogdetails?${item?.index}`);
                                 }}
                               >
-                                <div>
+                                                        <div>
                                   <a className="d-block mt-0 cursor-pointer">
                                     {item?.title}
                                   </a>
@@ -107,7 +107,7 @@ const BlogDetails = () => {
                         </div>
                       </div>
                     </aside>
-                  </div>
+                    </div>
                 </div>
               </>
             ) : (
@@ -122,11 +122,11 @@ const BlogDetails = () => {
                 </Link>
               </div>
             )}
-          </div>
-        </section>
-      </div>
-    </>
-  );
+                </div>
+            </section>
+            </div>
+        </>
+    );
 };
 
 function truncateText(str, maxLength) {

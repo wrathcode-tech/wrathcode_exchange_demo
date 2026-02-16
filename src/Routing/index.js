@@ -24,6 +24,7 @@ import SecuritySystem from "../ui/Pages/SecuritySystem";
 import RefrealList from "../ui/Pages/RefrealList";
 import BlogList from "../ui/Pages/Blog/BlogList";
 import MobileChart from "../ui/Pages/MobileChart";
+import MobileFuturesChart from "../ui/Pages/MobileFuturesChart";
 import BlogDetails from "../ui/Pages/Blog/BlogDetails";
 import SettingsPage from "../ui/Pages/SettingsPage";
 import SupportPage from "../ui/Pages/Support";
@@ -75,7 +76,7 @@ function Routing() {
   const location = useLocation();
   const token = localStorage.getItem("token");
   const { userDetails } = useContext(ProfileContext);
-  const isChartPage = location?.pathname?.includes('/chart');
+  const isChartPage = location?.pathname?.includes('/chart') || location?.pathname?.includes('/futures-chart');
 
   return (
     <>
@@ -143,6 +144,7 @@ function Routing() {
         <Route exact path="/FAQSidebar" element={<FAQSidebar />}></Route>
         <Route exact path="/" element={<LandingPage />} />
         <Route path="/chart/:theme/:pairs" element={<MobileChart />} />
+        <Route path="/futures-chart/:theme/:pairs" element={<MobileFuturesChart />} />
         <Route path="/announcement" element={<Announcement />} />
         <Route path="/launchpad" element={<LaunchpadHome />} />
         <Route path="/launchpadCoin_Details/:id" element={<LaunchpadCoinPage />} />

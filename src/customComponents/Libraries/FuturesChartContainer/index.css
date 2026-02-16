@@ -1,8 +1,10 @@
-#TVFuturesChartContainer {
+#TVFuturesChartContainer,
+#TVFuturesChartContainerMobile {
   height: 100%;
   width: 100%;
 }
-#TVFuturesChartContainer > * {
+#TVFuturesChartContainer > *,
+#TVFuturesChartContainerMobile > * {
   width: 100%;
 }
 

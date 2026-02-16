@@ -245,53 +245,30 @@ export default function TVFuturesChartContainer({ symbol }) {
     });
   }, [symbol, tvWidget]);
 
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    if (!tvWidget) return;
-    tvWidget.onChartReady(() => {
-      try {
-        setReady(true);
-      } catch (e) {}
-    });
-  }, [tvWidget]);
-
   const isMobile = window.innerWidth <= 480;
   const chartHeight = isMobile ? '400px' : '625px';
   const Theme = localStorage.getItem('theme');
   const bgColor = Theme === 'light' ? '#ffffff' : '#181A20';
 
   return (
-    <div style={{ position: "relative", minHeight: chartHeight, height: chartHeight, backgroundColor: bgColor }}>
-      {/* Chart Container */}
+    <div
+      style={{
+        position: "relative",
+        minHeight: chartHeight,
+        height: chartHeight,
+        width: '100%',
+        backgroundColor: bgColor,
+      }}
+    >
       <div
         id="TVFuturesChartContainer"
         style={{
-          opacity: ready ? 1 : 0,
-          transition: "opacity 0.1s ease",
+          width: '100%',
+          height: chartHeight,
+          minHeight: chartHeight,
           backgroundColor: bgColor,
-          height: "100%",
         }}
       />
-
-      {/* Loader Overlay */}
-      {!ready && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: bgColor,
-            zIndex: 10,
-          }}
-        >
-          <div className="spinner-border text-primary" role="status" style={{ width: '1.5rem', height: '1.5rem', borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
-        </div>
-      )}
     </div>
   );
 }
