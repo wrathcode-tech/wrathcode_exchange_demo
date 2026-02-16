@@ -3557,6 +3557,13 @@ button.bn-button.button__buy.sellbtn {
     }
 
 
+.relative_select_right_mobile_tabs.d-lg-none {
+    display: none;
+}
+
+
+
+
     .market_spot_form {
         padding-bottom: 24px;
     }
@@ -3582,6 +3589,98 @@ button.bn-button.button__buy.sellbtn {
         padding-bottom: 8px;
     }
 
+}
+
+
+/* 991px tak: relative_select_right sirf Buy/Sell click par show (mobile jaisa) */
+@media screen and (max-width: 991px) {
+
+    .relative_select_right {
+        display: none !important;
+    }
+
+    .relative_select_right.mobile_order_panel_open,
+    .dashboard_mid_s .relative_select_right.mobile_order_panel_open,
+    .space_gap_0 .relative_select_right.mobile_order_panel_open {
+        display: block !important;
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80vh !important;
+        max-height: 80vh !important;
+        min-height: 0 !important;
+        z-index: 1055;
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        background: var(--body-bg, #0d0d14);
+        padding: 56px 15px 20px;
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .relative_select_right_mobile_close {
+        display: flex !important;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 1060;
+        width: 20px;
+        height: 20px;
+        border-radius:50%;
+        border: none;
+        background: none;
+        color: #858585;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 200;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .relative_select_right_mobile_tabs {
+        display: flex;
+        gap: 0;
+        margin-bottom: 16px;
+        border-bottom: 1px solid #2a2a3a;
+    }
+
+    .relative_select_right_mobile_tabs button {
+        flex: 1;
+        padding: 12px 16px;
+        border: none;
+        background: transparent;
+        color: #888;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+    }
+
+    .relative_select_right_mobile_tabs button.active {
+        color: #fff;
+    }
+
+    .relative_select_right_mobile_tabs button:first-child.active {
+        border-bottom-color: #22c55e;
+    }
+
+    .relative_select_right_mobile_tabs button:last-child.active {
+        border-bottom-color: #ef4444;
+    }
+
+    .relative_select_right_mobile_backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1050;
+    }
 }
 
 
@@ -3612,14 +3711,14 @@ button.bn-button.button__buy.sellbtn {
         bottom: 0;
         left: 0;
         right: 0;
-        height: 80vh !important;
-        max-height: 80vh !important;
+        height: 70vh !important;
+        max-height: 70vh !important;
         min-height: 0 !important;
         z-index:999999;
         overflow-y: auto !important;
         overflow-x: hidden;
         background: var(--body-bg, #0d0d14);
-        padding: 15px 15px 20px;
+        padding: 20px 15px 20px;
         width: 100%;
         box-sizing: border-box;
         -webkit-overflow-scrolling: touch;
@@ -3628,7 +3727,8 @@ button.bn-button.button__buy.sellbtn {
     .relative_select_right_mobile_close {
         display: flex !important;
         position: absolute;
-        right: 8px;
+        right: 5px;
+        top: 1px;
         z-index: 1060;
         width: 20px;
         height: 20px;
@@ -3651,7 +3751,7 @@ button.bn-button.button__buy.sellbtn {
             font-size: 11px; }
 
     .relative_select_right_mobile_tabs {
-        display: flex;
+        display: none;
         gap: 0;
         margin-bottom: 16px;
         border-bottom: 1px solid #2a2a3a;
@@ -4322,6 +4422,9 @@ button.bn-button.button__buy.sellbtn {
     .prediction_up {
         gap: 15px;
     }
+
+    .space_gap_0.dashboard_mid_s .relative_select_right{ padding: 20px 15px !important; }
+
 
 }
 

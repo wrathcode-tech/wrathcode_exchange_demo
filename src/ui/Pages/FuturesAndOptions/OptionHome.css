@@ -4578,8 +4578,17 @@ span.arrowmobile {
 
     .flex_right_option {
         gap: 5px;
-
     }
+    .market_spot_form .buysell_btn button {
+        padding: 7px 14px; }
+
+        button.btn.btn-danger.btn-block.w-100 {
+            font-size: 12px;
+        }
+
+        .order_datalist .listdata {
+            padding-bottom: 18px;
+        }
 
     .usd_left_pr {
         gap: 15px;
@@ -5340,7 +5349,16 @@ span.arrowmobile {
     body .top_future_left_s {
             overflow: inherit; }
 
-.future_mobile_tab_content.table_info_data .buy_sell_row{ padding: 0px; }    
+.future_mobile_tab_content.table_info_data .buy_sell_row{ padding: 0px; }  
+.market_spot_form .buysell_btn button {
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+
+.modal.currency_popup_s .btn-close {
+    font-size: 8px;
+    padding: 5px; }
 
 }
 
@@ -5400,8 +5418,8 @@ span.arrowmobile {
     }
 
     .btnsupport button {
-        font-size: 14px;
-        padding: 8px 24px;
+        font-size: 12px;
+        padding: 6px 24px;
     }
 
     .currency_popup_s h4 {
