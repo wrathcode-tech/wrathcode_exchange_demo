@@ -13495,7 +13495,7 @@ section.section-padding.val_sec.pt-0 {
 }
 
 button.btn.btn-success {
-    color: #000 !important;
+    color: #fff !important;
     background-color: #5EBA89 !important;
     border-radius: 50px;
     font-size: 12px;
@@ -18733,10 +18733,22 @@ button.p2p-submit-button {
 
     .position_order .order_history_mobile_view {
         margin: 15px 0px 40px;
+        min-height: 300px;
+    }
+
+.bottm_lightbox_two .bs_box_header i {
+        font-size: 22px;
+        background-color: #f3bb2b;
+        color: #111114;
+        border-radius: 50px;
     }
 
     .refrefer_earn_vector {
         margin-top: 24px;
+    }
+
+    .order_history_mobile_view .d-flex {
+        height: 100%;
     }
 
     .dashboard_recent_s .mobile_view {
@@ -20107,6 +20119,15 @@ button.p2p-submit-button {
         border-radius: 10px;
         width: 100%;
         margin-top: 10px;
+    }
+
+    .select_option_box select {
+        background-color: transparent;
+        border: 1px solid #b4b4b4;
+        color: #b4b4b4;
+        font-size: 12px;
+        padding: 4px;
+        border-radius: 4px;
     }
 
     .currency_bit_footer {
@@ -25956,7 +25977,7 @@ button.p2p-submit-button {
 
     body .bs_dropbox .buysell_card .btn-mini {
         font-size: 11px !important;
-        padding: 11px 10px 11px !important;
+        padding: 8px 10px 8px !important;
     }
 
     .kyc_form_multistep .gender_radio .form-check-label {

@@ -5535,6 +5535,10 @@ span.arrowmobile {
         padding-bottom: 7px;
     }
 
+    .position_order .position_list {
+        gap: 7px;
+    }
+
     .trade_movers_tb ul.nav-tabs {
         gap: 4px;
     }
