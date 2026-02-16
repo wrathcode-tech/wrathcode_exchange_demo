@@ -68,6 +68,8 @@ function UsdMFutures() {
     const [activePositionTab, setActivePositionTab] = useState("positions");
     const [activeLimitTab, setActiveLimitTab] = useState("positions_two");
     const [activeMobileTab, setActiveMobileTab] = useState("chart");
+    const [showMobileOrderPanel, setShowMobileOrderPanel] = useState(false);
+    const [mobileOrderSide, setMobileOrderSide] = useState("buy");
 
 
 
@@ -1436,7 +1438,12 @@ function UsdMFutures() {
 
                     </div>
 
-                    <div className="relative_select_right">
+                    <div className={`relative_select_right ${showMobileOrderPanel ? 'mobile_order_panel_open' : ''}`}>
+                        <button type="button" className="relative_select_right_mobile_close d-lg-none" onClick={() => setShowMobileOrderPanel(false)} aria-label="Close"><i className="ri-close-line"></i></button>
+                        <div className="relative_select_right_mobile_tabs d-lg-none">
+                            <button type="button" className={mobileOrderSide === 'buy' ? 'active' : ''} onClick={() => setMobileOrderSide('buy')}>Buy</button>
+                            <button type="button" className={mobileOrderSide === 'sell' ? 'active' : ''} onClick={() => setMobileOrderSide('sell')}>Sell</button>
+                        </div>
                         <div className="top_cross_dashboard">
                             <ul>
                                 <li>
@@ -3249,7 +3256,19 @@ function UsdMFutures() {
                 </div>
             </div>
 
-
+            <div className="bs_tab_row d-lg-none">
+                <div className="row gx-3">
+                    <div className="col-6">
+                        <button type="button" className="btn btn-success btn-block w-100" onClick={() => { setMobileOrderSide('buy'); setShowMobileOrderPanel(true); }}><span>Buy</span></button>
+                    </div>
+                    <div className="col-6">
+                        <button type="button" className="btn btn-danger btn-block w-100" onClick={() => { setMobileOrderSide('sell'); setShowMobileOrderPanel(true); }}><span>Sell</span></button>
+                    </div>
+                </div>
+            </div>
+            {showMobileOrderPanel && (
+                <div className="relative_select_right_mobile_backdrop d-lg-none" onClick={() => setShowMobileOrderPanel(false)} aria-hidden="true" />
+            )}
             {/* <!-- Modal End --> */}
             {/* 
             {showPopup && (

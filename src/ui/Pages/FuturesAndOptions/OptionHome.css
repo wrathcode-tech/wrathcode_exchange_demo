@@ -5340,7 +5340,7 @@ span.arrowmobile {
     body .top_future_left_s {
             overflow: inherit; }
 
-    
+.future_mobile_tab_content.table_info_data .buy_sell_row{ padding: 0px; }    
 
 }
 
@@ -5351,6 +5351,8 @@ span.arrowmobile {
         flex-direction: column;
         gap: 15px;
     }
+
+    body .price_top_right { font-size: 16px; }
 
     .hero_section_option h1 br {
         display: none;
