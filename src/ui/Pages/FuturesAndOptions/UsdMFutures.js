@@ -67,6 +67,7 @@ function UsdMFutures() {
     const [activeInnerTab, setActiveInnerTab] = useState("all_orders");
     const [activePositionTab, setActivePositionTab] = useState("positions");
     const [activeLimitTab, setActiveLimitTab] = useState("positions_two");
+    const [activeMobileTab, setActiveMobileTab] = useState("chart");
 
 
 
@@ -732,7 +733,7 @@ function UsdMFutures() {
                                                                                         </tr>
                                                                                     )
                                                                                 })
-                                                                                : 
+                                                                                :
                                                                                 <tr>
                                                                                     <td colSpan="4">
                                                                                         <div className="text-center no-data mb-0 center_b">
@@ -868,14 +869,202 @@ function UsdMFutures() {
 
                 <div className="dashboard_mid_s space_gap_0 pa_2">
                     <div className="dashboard_summary_lft">
-                        {Object.keys(selectedCoin)?.length > 0 ?
-                            <TVFuturesChartContainer symbol={`${selectedCoin?.short_name}${selectedCoin?.margin_asset}_PERP`} />
-                            : <div className="favouriteData dsfdsf" style={{ width: '100%', height: '100%', alignItems: 'center' }}>
-                                <div className="spinner-border m-5" role="status">
-                                    <span className="sr-only"></span>
+
+                        <ul className='future_mobileview_tabs'>
+                            <li className={activeMobileTab === 'chart' ? 'active' : ''} onClick={() => setActiveMobileTab('chart')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveMobileTab('chart'); } }}>Chart</li>
+                            <li className={activeMobileTab === 'order' ? 'active' : ''} onClick={() => setActiveMobileTab('order')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveMobileTab('order'); } }}>Order Book</li>
+                            <li className={activeMobileTab === 'trades' ? 'active' : ''} onClick={() => setActiveMobileTab('trades')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveMobileTab('trades'); } }}>Recent Trades</li>
+                            <li className={activeMobileTab === 'assets' ? 'active' : ''} onClick={() => setActiveMobileTab('assets')} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveMobileTab('assets'); } }}>Assets</li>
+                        </ul>
+                        <div className='future_data_mobile'>
+                            {activeMobileTab === 'chart' && (
+                                Object.keys(selectedCoin)?.length > 0 ?
+                                    <TVFuturesChartContainer symbol={`${selectedCoin?.short_name}${selectedCoin?.margin_asset}_PERP`} />
+                                    : <div className="favouriteData dsfdsf" style={{ width: '100%', height: '100%', alignItems: 'center' }}>
+                                        <div className="spinner-border m-5" role="status">
+                                            <span className="sr-only"></span>
+                                        </div>
+                                    </div>
+                            )}
+                            {activeMobileTab === 'order' && (
+                                <div className="future_mobile_tab_content table_info_data">
+                                    <div className="order_tabs buy_sell_cards buy_sell_row d-flex-between">
+                                        <ul className="nav custom-tabs nav_order">
+                                            <li className="fav-tab">
+                                                <a className={activeInnerTab === "all_orders" ? "active" : ""} onClick={(e) => { e.preventDefault(); setActiveInnerTab("all_orders"); }} href="#/" style={{ cursor: "pointer" }}><img alt="" src="/images/order_1.svg" width="22" height="11" /></a>
+                                            </li>
+                                            <li className="usdt-tab">
+                                                <a className={activeInnerTab === "buy_orders" ? "active" : ""} onClick={(e) => { e.preventDefault(); setActiveInnerTab("buy_orders"); }} href="#/" style={{ cursor: "pointer" }}><img alt="" src="/images/order_2.svg" width="22" height="11" /></a>
+                                            </li>
+                                            <li className="btc-tab">
+                                                <a className={activeInnerTab === "sell_orders" ? "active me-0" : "me-0"} onClick={(e) => { e.preventDefault(); setActiveInnerTab("sell_orders"); }} href="#/" style={{ cursor: "pointer" }}><img alt="" src="/images/order_3.svg" width="22" height="11" /></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="tab-content mt-2 buy_sell_row_price futurestbllft">
+                                        <div className="table_info_data">
+                                            {activeInnerTab === "all_orders" && (
+                                                <div className="scroll_y scroll_y_reverse">
+                                                    {SellOrders?.length > 0 ? (
+                                                        <table>
+                                                            <thead><tr><th>Price ({selectedCoin?.margin_asset || "---"})</th><th>Size ({selectedCoin?.short_name || "---"})</th><th>Sum ({selectedCoin?.short_name || "---"})</th></tr></thead>
+                                                            <tbody>
+                                                                {SellOrders.map((item, idx) => {
+                                                                    const vol = item.remaining ?? item.size ?? 0;
+                                                                    const fillPercentage = maxSellVolume ? (vol / maxSellVolume) * 100 : 0;
+                                                                    return (
+                                                                        <tr key={item?._id || `sell-${idx}`} style={{ background: `linear-gradient(to left, ${orderBookColor?.sell} ${fillPercentage}%, transparent ${fillPercentage}%)` }} className="cursor-pointer" onClick={() => { setLimitPrice(pricePrecision(item?.price)); setPercentage(0); }}>
+                                                                            <td className="danger">{pricePrecision(item?.price)}</td>
+                                                                            <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                            <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
+                                                                        </tr>
+                                                                    );
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    ) : (
+                                                        <table><tbody><tr><td colSpan="3"><div className="favouriteData lodericon d-flex justify-content-center align-items-center"><div className="spinner-border" role="status"></div></div></td></tr></tbody></table>
+                                                    )}
+                                                    {BuyOrders?.length > 0 ? (
+                                                        <table>
+                                                            <thead><tr><th>Price ({selectedCoin?.margin_asset || "---"})</th><th>Size ({selectedCoin?.short_name || "---"})</th><th>Sum ({selectedCoin?.short_name || "---"})</th></tr></thead>
+                                                            <tbody>
+                                                                {BuyOrders.map((item, idx) => {
+                                                                    const vol = item.remaining ?? item.size ?? 0;
+                                                                    const fillPercentage = maxBuyVolume ? (vol / maxBuyVolume) * 100 : 0;
+                                                                    return (
+                                                                        <tr key={item?._id || `buy-${idx}`} style={{ background: `linear-gradient(to left, ${orderBookColor?.buy} ${fillPercentage}%, transparent ${fillPercentage}%)` }} className="cursor-pointer" onClick={() => { setLimitPrice(pricePrecision(item?.price)); setPercentage(0); }}>
+                                                                            <td className="sucess">{pricePrecision(item?.price)}</td>
+                                                                            <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                            <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
+                                                                        </tr>
+                                                                    );
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    ) : (
+                                                        <table><tbody><tr><td colSpan="3"><div className="favouriteData lodericon d-flex justify-content-center align-items-center"><div className="spinner-border" role="status"></div></div></td></tr></tbody></table>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {activeInnerTab === "buy_orders" && (
+                                                <div className="scroll_y">
+                                                    {BuyOrders?.length > 0 ? (
+                                                        <table>
+                                                            <thead><tr><th>Price ({selectedCoin?.margin_asset || "---"})</th><th>Size ({selectedCoin?.short_name || "---"})</th><th>Sum ({selectedCoin?.short_name || "---"})</th></tr></thead>
+                                                            <tbody>
+                                                                {BuyOrders.map((item, idx) => {
+                                                                    const vol = item.remaining ?? item.size ?? 0;
+                                                                    const fillPercentage = maxBuyVolume ? (vol / maxBuyVolume) * 100 : 0;
+                                                                    return (
+                                                                        <tr key={item?._id || `buy-${idx}`} style={{ background: `linear-gradient(to left, ${orderBookColor?.buy} ${fillPercentage}%, transparent ${fillPercentage}%)` }} className="cursor-pointer" onClick={() => { setLimitPrice(pricePrecision(item?.price)); setPercentage(0); }}>
+                                                                            <td className="sucess">{pricePrecision(item?.price)}</td>
+                                                                            <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                            <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
+                                                                        </tr>
+                                                                    );
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    ) : (
+                                                        <table><tbody><tr><td colSpan="3"><div className="favouriteData lodericon d-flex justify-content-center align-items-center"><div className="spinner-border" role="status"></div></div></td></tr></tbody></table>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {activeInnerTab === "sell_orders" && (
+                                                <div className="scroll_y scroll_y_reverse">
+                                                    {SellOrders?.length > 0 ? (
+                                                        <table>
+                                                            <thead><tr><th>Price ({selectedCoin?.margin_asset || "---"})</th><th>Size ({selectedCoin?.short_name || "---"})</th><th>Sum ({selectedCoin?.short_name || "---"})</th></tr></thead>
+                                                            <tbody>
+                                                                {SellOrders.map((item, idx) => {
+                                                                    const vol = item.remaining ?? item.size ?? 0;
+                                                                    const fillPercentage = maxSellVolume ? (vol / maxSellVolume) * 100 : 0;
+                                                                    return (
+                                                                        <tr key={item?._id || `sell-${idx}`} style={{ background: `linear-gradient(to left, ${orderBookColor?.sell} ${fillPercentage}%, transparent ${fillPercentage}%)` }} className="cursor-pointer" onClick={() => { setLimitPrice(pricePrecision(item?.price)); setPercentage(0); }}>
+                                                                            <td className="danger">{pricePrecision(item?.price)}</td>
+                                                                            <td>{qunaityPrecision(item?.remaining ?? item?.size)}</td>
+                                                                            <td>{toFixedFive(item?.sum ?? (item?.price * (item?.remaining ?? item?.size)))}</td>
+                                                                        </tr>
+                                                                    );
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    ) : (
+                                                        <table><tbody><tr><td colSpan="3"><div className="favouriteData lodericon d-flex justify-content-center align-items-center"><div className="spinner-border" role="status"></div></div></td></tr></tbody></table>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>}
-                        {/* <img src="/images/futures_img/dashboard_summry_left.svg" alt="dashboard" /> */}
+                            )}
+                            {activeMobileTab === 'trades' && (
+                                <div className="future_mobile_tab_content table_info_data">
+                                    <div className="table-responsive">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Price({selectedCoin?.margin_asset || "---"})</th>
+                                                    <th>Amount({selectedCoin?.short_name || "---"})</th>
+                                                    <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {RecentTrade?.length > 0 ? (
+                                                    RecentTrade.map((order) => (
+                                                        <tr key={order.id}>
+                                                            <td className={order?.side === "BUY" ? "sucess" : "danger"}>{toFixedThree(order?.price)}</td>
+                                                            <td>{toFixedThree(order?.quantity)}</td>
+                                                            <td>{order?.time}</td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="3">
+                                                            <div className="no_data_s text-center">
+                                                                <div className="spinner-border text-secondary" role="status"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
+                            {activeMobileTab === 'assets' && (
+                                <div className="future_mobile_tab_content asset_total_value costbtc_total">
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div><h5>USDT-Perp</h5></div>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div><h6>Total Assets</h6></div>
+                                        <div><span>{toFixedFive(estimatedportfolio + totalIsolatedMargin) || 0} {selectedCoin?.margin_asset}</span></div>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div><h6>Available</h6></div>
+                                        <div><span>{toFixedFive(balance?.quoteCurrency + totalIsolatedMargin) || 0} {selectedCoin?.margin_asset}</span></div>
+                                    </div>
+                                    <hr />
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div><h5>USDT-Perp</h5></div>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div><h6>Maintance Margin</h6></div>
+                                        <div><span>{totalMaintenanceMargin || 0} {selectedCoin?.margin_asset}</span></div>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div><h6>Unrealized PNL</h6></div>
+                                        <div><span className={`text-${totalUnrealizedPnl > 0 ? "green" : "red"}`}>{totalUnrealizedPnl || 0} USDT</span></div>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-between buy_transferbtn">
+                                        <Link to='/asset_managemnet/deposit'>Deposit Crypto</Link>
+                                        <Link to='/user_profile/asset_overview'>Transfer</Link>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className="order_trade_s">
                         <div className="trade_movers_tb">
@@ -1407,36 +1596,36 @@ function UsdMFutures() {
 
 
                             <ul className="limit_tabs">
-                                <li 
-                                    className={`nav-item positions_two ${activeLimitTab === "positions_two" ? "active" : ""}`} 
+                                <li
+                                    className={`nav-item positions_two ${activeLimitTab === "positions_two" ? "active" : ""}`}
                                     role="presentation"
                                 >
-                                    <button 
-                                        type="button" 
-                                        onClick={(e) => { 
-                                            e.preventDefault(); 
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.preventDefault();
                                             setActiveLimitTab("positions_two");
-                                            setOrderType("Limit"); 
-                                            setShowTpSlOption(false); 
-                                            setQuantity(""); 
+                                            setOrderType("Limit");
+                                            setShowTpSlOption(false);
+                                            setQuantity("");
                                             setPercentage(0);
                                         }}
                                     >
                                         Limit
                                     </button>
                                 </li>
-                                <li 
-                                    className={`nav-item open_two ${activeLimitTab === "open_two" ? "active" : ""}`} 
+                                <li
+                                    className={`nav-item open_two ${activeLimitTab === "open_two" ? "active" : ""}`}
                                     role="presentation"
                                 >
-                                    <button 
-                                        type="button" 
-                                        onClick={(e) => { 
-                                            e.preventDefault(); 
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.preventDefault();
                                             setActiveLimitTab("open_two");
-                                            setOrderType("Market"); 
-                                            setShowTpSlOption(false); 
-                                            setQuantity(""); 
+                                            setOrderType("Market");
+                                            setShowTpSlOption(false);
+                                            setQuantity("");
                                             setPercentage(0);
                                         }}
                                     >
@@ -1646,10 +1835,10 @@ function UsdMFutures() {
                                         </div>
                                         <div className="d-flex justify-content-between costbtc_total">
                                             <div className="d-flex align-items-center">
-                                                <h5>Taker Fee <span> {selectedCoin?.taker_fee||"---"}%</span></h5>
+                                                <h5>Taker Fee <span> {selectedCoin?.taker_fee || "---"}%</span></h5>
                                             </div>
                                             <div className="d-flex align-items-center">
-                                                <h5>Maker Fee <span> {selectedCoin?.maker_fee||"---"}%</span></h5>
+                                                <h5>Maker Fee <span> {selectedCoin?.maker_fee || "---"}%</span></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -2043,33 +2232,33 @@ function UsdMFutures() {
                     <div className="trade_summary_table_lft mt-0 position_order">
                         <div className="top_th_easyop border-0">
                             <ul className="position_list">
-                                <li 
-                                    className={`nav-item positions ${activePositionTab === "positions" ? "active" : ""}`} 
+                                <li
+                                    className={`nav-item positions ${activePositionTab === "positions" ? "active" : ""}`}
                                     role="presentation"
                                 >
                                     <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("positions"); }}>Positions({openPositions?.length || 0})</button>
                                 </li>
-                                <li 
-                                    className={`nav-item open ${activePositionTab === "open" ? "active" : ""}`} 
+                                <li
+                                    className={`nav-item open ${activePositionTab === "open" ? "active" : ""}`}
                                     role="presentation"
                                 >
                                     <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("open"); }}>Open Orders({OpenOrders?.length || 0})</button>
                                 </li>
-                                <li 
-                                    className={`nav-item order_history ${activePositionTab === "order_history" ? "active" : ""}`} 
+                                <li
+                                    className={`nav-item order_history ${activePositionTab === "order_history" ? "active" : ""}`}
                                     role="presentation"
                                 >
                                     <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("order_history"); }}>Order History</button>
                                 </li>
-                                <li 
-                                    className={`nav-item exercise_history ${activePositionTab === "exercise_history" ? "active" : ""}`} 
+                                <li
+                                    className={`nav-item exercise_history ${activePositionTab === "exercise_history" ? "active" : ""}`}
                                     role="presentation"
                                 >
                                     <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("exercise_history"); }}>Trade History</button>
                                 </li>
 
-                                <li 
-                                    className={`nav-item position_history ${activePositionTab === "position_history" ? "active" : ""}`} 
+                                <li
+                                    className={`nav-item position_history ${activePositionTab === "position_history" ? "active" : ""}`}
                                     role="presentation"
                                 >
                                     <button type="button" onClick={(e) => { e.preventDefault(); setActivePositionTab("position_history"); }}>Position History</button>

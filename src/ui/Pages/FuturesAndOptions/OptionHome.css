@@ -3690,6 +3690,31 @@ button.mobilebtn {
     padding-left: 94px;
 }
 
+ul.future_mobileview_tabs {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.future_mobile_tab_content.table_info_data .buy_sell_row{ padding-top: 0px;}
+
+ul.future_mobileview_tabs li {
+    font-size: 12px;
+    color: #999;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+}
+ul.future_mobileview_tabs li.active {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+.future_mobile_tab_content {
+    overflow-y: auto;
+    max-height: 100%;
+}
+
 @media screen and (max-width:1550px) {
 
     .hero_section_option h1 {
@@ -4556,6 +4581,43 @@ span.arrowmobile {
 
     }
 
+    .usd_left_pr {
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    body .top_future_right_s{ display: none; }
+    body .top_future_left_s {
+        width: 100%;
+    } 
+
+    body .price_top_right {
+        width: 100%; 
+        font-size: 20px; }
+
+    .top_future_left_s ul {
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        align-items: flex-start !important;
+    }
+
+    body .top_future_left_s ul li:nth-child(3) {
+        min-width: auto;
+    }
+
+    body .top_future_left_s ul li:nth-child(4) {
+        min-width: auto;
+    }
+    body .top_future_left_s ul li:nth-child(5) {
+        min-width: auto;
+    }
+
+
+
 
 }
 
@@ -4565,9 +4627,16 @@ span.arrowmobile {
     .modal.currency_popup_s.crosstabs .modal-content {
         border-radius: 0px;
     }
+    ul.future_mobileview_tabs {
+        display: flex;
+        border-bottom: 1px solid #585858;  }
 
     .position_order .position_list {
         overflow: auto;
+    }
+
+    body .top_future_left_s ul li span {
+        font-size: 9px;
     }
 
     .hero_img_mobile {
@@ -5268,6 +5337,11 @@ span.arrowmobile {
         overflow-x: auto;
     }
 
+    body .top_future_left_s {
+            overflow: inherit; }
+
+    
+
 }
 
 @media screen and (max-width:660px) {
@@ -5307,7 +5381,7 @@ span.arrowmobile {
     }
 
     .top_future_left_s ul li {
-        font-size: 12px;
+        font-size: 9px;
     }
 
     .trade_option_bl .row {

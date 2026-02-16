@@ -3587,6 +3587,14 @@ button.bn-button.button__buy.sellbtn {
 
 @media screen and (max-width:767px) {
 
+    .dashboard_mid_s .order_trade_s {
+        display: none !important;
+    }
+
+    .assets_right {
+        display: none !important;
+    }
+
     #TVFuturesChartContainer iframe {
         height: 600px !important;
     }
@@ -3594,10 +3602,6 @@ button.bn-button.button__buy.sellbtn {
     .modal.currency_popup_s .modal-dialog .modal-content {
         border-radius: 0px;
     }
-
-    .assets_right {
-    padding: 0px 5px; }
-
 
     body .modal.currency_popup_s .modal-dialog {
         min-width:100%;
