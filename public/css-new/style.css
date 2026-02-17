@@ -5617,6 +5617,7 @@ td.right_t.price_tb span {
 .icon_notificaton_r ul li {
     position: relative;
     padding: 0px 6px;
+    min-width: 32px;
 }
 
 .header_notification {
