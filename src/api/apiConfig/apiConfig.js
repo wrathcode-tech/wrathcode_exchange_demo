@@ -1,8 +1,8 @@
 // const appUrl = "http://localhost:5001";
-// const appUrl = "https://backend.demoexchange.wrathcode.com";
-// const appUrl2 = appUrl;
-const appUrl = "http://192.168.1.21:5001";
+const appUrl = "https://backend.demoexchange.wrathcode.com";
 const appUrl2 = appUrl;
+// const appUrl = "http://192.168.1.21:5001";
+// const appUrl2 = appUrl;
 
 
 
