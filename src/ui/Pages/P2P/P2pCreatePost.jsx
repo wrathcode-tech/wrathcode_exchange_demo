@@ -7,6 +7,19 @@ import { ApiConfig } from '../../../api/apiConfig/apiConfig';
 import P2pLayout from './P2pLayout';
 import { ProfileContext } from '../../../context/ProfileProvider';
 
+// Fiat currency symbol for dropdown icon
+const fiatSymbolMap = { INR: '₹', USD: '$', EUR: '€', GBP: '£', USDT: '₮' };
+const getFiatSymbol = (shortName) => fiatSymbolMap[shortName] || shortName?.slice(0, 1) || '';
+
+// Crypto icon: use icon_path from list if available, else map short_name to public icon
+const cryptoIconMap = { USDT: 'tether', BTC: 'btc', ETH: 'eth', BNB: 'bnb', USDC: 'usdc', XRP: 'xrp', SOL: 'sol', DOGE: 'doge' };
+const getCryptoIconSrc = (shortName, cryptosList) => {
+    const found = cryptosList?.find(c => (c.short_name || '') === (shortName || ''));
+    if (found?.icon_path) return `${ApiConfig.baseImage}${found.icon_path}`;
+    const file = cryptoIconMap[shortName] || shortName?.toLowerCase();
+    return `${process.env.PUBLIC_URL || ''}/images/icon/${file}.png`;
+};
+
 const P2pCreatePost = () => {
     const navigate = useNavigate();
     const { userDetails } = useContext(ProfileContext);
@@ -188,8 +201,13 @@ const P2pCreatePost = () => {
                 errors.volume = "Please enter volume";
             } else if (Number(formData.volume) <= 0) {
                 errors.volume = "Volume must be greater than 0";
-            } else if (formData.side === "SELL" && Number(formData.volume) > availableBalance) {
-                errors.volume = `Volume cannot exceed available balance (${availableBalance} ${formData.crypto})`;
+            } else if (formData.side === "SELL") {
+                const p2pFeePercent = (cryptos?.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0;
+                const feeAmount = (Number(formData.volume) * p2pFeePercent) / 100;
+                const totalRequired = Number(formData.volume) + feeAmount;
+                if (totalRequired > availableBalance) {
+                    errors.volume = `You need ${totalRequired.toFixed(2)} ${formData.crypto} (${formData.volume} + ${feeAmount.toFixed(2)} fee). Available: ${availableBalance} ${formData.crypto}`;
+                }
             }
 
             if (!formData.min) {
@@ -269,6 +287,13 @@ const P2pCreatePost = () => {
             setLoader(prev => ({ ...prev, balance: false }));
         }
     };
+
+    // Step 2 pe "I want to Sell" select hote hi balance fetch karo (agar step 1 pe Buy tha to balance pehle load nahi hota)
+    useEffect(() => {
+        if (currentStep === 2 && formData.side === "SELL" && formData.crypto) {
+            fetchCryptoBalance();
+        }
+    }, [currentStep, formData.side, formData.crypto]);
 
     const prevStep = () => {
         setFieldErrors({});
@@ -1171,7 +1196,7 @@ const P2pCreatePost = () => {
                     background: '#0a0a0f'
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span style={{ color: '#666', fontSize: '11px' }}>Fee: 0%</span>
+                        <span style={{ color: '#666', fontSize: '11px' }}>Fee: {((cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0)}%</span>
                         <span style={{ color: '#888', fontSize: '11px' }}>
                             {formData.side === 'SELL' ? `Available: ${availableBalance} ${formData.crypto}` : 'Preview Only'}
                         </span>
@@ -1225,6 +1250,30 @@ const P2pCreatePost = () => {
                         {/* Step 1: I want to use + Price Settings */}
                         {currentStep === 1 && (
                             <>
+                                {/* Buy/Sell Tabs - same as Step 2 */}
+                                <div style={styles.tabsContainer}>
+                                    <button
+                                        type="button"
+                                        style={{
+                                            ...styles.tabButton,
+                                            ...(formData.side === "BUY" ? styles.tabButtonActive : {})
+                                        }}
+                                        onClick={() => handleInput("side", "BUY")}
+                                    >
+                                        I want to Buy
+                                    </button>
+                                    <button
+                                        type="button"
+                                        style={{
+                                            ...styles.tabButton,
+                                            ...(formData.side === "SELL" ? styles.tabButtonActive : {})
+                                        }}
+                                        onClick={() => handleInput("side", "SELL")}
+                                    >
+                                        I want to Sell
+                                    </button>
+                                </div>
+
                                 <div className="p2p-create-post-section-title">
                                     <span className="p2p-create-post-section-icon">▶</span>
                                     I want to use
@@ -1232,43 +1281,52 @@ const P2pCreatePost = () => {
                                 <div className="p2p-create-post-grid-two-col">
                                     <div className="p2p-create-post-input-group">
                                         <label className="p2p-create-post-label">Fiat</label>
-                                        <select
-                                            className={getInputClass('fiat', 'p2p-create-post-select')}
-                                            value={formData.fiat}
-                                            onChange={(e) => handleInput("fiat", e.target.value)}
-                                        >
-                                            <option value="" hidden>Select</option>
-                                            {fiats?.map((f, i) => <option key={i} value={f.short_name}>{f.short_name}</option>)}
-                                        </select>
+                                        <div className="p2p-create-post-select-wrap">
+                                            {formData.fiat && (
+                                                <span className="p2p-create-post-select-icon p2p-create-post-select-icon-fiat">{getFiatSymbol(formData.fiat)}</span>
+                                            )}
+                                            <select
+                                                className={getInputClass('fiat', 'p2p-create-post-select')}
+                                                value={formData.fiat}
+                                                onChange={(e) => handleInput("fiat", e.target.value)}
+                                                style={{ paddingLeft: formData.fiat ? '36px' : undefined }}
+                                            >
+                                                <option value="" hidden>Select</option>
+                                                {fiats?.map((f, i) => <option key={i} value={f.short_name}>{f.short_name}</option>)}
+                                            </select>
+                                        </div>
                                         <FieldError fieldName="fiat" />
                                     </div>
                                     <div className="p2p-create-post-input-group">
-                                        <label className="p2p-create-post-label">Side</label>
-                                        <select
-                                            className={getInputClass('side', 'p2p-create-post-select')}
-                                            value={formData.side}
-                                            onChange={(e) => handleInput("side", e.target.value)}
-                                        >
-                                            <option value="BUY">BUY</option>
-                                            <option value="SELL">SELL</option>
-                                        </select>
-                                        <FieldError fieldName="side" />
-                                    </div>
-                                    <div className="p2p-create-post-input-group">
                                         <label className="p2p-create-post-label">Crypto</label>
-                                        <select
-                                            className={getInputClass('crypto', 'p2p-create-post-select')}
-                                            value={formData.crypto}
-                                            onChange={(e) => handleInput("crypto", e.target.value)}
-                                        >
-                                            <option value="" hidden>Select</option>
-                                            {cryptos.map((c, i) => <option key={i} value={c.short_name}>{c.short_name}</option>)}
-                                        </select>
+                                        <div className="p2p-create-post-select-wrap">
+                                            {formData.crypto && (
+                                                <span className="p2p-create-post-select-icon">
+                                                    <img
+                                                        src={getCryptoIconSrc(formData.crypto, cryptos)}
+                                                        alt=""
+                                                        onError={(e) => { e.target.src = `${process.env.PUBLIC_URL || ''}/images/default_coin.png`; e.target.onerror = null; }}
+                                                    />
+                                                </span>
+                                            )}
+                                            <select
+                                                className={getInputClass('crypto', 'p2p-create-post-select')}
+                                                value={formData.crypto}
+                                                onChange={(e) => handleInput("crypto", e.target.value)}
+                                                style={{ paddingLeft: formData.crypto ? '36px' : undefined }}
+                                            >
+                                                <option value="" hidden>Select</option>
+                                                {cryptos.map((c, i) => <option key={i} value={c.short_name}>{c.short_name}</option>)}
+                                            </select>
+                                        </div>
                                         <FieldError fieldName="crypto" />
                                     </div>
                                 </div>
+                                {fieldErrors.side && (
+                                    <div className="p2p-create-post-field-error" style={{ marginTop: '-12px', marginBottom: '12px' }}><span>⚠</span> {fieldErrors.side}</div>
+                                )}
 
-                                <div className="p2p-create-post-fee-box">Fee: 0%</div>
+                                <div className="p2p-create-post-fee-box">Fee: {((cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0)}%</div>
 
                                 <div style={{ marginTop: isMobile ? '24px' : '32px' }}>
                                     <div className="p2p-create-post-section-title">
@@ -1439,9 +1497,38 @@ const P2pCreatePost = () => {
                                         {fieldErrors.volume ? (
                                             <FieldError fieldName="volume" />
                                         ) : formData.side === "SELL" ? (
-                                            <div className="p2p-create-post-helper-text">
-                                                {loader.balance ? 'Loading balance...' : `Available: ${availableBalance} ${formData.crypto}`}
-                                            </div>
+                                            <>
+                                                <div className="p2p-create-post-helper-text">
+                                                    {loader.balance ? 'Loading balance...' : `Available: ${availableBalance} ${formData.crypto}`}
+                                                </div>
+                                                {Number(formData.volume) > 0 && (() => {
+                                                    const vol = Number(formData.volume);
+                                                    const p2pFeePercent = (cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0;
+                                                    const feeAmount = (vol * p2pFeePercent) / 100;
+                                                    const totalRequired = vol + feeAmount;
+                                                    const insufficient = totalRequired > availableBalance;
+                                                    const shortfall = insufficient ? (totalRequired - availableBalance).toFixed(2) : 0;
+                                                    return (
+                                                        <div className="p2p-create-post-fee-breakdown-box">
+                                                            <div className="p2p-create-post-fee-breakdown-row">
+                                                                <span>Volume</span>
+                                                                <span>{vol.toFixed(2)} {formData.crypto}</span>
+                                                            </div>
+                                                            <div className="p2p-create-post-fee-breakdown-row">
+                                                                <span>Fee ({p2pFeePercent}%)</span>
+                                                                <span>{feeAmount.toFixed(2)} {formData.crypto}</span>
+                                                            </div>
+                                                            <div className="p2p-create-post-fee-breakdown-row p2p-create-post-fee-breakdown-total">
+                                                                <span>Total required</span>
+                                                                <span>{totalRequired.toFixed(2)} {formData.crypto}</span>
+                                                            </div>
+                                                            {insufficient && (
+                                                                <div className="p2p-create-post-insufficient-funds">Insufficient balance. Add {shortfall} {formData.crypto} (fee) to post this ad.</div>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })()}
+                                            </>
                                         ) : null}
                                     </div>
                                     <div className="p2p-create-post-input-group">
@@ -2124,7 +2211,7 @@ const P2pCreatePost = () => {
                                 <li>Fixed<span className="text-success">{formData.fixedPrice} {formData.fiat}</span></li>
                                 <li>Order Limit<span>{formData.min} {formData.fiat} - {formData.max} {formData.fiat}</span></li>
                                 <li>Total Trading Amount<span>{formData.volume} {formData.crypto}</span></li>
-                                <li>Reserved Fee<span>0.00 {formData.crypto}</span></li>
+                                <li>Reserved Fee<span style={{ color: '#F3BB2B' }}>{formData.side === 'SELL' ? (() => { const p = (cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0; const amt = (Number(formData.volume) || 0) * p / 100; return `${amt.toFixed(2)} ${formData.crypto} (${p}%)`; })() : `0.00 ${formData.crypto}`}</span></li>
                                 <li><hr /></li>
                                 <li>
                                     Payment Method

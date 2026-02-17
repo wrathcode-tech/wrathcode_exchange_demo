@@ -870,6 +870,34 @@ const P2pDashboard = () => {
                                   <span className="p2p-available-balance">
                                     Available: {(cryptoBalances[ad.qouteCurrency] || 0).toFixed(4)} {ad.qouteCurrency}
                                   </span>
+                                  {Number(quoteAmount) > 0 && (() => {
+                                    const vol = Number(quoteAmount);
+                                    const p2pFee = cryptoList.find(c => (c.short_name || '') === (ad.qouteCurrency || ''))?.p2p_fee ?? 0;
+                                    const feeAmount = (vol * p2pFee) / 100;
+                                    const totalRequired = vol + feeAmount;
+                                    const available = cryptoBalances[ad.qouteCurrency] || 0;
+                                    const insufficient = totalRequired > available;
+                                    const shortfall = insufficient ? (totalRequired - available).toFixed(2) : 0;
+                                    return (
+                                      <div className="p2p-create-post-fee-breakdown-box">
+                                        <div className="p2p-create-post-fee-breakdown-row">
+                                          <span>Volume</span>
+                                          <span>{vol.toFixed(2)} {ad.qouteCurrency}</span>
+                                        </div>
+                                        <div className="p2p-create-post-fee-breakdown-row">
+                                          <span>Fee ({p2pFee}%)</span>
+                                          <span>{feeAmount.toFixed(2)} {ad.qouteCurrency}</span>
+                                        </div>
+                                        <div className="p2p-create-post-fee-breakdown-row p2p-create-post-fee-breakdown-total">
+                                          <span>Total required</span>
+                                          <span>{totalRequired.toFixed(2)} {ad.qouteCurrency}</span>
+                                        </div>
+                                        {insufficient && (
+                                          <div className="p2p-create-post-insufficient-funds">Insufficient balance. Add {shortfall} {ad.qouteCurrency} (fee) to place this order.</div>
+                                        )}
+                                      </div>
+                                    );
+                                  })()}
                                 </div>
 
                                 {/* You Receive - Fiat */}
@@ -1222,6 +1250,34 @@ const P2pDashboard = () => {
                           <span className="p2p-available-balance">
                             Available: {(cryptoBalances[ad.qouteCurrency] || 0).toFixed(4)} {ad.qouteCurrency}
                           </span>
+                          {Number(quoteAmount) > 0 && (() => {
+                            const vol = Number(quoteAmount);
+                            const p2pFee = cryptoList.find(c => (c.short_name || '') === (ad.qouteCurrency || ''))?.p2p_fee ?? 0;
+                            const feeAmount = (vol * p2pFee) / 100;
+                            const totalRequired = vol + feeAmount;
+                            const available = cryptoBalances[ad.qouteCurrency] || 0;
+                            const insufficient = totalRequired > available;
+                            const shortfall = insufficient ? (totalRequired - available).toFixed(2) : 0;
+                            return (
+                              <div className="p2p-create-post-fee-breakdown-box">
+                                <div className="p2p-create-post-fee-breakdown-row">
+                                  <span>Volume</span>
+                                  <span>{vol.toFixed(2)} {ad.qouteCurrency}</span>
+                                </div>
+                                <div className="p2p-create-post-fee-breakdown-row">
+                                  <span>Fee ({p2pFee}%)</span>
+                                  <span>{feeAmount.toFixed(2)} {ad.qouteCurrency}</span>
+                                </div>
+                                <div className="p2p-create-post-fee-breakdown-row p2p-create-post-fee-breakdown-total">
+                                  <span>Total required</span>
+                                  <span>{totalRequired.toFixed(2)} {ad.qouteCurrency}</span>
+                                </div>
+                                {insufficient && (
+                                  <div className="p2p-create-post-insufficient-funds">Insufficient balance. Add {shortfall} {ad.qouteCurrency} (fee) to place this order.</div>
+                                )}
+                              </div>
+                            );
+                          })()}
                         </div>
 
                         {/* You Receive - Fiat */}

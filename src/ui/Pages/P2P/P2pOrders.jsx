@@ -133,6 +133,14 @@ const P2pOrders = () => {
         alertSuccessMessage("Copied to clipboard!")
     }
 
+    // Fee for order: only SELL (user as seller) has fee; BUY shows "----"
+    const getFeeForOrder = (order) => {
+        if (order.role !== 'SELLER') return { text: '----', isSell: false }
+        const p2pFee = cryptoList.find(c => (c.short_name || '').toUpperCase() === (order.cryptoCurrency || '').toUpperCase())?.p2p_fee ?? 0
+        const feeAmount = (Number(order.cryptoAmount) || 0) * p2pFee / 100
+        return { text: `${feeAmount.toFixed(2)} ${order.cryptoCurrency} (${p2pFee}%)`, isSell: true }
+    }
+
     const paginate = (pageNumber) => {
         if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) return
         fetchOrders(pageNumber)
@@ -247,6 +255,7 @@ const P2pOrders = () => {
                                 <th>Order Number</th>
                                 <th>Price</th>
                                 <th>Fiat / Crypto Amount</th>
+                                <th>Fee</th>
                                 <th>Counterparty</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -255,7 +264,7 @@ const P2pOrders = () => {
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan="7">
+                                    <td colSpan="8">
                                         <div className="p2p-loading-container">
                                             <div className="spinner-border text-primary" role="status" />
                                             <p style={{ color: '#6b7280', marginTop: '12px' }}></p>
@@ -264,7 +273,7 @@ const P2pOrders = () => {
                                 </tr>
                             ) : orders.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7">
+                                    <td colSpan="8">
                                         <div className="p2p-empty-state-card">
                                             <i className="ri-file-list-3-line" style={{ fontSize: '48px', color: '#6b7280' }}></i>
                                             <p>No orders found</p>
@@ -309,6 +318,11 @@ const P2pOrders = () => {
                                                 {order.cryptoAmount} {order.cryptoCurrency}
                                             </span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <span className={getFeeForOrder(order).isSell ? 'p2p-orders-fee-value' : ''}>
+                                            {getFeeForOrder(order).text}
+                                        </span>
                                     </td>
                                     <td>
                                         <div className="p2p-counterparty-cell">
@@ -499,7 +513,12 @@ const P2pOrders = () => {
                                         {order.price?.toLocaleString()} {order.fiatCurrency}
                                     </span>
                                 </div>
-
+                                <div className="p2p-mobile-detail-item">
+                                    <span className="p2p-mobile-detail-label">Fee</span>
+                                    <span className={`p2p-mobile-detail-value ${getFeeForOrder(order).isSell ? 'p2p-orders-fee-value' : ''}`}>
+                                        {getFeeForOrder(order).text}
+                                    </span>
+                                </div>
                                 <div className="p2p-mobile-detail-item">
                                     <span
                                         className="p2p-mobile-detail-label"

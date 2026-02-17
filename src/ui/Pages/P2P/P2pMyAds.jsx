@@ -47,12 +47,34 @@ const P2pMyAds = () => {
     const [showMobileFilters, setShowMobileFilters] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+    // Crypto list with p2p_fee (for fee display on SELL ads)
+    const [cryptoList, setCryptoList] = useState([]);
+
     // Handle resize
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Fetch P2P crypto list (short_name, p2p_fee) for fee display
+    useEffect(() => {
+        const fetchCryptoList = async () => {
+            try {
+                const result = await AuthService.getCurrency();
+                if (result?.success && result?.data) setCryptoList(result.data);
+            } catch (_) {}
+        };
+        fetchCryptoList();
+    }, []);
+
+    // Fee for ad: SELL = volume * p2p_fee%, BUY = "----"
+    const getFeeForAd = (ad) => {
+        if (ad.side !== 'SELL') return { text: '----', isSell: false };
+        const p2pFee = cryptoList.find(c => (c.short_name || '').toUpperCase() === (ad.qouteCurrency || '').toUpperCase())?.p2p_fee ?? 0;
+        const feeAmount = (Number(ad.volume) || 0) * p2pFee / 100;
+        return { text: `${feeAmount.toFixed(2)} ${ad.qouteCurrency} (${p2pFee}%)`, isSell: true };
+    };
 
     // Fetch user ads
     const fetchUserAds = useCallback(async (page = 1) => {
@@ -532,6 +554,7 @@ const P2pMyAds = () => {
                                         <th>Price</th>
                                         <th>Volume</th>
                                         <th>Limits</th>
+                                        <th>Fee</th>
                                         <th>Payment</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -585,6 +608,16 @@ const P2pMyAds = () => {
                                                             {/* <span style={{ fontSize: '12px', color: '#6b7280' }}>
                                                             {ad.fiatCurrency}
                                                         </span> */}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="p2p-myads-table-cell-content">
+                                                            {(() => {
+                                                                const fee = getFeeForAd(ad);
+                                                                return (
+                                                                    <span className={fee.isSell ? 'p2p-myads-fee-value' : ''}>{fee.text}</span>
+                                                                );
+                                                            })()}
                                                         </div>
                                                     </td>
                                                     <td>
@@ -671,7 +704,7 @@ const P2pMyAds = () => {
                                                 {/* Expanded Row */}
                                                 {expandedAdId === ad._id && (
                                                     <tr className="p2p-expanded-row">
-                                                        <td colSpan="7">
+                                                        <td colSpan="8">
                                                             <div className="p2p-myads-expanded-content">
                                                                 <div className="p2p-myads-expanded-grid">
                                                                     {/* Left Column - Key Metrics */}
@@ -701,6 +734,12 @@ const P2pMyAds = () => {
                                                                                     <span className="p2p-myads-expanded-item-label">Fill Rate</span>
                                                                                     <span className="p2p-myads-expanded-item-value">
                                                                                         {((1 - ad.remainingVolume / ad.volume) * 100).toFixed(1)}%
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div className="p2p-myads-expanded-item">
+                                                                                    <span className="p2p-myads-expanded-item-label">Fee</span>
+                                                                                    <span className={`p2p-myads-expanded-item-value ${ad.side === 'SELL' ? 'p2p-myads-fee-value' : ''}`}>
+                                                                                        {getFeeForAd(ad).text}
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -884,6 +923,10 @@ const P2pMyAds = () => {
                                             <div className="p2p-mobile-detail-item">
                                                 <span className="p2p-mobile-detail-label">Limits</span>
                                                 <span className="p2p-mobile-detail-value">{Number(ad.minLimit).toLocaleString()} - {Number(ad.maxLimit).toLocaleString()}</span>
+                                            </div>
+                                            <div className="p2p-mobile-detail-item">
+                                                <span className="p2p-mobile-detail-label">Fee</span>
+                                                <span className={`p2p-mobile-detail-value ${getFeeForAd(ad).isSell ? 'p2p-myads-fee-value' : ''}`}>{getFeeForAd(ad).text}</span>
                                             </div>
                                             <div className="p2p-mobile-detail-item">
                                                 <span className="p2p-mobile-detail-label">Time Limit</span>

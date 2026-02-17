@@ -1,5 +1,7 @@
 // const appUrl = "http://localhost:5001";
-const appUrl = "https://backend.demoexchange.wrathcode.com";
+// const appUrl = "https://backend.demoexchange.wrathcode.com";
+// const appUrl2 = appUrl;
+const appUrl = "http://192.168.1.21:5001";
 const appUrl2 = appUrl;
 
 
@@ -242,7 +244,7 @@ export const ApiConfig = {
   securitySettings: "settings",
   securityLogin2fa: "login-2fa",
   securityChangePassword: "change-password",
-  
+
   // Passkey (WebAuthn) endpoints
   passkeyRegisterOptions: "passkey/register/options",
   passkeyRegisterVerify: "passkey/register/verify",
