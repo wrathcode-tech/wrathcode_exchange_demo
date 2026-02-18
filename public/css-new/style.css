@@ -6663,6 +6663,15 @@ button.btn.btn-primary.homelightbox2 {
     border-radius: 4px;
 }
 
+footer span.admin_email {
+    display: block;
+}
+
+footer address {
+    display: flex;
+    align-items: start;
+    gap: 8px; }
+
 .date_info {
     width: 100%;
     display: flex;
@@ -7519,7 +7528,7 @@ footer p {
 
 .address_footer h5 {
     font-size: 24px;
-    padding-bottom: 29px;
+    padding-bottom: 10px;
     color: #f3bb2b;
 }
 
@@ -17037,11 +17046,13 @@ button.p2p-submit-button {
     }
 
     .navigation nav ul li.dropdown .dropdown-toggle {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .user_login.dashbtn a {
-        padding: 9.5px 14px;
+        padding: 5px 11px;
+        height: auto;
+        font-size: 12px;
     }
 
     .overview_summary_currency .slick-track {
@@ -17057,7 +17068,7 @@ button.p2p-submit-button {
     }
 
     .navigation nav ul li a {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .refrefer_earn_outer {
@@ -17097,8 +17108,8 @@ button.p2p-submit-button {
     }
 
     .header_right .button_outer .login_btn {
-        font-size: 13px;
-        padding: 8px 14px;
+        font-size: 12px;
+        padding: 5px 11px;
         letter-spacing: 1px;
     }
 
@@ -17203,7 +17214,7 @@ button.p2p-submit-button {
     }
 
     .navigation nav ul li.dropdown .dropdown-toggle {
-        font-size: 13px;
+        font-size: 11px;
     }
 
     .withdrawal_rightside {
@@ -17424,6 +17435,9 @@ button.p2p-submit-button {
     .no-data-row td {
         height: 300px;
     }
+
+    footer address {
+        font-size: 14px; }
 
     .searchBar.custom-tabs.search_active {
         width: 200px;
@@ -20294,6 +20308,7 @@ button.p2p-submit-button {
     .emaildiv {
         margin-left: 0px;
         margin: inherit;
+        display: flex;
         width: 100%;
         margin-bottom: 0px;
     }
@@ -20312,6 +20327,10 @@ button.p2p-submit-button {
 
     section.termsofuse h3 {
         font-size: 17px;
+    }
+
+    footer address {
+        font-size: 12px;
     }
 
     .refrefer_earn_outer .card-header.ref_header h4 {
@@ -23975,6 +23994,10 @@ button.p2p-submit-button {
         width: 100%;
     }
 
+    .crypto_features p {
+        font-size: 13px;
+    }
+
     .accordion-button::after {
         background-size: 12px;
         padding: 6px !important;
@@ -25845,6 +25868,9 @@ button.p2p-submit-button {
     .crypto_features p {
         font-size: 12px;
     }
+
+    .emaildiv {
+        flex-direction: column; }
 
     footer p {
         font-size: 12px;
