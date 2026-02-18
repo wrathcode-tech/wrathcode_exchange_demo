@@ -469,10 +469,12 @@ body {
 }
 
 .modal.currency_popup_s .modal-dialog .modal-content {
-    background-color: #373E4B;
-    border: 1px solid #373E4B;
+    background-color: #2b313c;
+    border: 1px solid #2b313c;
     border-radius: 12px;
 }
+
+
 
 .modal.currency_popup_s .currency_data_list table tr td {
     font-size: 11px;
@@ -481,13 +483,14 @@ body {
 }
 
 .modal.currency_popup_s .search_form {
-    width: 100%;
-    border: 1px solid rgb(46 46 46 / 49%);
-    border-radius: 50px;
-    align-items: center;
-    font-size: 13px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 2px 7px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0 12px;
 }
 
 .modal.currency_popup_s .bn-tabs_favorites_bl button#usd-tab {
@@ -3695,6 +3698,46 @@ button.bn-button.button__buy.sellbtn {
 
     .dashboard_mid_s .order_trade_s {
         display: none !important;
+    }
+
+    .modal.currency_popup_s.futures_usd_modal .modal-header {
+        padding: 14px 15px;
+    }
+
+    .modal.currency_popup_s.futures_usd_modal .modal-body {
+        padding:0px;
+    }
+
+    .modal.currency_popup_s.futures_usd_modal .currency_data_list table tr td {
+        padding: 5px 7px;
+    }
+
+    .modal.currency_popup_s.futures_usd_modal .currency_data_list table tr th{
+        padding: 5px 7px !important;
+    }
+
+    .modal.currency_popup_s.futures_usd_modal .currency_data_list {
+        margin-top: 12px;
+    }
+
+table tr .lastchild {
+        text-align: right;
+    }
+    .search_form_container {
+        padding: 0px 10px;
+    }
+
+    .modal.currency_popup_s.futures_usd_modal .modal-dialog .modal-content {
+        border-radius: 10px 10px 0px 0px;
+    }
+
+    .modal.currency_popup_s.futures_usd_modal .tab-content>.tab-pane {
+        padding-right: 0px;
+    }    
+
+    .modal.currency_popup_s.futures_usd_modal h4 {
+        font-size: 15px;
+        margin: 0px;
     }
 
     .future_data_mobile>div {

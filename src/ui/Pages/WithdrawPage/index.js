@@ -652,75 +652,116 @@ const WithdrawPage = (props) => {
           </div>
 
           <div className="table_outer">
-
-            <table>
-              <tbody>
-                {recentWithdrawHistory?.length > 0 ? recentWithdrawHistory?.map((item) => {
-                  function shortenAddress(address, length = 4) {
-                    if (!address || address.length < 10) return address; // Ensure it's a valid address
-                    return `${address.slice(0, length + 2)}...${address.slice(-length)}`;
-                  }
-                  const shortAddress = shortenAddress(item?.to_address);
-                  const shortTxHash = shortenAddress(item?.transaction_hash);
-
-                  let filteredImageData = allCoinData?.filter((data) => data?.short_name === item?.short_name)[0] || []
-                  return (
-                    <tr >
-                      <td>
-                        <div className="td_first">
-                          <div className="price_heading"><img width="30px" src={Object?.keys(filteredImageData)?.length > 0 ? ApiConfig?.baseImage + filteredImageData?.icon_path : ""} alt="icon" /> {item?.amount}  {item?.currency} <span className={`text-${item?.status === "REJECTED" ? "danger" : item?.status === "COMPLETED" ? "success" : "warning"}`}>{item?.status}</span></div>
-                          <div className="date_info"><span>Date</span>{moment(item.createdAt).format("DD-MM-YYYY  hh:ss A")}</div>
-                        </div>
-                      </td>
-                      <td>Network <span>{item?.chain || "Internal transfer"}</span></td>
-                      <td>Address <div className="address_icon"><span>{shortAddress || "----"}</span>
-
-                        {shortAddress && <>
-
-
-                          <svg className="bn-svg icon-small-pointer mobile:icon-normal-pointer mobile:text-IconNormal"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onClick={() => copytext(item?.from_address)}>
-                            <path fillRule="evenodd" clip-rule="evenodd" d="M9 3h11v13h-3V6H9V3zM4 8v13h11V8.02L4 8z"
-                              fill="currentColor"></path></svg>
-                        </>}
+            {(() => {
+              function shortenAddress(address, length = 4) {
+                if (!address || address.length < 10) return address;
+                return `${address.slice(0, length + 2)}...${address.slice(-length)}`;
+              }
+              const CopyIcon = () => (
+                <svg className="bn-svg icon-small-pointer" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{ width: 18, height: 18, cursor: 'pointer', flexShrink: 0 }}>
+                  <path fillRule="evenodd" clipRule="evenodd" d="M9 3h11v13h-3V6H9V3zM4 8v13h11V8.02L4 8z" fill="currentColor" />
+                </svg>
+              );
+              const noDataRow = (
+                <tr rowSpan="5" className="no-data-row2">
+                  <td colSpan="12">
+                    <div className="no-data-wrapper">
+                      <div className="no_data_vector">
+                        <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
                       </div>
-                      </td>
-
-                      <td >TxID <div className="address_icon"><span>{shortTxHash || "----"}</span>
-                        {shortTxHash && <>
-
-                          <svg className="bn-svg icon-small-pointer mobile:icon-normal-pointer mobile:text-IconNormal"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onClick={() => copytext(item?.transaction_hash)}>
-                            <path fillRule="evenodd" clip-rule="evenodd" d="M9 3h11v13h-3V6H9V3zM4 8v13h11V8.02L4 8z"
-                              fill="currentColor"></path></svg></>}
-                      </div>
-                      </td>
-
-
-                      {/* <td className="right_t">Deposit wallet<span>{item?.description?.includes("bonus") ? "Bonus Wallet" : "Spot Wallet"}</span></td> */}
-
-                      <td onClick={() => handleWithdrawModal(item)}>View</td>
-                    </tr>
-                  )
-                }) : <tr rowSpan="5" className="no-data-row2">
-                <td colSpan="12">
-                  <div className="no-data-wrapper">
-                    <div className="no_data_vector">
-                      <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
                     </div>
+                  </td>
+                </tr>
+              );
+              return (
+                <>
+                  {/* Desktop: table */}
+                  <div className="withdraw_history_desktop">
+                    <table>
+                      <tbody>
+                        {recentWithdrawHistory?.length > 0 ? recentWithdrawHistory?.map((item) => {
+                          const shortAddress = shortenAddress(item?.to_address);
+                          const shortTxHash = shortenAddress(item?.transaction_hash);
+                          const filteredImageData = allCoinData?.filter((data) => data?.short_name === item?.short_name)[0] || [];
+                          return (
+                            <tr key={item?._id || item?.createdAt}>
+                              <td>
+                                <div className="td_first">
+                                  <div className="price_heading">
+                                    <img width="30px" src={Object?.keys(filteredImageData)?.length > 0 ? ApiConfig?.baseImage + filteredImageData?.icon_path : ""} alt="icon" />
+                                    {item?.amount} {item?.currency}{' '}
+                                    <span className={`text-${item?.status === "REJECTED" ? "danger" : item?.status === "COMPLETED" ? "success" : "warning"}`}>{item?.status}</span>
+                                  </div>
+                                  <div className="date_info"><span>Date</span>{moment(item.createdAt).format("DD-MM-YYYY  hh:ss A")}</div>
+                                </div>
+                              </td>
+                              <td>Network <span>{item?.chain || "Internal transfer"}</span></td>
+                              <td>Address <div className="address_icon"><span>{shortAddress || "----"}</span>
+                                {shortAddress && <span onClick={() => copytext(item?.to_address)}><CopyIcon /></span>}
+                              </div></td>
+                              <td>TxID <div className="address_icon"><span>{shortTxHash || "----"}</span>
+                                {shortTxHash && <span onClick={() => copytext(item?.transaction_hash)}><CopyIcon /></span>}
+                              </div></td>
+                              <td onClick={() => handleWithdrawModal(item)}>View</td>
+                            </tr>
+                          );
+                        }) : noDataRow}
+                      </tbody>
+                    </table>
                   </div>
 
-                </td>
-              </tr>}
-
-
-
-
-
-
-              </tbody>
-            </table>
-
+                  {/* Mobile: card list */}
+                  <div className="withdraw_history_mobile">
+                    {recentWithdrawHistory?.length > 0 ? (
+                      <div className="withdraw_cards_list">
+                        {recentWithdrawHistory?.map((item) => {
+                          const shortAddress = shortenAddress(item?.to_address);
+                          const shortTxHash = shortenAddress(item?.transaction_hash);
+                          const filteredImageData = allCoinData?.filter((data) => data?.short_name === item?.short_name)[0] || [];
+                          return (
+                            <div key={item?._id || item?.createdAt} className="withdraw_card_item">
+                              <div className="withdraw_card_header">
+                                <div className="withdraw_card_title">
+                                  <img width="32" height="32" src={Object?.keys(filteredImageData)?.length > 0 ? ApiConfig?.baseImage + filteredImageData?.icon_path : ""} alt="" />
+                                  <span className="withdraw_amount">{item?.amount} {item?.currency}</span>
+                                  <span className={`withdraw_status text-${item?.status === "REJECTED" ? "danger" : item?.status === "COMPLETED" ? "success" : "warning"}`}>{item?.status}</span>
+                                </div>
+                                <div className="withdraw_card_date">
+                                  <span className="label">Date</span> {moment(item.createdAt).format("DD-MM-YYYY  hh:ss A")}
+                                </div>
+                              </div>
+                              <div className="withdraw_card_row">
+                                <span className="label">Network</span>
+                                <span>{item?.chain || "Internal transfer"}</span>
+                              </div>
+                              <div className="withdraw_card_row address_icon">
+                                <span className="label">Address</span>
+                                <span className="value">{shortAddress || "----"}{shortAddress && <span onClick={() => copytext(item?.to_address)} aria-label="Copy"><CopyIcon /></span>}</span>
+                                
+                              </div>
+                              <div className="withdraw_card_row address_icon">
+                                <span className="label">TxID</span>
+                                <span className="value">{shortTxHash || "----"}</span>
+                                {shortTxHash && <span onClick={() => copytext(item?.transaction_hash)} aria-label="Copy"><CopyIcon /></span>}
+                              </div>
+                              <div className="withdraw_card_footer">
+                                <button type="button" className="withdraw_card_view_btn" onClick={() => handleWithdrawModal(item)}>View</button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="no-data-wrapper">
+                        <div className="no_data_vector">
+                          <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              );
+            })()}
           </div>
 
 

@@ -6968,6 +6968,104 @@ form.buysellform.data-sell .form-control {
     text-align: center;
 }
 
+/* Withdraw history: desktop table / mobile cards */
+.recent_deposit_list .withdraw_history_mobile {
+    display: none;
+}
+.recent_deposit_list .withdraw_cards_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.recent_deposit_list .withdraw_card_item {
+    background: #1e232d;
+    border: 1px solid #2B313C;
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: #EAECEF;
+}
+.recent_deposit_list .withdraw_card_header {
+    margin-bottom: 12px;
+}
+.recent_deposit_list .withdraw_card_title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.recent_deposit_list .withdraw_card_title img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+.recent_deposit_list .withdraw_amount {
+    font-weight: 600;
+    color: #fff;
+}
+.recent_deposit_list .withdraw_status {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+.recent_deposit_list .withdraw_card_date {
+    font-size: 12px;
+    color: #848E9C;
+    margin-top: 11px;
+}
+.recent_deposit_list .withdraw_card_date .label {
+    margin-right: 4px;
+}
+.recent_deposit_list .withdraw_card_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+    padding: 6px 0;
+    border-top: 1px solid #2B313C;
+}
+.recent_deposit_list .withdraw_card_row .label {
+    color: #848E9C;
+    min-width: 60px;
+    margin: 0px;
+}
+.recent_deposit_list .withdraw_card_row.address_icon {
+    gap: 6px;
+}
+.recent_deposit_list .withdraw_card_row.address_icon .value {
+    word-break: break-all;
+}
+.recent_deposit_list .withdraw_card_row svg {
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.recent_deposit_list .withdraw_card_footer {
+    margin-top: 5px;
+    padding-top: 8px;
+    border-top: 1px solid #2B313C;
+}
+.recent_deposit_list .withdraw_card_view_btn {
+    width: 100%;
+    padding: 0px;
+    background: none;
+    color: #d6d6d6;
+    border: none;
+    text-align: right;
+    border-radius: 0px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.recent_deposit_list .withdraw_card_view_btn:hover {
+    background: #e5ab20;
+}
+.recent_deposit_list .withdraw_history_mobile .no-data-wrapper {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .trading_services {
     margin-top: 60px;
     display: grid;
@@ -7857,6 +7955,35 @@ ul.user_social li {
     display: flex;
     gap: 4px;
 }
+
+.mobile-favourites-close-btn {
+    background: transparent;
+    border: none;
+    color: #9b9b9b;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 5px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.mobile-favourites-close-btn:hover {
+    background-color:transparent !important;
+}
+
+.currency_popup_s.search_form_modal_2 h4 {
+    font-size: 20px;
+    margin: 0px;
+}
+
+.modal.currency_popup_s.search_form_modal_2.futures_usd_modal .modal-body {
+    padding-top: 0px !important; } 
 
 
 .new_features_s h4 {
@@ -17655,6 +17782,13 @@ button.p2p-submit-button {
         display: none;
     }
 
+    .recent_deposit_list .withdraw_history_desktop {
+        display: none;
+    }
+    .recent_deposit_list .withdraw_history_mobile {
+        display: block;
+    }
+
     .top_total_bar {
         gap: 20px;
     }
@@ -20331,6 +20465,9 @@ button.p2p-submit-button {
         gap: 16px;
     }
 
+
+
+
     .login_btn input[type="button"] {
         padding: 10px;
     }
@@ -20420,6 +20557,20 @@ button.p2p-submit-button {
         width: 100%;
         margin-top: 10px;
     }
+
+    .recent_deposit_list .top_heading {
+        margin-bottom: 10px;
+    }
+
+    .recent_deposit_list .top_heading .more_btn {
+        margin-top: 0px;
+    }
+
+    .withdrawal_top_list h5 {
+        font-size: 13px;
+        font-weight: 500; }
+
+    .recent_deposit_list .top_heading h4{ margin-bottom: 0px; }
 
     .currency_bit_footer {
         padding: 0px 15px 6px;
@@ -22771,7 +22922,7 @@ button.p2p-submit-button {
     }
 
     .table_pop_up.modal table tr td {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .password_security_img img {
@@ -25761,7 +25912,8 @@ button.p2p-submit-button {
     }
 
     .table_pop_up.modal h2 {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 15px;
     }
 
     .search_form .modal-content {
@@ -26024,6 +26176,13 @@ button.p2p-submit-button {
     .crypto_section h2 {
         font-size: 20px;
     }
+
+    .table_pop_up.modal table tr td {
+        font-size: 11px;
+    }
+
+    .withdrawal_top_list span {
+        font-size: 11px; }
 
     body h2 {
         font-size: 20px;
@@ -27040,7 +27199,7 @@ button.p2p-submit-button {
     }
 
     .search_form_modal_2.modal.fade .modal-content {
-        height: 70vh;
+        height: 65vh;
         overflow: inherit;
     }
 

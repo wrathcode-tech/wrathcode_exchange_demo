@@ -660,15 +660,18 @@ function UsdMFutures() {
                                 <img className='icon_img' src={ApiConfig?.baseImage + selectedCoin?.icon_path} alt="bitcoin" /> {selectedCoin?.short_name}/{selectedCoin?.margin_asset} <span> <img src="/images/futures_img/arrowbottom_icon.svg" alt="arrow" /></span>
                             </div>
                             {/* <!-- Modal Start --> */}
-                            <div className="modal fade currency_popup_s search_form_modal_2" id="exampleModal2" tabindex="-1"
+                            <div className="modal fade currency_popup_s search_form_modal_2 futures_usd_modal" id="exampleModal2" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                        <h4>Select Pair</h4>
+
+<button class="mobile-favourites-close-btn" data-bs-dismiss="modal"
+                                                aria-label="Close"><i class="ri-close-line"></i></button>
                                         </div>
                                         <div className="modal-body">
+                                            <div className='search_form_container'>
                                             <div className="search_form">
                                                 <i className="ri-search-2-line"></i>
                                                 <input
@@ -678,8 +681,10 @@ function UsdMFutures() {
                                                     onChange={(e) => setSearchTerm(e.target.value)}
                                                 />
                                             </div>
+                                            </div>
+
                                             <div className="bn-tabs_favorites_bl">
-                                                <div className="top_tabs_center">
+                                                {/* <div className="top_tabs_center">
                                                     <ul className="nav nav-tabs" id="myTab" role="tablist">
 
                                                         <li className="nav-item" role="presentation">
@@ -689,7 +694,7 @@ function UsdMFutures() {
                                                         </li>
                                                     </ul>
 
-                                                </div>
+                                                </div> */}
 
                                                 <div className="tab-content" id="myTabContent">
 
@@ -706,14 +711,14 @@ function UsdMFutures() {
                                                                                 <th>Symbols/Vol</th>
                                                                                 <th>Last Price</th>
                                                                                 <th>24h Change</th>
-                                                                                <th>Max Leverage</th>
+                                                                                <th className='lastchild'>Max Leverage</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
                                                                             {filteredPairs?.length > 0 ?
                                                                                 filteredPairs?.map((pair) => {
                                                                                     return (
-                                                                                        <tr key={pair?._id} onClick={() => handleSelectCoin(pair)} className='cursor-pointer' data-bs-dismiss="modal" aria-label="Close">
+                                                                                        <tr key={pair?._id} onClick={() => handleSelectCoin(pair)} className='cursor-pointer active' data-bs-dismiss="modal" aria-label="Close">
                                                                                             <td>
                                                                                                 <div className="cnt_first_t">
                                                                                                     <div className="icon_currency icon">
@@ -731,7 +736,7 @@ function UsdMFutures() {
                                                                                             </td>
                                                                                             <td>{pricePrecision(pair?.buy_price)}</td>
                                                                                             <td className={pair?.change_percentage > 0 ? "text-success" : "danger"}>{toFixedThree(pair?.change_percentage)}%</td>
-                                                                                            <td>{pair?.max_leverage}x</td>
+                                                                                            <td className='lastchild'>{pair?.max_leverage}x</td>
                                                                                         </tr>
                                                                                     )
                                                                                 })
