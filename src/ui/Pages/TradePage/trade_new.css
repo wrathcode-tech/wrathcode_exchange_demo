@@ -3009,6 +3009,12 @@ html[data-theme='light'] .bs_tab_row {
         font-size: 16px;
     }
 
+    .trade-wrapper .assets_list h4 {
+        font-size: 14px;
+        align-items: center;
+        gap: 5px;
+        display: flex; }
+
     .inf_row .headline_bigName__dspVW,
     .headline_bigName__dspVW h1 {
         font-size: 14px !important;
@@ -3197,8 +3203,11 @@ html[data-theme='light'] .bs_tab_row {
     }
 
     .buy_sell_row_price .scroll_y {
-        height: 250px;
+        height: 400px;
     }
+
+    .usd_future_dashboard .table_info_data table tr td{ font-size: 10px; }
+    .usd_future_dashboard .table_info_data table tr th{ font-size: 10px; }
 
     .buy_sell_row_price #buy_orders .scroll_y,
     .buy_sell_row_price #sell_orders .scroll_y {

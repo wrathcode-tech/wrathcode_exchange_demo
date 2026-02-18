@@ -191,7 +191,7 @@ const Dashboard = (props) => {
     );
   }, [formatNumber]);
 
-  // No data row component
+  // No data row component (for tables that don't use SpotMarketsNoData)
   const NoDataRow = () => (
     <tr className="no-data-row">
       <td colSpan="12">
@@ -202,6 +202,17 @@ const Dashboard = (props) => {
         </div>
       </td>
     </tr>
+  );
+
+  // Single no-data block for Spot Markets (one for whole section, no duplicate desktop/mobile)
+  const SpotMarketsNoData = () => (
+    <div className="spot_markets_no_data">
+      <div className="no-data-wrapper">
+        <div className="no_data_s">
+          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data available" />
+        </div>
+      </div>
+    </div>
   );
 
   // Highlight card component
@@ -337,232 +348,228 @@ const Dashboard = (props) => {
                 <div className="tab-content" id="myTabContent">
                   {/* Trending Tab */}
                   <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div className='desktop_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th>24H High</th>
-                              <th>24H Change</th>
-                              <th className="right_t">Trade</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 
-                              ? coinData.map((item, index) => renderDesktopRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <div className='mobile_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th className="right_t">24 High/Change</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 
-                              ? coinData.map((item, index) => renderMobileRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                    {coinData?.length > 0 ? (
+                      <>
+                        <div className='desktop_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th>24H High</th>
+                                  <th>24H Change</th>
+                                  <th className="right_t">Trade</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData.map((item, index) => renderDesktopRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div className='mobile_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th className="right_t">24 High/Change</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData.map((item, index) => renderMobileRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <SpotMarketsNoData />
+                    )}
                   </div>
 
                   {/* Hot Tab */}
                   <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div className='desktop_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th>24H High</th>
-                              <th>24H Change</th>
-                              <th className="right_t">Trade</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 
-                              ? coinData.slice(0, 5).map((item, index) => renderDesktopRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <div className='mobile_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th className="right_t">24H High/Change</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 
-                              ? coinData.slice(0, 5).map((item, index) => renderMobileRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                    {coinData?.length > 0 ? (
+                      <>
+                        <div className='desktop_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th>24H High</th>
+                                  <th>24H Change</th>
+                                  <th className="right_t">Trade</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData.slice(0, 5).map((item, index) => renderDesktopRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div className='mobile_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th className="right_t">24H High/Change</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData.slice(0, 5).map((item, index) => renderMobileRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <SpotMarketsNoData />
+                    )}
                   </div>
 
                   {/* New Listing Tab */}
                   <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <div className='desktop_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th>24H High</th>
-                              <th>24H Change</th>
-                              <th className="right_t">Trade</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 
-                              ? [...coinData].reverse().slice(0, 7).map((item, index) => renderDesktopRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <div className='mobile_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th className="right_t">24H High/Change</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 
-                              ? [...coinData].reverse().slice(0, 7).map((item, index) => renderMobileRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                    {coinData?.length > 0 ? (
+                      <>
+                        <div className='desktop_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th>24H High</th>
+                                  <th>24H Change</th>
+                                  <th className="right_t">Trade</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {[...coinData].reverse().slice(0, 7).map((item, index) => renderDesktopRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div className='mobile_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th className="right_t">24H High/Change</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {[...coinData].reverse().slice(0, 7).map((item, index) => renderMobileRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <SpotMarketsNoData />
+                    )}
                   </div>
 
                   {/* Favorite Tab */}
                   <div className="tab-pane fade" id="favorite" role="tabpanel" aria-labelledby="favorite-tab">
-                    <div className='desktop_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th>24H High</th>
-                              <th>24H Change</th>
-                              <th className="right_t">Trade</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 && favCoins?.length > 0
-                              ? coinData
-                                  .filter(item => favCoins.includes(item?._id))
-                                  .map((item, index) => renderDesktopRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <div className='mobile_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th className='right_t'>24H High/Change</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0 && favCoins?.length > 0
-                              ? coinData
-                                  .filter(item => favCoins.includes(item?._id))
-                                  .map((item, index) => renderMobileRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                    {coinData?.length > 0 && favCoins?.length > 0 && coinData.filter(item => favCoins.includes(item?._id)).length > 0 ? (
+                      <>
+                        <div className='desktop_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th>24H High</th>
+                                  <th>24H Change</th>
+                                  <th className="right_t">Trade</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData.filter(item => favCoins.includes(item?._id)).map((item, index) => renderDesktopRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div className='mobile_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th className='right_t'>24H High/Change</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData.filter(item => favCoins.includes(item?._id)).map((item, index) => renderMobileRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <SpotMarketsNoData />
+                    )}
                   </div>
 
                   {/* Top Gainers Tab */}
                   <div className="tab-pane fade" id="gainers" role="tabpanel" aria-labelledby="gainers-tab">
-                    <div className='desktop_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th>24H High</th>
-                              <th>24H Change</th>
-                              <th className="right_t">Trade</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0
-                              ? coinData
+                    {coinData?.length > 0 && coinData.filter(item => parseFloat(item?.change_percentage || 0) > 0).slice(0, 10).length > 0 ? (
+                      <>
+                        <div className='desktop_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th>24H High</th>
+                                  <th>24H Change</th>
+                                  <th className="right_t">Trade</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData
                                   .filter(item => parseFloat(item?.change_percentage || 0) > 0)
                                   .slice(0, 10)
-                                  .map((item, index) => renderDesktopRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <div className='mobile_view'>
-                      <div className='table-responsive'>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Coin</th>
-                              <th>Price</th>
-                              <th className="right_t">24H High/Change</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {coinData?.length > 0
-                              ? coinData
+                                  .map((item, index) => renderDesktopRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div className='mobile_view'>
+                          <div className='table-responsive'>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Coin</th>
+                                  <th>Price</th>
+                                  <th className="right_t">24H High/Change</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {coinData
                                   .filter(item => parseFloat(item?.change_percentage || 0) > 0)
                                   .slice(0, 10)
-                                  .map((item, index) => renderMobileRow(item, index))
-                              : <NoDataRow />
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                                  .map((item, index) => renderMobileRow(item, index))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <SpotMarketsNoData />
+                    )}
                   </div>
                 </div>
               </div>

@@ -71,25 +71,34 @@ const AuthHeader = () => {
 
   const [isOpenNav, setIsOpenNav] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
   const dropdownRef = useRef(null);
+  const notificationRef = useRef(null);
 
   const toggleNavbar = () => setIsOpenNav(!isOpenNav);
 
   const closeNavbar = () => {
     setIsOpenNav(false);
     setOpenDropdown(null);
+    setShowNotification(false);
   };
 
   const toggleDropdown = (key) => {
     setOpenDropdown(openDropdown === key ? null : key);
   };
 
-  // Outside click handler (desktop + mobile)
+  // Outside click handler (desktop + mobile) – close nav dropdown and notification panel
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpenNav(false);
         setOpenDropdown(null);
+      }
+      // Notification: close only when click is OUTSIDE both icon and panel content (content par click = close mat karo)
+      const isInsideNotification = notificationRef.current?.contains(event.target) ||
+        event.target.closest?.('.header_notification');
+      if (!isInsideNotification) {
+        setShowNotification(false);
       }
     };
 
@@ -334,10 +343,10 @@ const AuthHeader = () => {
               <div className="header_right">
                 <div className="button_outer">
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a className="search_icon" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={fetchPairs}><i className="ri-search-line"></i></a>
-                  <a className="login_btn deposit-btn" href="#/" onClick={toggleSidebar}><i className="ri-download-2-line"></i>Deposit</a>
+                  <a className="search_icon" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { closeNavbar(); fetchPairs(); }}><i className="ri-search-line"></i></a>
+                  <a className="login_btn deposit-btn" href="#/" onClick={() => { closeNavbar(); toggleSidebar(); }}><i className="ri-download-2-line"></i>Deposit</a>
                   <div className="user_login dashbtn">
-                    <Link to="/user_profile/dashboard" className={isDashboardActive ? 'active' : ''}>
+                    <Link to="/user_profile/dashboard" className={isDashboardActive ? 'active' : ''} onClick={closeNavbar}>
                       Dashboard
                     </Link>
                   </div>
@@ -345,14 +354,28 @@ const AuthHeader = () => {
                 </div>
                 <div className="icon_notificaton_r">
                   <ul>
-                    <li className="notification_nav">
+                    <li
+                      ref={notificationRef}
+                      className={`notification_nav ${showNotification ? 'open' : ''}`}
+                      role="button"
+                      tabIndex={0}
+                      onClick={(e) => { e.stopPropagation(); setShowNotification((prev) => !prev); }}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setShowNotification((prev) => !prev); } }}
+                      aria-label="Notifications"
+                      aria-expanded={showNotification}
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none">
                         <path d="M12.75 5.69531V10.5234H11.25V5.69531H12.75ZM4.7344 13.0312C4.32815 13.7188 4.0508 14.4531 3.90236 15.2344C3.75393 16.0156 3.74221 16.8047 3.86721 17.6016L4.00783 18.3984H19.9922L20.1563 17.6016C20.2969 16.8047 20.2969 16.0156 20.1563 15.2344C20.0156 14.4531 19.7344 13.7188 19.3125 13.0312C19.1406 12.75 18.9922 12.3867 18.8672 11.9414C18.7422 11.4961 18.6797 11.1016 18.6797 10.7578V8.64844C18.6797 7.46094 18.375 6.34375 17.7656 5.29688C17.1719 4.29688 16.375 3.5 15.375 2.90625C14.3438 2.29688 13.2266 1.99219 12.0235 1.99219C10.8203 1.99219 9.69533 2.29688 8.64846 2.90625C7.64846 3.5 6.85158 4.29688 6.25783 5.29688C5.66408 6.32812 5.36721 7.44531 5.36721 8.64844V10.7578C5.36721 11.1016 5.30471 11.4961 5.17971 11.9414C5.05471 12.3867 4.90627 12.75 4.7344 13.0312ZM17.1797 8.67188V10.7578C17.1797 11.2266 17.2617 11.75 17.4258 12.3281C17.5899 12.9062 17.7891 13.3984 18.0235 13.8047C18.6016 14.7578 18.836 15.7891 18.7266 16.8984H5.2969C5.20315 15.7891 5.44533 14.7578 6.02346 13.8047C6.25783 13.3984 6.45705 12.9102 6.62111 12.3398C6.78518 11.7695 6.86721 11.2422 6.86721 10.7578V8.64844C6.86721 7.97656 6.99611 7.32422 7.25393 6.69141C7.51174 6.05859 7.88283 5.5 8.36721 5.01562C8.85158 4.53125 9.41018 4.15625 10.043 3.89062C10.6758 3.625 11.336 3.49219 12.0235 3.49219C12.9453 3.49219 13.8008 3.72656 14.5899 4.19531C15.3789 4.66406 16.0078 5.29297 16.4766 6.08203C16.9453 6.87109 17.1797 7.73438 17.1797 8.67188ZM9.75002 19.0078C9.75002 19.3047 9.80861 19.5898 9.9258 19.8633C10.043 20.1367 10.2071 20.3789 10.418 20.5898C10.6289 20.8008 10.8711 20.9648 11.1446 21.082C11.418 21.1992 11.7031 21.2578 12 21.2578C12.625 21.2422 13.1563 21.0156 13.5938 20.5781C14.0313 20.1406 14.25 19.6172 14.25 19.0078H15.75C15.75 19.6797 15.5821 20.3008 15.2461 20.8711C14.9102 21.4414 14.4531 21.8984 13.875 22.2422C13.2969 22.5859 12.6719 22.7578 12 22.7578C11.5 22.7578 11.0196 22.6602 10.5586 22.4648C10.0977 22.2695 9.69533 21.9961 9.35158 21.6445C9.00783 21.293 8.7383 20.8867 8.54299 20.4258C8.34768 19.9648 8.25002 19.4922 8.25002 19.0078H9.75002Z" fill="white" />
                       </svg>
                       {notificationCounts?.unseen > 0 && (
                         <span className="notification_count">{notificationCounts.unseen}</span>
                       )}
-                      <div className="annousment_s header_notification">
+                      <div
+                        className="annousment_s header_notification"
+                        onClick={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        role="presentation"
+                      >
                         {notifications?.length > 0 ? notifications?.map((item, index) => (
                           <div key={item?._id || index} className={`annousment_left ${!item?.isSeen && "active"}`} onClick={() => !item?.isSeen && openNotification()} >
                             <img src="/images/notification_icon.svg" alt="Notification Icon" />

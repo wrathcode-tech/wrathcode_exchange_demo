@@ -1486,7 +1486,7 @@ const Trade = () => {
 
                                 {/* Wallets - Mobile Only (when wallets tab is active) */}
                                 <div className="col-lg-6 d-lg-none">
-                                    <div className="assets_right">
+                                    <div className="assets_right mobile_assets_right">
                                         <div id="tab_4_mobile" className={`trade_card orderbook_two ${showTab !== "wallets" ? "d-none" : ""}`}>
                                             <div className="assets_list">
                                                 <div className="top_heading"><h4>Spot Wallets<i class="ri-refresh-line cursor-pointer" onClick={() => fetchSpotWallets()}></i></h4><Link className="more_btn" to="/user_profile/asset_overview"><i className="ri-exchange-funds-fill"></i> Transfer</Link></div>
@@ -2186,8 +2186,8 @@ const Trade = () => {
                                             </div>
                                         </div>
 
-                                        <div className='order_history_mobile_view'>
-                                            <div className='d-flex'>
+                                        <div className='order_history_mobile_view twomobile'>
+                                            <div className='d-flex datalist_mbl'>
                                                 {openOrders?.length > 0 ? (
                                                     openOrders
                                                         .filter((item) => orderType === item?.side || orderType === 'All')
@@ -2361,8 +2361,8 @@ const Trade = () => {
 
                                             </div>
                                         </div>
-                                        <div className='order_history_mobile_view'>
-                                            <div className='d-flex'>
+                                        <div className='order_history_mobile_view twomobile'>
+                                            <div className='d-flex datalist_mbl'>
                                                 {pastOrders?.length > 0 ? (
                                                     pastOrders
                                                         .filter((item) => item?.side === pastOrderType || pastOrderType === 'All')

@@ -156,7 +156,7 @@ const OpenOrders = (props) => {
                           </tr>
                         ))
                       ) : (
-                        <tr rowSpan="5" className="no-data-row">
+                        <tr rowSpan="5" className="no-data-row no-data-row-open-orders2">
                           <td colSpan="12">
                             <div className="no-data-wrapper">
                               <div className="no_data_vector">

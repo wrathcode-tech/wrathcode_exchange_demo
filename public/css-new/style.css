@@ -2158,12 +2158,15 @@ section.hot_articles_s .row {
 .export_modal .modal-body {
     padding: 20px 24px 28px;
 }
+
 .export_modal_body .export_section {
     margin-bottom: 24px;
 }
+
 .export_modal_body .export_section:last-child {
     margin-bottom: 0;
 }
+
 .export_label {
     display: block;
     color: #949AA4;
@@ -2171,25 +2174,30 @@ section.hot_articles_s .row {
     margin-bottom: 12px;
     font-weight: 400;
 }
+
 .export_btn_group {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
+
 .export_btn_group_lg .export_btn {
     padding: 12px 24px;
     font-size: 15px;
 }
+
 .export_presets {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
+
 @media (max-width: 576px) {
     .export_presets {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
 .export_btn {
     padding: 10px 16px;
     border-radius: 8px;
@@ -2199,21 +2207,25 @@ section.hot_articles_s .row {
     font-size: 14px;
     transition: all 0.2s ease;
 }
+
 .export_btn:hover {
     border-color: #6b7280;
     color: #fff;
 }
+
 .export_btn.active {
     /* background: rgba(243, 187, 43, 0.2); */
     border-color: #f3bb2b;
     color: #fff;
 }
+
 .export_date_range {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-top: 12px;
 }
+
 .export_date_input {
     flex: 1;
     min-width: 120px;
@@ -2224,25 +2236,30 @@ section.hot_articles_s .row {
     color: #fff;
     font-size: 14px;
 }
+
 .export_date_input::-webkit-calendar-picker-indicator {
     filter: invert(1);
     opacity: 0.7;
 }
+
 .export_date_arrow {
     color: #949AA4;
     font-size: 18px;
 }
+
 .export_note {
     display: block;
     margin-top: 10px;
     color: #6b7280;
     font-size: 12px;
 }
+
 .export_dropdown_group {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
+
 .export_dropdown {
     flex: 1;
     min-width: 140px;
@@ -2258,14 +2275,17 @@ section.hot_articles_s .row {
     background-repeat: no-repeat;
     background-position: right 12px center;
 }
+
 .export_dropdown option {
     background: #2a2e36;
     color: #fff;
 }
+
 .export_actions {
     margin-top: 28px;
     padding-top: 20px;
 }
+
 .export_submit_btn {
     width: 100%;
     padding: 14px 24px;
@@ -2278,9 +2298,11 @@ section.hot_articles_s .row {
     cursor: pointer;
     transition: background 0.2s ease;
 }
+
 .export_submit_btn:hover:not(:disabled) {
     background: #ffff;
 }
+
 .export_submit_btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -4484,8 +4506,9 @@ form.profile_form {
     flex-direction: column;
     gap: 18px;
 }
+
 form.profile_form2 {
-  
+
     gap: 5px !important;
 }
 
@@ -5648,7 +5671,8 @@ td.right_t.price_tb span {
     color: #bfbfbf;
 }
 
-.icon_notificaton_r ul li.notification_nav:hover .header_notification {
+/* Sirf click se open/close – hover hata diya taaki return click par close ho jaye */
+.icon_notificaton_r ul li.notification_nav.open .header_notification {
     opacity: 1;
     visibility: visible;
 }
@@ -6670,7 +6694,8 @@ footer span.admin_email {
 footer address {
     display: flex;
     align-items: start;
-    gap: 8px; }
+    gap: 8px;
+}
 
 .date_info {
     width: 100%;
@@ -9033,11 +9058,223 @@ body .trade_summary_table_lft_position_order.position_order .table-responsive {
     width: 100%;
     display: flex;
     align-items: center;
-    /* vertical center */
     justify-content: center;
-    /* horizontal center */
     flex-direction: column;
     text-align: center;
+}
+
+/* table-responsive ki height ke andar no-data ko vertical + horizontal center */
+.table-responsive:has(.no-data-row),
+.table-responsive:has(.no-data-row-open-orders2) {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-responsive:has(.no-data-row) table,
+.table-responsive:has(.no-data-row-open-orders2) table {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+}
+
+.table-responsive:has(.no-data-row) .no-data-row td,
+.table-responsive:has(.no-data-row-open-orders2) .no-data-row-open-orders2 td {
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0;
+}
+
+.table-responsive .no-data-wrapper {
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.table-responsive .no-data-row .no_data_s,
+.table-responsive .no-data-row .no_data_vector,
+.table-responsive .no-data-row-open-orders2 .no_data_s,
+.table-responsive .no-data-row-open-orders2 .no_data_vector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Internal Wallet Transfer / Swap History – table .dashboard_summary me (table-responsive nahi) */
+.dashboard_summary:has(.no-data-row) {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.dashboard_summary:has(.no-data-row) table {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+}
+
+.dashboard_summary:has(.no-data-row) .no-data-row td {
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0;
+}
+
+.dashboard_summary:has(.no-data-row) .no-data-wrapper {
+    height: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dashboard_summary:has(.no-data-row) .no_data_vector,
+.dashboard_summary:has(.no-data-row) .no_data_s {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Spot Markets (dashboard) – no-data row vertical + horizontal center */
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .tab-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .tab-pane.show {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .tab-pane.show .desktop_view,
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .tab-pane.show .mobile_view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .table-responsive {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 200px;
+}
+
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .table-responsive table {
+    flex: 1;
+    min-height: 0;
+}
+
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .no-data-row td {
+    height: 100%;
+    min-height: 200px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .no-data-wrapper {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.market_section.maindashboard .dashboard_summary:has(.no-data-row) .no_data_s {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Spot Markets – single no-data block (one image for whole section) */
+.market_section.maindashboard .spot_markets_no_data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    width: 100%;
+}
+
+.market_section.maindashboard .spot_markets_no_data .no-data-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.market_section.maindashboard .spot_markets_no_data .no_data_s {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile: no-data image center (backup) */
+@media screen and (max-width: 991px) {
+
+    .no-data-row td,
+    .no-data-row-open-orders2 td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .no-data-row .no-data-wrapper,
+    .no-data-row-open-orders2 .no-data-wrapper {
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .no-data-row .no_data_s,
+    .no-data-row .no_data_vector,
+    .no-data-row-open-orders2 .no_data_s,
+    .no-data-row-open-orders2 .no_data_vector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/* Open Orders / Order History mobile: no-data image vertical + horizontal center */
+@media screen and (max-width: 991px) {
+    .order_history_mobile_view .d-flex:has(.no-data-wrapper) {
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .order_history_mobile_view .no-data-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        min-height: 300px;
+    }
+
+    .order_history_mobile_view .no_data_vector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .order_history_mobile_view .no_data_vector img {
+        display: block;
+        margin: 0 auto;
+    }
 }
 
 .header_right .button_outer .login_btn.deposit-btn {
@@ -11755,7 +11992,8 @@ button.signbtn {
 .earning_list_block ul.currency_list_b li img {
     max-width: 40px;
 }
-.all_product_data .desktop_view{
+
+.all_product_data .desktop_view {
     border: 1px solid #2b313c;
     padding: 10px;
     border-radius: 10px;
@@ -12048,11 +12286,12 @@ table td.action_td {
     gap: 15px;
     align-items: center;
     justify-content: center;
-  
+
 }
-.currency_list_b_li{
+
+.currency_list_b_li {
     background-image: url('/images/34222219_7_qsasa144.jpg');
-    background-size: cover ;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -16731,6 +16970,7 @@ button.view_more_btn {
 .trade_summary_table_lft.position_order .table-responsive {
     max-height: 300px;
     min-height: 300px;
+    align-items: center;
 }
 
 #twofaInfoModal .qr_code {
@@ -17391,9 +17631,10 @@ button.p2p-submit-button {
     }
 
 
-.referral_list_top{
-    display: none;
-}
+    .referral_list_top {
+        display: none;
+    }
+
     .order_history_mobile_view {
         display: block;
     }
@@ -17437,7 +17678,8 @@ button.p2p-submit-button {
     }
 
     footer address {
-        font-size: 14px; }
+        font-size: 14px;
+    }
 
     .searchBar.custom-tabs.search_active {
         width: 200px;
@@ -18665,6 +18907,19 @@ button.p2p-submit-button {
         padding-bottom: 24px;
     }
 
+    .order_history_mobile_view.twomobile {
+        min-height: 300px;
+    }
+
+    .order_history_mobile_view .d-flex.datalist_mbl {
+
+        height: 100%;
+    }
+
+    .hVPalX.gap-2 {
+        padding: 0px 0px 0px;
+    }
+
     .lastchildfooter.address_footer h5 {
         padding-left: 15px;
     }
@@ -18741,6 +18996,27 @@ button.p2p-submit-button {
         font-size: 15px;
     }
 
+    .order_history_mobile_view .d-flex .hVPalX.d-flex {
+        flex-direction: row;
+    }
+
+    .order_history_mobile_view .d-flex .hVPalX .d-flex {
+        flex-direction: row;
+    }
+
+    .sc-eAKtBH.gVtWSU.d-flex.gap-1 {
+        flex-direction: row;
+    }
+
+    .hVPalX.gap-2.d-flex.justify-content-between.align-items-center.mt-2.flex-wrap {
+        flex-direction: row;
+        padding-top: 0px;
+    }
+
+    button.view_more_btn {
+        margin-top: -5px;
+    }
+
 
 }
 
@@ -18751,7 +19027,7 @@ button.p2p-submit-button {
         min-height: 300px;
     }
 
-.bottm_lightbox_two .bs_box_header i {
+    .bottm_lightbox_two .bs_box_header i {
         font-size: 22px;
         background-color: #f3bb2b;
         color: #111114;
@@ -18762,9 +19038,8 @@ button.p2p-submit-button {
         margin-top: 24px;
     }
 
-    .order_history_mobile_view .d-flex {
-        height: 100%;
-    }
+
+
 
     .dashboard_recent_s .mobile_view {
         background-color: transparent;
@@ -19257,6 +19532,10 @@ button.p2p-submit-button {
         min-width: 650px;
     }
 
+    .d-flex.datalist_mbl {
+        height: 100%;
+    }
+
     .light_theme .navigation {
         border-radius: 0px;
         top: 0px;
@@ -19269,6 +19548,10 @@ button.p2p-submit-button {
 
     .top_header_dash {
         padding: 8px 0px;
+    }
+
+    .position_order .order_history_mobile_view {
+        margin: 15px 0px 50px;
     }
 
     header .logo {
@@ -19996,6 +20279,7 @@ button.p2p-submit-button {
         align-items: center;
         margin-top: 50px;
         padding: 0px 0px;
+        z-index: 1;
     }
 
     .navigation nav ul {
@@ -20009,6 +20293,7 @@ button.p2p-submit-button {
         right: 65px;
         top: 10px;
         align-items: start;
+        z-index: 1001;
     }
 
     .afterloginheader .header_right {
@@ -20135,6 +20420,7 @@ button.p2p-submit-button {
         width: 100%;
         margin-top: 10px;
     }
+
     .currency_bit_footer {
         padding: 0px 15px 6px;
     }
@@ -23225,7 +23511,8 @@ button.p2p-submit-button {
         font-size: 13px;
         border-bottom: 1px solid #444c5b;
     }
-    #toggleBtn{
+
+    #toggleBtn {
         align-items: center;
     }
 
@@ -24003,6 +24290,11 @@ button.p2p-submit-button {
         padding: 6px !important;
         width: 24px !important;
         height: 24px !important;
+    }
+
+    .assets_right.mobile_assets_right {
+        display: block !important;
+        padding: 0px 15px;
     }
 
     .highlights_crypto_s {
@@ -25717,7 +26009,7 @@ button.p2p-submit-button {
         font-size: 12px;
     }
 
-.custom-tab-content .mobiletable table tr th {
+    .custom-tab-content .mobiletable table tr th {
         padding: 5px !important;
     }
 
@@ -25870,7 +26162,8 @@ button.p2p-submit-button {
     }
 
     .emaildiv {
-        flex-direction: column; }
+        flex-direction: column;
+    }
 
     footer p {
         font-size: 12px;
@@ -26772,13 +27065,19 @@ button.p2p-submit-button {
         margin-top: 0px;
     }
 
-.tab-pane.container.active.mt-5.form-field-wrapper { margin-top: 0px !important; }   
-.os_sec .card-body i {
-    width: 38px;
-    height: 38px;
-    font-size: 26px; }
+    .tab-pane.container.active.mt-5.form-field-wrapper {
+        margin-top: 0px !important;
+    }
 
-    section.section-padding.feature_bg.pc_bg.login_sec table tr th{ font-size: 12px !important; }
+    .os_sec .card-body i {
+        width: 38px;
+        height: 38px;
+        font-size: 26px;
+    }
+
+    section.section-padding.feature_bg.pc_bg.login_sec table tr th {
+        font-size: 12px !important;
+    }
 
     .slider_group_wrapper .currency_list_b ul li {
         padding: 0px;
@@ -26912,6 +27211,7 @@ ul.security-tips-list {
 /* ===== iOS Safari - Prevent zoom on input focus ===== */
 /* iOS Safari zooms in on inputs with font-size < 16px */
 @supports (-webkit-touch-callout: none) {
+
     input[type="text"],
     input[type="email"],
     input[type="password"],
@@ -26925,7 +27225,7 @@ ul.security-tips-list {
     textarea {
         font-size: 16px !important;
     }
-    
+
     /* Maintain visual hierarchy with transform scale for smaller appearance */
     .form-control,
     .form-select {
@@ -26936,6 +27236,7 @@ ul.security-tips-list {
 /* ===== Mobile - Fix keyboard overlaying modal inputs ===== */
 /* Works with existing bottom-sheet modal animation */
 @media screen and (max-width: 767px) {
+
     /* Ensure modal body is scrollable for keyboard */
     .modal-body {
         overflow-y: auto;
@@ -26944,7 +27245,7 @@ ul.security-tips-list {
         /* Extra padding at bottom for keyboard clearance */
         padding-bottom: 30px !important;
     }
-    
+
     /* Ensure inputs have scroll margin when focused */
     .modal input:focus,
     .modal select:focus,
@@ -26952,7 +27253,7 @@ ul.security-tips-list {
         scroll-margin-bottom: 100px;
         scroll-margin-top: 20px;
     }
-    
+
     /* KYC and form modals - limit height to leave room for keyboard */
     .kyc_modal .modal-body,
     #kycModal .modal-body,
@@ -26963,9 +27264,10 @@ ul.security-tips-list {
         max-height: calc(80vh - 80px);
         overflow-y: auto;
     }
-    
+
     /* Use dynamic viewport height where supported */
     @supports (height: 1dvh) {
+
         .kyc_modal .modal-body,
         #kycModal .modal-body,
         #kycVerificationModal .modal-body,
@@ -26976,7 +27278,8 @@ ul.security-tips-list {
         }
     }
 }
-.mobile_trade{
+
+.mobile_trade {
     background-color: #1f2630 !important;
 
 }

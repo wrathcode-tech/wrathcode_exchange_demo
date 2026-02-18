@@ -451,6 +451,34 @@
     }, 700));
   });
 
+  // .position_order .position_list – scrollbar sirf user ke aane (scroll/touch/hover) ke baad
+  $(document).on("mouseenter", ".position_order .position_list", function () {
+    $(this).addClass("show-scrollbar");
+  });
+  $(document).on("mouseleave", ".position_order .position_list", function () {
+    $(this).removeClass("show-scrollbar");
+  });
+  // Scroll event bubble nahi karta, isliye capture phase use karo
+  document.addEventListener("scroll", function (e) {
+    var el = e.target;
+    if (!el || !el.closest) return;
+    var list = el.closest ? el.closest(".position_order .position_list") : null;
+    if (!list) return;
+    list.classList.add("show-scrollbar");
+    clearTimeout(list._pl_sb_timer);
+    list._pl_sb_timer = setTimeout(function () {
+      list.classList.remove("show-scrollbar");
+    }, 700);
+  }, true);
+  // Mobile: touch se scroll shuru hote hi scrollbar dikhao
+  $(document).on("touchstart touchmove", ".position_order .position_list", function () {
+    var el = $(this);
+    el.addClass("show-scrollbar");
+    clearTimeout(el.get(0)._pl_sb_timer);
+    el.get(0)._pl_sb_timer = setTimeout(function () {
+      el.removeClass("show-scrollbar");
+    }, 700);
+  });
 </script>
 
 <!-- Mobile Keyboard Handler - Scroll focused input into view -->

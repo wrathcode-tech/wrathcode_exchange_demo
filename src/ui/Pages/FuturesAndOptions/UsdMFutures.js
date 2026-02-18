@@ -2152,7 +2152,7 @@ function UsdMFutures() {
                                     </div>
                                 </div>
 
-                                <div className='order_history_mobile_view'>
+                                <div className='order_history_mobile_view twomobile'>
                                     {openPositions?.length > 0 ? (
                                         <div className='d-flex flex-column gap-2'>
                                             {openPositions.map((pos) => (
@@ -2338,7 +2338,7 @@ function UsdMFutures() {
                                     </div>
                                 </div>
 
-                                <div className='order_history_mobile_view'>
+                                <div className='order_history_mobile_view twomobile'>
                                     {OpenOrders?.length > 0 ? (
                                         <div className='d-flex flex-column gap-2'>
                                             {OpenOrders.map((order) => {
@@ -2533,7 +2533,7 @@ function UsdMFutures() {
                                     )}
                                 </div>
 
-                                <div className='order_history_mobile_view'>
+                                <div className='order_history_mobile_view twomobile'>
                                     {ordersHistory?.length > 0 ? (
                                         <div className='d-flex flex-column gap-2'>
                                             {ordersHistory.map((order) => {
@@ -2733,7 +2733,7 @@ function UsdMFutures() {
                                     )}
                                 </div>
 
-                                <div className='order_history_mobile_view'>
+                                <div className='order_history_mobile_view twomobile'>
                                     {tradeHistory?.length > 0 ? (
                                         <div className='d-flex flex-column gap-2'>
                                             {tradeHistory.map((trade) => {
@@ -2910,7 +2910,7 @@ function UsdMFutures() {
                                     )}
                                 </div>
 
-                                <div className='order_history_mobile_view'>
+                                <div className='order_history_mobile_view twomobile'>
                                     {closePositions?.length > 0 ? (
                                         <div className='d-flex flex-column gap-2'>
                                             {closePositions.map((pos) => {
