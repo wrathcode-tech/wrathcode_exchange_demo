@@ -74,8 +74,22 @@ const AuthHeader = () => {
   const [showNotification, setShowNotification] = useState(false);
   const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
+  const dropdownCloseTimerRef = useRef(null);
 
   const toggleNavbar = () => setIsOpenNav(!isOpenNav);
+
+  const openDropdownHover = (key) => {
+    if (dropdownCloseTimerRef.current) {
+      clearTimeout(dropdownCloseTimerRef.current);
+      dropdownCloseTimerRef.current = null;
+    }
+    if (window.innerWidth >= 992) setOpenDropdown(key);
+  };
+
+  const closeDropdownHover = () => {
+    if (window.innerWidth < 992) return;
+    dropdownCloseTimerRef.current = setTimeout(() => setOpenDropdown(null), 200);
+  };
 
   const closeNavbar = () => {
     setIsOpenNav(false);
@@ -86,6 +100,12 @@ const AuthHeader = () => {
   const toggleDropdown = (key) => {
     setOpenDropdown(openDropdown === key ? null : key);
   };
+
+  useEffect(() => {
+    return () => {
+      if (dropdownCloseTimerRef.current) clearTimeout(dropdownCloseTimerRef.current);
+    };
+  }, []);
 
   // Outside click handler (desktop + mobile) – close nav dropdown and notification panel
   useEffect(() => {
@@ -205,7 +225,11 @@ const AuthHeader = () => {
                         </li>
 
                         {/* Trade Dropdown */}
-                        <li className={`nav-item dropdown ${isActive('/trade', false) || isActive('/p2p', false) ? "active" : ""}`}>
+                        <li
+                          className={`nav-item dropdown ${isActive('/trade', false) || isActive('/p2p', false) ? "active" : ""}`}
+                          onMouseEnter={() => openDropdownHover("trade")}
+                          onMouseLeave={closeDropdownHover}
+                        >
                           <span
                             className={`nav-link dropdown-toggle ${isActive('/trade', false) || isActive('/p2p', false) ? "active" : ""}`}
                             role="button"
@@ -214,21 +238,33 @@ const AuthHeader = () => {
                           >
                             Trade
                           </span>
-                          <ul className={`dropdown-menu ${openDropdown === "trade" ? "show" : ""}`}>
+                          <ul className={`dropdown-menu ${openDropdown === "trade" ? "show" : ""}`} onMouseEnter={() => openDropdownHover("trade")} onMouseLeave={closeDropdownHover}>
                             <li>
                               <Link className="dropdown-item" to="/trade/Header" onClick={closeNavbar}>
-                                Spot Trading
+                                <i className="ri-line-chart-line" />
+                                <span className="dropdown-item-content">
+                                  <span className="dropdown-item-text">Spot Trading</span>
+                                  <span className="dropdown-item-desc">Trade spot pairs with instant execution</span>
+                                </span>
                               </Link>
                             </li>
                             <li>
                               <Link className="dropdown-item" to="/p2p-dashboard" onClick={closeNavbar}>
-                                P2P
+                                <i className="ri-team-line" />
+                                <span className="dropdown-item-content">
+                                  <span className="dropdown-item-text">P2P</span>
+                                  <span className="dropdown-item-desc">Buy and sell crypto with other users</span>
+                                </span>
                               </Link>
                             </li>
                           </ul>
                         </li>
 
-                        <li className={`nav-item dropdown ${isActive('/usd_futures', false) || isActive('/coin_futures', false) || isActive('/options', false) ? "active" : ""}`}>
+                        <li
+                          className={`nav-item dropdown ${isActive('/usd_futures', false) || isActive('/coin_futures', false) || isActive('/options', false) ? "active" : ""}`}
+                          onMouseEnter={() => openDropdownHover("futures")}
+                          onMouseLeave={closeDropdownHover}
+                        >
                           <span
                             className={`nav-link dropdown-toggle ${isActive('/usd_futures', false) || isActive('/coin_futures', false) || isActive('/options', false) ? "active" : ""}`}
                             role="button"
@@ -237,17 +273,24 @@ const AuthHeader = () => {
                           >
                             Futures
                           </span>
-                          <ul className={`dropdown-menu ${openDropdown === "futures" ? "show" : ""}`}>
+                          <ul className={`dropdown-menu ${openDropdown === "futures" ? "show" : ""}`} onMouseEnter={() => openDropdownHover("futures")} onMouseLeave={closeDropdownHover}>
                             <li>
                               <Link className="dropdown-item" to="/usd_futures/header" onClick={closeNavbar}>
-                                USDⓈ-M Futures
+                                <i className="ri-bar-chart-2-line" />
+                                <span className="dropdown-item-content">
+                                  <span className="dropdown-item-text">USDⓈ-M Futures</span>
+                                  <span className="dropdown-item-desc">Trade perpetual futures with leverage</span>
+                                </span>
                               </Link>
                             </li>
-                          
                           </ul>
                         </li>
 
-                        <li className={`nav-item dropdown ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}>
+                        <li
+                          className={`nav-item dropdown ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}
+                          onMouseEnter={() => openDropdownHover("earning")}
+                          onMouseLeave={closeDropdownHover}
+                        >
                           <span
                             className={`nav-link dropdown-toggle ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}
                             role="button"
@@ -256,15 +299,23 @@ const AuthHeader = () => {
                           >
                             Earning
                           </span>
-                          <ul className={`dropdown-menu ${openDropdown === "earning" ? "show" : ""}`}>
+                          <ul className={`dropdown-menu ${openDropdown === "earning" ? "show" : ""}`} onMouseEnter={() => openDropdownHover("earning")} onMouseLeave={closeDropdownHover}>
                             <li>
                               <Link className="dropdown-item" to="/earning" onClick={closeNavbar}>
-                                Earning
+                                <i className="ri-money-dollar-circle-line" />
+                                <span className="dropdown-item-content">
+                                  <span className="dropdown-item-text">Earning</span>
+                                  <span className="dropdown-item-desc">Staking, savings and earn rewards</span>
+                                </span>
                               </Link>
                             </li>
                             <li>
                               <Link className="dropdown-item" to="/refer_earn" onClick={closeNavbar}>
-                                Refer & Earn
+                                <i className="ri-gift-line" />
+                                <span className="dropdown-item-content">
+                                  <span className="dropdown-item-text">Refer & Earn</span>
+                                  <span className="dropdown-item-desc">Invite friends and earn commission</span>
+                                </span>
                               </Link>
                             </li>
                           </ul>
@@ -308,7 +359,11 @@ const AuthHeader = () => {
                             Blogs & News
                           </Link>
                         </li>
-                        <li className={`nav-item dropdown mbl ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}>
+                        <li
+                          className={`nav-item dropdown mbl ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}
+                          onMouseEnter={() => openDropdownHover("download")}
+                          onMouseLeave={closeDropdownHover}
+                        >
                           <span
                             className={`nav-link dropdown-toggle ${isActive("/earning") || isActive("/refer_earn") ? "active" : ""}`}
                             role="button"
@@ -317,7 +372,7 @@ const AuthHeader = () => {
                           >
                             <img src="/images/download_icon2.svg" alt="scan" width={12} /> Download
                           </span>
-                          <ul className={`dropdown-menu ${openDropdown === "download" ? "show" : ""}`}>
+                          <ul className={`dropdown-menu ${openDropdown === "download" ? "show" : ""}`} onMouseEnter={() => openDropdownHover("download")} onMouseLeave={closeDropdownHover}>
                             <li>
                             <div className='qrcode'>
                           <div className="scan_img"><img src="/images/scan.png" alt="scan" /></div>
