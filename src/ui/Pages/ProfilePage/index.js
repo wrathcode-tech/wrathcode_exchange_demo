@@ -133,11 +133,8 @@ const ProfilePage = (props) => {
           <ul className="list-unstyled ps-0 navi_sidebar">
             <li onClick={() => toggleContent("Dashboard")} className={`${currentPage === "Dashboard" && "active"} mb-1`}>
               <Link to="dashboard">
-                <img className='darkicon' src="/images/dasboard_home.svg" alt="home" />
-                <img className='lighticon' src="/images/dasboard_home_light.svg" alt="home" /> <div className="dashboard_menu_hd"> Dashboard
-                  {/* <p>View your balances, latest features, and market overview at a glance. </p> */}
-                </div>
-
+                <i className="ri-home-4-line navi_sidebar_icon" aria-hidden="true"></i>
+                <div className="dashboard_menu_hd"> Dashboard</div>
               </Link>
             </li>
 
@@ -146,8 +143,7 @@ const ProfilePage = (props) => {
                 className="btn btn-toggle collapsed"
                 onClick={() => toggleSection("assets")}
               >
-                <img className='darkicon' src="/images/dashboard_assets.svg" alt="assets" />
-                <img className='lighticon' src="/images/dashboard_assets_light.svg" alt="assets" />
+                <i className="ri-wallet-3-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className={`dashboard_menu_hd ${(currentPage === "Overview" || isWalletPage) && "active_ul"}`}>
                   Assets
                   {/* <p>Manage your crypto holdings, track values, and monitor your asset portfolio.</p> */}
@@ -187,8 +183,7 @@ const ProfilePage = (props) => {
                 className="btn btn-toggle collapsed "
                 onClick={() => toggleSection("orders")}
               >
-                <img className='darkicon' src="/images/dashboard_order.svg" alt="orders" />
-                <img className='lighticon' src="/images/dashboard_order_light.svg" alt="orders" />
+                <i className="ri-file-list-3-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className={`dashboard_menu_hd ${(currentPage === "Spot Order" || currentPage === "Open Order" || currentPage === "Transaction History" || currentPage === "Swap History" || currentPage === "Earning Plan History") && "active_ul"}`}>
                   Orders
                   {/* <p>Check your transaction history and spot orders.</p> */}
@@ -250,8 +245,7 @@ const ProfilePage = (props) => {
                 className="btn btn-toggle collapsed"
                 onClick={() => toggleSection("profile")}
               >
-                <img className='darkicon' src="/images/dashboard_profile.svg" alt="profile" />
-                <img className='lighticon' src="/images/dashboard_profile_light.svg" alt="profile" />
+                <i className="ri-user-settings-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className={`dashboard_menu_hd ${(currentPage === "Settings" || currentPage === "kyc" || currentPage === "Currency Preference" || currentPage === "Support") && "active_ul"}`}>
                   Account
                   {/* <p>Update your personal info, manage account details and portofilio currency.</p> */}
@@ -299,7 +293,7 @@ const ProfilePage = (props) => {
             </li>
             <li onClick={() => toggleContent("Earning")} className={`${currentPage === "Earning" && "active"} mb-1`}>
               <Link to="/earning">
-                <img className='darkicon' src="/images/earning_icon3.svg" alt="Earning" width={26} />
+                <i className="ri-money-dollar-circle-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className="dashboard_menu_hd">
                   Earning
                   {/* <p>Monitor earnings from staking, referrals, and trading activities.</p> */}
@@ -337,8 +331,7 @@ const ProfilePage = (props) => {
 
             <li onClick={() => toggleContent("Security")} className={`${currentPage === "Security" && "active"} mb-1`}>
               <Link to="two_factor_autentication">
-                <img className='darkicon' src="/images/dashboard_security.svg" alt="two factor authentication" width={20} height={20} />
-                <img className='lighticon' src="/images/dashboard_security_light.svg" alt="two factor authentication" width={20} height={20} />
+                <i className="ri-shield-check-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className="dashboard_menu_hd">
                Security
 
@@ -350,8 +343,7 @@ const ProfilePage = (props) => {
     
             <li onClick={() => toggleContent("Quick Swap")} className={`${currentPage === "Quick Swap" && "active"} mb-1`}>
               <Link to="swap">
-                <img className='darkicon' src="/images/quick-swap.svg" alt="quick swap" width={20} height={20} />
-                <img className='lighticon' src="/images/dashboard_swap_light.svg" alt="quick swap" width={20} height={20} />
+                <i className="ri-swap-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className="dashboard_menu_hd">
                   Quick Swap
 
@@ -366,8 +358,7 @@ const ProfilePage = (props) => {
 
             <li onClick={() => toggleContent("Notification")} className={`${currentPage === "Notification" && "active"} mb-1`}>
               <Link to="notification">
-                <img className='darkicon' src="/images/dashboard_notification.svg" alt="notification" />
-                <img className='lighticon' src="/images/dashboard_notification_light.svg" alt="security" />
+                <i className="ri-notification-3-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className="dashboard_menu_hd">
                   Notification
                   {/* <p>Stay updated with alerts, trade notifications, system updates, and news.</p> */}
@@ -377,8 +368,7 @@ const ProfilePage = (props) => {
 
             <li onClick={() => toggleContent("Activity logs")} className={`${currentPage === "Activity logs" && "active"} mb-1`}>
               <Link to="activity_logs">
-                <img className='darkicon' src="/images/dashboard_logs.svg" alt="activity" />
-                <img className='lighticon' src="/images/dashboard_activity_light.svg" alt="activity logs" />
+                <i className="ri-history-line navi_sidebar_icon" aria-hidden="true"></i>
                 <div className="dashboard_menu_hd">
                   Activity logs
 

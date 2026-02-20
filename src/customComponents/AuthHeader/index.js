@@ -10,7 +10,9 @@ const AuthHeader = () => {
     setCurrentPage, 
     estimatedPortfolio, 
     notifications, 
-    notificationCounts
+    notificationCounts,
+    themeUpdated,
+    setThemeUpdated
   } = useContext(ProfileContext);
   
   const [showBalance, setShowBalance] = useState(true);
@@ -107,6 +109,19 @@ const AuthHeader = () => {
     };
   }, []);
 
+  // Sync body class with theme (light_theme = light mode)
+  useEffect(() => {
+    if (themeUpdated) {
+      document.body.classList.add('light_theme');
+    } else {
+      document.body.classList.remove('light_theme');
+    }
+  }, [themeUpdated]);
+
+  const toggleTheme = () => {
+    setThemeUpdated((prev) => !prev);
+  };
+
   // Outside click handler (desktop + mobile) – close nav dropdown and notification panel
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -182,6 +197,7 @@ const AuthHeader = () => {
             <div className="col-sm-12 col-md-12 col-lg-2 logo_s">
               <div className="logo "><Link to="/">
                 <img className='lightlogo' src="/images/logo_light.svg" alt="logo" />
+                <img className='darkogo' src="/images/logo-black.svg" alt="logo" />
               </Link></div>
             </div>
             <div className="col-sm-12 col-md-12 col-lg-6 navigation_s">
@@ -383,7 +399,17 @@ const AuthHeader = () => {
                           </ul>
                         </li>
                         <li className="nav-item mbl">
-                          <Link className="nav-link" to="/#" onClick={closeNavbar}>
+                          <Link
+                            className="nav-link"
+                            to="/#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              toggleTheme();
+                              closeNavbar();
+                            }}
+                            role="button"
+                            aria-label="Toggle theme"
+                          >
                             Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
                           </Link>
                         </li>
@@ -493,7 +519,7 @@ const AuthHeader = () => {
                         </div>
                       </div>
                     </li>
-                    <li className='themetbs'><img src="/images/themeicon.svg" alt="theme" /></li>
+                    <li className="themetbs" role="button" tabIndex={0} onClick={toggleTheme} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); } }} aria-label="Toggle theme"><img src="/images/themeicon.svg" alt="theme" /></li>
                   </ul>
                 </div>
               </div>

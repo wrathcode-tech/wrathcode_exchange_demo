@@ -11,7 +11,14 @@ export function ProfileProvider(props) {
   const [newStoredTheme, setNewStoredTheme] = useState('');
   const [lastLogin, setLastLogin] = useState("");
   const [currentPage, setCurrentPage] = useState("Dashboard");
-  const [themeUpdated, setThemeUpdated] = useState(true);
+  const [themeUpdated, setThemeUpdated] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      return localStorage.getItem('theme') === 'light';
+    } catch {
+      return false;
+    }
+  });
   const [refreshModal, setRefreshModal] = useState(true);
   const [refreshNotification, setRefreshNotification] = useState(false);
   const [activeTab, setActiveTab] = useState("");
@@ -27,6 +34,22 @@ export function ProfileProvider(props) {
   const isInitialized = useRef(false);
 
   const token = localStorage.getItem('token');
+
+  // Save theme on header light-btn click only; reload par class remove nahi hogi
+  useEffect(() => {
+    try {
+      localStorage.setItem('theme', themeUpdated ? 'light' : 'dark');
+    } catch (e) {}
+  }, [themeUpdated]);
+
+  // Body par light_theme class: load par bhi (localStorage se), toggle par bhi
+  useEffect(() => {
+    if (themeUpdated) {
+      document.body.classList.add('light_theme');
+    } else {
+      document.body.classList.remove('light_theme');
+    }
+  }, [themeUpdated]);
 
   const updateModelHideStatus = (value) => {
     localStorage.setItem(value, true);
@@ -183,26 +206,26 @@ export function ProfileProvider(props) {
     }
   }, [refreshNotification, token, fetchNotifications]);
 
-  const handleTheme = () => {
-    const htmlTag = document.documentElement;
-    const currentTheme = htmlTag.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    localStorage.setItem('theme', newTheme);
-    htmlTag.setAttribute('data-theme', newTheme);
-    setNewStoredTheme(newTheme);
-  };
+  // const handleTheme = () => {
+  //   const htmlTag = document.documentElement;
+  //   const currentTheme = htmlTag.getAttribute('data-theme');
+  //   const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  //   localStorage.setItem('theme', newTheme);
+  //   htmlTag.setAttribute('data-theme', newTheme);
+  //   setNewStoredTheme(newTheme);
+  // };
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    const htmlTag = document.documentElement;
-    if (storedTheme) {
-      htmlTag.setAttribute('data-theme', storedTheme);
-    } else {
-      const defaultTheme = 'dark';
-      htmlTag.setAttribute('data-theme', defaultTheme);
-      localStorage.setItem('CurrentTheme', defaultTheme);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedTheme = localStorage.getItem('theme');
+  //   const htmlTag = document.documentElement;
+  //   if (storedTheme) {
+  //     htmlTag.setAttribute('data-theme', storedTheme);
+  //   } else {
+  //     const defaultTheme = 'dark';
+  //     htmlTag.setAttribute('data-theme', defaultTheme);
+  //     localStorage.setItem('CurrentTheme', defaultTheme);
+  //   }
+  // }, []);
 
   return (
     <ProfileContext.Provider value={{
@@ -218,7 +241,7 @@ export function ProfileProvider(props) {
       handleUserDetails,
       setLoginDetails,
       loginDetails,
-      handleTheme,
+      // handleTheme,
       newStoredTheme,
       activeTab,
       setActiveTab,

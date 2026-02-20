@@ -117,6 +117,7 @@ const UserHeader = () => {
             <div className="logo">
               <Link to="/">
                 <img className='lightlogo' src="/images/logo_light.svg" alt="logo" />
+                <img className='darkogo' src="/images/logo-black.svg" alt="logo" />
               </Link>
             </div>
           </div>
@@ -308,7 +309,17 @@ const UserHeader = () => {
                       </ul>
                     </li>
                     <li className="nav-item mbl">
-                      <Link className="nav-link" to="/#" onClick={closeNavbar}>
+                      <Link
+                        className="nav-link"
+                        to="/#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setThemeUpdated((prev) => !prev);
+                          closeNavbar();
+                        }}
+                        role="button"
+                        aria-label="Toggle theme"
+                      >
                         Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
                       </Link>
                     </li>

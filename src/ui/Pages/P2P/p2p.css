@@ -10690,7 +10690,21 @@
   }
   
   body.light_theme .p2p-page-title {
-    color: #aaa;
+    color: #333;
+  }
+  
+  body.light_theme .p2p-dashboard-container h2,
+  body.light_theme .p2p-dashboard-container h3,
+  body.light_theme .p2p-dashboard-container h4,
+  body.light_theme .p2p-dashboard-container .p2p-section-header,
+  body.light_theme .p2p-dashboard-container .p2p-orders-title {
+    color: #333;
+  }
+  
+  body.light_theme .p2p-profile-funding,
+  body.light_theme .p2p-profile-funding-label,
+  body.light_theme .p2p-profile-funding-value {
+    color: #333;
   }
   
   body.light_theme .p2p-sidebar {
@@ -10771,11 +10785,23 @@
   }
   
   body.light_theme .p2p-toggle-btn {
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-filter-label {
-    color: #aaa;
+    color: #555;
+  }
+  
+  body.light_theme .p2p-dashboard-container button:not(.p2p-find-orders-btn):not(.p2p-buy-btn):not(.p2p-sell-btn):not(.p2p-myads-action-btn):not(.p2p-modal-btn):not(.p2p-page-btn.p2p-active) {
+    color: #333;
+    border: 1px solid #d0d0d0;
+    background-color: #f5f5f5;
+  }
+  
+  body.light_theme .p2p-dashboard-container button:not(.p2p-find-orders-btn):not(.p2p-buy-btn):not(.p2p-sell-btn):not(.p2p-myads-action-btn):not(.p2p-modal-btn):not(.p2p-page-btn.p2p-active):hover {
+    background-color: #e8e8e8;
+    border-color: #c0c0c0;
+    color: #000;
   }
   
   body.light_theme .p2p-filter-select {
@@ -10810,7 +10836,7 @@
   }
   
   body.light_theme .p2p-orders-table th {
-    color: #aaa;
+    color: #333;
     border-bottom: 1px solid #e5e5e5;
   }
   
@@ -10827,7 +10853,7 @@
   }
   
   body.light_theme .p2p-advertiser-stats {
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-rating-value {
@@ -10839,7 +10865,7 @@
   }
   
   body.light_theme .p2p-limit-label {
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-limit-value {
@@ -10858,7 +10884,7 @@
   }
   
   body.light_theme .p2p-pagination-info {
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-page-current {
@@ -10869,7 +10895,7 @@
   body.light_theme .p2p-page-btn {
     background: #fff;
     border: 1px solid #e5e5e5;
-    color: #aaa;
+    color: #333;
   }
   
   body.light_theme .p2p-page-btn:hover {
@@ -10884,7 +10910,33 @@
   }
   
   body.light_theme .p2p-page-dots {
-    color: #aaa;
+    color: #555;
+  }
+  
+  body.light_theme .p2p-order-action-btn {
+    color: #b8860b;
+    border-color: rgba(184, 134, 11, 0.4);
+  }
+  
+  body.light_theme .p2p-order-action-btn:hover {
+    color: #9a7209;
+    background: rgba(244, 182, 9, 0.1);
+  }
+  
+  body.light_theme .p2p-order-action-text {
+    color: #555;
+  }
+  
+  body.light_theme .p2p-dashboard-container a:not(.p2p-nav-item) {
+    color: #b8860b;
+  }
+  
+  body.light_theme .p2p-dashboard-container a:not(.p2p-nav-item):hover {
+    color: #9a7209;
+  }
+  
+  body.light_theme .p2p-empty-state-card {
+    color: #555;
   }
   
   body.light_theme .p2p-expanded-content {
@@ -11071,7 +11123,7 @@
   }
   
   body.light_theme .p2p-myads-stat-card-label {
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-myads-stat-card-value {
@@ -11079,7 +11131,7 @@
   }
   
   body.light_theme .p2p-profile-section-desc {
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-payment-methods-grid {
@@ -11096,7 +11148,7 @@
   }
   
   body.light_theme .p2p-payment-method-label {
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-payment-method-value {
@@ -11106,7 +11158,7 @@
   body.light_theme .p2p-empty-state-card {
     background: #fff;
     border: 1px solid #e5e5e5;
-    color: #aaa;
+    color: #555;
   }
   
   body.light_theme .p2p-add-payment-modal {
