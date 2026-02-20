@@ -308,7 +308,7 @@ const UserHeader = () => {
                         </li>
                       </ul>
                     </li>
-                    <li className="nav-item mbl">
+                    {/* <li className="nav-item mbl">
                       <Link
                         className="nav-link"
                         to="/#"
@@ -319,6 +319,14 @@ const UserHeader = () => {
                         }}
                         role="button"
                         aria-label="Toggle theme"
+                      >
+                        Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
+                      </Link>
+                    </li> */}
+                       <li className="nav-item mbl">
+                      <Link
+                        className="nav-link"
+                        to="/#"
                       >
                         Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
                       </Link>

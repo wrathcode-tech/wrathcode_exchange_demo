@@ -398,18 +398,13 @@ const AuthHeader = () => {
                             </li>
                           </ul>
                         </li>
-                        <li className="nav-item mbl">
-                          <Link
-                            className="nav-link"
-                            to="/#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              toggleTheme();
-                              closeNavbar();
-                            }}
-                            role="button"
-                            aria-label="Toggle theme"
-                          >
+                        {/* <li className="nav-item mbl">
+                          <Link className="nav-link" to="/#" onClick={closeNavbar}>
+                            Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
+                          </Link>
+                        </li> */}
+                            <li className="nav-item mbl">
+                          <Link className="nav-link" to="/#">
                             Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
                           </Link>
                         </li>
@@ -519,7 +514,8 @@ const AuthHeader = () => {
                         </div>
                       </div>
                     </li>
-                    <li className="themetbs" role="button" tabIndex={0} onClick={toggleTheme} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); } }} aria-label="Toggle theme"><img src="/images/themeicon.svg" alt="theme" /></li>
+                    {/* <li className="themetbs" role="button" tabIndex={0} onClick={toggleTheme} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); } }} aria-label="Toggle theme"><img src="/images/themeicon.svg" alt="theme" /></li> */}
+                    <li className="themetbs"><img src="/images/themeicon.svg" alt="theme" /></li>
                   </ul>
                 </div>
               </div>
