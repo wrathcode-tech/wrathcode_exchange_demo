@@ -1,16 +1,16 @@
 
 import AuthService from '../../../api/services/AuthService.js';
-import { makeApiRequest, makeApiRequest2, parseFullSymbol } from './helpers.js';
+import { makeApiRequest, makeApiRequest2, parseFullSymbol, fetchBinanceSpotKlines, fetchSpotExchangeInfo } from './helpers.js';
 import { subscribeOnStream, unsubscribeFromStream } from './mobileStreaming.js';
 
 const lastBarsCache = new Map();
 
 const configurationData = {
-    supported_resolutions: ["3", "5", "15", "60", "D", "W", "M"],
+    supported_resolutions: ["1", "3", "5", "15", "30", "60", "D", "W", "M"],
 };
 
 export default {
-    onReady: (callback) => setTimeout(() => callback({ supported_resolutions: ["3", "5", "15", "60", "D", "W", "M"] })),
+    onReady: (callback) => setTimeout(() => callback({ supported_resolutions: configurationData.supported_resolutions })),
 
     searchSymbols: (userInput, exchange, symbolType, onResultReadyCallback) => {
         onResultReadyCallback(symbolType);
@@ -23,12 +23,12 @@ export default {
         extension
     ) => {
         if (symbolName) {
-            let pair = symbolName?.split('/')
-            const allPairs = await AuthService.getPairs()
-            const filteredPair = allPairs?.data?.filter((item) => item?.base_currency === pair[0] && item?.quote_currency === pair[1])
-            const isLocal = filteredPair?.map((item) => item?.available === 'LOCAL')[0];
-            const decimals = (filteredPair?.map((item) => item?.buy_price)[0]?.toString()?.split('.')[1] || '')?.length;
-            let decimalFormater = Math.min(Math.pow(10, decimals ), 100000000000)
+            const pair = symbolName?.split('/');
+            if (!pair?.[0] || !pair?.[1]) {
+                onResolveErrorCallback('cannot resolve symbol');
+                return;
+            }
+            const { priceScale, isLocal } = await fetchSpotExchangeInfo(pair[0], pair[1]);
             const symbolInfo = {
                 ticker: symbolName,
                 name: symbolName,
@@ -38,65 +38,89 @@ export default {
                 timezone: 'Asia/Kolkata',
                 exchange: '',
                 minmov: 1,
-                pricescale: decimalFormater,
+                pricescale: priceScale,
                 has_intraday: true,
-                intraday_multipliers: ['1', '60'],
+                intraday_multipliers: ['1', '3', '5', '15', '30', '60'],
                 supported_resolution: configurationData.supported_resolutions,
-                has_weekly_and_monthly: false,
+                has_weekly_and_monthly: true,
                 volume_precision: 2,
                 data_status: 'streaming',
                 local: isLocal
             };
             onSymbolResolvedCallback(symbolInfo);
-        }
-        else if (!symbolName) {
+        } else {
             onResolveErrorCallback('cannot resolve symbol');
-            return;
         }
     },
 
     getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback) => {
-        let { from, to, firstDataRequest } = periodParams;
+        const { from, to, firstDataRequest } = periodParams;
         const parsedSymbol = parseFullSymbol(symbolInfo.name);
-        let isLocal = symbolInfo.local === true
+        const isLocal = symbolInfo.local === true;
         try {
-            let data;
-            let ApiData;
-            if (isLocal) {
-                ApiData = await makeApiRequest2(parsedSymbol.fromSymbol, parsedSymbol.toSymbol, from, to);
-                data = ApiData?.data;
-            } else {
-                const url = resolution === '1D' ? 'histoday' : resolution == 60 ? 'histohour' : 'histominute'
-                ApiData = await makeApiRequest(parsedSymbol.fromSymbol, parsedSymbol.toSymbol, to, url);
-                data = ApiData?.Data?.Data;
+            let binanceBars = null;
+            if (!isLocal) {
+                binanceBars = await fetchBinanceSpotKlines(
+                    parsedSymbol.fromSymbol,
+                    parsedSymbol.toSymbol,
+                    from,
+                    to,
+                    resolution
+                );
             }
-            if (ApiData?.Response === 'Error' || data?.length === 0) {
-                onHistoryCallback([], {
-                    noData: true,
-                });
+            if (binanceBars && binanceBars.length > 0) {
+                const fromMs = from * 1000;
+                const toMs = to * 1000;
+                const bars = binanceBars
+                    .filter(bar => bar.time >= fromMs && bar.time < toMs)
+                    .map(bar => ({
+                        time: bar.time,
+                        low: bar.low,
+                        high: bar.high,
+                        open: bar.open,
+                        close: bar.close,
+                        volume: bar.volume,
+                    }));
+                if (firstDataRequest && bars.length) {
+                    lastBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
+                }
+                onHistoryCallback(bars, { noData: false });
                 return;
             }
-            let bars = [];
+            let data;
+            let ApiData;
+            const r = String(resolution || '');
+            const isDayOrHigher = ['D', '1D', 'W', '1W', 'M', '1M'].includes(r.toUpperCase());
+            const isHour = r === '60';
+            const chartResolution = isDayOrHigher ? 'histoday' : isHour ? 'histohour' : 'histominute';
+            if (isLocal) {
+                ApiData = await makeApiRequest2(parsedSymbol.fromSymbol, parsedSymbol.toSymbol, from, to, chartResolution);
+                data = ApiData?.data;
+            } else {
+                ApiData = await makeApiRequest(parsedSymbol.fromSymbol, parsedSymbol.toSymbol, to, chartResolution);
+                data = ApiData?.Data?.Data;
+            }
+            if (ApiData?.Response === 'Error' || !data?.length) {
+                onHistoryCallback([], { noData: true });
+                return;
+            }
+            const bars = [];
             data.forEach(bar => {
                 if (bar.time >= from && bar.time < to) {
-                    bars = [...bars, {
+                    bars.push({
                         time: bar.time * 1000,
                         low: bar.low,
                         high: bar.high,
                         open: bar.open,
                         close: bar.close,
                         volume: isLocal ? bar.volume : bar.volumeto,
-                    }];
+                    });
                 }
             });
-            if (firstDataRequest) {
-                lastBarsCache.set(symbolInfo.name, {
-                    ...bars[bars.length - 1],
-                });
+            if (firstDataRequest && bars.length) {
+                lastBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
             }
-            onHistoryCallback(bars, {
-                noData: false,
-            });
+            onHistoryCallback(bars, { noData: false });
         } catch (error) {
             onErrorCallback(error);
         }

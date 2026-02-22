@@ -26,7 +26,7 @@ export default function TVChartContainer({ symbol, theme }) {
       has_intraday: true,
       library_path: '/charting_library/',
       pricescale: 1000000,
-      intraday_multipliers: ['1', '60'],
+      intraday_multipliers: ['1', '3', '5', '15', '30', '60'],
       custom_css_url: 'mobileCss/style.css',
       hide_resolution_in_legend: false,
       height: '300px',

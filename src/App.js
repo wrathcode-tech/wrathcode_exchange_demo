@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import './App.css';
 import Routing from './Routing'
 import Loading from './customComponents/Loading';
@@ -6,7 +7,13 @@ import { ProfileProvider } from './context/ProfileProvider';
 import { Toaster } from 'react-hot-toast';
 import SocketContextProvider from './customComponents/SocketContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { prefetchSpotExchangeInfo } from './customComponents/Libraries/TVChartContainer/helpers';
+
 function App() {
+  useEffect(() => {
+    prefetchSpotExchangeInfo();
+  }, []);
+
   return (
 
     <GoogleOAuthProvider clientId="786635375494-a0emmaqlr4i7ho9l837r9aj34qt9jamq.apps.googleusercontent.com">
