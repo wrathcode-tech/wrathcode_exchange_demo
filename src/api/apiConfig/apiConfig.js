@@ -128,6 +128,7 @@ export const ApiConfig = {
   baseCurrencyList: "base_currency_list",
   getConversionRate: "get_conversion_rate",
   getApk: "getApk",
+  platformStatus: "api/platform/status",
 
 
 

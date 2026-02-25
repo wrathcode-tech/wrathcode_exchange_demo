@@ -1,5 +1,8 @@
 import React, { useContext } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { usePlatformStatus } from "../context/PlatformStatusProvider";
+import PlatformStatusBanner from "../customComponents/PlatformStatusBanner";
+import MaintenancePage from "../ui/Pages/MaintenancePage";
 import SignupPage from "../../src/ui/Pages/SignupPage";
 import UserHeader from "../customComponents/UserHeader";
 import Footer from "../customComponents/Footer";
@@ -76,12 +79,27 @@ function Routing() {
   const location = useLocation();
   const token = localStorage.getItem("token");
   const { userDetails } = useContext(ProfileContext);
+  const { isFullMaintenance, loading } = usePlatformStatus();
   const isChartPage = location?.pathname?.includes('/chart') || location?.pathname?.includes('/futures-chart');
+  const isMaintenancePage = location.pathname === '/maintenance';
+
+  // Full maintenance: entire website down - show only maintenance page with image
+  if (!loading && isFullMaintenance) {
+    if (!isMaintenancePage) return <Navigate to="/maintenance" replace />;
+    return <MaintenancePage />;
+  }
+
+  // No maintenance details page when only modules are scheduled - redirect /maintenance to home
+  if (!loading && !isFullMaintenance && isMaintenancePage) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>
-      {isChartPage ? null : token ? <AuthHeader key={location.pathname} userDetails={userDetails} /> : <UserHeader key={location.pathname} />}
+      {!loading && <PlatformStatusBanner />}
+      {isChartPage ? null : (token ? <AuthHeader key={location.pathname} userDetails={userDetails} /> : <UserHeader key={location.pathname} />)}
       <Routes>
+        <Route path="/maintenance" element={<MaintenancePage />} />
         <Route exact path="/" element={<LandingPage />} />
         <Route path="/user_profile" element={token ? (<ProfilePage userDetails={userDetails} />) : (<Navigate to="/login" replace state={{ redirectTo: location.pathname }} />)} >
           <Route element={token ? (<SettingsPage userDetails={userDetails} />) : (<Navigate to="/login" replace />)} />
@@ -102,13 +120,13 @@ function Routing() {
           <Route path="two_factor_autentication" element={token ? (<TwofactorPage userDetails={userDetails} />) : (<Navigate to="/login" replace />)} />
           <Route path="activity_logs" element={token ? (<ActivitylogPage userDetails={userDetails} />) : (<Navigate to="/login" replace />)} />
       
-          <Route path="swap" element={token ? (<Swap userDetails={userDetails} />) : (<Navigate to="/login" replace />)} />
+          <Route path="swap" element={token ? (<Swap userDetails={userDetails} />) : <Navigate to="/login" replace />} />
           <Route path="support" element={token ? (<SupportPage userDetails={userDetails} />) : (<Navigate to="/login" replace />)} />
         </Route>
 
         <Route path="/asset_managemnet" element={token ? (<SidebarDeposit userDetails={userDetails} />) : (<Navigate to="/login" replace />)} >
-          <Route index path="deposit" element={token ? (<DepositPage userDetails={userDetails} />) : (<Navigate to="/login" replace />)} />
-          <Route path="withdraw" element={token ? (<WithdrawPage userDetails={userDetails} />) : (<Navigate to="/login" replace />)} />
+          <Route index path="deposit" element={token ? (<DepositPage userDetails={userDetails} />) : <Navigate to="/login" replace />} />
+          <Route path="withdraw" element={token ? (<WithdrawPage userDetails={userDetails} />) : <Navigate to="/login" replace />} />
         </Route>
         <Route path="/referal_list" element={token ? <RefrealList /> : <Navigate to="/login" replace />} />
 

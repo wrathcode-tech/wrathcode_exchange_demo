@@ -7,14 +7,28 @@ import AuthService from "../../../api/services/AuthService";
 import { alertErrorMessage, alertSuccessMessage } from "../../../customComponents/CustomAlertMessage";
 import { useGoogleLogin } from "@react-oauth/google";
 import { ProfileContext } from "../../../context/ProfileProvider";
+import { usePlatformStatus } from "../../../context/PlatformStatusProvider";
 import { Helmet } from "react-helmet-async";
+import { $ } from "react-jquery-plugin";
 import "./home.css";
+
+const FEATURE_LABELS = {
+  spot_trading: 'Spot Trading',
+  futures_trading: 'Futures Trading',
+  p2p_trading: 'P2P Trading',
+  staking: 'Staking',
+  launchpad: 'Launchpad',
+  swap: 'Swap',
+  deposit: 'Deposit',
+  withdrawal: 'Withdrawal',
+};
 
 const LandingPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { socket, marketData, subscribeToMarket, unsubscribeFromMarket } = useContext(SocketContext);
   const { setLoginDetails } = useContext(ProfileContext);
+  const { platformStatus, loading } = usePlatformStatus();
   const googlecaptchaRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -23,7 +37,37 @@ const LandingPage = () => {
   const [newListings, setNewListings] = useState([]);
   const [memePairs, setMemePairs] = useState([]);
   const [activeMobileTab, setActiveMobileTab] = useState(0);
+  const [showDisabledFeaturesModal, setShowDisabledFeaturesModal] = useState(false);
 
+  // Disabled features popup: show when there are disabled features (exclude full_maintenance)
+  const disabledFeatures = React.useMemo(() => {
+    if (!platformStatus) return [];
+    return Object.entries(platformStatus)
+      .filter(([key, item]) => key !== 'full_maintenance' && item?.enabled === false)
+      .map(([key]) => ({ key, label: FEATURE_LABELS[key] || key }));
+  }, [platformStatus]);
+
+  useEffect(() => {
+    if (loading || disabledFeatures.length === 0) return;
+    const dismissed = sessionStorage.getItem('disabledFeaturesPopupDismissed');
+    if (!dismissed) setShowDisabledFeaturesModal(true);
+  }, [loading, disabledFeatures.length]);
+
+  // Show Bootstrap modal when popup should be visible
+  useEffect(() => {
+    if (!showDisabledFeaturesModal || disabledFeatures.length === 0) return;
+    const el = document.getElementById('disabledFeaturesModal');
+    if (!el) return;
+    const $el = $(el);
+    $el.modal('show');
+    const onHidden = () => {
+      setShowDisabledFeaturesModal(false);
+      sessionStorage.setItem('disabledFeaturesPopupDismissed', '1');
+      $el.off('hidden.bs.modal', onHidden);
+    };
+    $el.on('hidden.bs.modal', onHidden);
+    return () => $el.off('hidden.bs.modal', onHidden);
+  }, [showDisabledFeaturesModal, disabledFeatures.length]);
 
   // Navigate to trade page
   const nextPage = useCallback((data) => {
@@ -839,6 +883,65 @@ const LandingPage = () => {
         </div>
 
       </footer>
+
+      {/* Disabled Features Popup - Same style as TwofactorPage Security Notice */}
+      {disabledFeatures.length > 0 && (
+        <div className="modal fade search_form" id="disabledFeaturesModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  <i className="ri-error-warning-line" style={{ color: '#ffc107', marginRight: '8px' }}></i>
+                  Service Notice
+                </h5>
+                <p>Please read carefully before proceeding</p>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="verify_authenticator_s remove_authenticator_s">
+                  <div style={{
+                    width: '70px',
+                    height: '70px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 20px'
+                  }}>
+                    <i className="ri-tools-fill" style={{ fontSize: '35px', color: '#fff' }}></i>
+                  </div>
+                  <div style={{ marginBottom: '20px' }}>
+                    <p style={{ color: '#fff', marginBottom: '12px', fontSize: '14px' }}>
+                      <i className="ri-information-line" style={{ color: '#ffc107', marginRight: '8px' }}></i>
+                      The following features are temporarily unavailable:
+                    </p>
+                    <ul style={{ color: '#fff', fontSize: '14px', marginBottom: '15px', paddingLeft: '1.5rem', lineHeight: 1.6 }}>
+                      {disabledFeatures.map(({ key, label }) => (
+                        <li key={key}>{label}</li>
+                      ))}
+                    </ul>
+                    <p style={{ color: '#fff', marginBottom: '0', fontSize: '14px' }}>
+                      <i className="ri-time-line" style={{ color: '#ffc107', marginRight: '8px' }}></i>
+                      We are working to improve them, and they will be enabled soon. Thank you for your patience.
+                    </p>
+                  </div>
+                </div>
+
+                <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
+                  <button
+                    className="submit"
+                    type="button"
+                    data-bs-dismiss="modal"
+                  >
+                    I Understand, Continue
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
     </>
   );

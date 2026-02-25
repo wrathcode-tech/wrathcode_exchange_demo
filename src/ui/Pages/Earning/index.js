@@ -10,8 +10,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { $ } from 'react-jquery-plugin';
 import moment from 'moment';
 import { Helmet } from 'react-helmet-async';
+import { usePlatformStatus } from '../../../context/PlatformStatusProvider';
 
 function Earning() {
+  const { getStatus } = usePlatformStatus();
+  const isStakingDisabled = !getStatus('staking').enabled;
   // Ref for component mount state
   const isMountedRef = useRef(true);
   const navigate = useNavigate();
@@ -211,6 +214,7 @@ function Earning() {
   }, []);
 
   const subscribeEarningPackage = useCallback(async () => {
+    if (isStakingDisabled) return;
     if (!packageDetails?._id) {
       alertErrorMessage("Please select a package");
       return;
@@ -272,7 +276,7 @@ function Earning() {
         LoaderHelper.loaderStatus(false);
       }
     }
-  }, [packageDetails, subscriptionAmount, selectedWallet, walletBalance, agreeTerms, resetInput, subscribedPackageList, earningPortfolio, earningPortfolioSummary]);
+  }, [isStakingDisabled, packageDetails, subscriptionAmount, selectedWallet, walletBalance, agreeTerms, resetInput, subscribedPackageList, earningPortfolio, earningPortfolioSummary]);
 
   // UI handlers
   const showPackageDetails = useCallback((data, allCurrencyPackages = null) => {
@@ -1235,9 +1239,9 @@ function Earning() {
                     <button
                       className='subscribebtn'
                       onClick={subscribeEarningPackage}
-                      disabled={isSubscribing || !agreeTerms || !subscriptionAmount || parseFloat(subscriptionAmount) <= 0}
+                      disabled={isStakingDisabled || isSubscribing || !agreeTerms || !subscriptionAmount || parseFloat(subscriptionAmount) <= 0}
                     >
-                      {isSubscribing ? 'Processing...' : 'Subscription'}
+                      {isSubscribing ? 'Processing...' : isStakingDisabled ? 'Staking Disabled' : 'Subscription'}
                     </button>
                   </div>
                 </div>

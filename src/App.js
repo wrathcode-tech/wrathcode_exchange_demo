@@ -4,6 +4,7 @@ import Routing from './Routing'
 import Loading from './customComponents/Loading';
 import LoaderHelper from './customComponents/Loading/LoaderHelper';
 import { ProfileProvider } from './context/ProfileProvider';
+import { PlatformStatusProvider } from './context/PlatformStatusProvider';
 import { Toaster } from 'react-hot-toast';
 import SocketContextProvider from './customComponents/SocketContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -15,11 +16,10 @@ function App() {
   }, []);
 
   return (
-
     <GoogleOAuthProvider clientId="786635375494-a0emmaqlr4i7ho9l837r9aj34qt9jamq.apps.googleusercontent.com">
-
-      <ProfileProvider>
-        <Toaster 
+      <PlatformStatusProvider>
+        <ProfileProvider>
+          <Toaster 
           position="top-right" 
           toastOptions={{
             duration: 2500,
@@ -34,14 +34,14 @@ function App() {
             right: 20,
             zIndex: 99999999,
           }}
-        />
+          />
 
-        <SocketContextProvider>
-          <Routing />
-          <Loading ref={ref => LoaderHelper.setLoader(ref)} />
-        </SocketContextProvider>
-      </ProfileProvider>
-
+          <SocketContextProvider>
+            <Routing />
+            <Loading ref={ref => LoaderHelper.setLoader(ref)} />
+          </SocketContextProvider>
+        </ProfileProvider>
+      </PlatformStatusProvider>
     </GoogleOAuthProvider>
 
 

@@ -8,8 +8,11 @@ import QRCode from 'qrcode.react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { ProfileContext } from '../../../context/ProfileProvider';
+import { usePlatformStatus } from '../../../context/PlatformStatusProvider';
 
 const DepositPage = () => {
+  const { getStatus } = usePlatformStatus();
+  const isDepositDisabled = !getStatus('deposit').enabled;
 
   const [availableCurrency, setAvailableCurrency] = useState([]);
   const [allData, setAllData] = useState([]);
@@ -128,18 +131,24 @@ const DepositPage = () => {
 
 
   const handleSelectDepositCoin = (item) => {
+    if (isDepositDisabled) {
+      alertWarningMessage('Deposit is temporarily disabled');
+      return;
+    }
     setSelectedCurrency(item);
     setSelectedNetwork("");
     setDepositAddress("");
     $("#search_coin").modal('hide');
-
   };
 
   const handleSelectNetwork = (item) => {
+    if (isDepositDisabled) {
+      alertWarningMessage('Deposit is temporarily disabled');
+      return;
+    }
     setSelectedNetwork(item);
     $("#network_pop_up").modal('hide');
-    getDepostAddress(false, item)
-
+    getDepostAddress(false, item);
   };
 
 
@@ -323,15 +332,22 @@ const DepositPage = () => {
                         <div className='table-responsive'>
                           <table>
                             <tbody>
-                              {selectedCurrency?.chain && selectedCurrency?.chain?.map((item) => {
+                              {selectedCurrency?.chain?.filter((chain) => selectedCurrency?.deposit_status?.[chain] === "ACTIVE").map((item) => {
+                                const minDep = selectedCurrency?.min_deposit?.[item];
+                                const maxDep = selectedCurrency?.max_deposit?.[item];
                                 return (
-                                  <tr onClick={() => handleSelectNetwork(item)} data-bs-dismiss="modal" >
+                                  <tr key={item} onClick={() => handleSelectNetwork(item)} data-bs-dismiss="modal" >
                                     <td>
                                       <div className="td_first">
                                         <div className="price_heading"> {item} <br /> <span></span></div>
                                       </div>
                                     </td>
-                                    <td className="right_t price_tb">Estimated time<span>≈ 2 mins</span></td>
+                                    <td className="right_t price_tb">
+                                      {(minDep != null || maxDep != null) && (
+                                        <>{minDep ?? "—"} - {maxDep ?? "—"} {selectedCurrency?.short_name}<br /></>
+                                      )}
+                                      <span>≈ 2 mins</span>
+                                    </td>
                                   </tr>
 
                                 )
@@ -351,7 +367,11 @@ const DepositPage = () => {
             </div>
             <div className="select_network_s ">
               <h2 className={` ${selectedNetwork && "active_input"}`}>Deposit Address</h2>
-              {depositAddress ?
+              {isDepositDisabled ? (
+                <div className="deposit_disabled_msg">
+                  <p>Deposit is temporarily disabled. Please try again later.</p>
+                </div>
+              ) : depositAddress ?
                 <>
                   <div className="deposit_address_s">
 
@@ -394,8 +414,8 @@ const DepositPage = () => {
                   <div className="d-flex items-center justify-content-start scaner_block_s">
 
 
-                    <div className="col-sm-6 login_btn" onClick={() => { getDepostAddress(true, selectedNetwork) }}>
-                      <input type="button" value="Generate Address" />
+                    <div className={`col-sm-6 login_btn ${isDepositDisabled ? 'disabled' : ''}`} onClick={() => { if (isDepositDisabled) { alertWarningMessage('Deposit is temporarily disabled'); return; } getDepostAddress(true, selectedNetwork); }}>
+                      <input type="button" value={isDepositDisabled ? "Deposit Disabled" : "Generate Address"} disabled={isDepositDisabled} />
 
                     </div>
                   </div>
@@ -403,7 +423,7 @@ const DepositPage = () => {
 
                 </>}
 
-              {depositAddress && <> <div className="coin_items_select mt-5">
+              {depositAddress && !isDepositDisabled && <> <div className="coin_items_select mt-5">
 
                 {checkDepositStatus ?
                   <div className="spinner-border text-white" role="status">
@@ -436,15 +456,15 @@ const DepositPage = () => {
                             <tbody>
                               <tr>
                                 <td>Minimum deposit</td>
-                                <td className="right_t price_tb"> {selectedCurrency?.min_deposit} {selectedCurrency?.short_name}</td>
+                                <td className="right_t price_tb"> {typeof selectedCurrency?.min_deposit === 'object' ? (selectedCurrency?.min_deposit?.[selectedNetwork] ?? '—') : selectedCurrency?.min_deposit} {selectedCurrency?.short_name}</td>
                               </tr>
                               <tr>
                                 <td>Maximum deposit</td>
-                                <td className="right_t price_tb">{selectedCurrency?.max_deposit} {selectedCurrency?.short_name}</td>
+                                <td className="right_t price_tb">{typeof selectedCurrency?.max_deposit === 'object' ? (selectedCurrency?.max_deposit?.[selectedNetwork] ?? '—') : selectedCurrency?.max_deposit} {selectedCurrency?.short_name}</td>
                               </tr>
                               <tr>
                                 <td>Wallet</td>
-                                <td className="right_t price_tb">Spot Wallet</td>
+                                <td className="right_t price_tb">Main Wallet</td>
                               </tr>
                               <tr>
                                 <td>Credited (Trading enabled)</td>

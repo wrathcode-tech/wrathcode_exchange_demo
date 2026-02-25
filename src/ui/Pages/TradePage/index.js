@@ -8,12 +8,16 @@ import TVChartContainer from "../../../customComponents/Libraries/TVChartContain
 import '../TradePage/trade_new.css'
 import { ApiConfig } from "../../../api/apiConfig/apiConfig";
 import { ProfileContext } from "../../../context/ProfileProvider";
+import { usePlatformStatus } from "../../../context/PlatformStatusProvider";
 import { SocketContext } from "../../../customComponents/SocketContext";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Helmet } from "react-helmet-async";
 
 const Trade = () => {
+    const { getStatus } = usePlatformStatus();
+    console.log("🚀 ~ Trade ~ getStatus:", getStatus('spot_trading'))
+    const isSpotDisabled = !getStatus('spot_trading').enabled;
     let params = useParams()
     let URL = params?.pairs?.split('_');
 
@@ -1960,8 +1964,9 @@ const Trade = () => {
                                                                                         {KycStatus === 1 ? "Verification Pending" : KycStatus === 0 ? "Submit Kyc" : "Kyc Rejected Verify Again"}
                                                                                     </Link> :
                                                                                     <button type='button' className="btn custom-btn btn-success btn-mini  w-100 my-3 my-md-0"
-                                                                                        onClick={() => handleOrderPlace(infoPlaceOrder, buyOrderPrice !== '' && buyOrderPrice ? buyOrderPrice : buyprice, buyamount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'BUY')}>
-                                                                                        Buy {SelectedCoin?.base_currency}
+                                                                                        onClick={() => !isSpotDisabled && handleOrderPlace(infoPlaceOrder, buyOrderPrice !== '' && buyOrderPrice ? buyOrderPrice : buyprice, buyamount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'BUY')}
+                                                                                        disabled={isSpotDisabled}>
+                                                                                        {isSpotDisabled ? 'Trading Disabled' : `Buy ${SelectedCoin?.base_currency}`}
                                                                                     </button>
                                                                                 :
                                                                                 <div className="order-btns my-2" >
@@ -2051,8 +2056,9 @@ const Trade = () => {
                                                                                         {KycStatus === 1 ? "Verification Pending" : KycStatus === 0 ? "Submit Kyc" : "Kyc Rejected Verify Again"}
                                                                                     </Link> :
                                                                                     <button type='button' className="btn custom-btn btn-danger btn-mini w-100 my-3 my-md-0"
-                                                                                        onClick={() => handleOrderPlace(infoPlaceOrder, sellOrderPrice !== '' && sellOrderPrice ? sellOrderPrice : sellPrice, sellAmount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'SELL')} disabled={!sellAmount || !token || sellAmount === '0'}>
-                                                                                        Sell {SelectedCoin?.base_currency}
+                                                                                        onClick={() => !isSpotDisabled && handleOrderPlace(infoPlaceOrder, sellOrderPrice !== '' && sellOrderPrice ? sellOrderPrice : sellPrice, sellAmount, SelectedCoin?.base_currency_id, SelectedCoin?.quote_currency_id, 'SELL')}
+                                                                                        disabled={!sellAmount || !token || sellAmount === '0' || isSpotDisabled}>
+                                                                                        {isSpotDisabled ? 'Trading Disabled' : `Sell ${SelectedCoin?.base_currency}`}
                                                                                     </button>
                                                                                 :
                                                                                 <div className="order-btns my-2" >

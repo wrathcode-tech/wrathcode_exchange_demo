@@ -6,9 +6,12 @@ import { alertErrorMessage, alertSuccessMessage } from '../../../customComponent
 import LoaderHelper from '../../../customComponents/Loading/LoaderHelper';
 import moment from 'moment';
 import { ProfileContext } from '../../../context/ProfileProvider';
+import { usePlatformStatus } from '../../../context/PlatformStatusProvider';
 
 const WithdrawPage = (props) => {
-  
+  const { getStatus } = usePlatformStatus();
+  const isWithdrawalDisabled = !getStatus('withdrawal').enabled;
+
   const [availableCurrency, setAvailableCurrency] = useState([]);
   const [allData, setAllData] = useState([]);
   const [searchPair, setSearchPair] = useState("");
@@ -101,6 +104,12 @@ const WithdrawPage = (props) => {
 
   };
 
+  const getChainValue = (field, chain) => {
+    const val = selectedCurrency?.[field];
+    if (typeof val === 'object' && val !== null) return chain ? val?.[chain] : undefined;
+    return val;
+  };
+
   const handleSelectNetwork = (item) => {
     setSelectedNetwork(item);
     $("#network_pop_up").modal('hide');
@@ -149,7 +158,8 @@ const WithdrawPage = (props) => {
   }
 
   const handleGetOtp = async (emailId, resend) => {
-    if (!selectedCurrency || !selectedNetwork || availableBalance < selectedCurrency?.withdrawal_fee || withdrawAmount > availableBalance || !withdrawAmount || withdrawAmount - selectedCurrency?.withdrawal_fee < 0) {
+    const fee = getChainValue('withdrawal_fee', selectedNetwork);
+    if (!selectedCurrency || !selectedNetwork || availableBalance < fee || withdrawAmount > availableBalance || !withdrawAmount || withdrawAmount - fee < 0) {
       return;
     }
 
@@ -204,7 +214,9 @@ const WithdrawPage = (props) => {
 
 
   const handleWithdrawCurrency = async () => {
-    if (Object.keys(selectedCurrency).length < 0 || !withdrawAddress || !selectedNetwork || availableBalance < selectedCurrency?.withdrawal_fee || withdrawAmount > availableBalance || !withdrawAmount || !otp || !isValidWalletAddress) {
+    if (isWithdrawalDisabled) return;
+    const fee = getChainValue('withdrawal_fee', selectedNetwork);
+    if (Object.keys(selectedCurrency).length < 0 || !withdrawAddress || !selectedNetwork || availableBalance < fee || withdrawAmount > availableBalance || !withdrawAmount || !otp || !isValidWalletAddress) {
       return;
     }
     LoaderHelper.loaderStatus(true);
@@ -445,15 +457,22 @@ const WithdrawPage = (props) => {
 
                         <table>
                           <tbody>
-                            {selectedCurrency?.chain && selectedCurrency?.chain?.map((item) => {
+                            {selectedCurrency?.chain?.filter((chain) => selectedCurrency?.withdrawal_status?.[chain] === "ACTIVE").map((item) => {
+                              const minWith = selectedCurrency?.min_withdrawal?.[item];
+                              const maxWith = selectedCurrency?.max_withdrawal?.[item];
                               return (
-                                <tr onClick={() => handleSelectNetwork(item)} data-bs-dismiss="modal" >
+                                <tr key={item} onClick={() => handleSelectNetwork(item)} data-bs-dismiss="modal" >
                                   <td>
                                     <div className="td_first">
                                       <div className="price_heading"> {item} <br /> <span></span></div>
                                     </div>
                                   </td>
-                                  <td className="right_t price_tb">Estimated time<span>≈ 2 mins</span></td>
+                                  <td className="right_t price_tb">
+                                    {(minWith != null || maxWith != null) && (
+                                      <>{minWith ?? "—"} - {maxWith ?? "—"} {selectedCurrency?.short_name}<br /></>
+                                    )}
+                                    <span>≈ 2 mins</span>
+                                  </td>
                                 </tr>
 
                               )
@@ -488,7 +507,7 @@ const WithdrawPage = (props) => {
               <h2>Withdraw amount</h2>
 
               <div className="withdraw_input">
-                <input type="text" onWheel={(e) => e.target.blur()} placeholder={`Minimal ${selectedCurrency?.min_withdrawal || 0}`} disabled={Object.keys(selectedCurrency).length <= 0 || !isValidWalletAddress || !withdrawAddress} onChange={(e) => { setWithdrawAmount(e.target.value) }} value={withdrawAmount} />
+                <input type="text" onWheel={(e) => e.target.blur()} placeholder={`Minimal ${getChainValue('min_withdrawal', selectedNetwork) ?? 0}`} disabled={Object.keys(selectedCurrency).length <= 0 || !isValidWalletAddress || !withdrawAddress} onChange={(e) => { setWithdrawAmount(e.target.value) }} value={withdrawAmount} />
                 <div className="amount_sysmble">
                   {selectedCurrency?.short_name} <span className='max' onClick={handleMaxWithdrawal}>MAX</span>
                 </div>
@@ -496,7 +515,7 @@ const WithdrawPage = (props) => {
 
               <div className="d-flex items-center top_space opt_cnt">
 
-                {(availableBalance < selectedCurrency?.withdrawal_fee || withdrawAmount > availableBalance) && <p className="red"><strong>Insufficient funds</strong></p>}
+                {(availableBalance < (getChainValue('withdrawal_fee', selectedNetwork) ?? 0) || withdrawAmount > availableBalance) && <p className="red"><strong>Insufficient funds</strong></p>}
 
               </div>
 
@@ -515,13 +534,13 @@ const WithdrawPage = (props) => {
                 <div className="d-flex items-center justify-content-between top_space">
 
                   <div className="typography-body3">Withdrawal Fee</div>
-                  <p><strong>{selectedCurrency?.withdrawal_fee} {selectedCurrency?.short_name}</strong></p>
+                  <p><strong>{getChainValue('withdrawal_fee', selectedNetwork) ?? '—'} {selectedCurrency?.short_name}</strong></p>
 
                 </div>
                 <div className="d-flex items-center justify-content-between top_space">
 
                   <div className="typography-body3">Maximum Withdrawal</div>
-                  <p><strong>{selectedCurrency?.max_withdrawal} {selectedCurrency?.short_name}</strong></p>
+                  <p><strong>{getChainValue('max_withdrawal', selectedNetwork) ?? '—'} {selectedCurrency?.short_name}</strong></p>
 
                 </div>
               </div>
@@ -565,15 +584,15 @@ const WithdrawPage = (props) => {
                 </div>
 
                 <div className="price_tag">
-                  {withdrawAmount - selectedCurrency?.withdrawal_fee < 0 ? 0 : (withdrawAmount - selectedCurrency?.withdrawal_fee || "---")} {selectedCurrency?.short_name}
+                  {withdrawAmount - (getChainValue('withdrawal_fee', selectedNetwork) ?? 0) < 0 ? 0 : (withdrawAmount - (getChainValue('withdrawal_fee', selectedNetwork) ?? 0) || "---")} {selectedCurrency?.short_name}
                 </div>
                 <div className="net_fee_t">
-                  Network Fee {selectedCurrency?.withdrawal_fee} {selectedCurrency?.short_name}
+                  Network Fee {getChainValue('withdrawal_fee', selectedNetwork) ?? '—'} {selectedCurrency?.short_name}
                 </div>
               </div>
 
               <div className="withdraw_btn">
-                <button type='button' onClick={handleWithdrawCurrency} >Withdraw</button>
+                <button type='button' onClick={handleWithdrawCurrency} disabled={isWithdrawalDisabled}>{isWithdrawalDisabled ? 'Withdrawal Disabled' : 'Withdraw'}</button>
               </div>
 
             </div>
