@@ -242,7 +242,8 @@ const LandingPage = () => {
               <img className="bitcoin_right animation" src="images/new-images/banner_vectror_ani.svg" alt="decoration" />
               <img className="crypto_cntr animation" src="images/new-images/banner_vectror_ani3.svg" alt="decoration" />
               <div className="banner_img_main">
-                <img src="images/new-images/banner_img.svg" alt="banner" />
+                <img className="dark_img" src="images/new-images/banner_img.svg" alt="banner" />
+                <img src="images/new-images/banner_img_light.svg" alt="banner" className="light_img" />
               </div>
               <img className="bitcoin_left animation" src="images/new-images/banner_vectror_ani2.svg" alt="decoration" />
             </div>
@@ -572,8 +573,10 @@ const LandingPage = () => {
             </div>
 
             <div className="exchange_future_s">
-              <img className="animation_effect summary_data" src="images/new-images/crypto_summry.svg" alt="" />
-              <img src="images/new-images/crypto_mobile.svg" alt="crypto exchange" />
+              <img className="animation_effect dark_img summary_data" src="images/new-images/crypto_summry.svg" alt="" />
+              <img className="animation_effect light_img summary_data" src="images/new-images/crypto_summry_light.png" alt="" />
+              <img className="light_img mobile_img" src="images/new-images/crypto_mobile_light.png" alt="" />
+              <img className="dark_img mobile_img" src="images/new-images/crypto_mobile.svg" alt="crypto exchange" />
               <img className="animation_effect bitcoin2" src="images/new-images/crypto_bitcoin.svg" alt="" />
             </div>
 
@@ -582,8 +585,10 @@ const LandingPage = () => {
           <div className="cryptofuture_s reverse_security">
 
             <div className="exchange_future_s">
-              <img src="images/new-images/verification_mobile.svg" alt="Bulletproof" />
-              <img className="animation_effect bitcoin" src="images/new-images/lock_vector.svg" alt="" />
+              <img className="dark_img verification_mobile" src="images/new-images/verification_mobile.svg" alt="Bulletproof" />
+              <img className="light_img verification_mobile" src="images/new-images/verification_mobile_light.png" alt="Bulletproof" />
+              <img className="animation_effect dark_img bitcoin" src="images/new-images/lock_vector.svg" alt="" />
+              <img className="animation_effect light_img bitcoin" src="images/new-images/lock_vector_light.png" alt="" />
             </div>
 
             <div className="crypto_future_cnt">
@@ -639,26 +644,38 @@ const LandingPage = () => {
               <div className="crypto_app_mbl"><img src="images/new-images/crypto_assets.png" alt="Crypto App" className="phone" /></div>
             </div>
 
-            <div className="card">
-              <div className="trade_icon"><img src="images/new-images/secure_wallet.png" alt="Secure and Encrypted Wallet" className="phone" /></div>
+            <div className="card bor_right">
+              <div className="trade_icon">
+                <img src="images/new-images/secure_wallet.png" alt="Secure and Encrypted Wallet" className="phone dark_img" />
+                <img src="images/new-images/secure_wallet_light.png" alt="Secure and Encrypted Wallet" className="light_img phone" />
+                </div>
               <h4>Secure &amp; Encrypted Wallet</h4>
               <p>Protect your assets with enterprise-grade security, multi-layer encryption, and full ownership of your funds.</p>
             </div>
 
             <div className="card borderlft border_btm">
-              <div className="trade_icon"><img src="images/new-images/receive_send.svg" alt="Send and Receive Instantly" className="phone" /></div>
+              <div className="trade_icon">
+                <img src="images/new-images/receive_send.svg" alt="Send and Receive Instantly" className="phone dark_img" />
+                <img src="images/new-images/receive_send_light.png" alt="Send and Receive Instantly" className="light_img phone" />
+                </div>
               <h4>Send &amp; Receive Instantly</h4>
               <p>Transfer crypto effortlessly with fast confirmations, low fees, and seamless wallet-to-wallet transactions.</p>
             </div>
 
             <div className="card borderlft border_btm">
-              <div className="trade_icon"><img src="images/new-images/invest_icon.png" alt="Invest in Real Time" className="phone" /></div>
+              <div className="trade_icon">
+                <img src="images/new-images/invest_icon.png" alt="Invest in Real Time" className="phone dark_img" />
+                <img src="images/new-images/invest_icon_light.png" alt="Invest in Real Time" className="light_img phone" />
+                </div>
               <h4>Invest in Real Time</h4>
               <p>Track market movements, execute trades instantly, and manage your investments as the market evolves.</p>
             </div>
 
             <div className="card border_btm">
-              <div className="trade_icon"><img src="images/new-images/analyze_charts.png" alt="Watch and Analyze Charts" className="phone" /></div>
+              <div className="trade_icon">
+                <img src="images/new-images/analyze_charts.png" alt="Watch and Analyze Charts" className="phone dark_img" />
+                <img src="images/new-images/nalyze_charts_light.png" alt="Watch and Analyze Charts" className="light_img phone" />
+                </div>
               <h4>Watch &amp; Analyze Charts</h4>
               <p>Make informed decisions using advanced charts, live indicators, and professional-grade analytics tools.</p>
             </div>
@@ -682,7 +699,8 @@ const LandingPage = () => {
             <div className="col-sm-7">
               <div className="supportvector">
                 <img className="animation_effect bitcoin1" src="images/new-images/bitcoin_crypto2.png" alt="" />
-                <img className="bitcoin" src="images/new-images/support_crypto_vector.png" alt="Supported Cryptocurrencies" />
+                <img className="bitcoin dark_img" src="images/new-images/support_crypto_vector.png" alt="Supported Cryptocurrencies" />
+                <img className="bitcoin light_img" src="images/new-images/support_crypto_light.jpg" alt="Supported Cryptocurrencies" />
                 <img className="animation_effect bitcoin2" src="images/new-images/bitcoin_crypto3.png" alt="" />
                 <img className="animation_effect bitcoin3" src="images/new-images/bitcoin_crypto4.png" alt="" />
               </div>
@@ -708,7 +726,8 @@ const LandingPage = () => {
             <div className="col-sm-4">
               <div className="resources_news">
                 <div className="news_img">
-                  <img className="blogimg" src="images/new-images/platform_trade.png" alt="Trade Bitcoin" />
+                  <img className="blogimg dark_img" src="images/new-images/platform_trade.png" alt="Trade Bitcoin" />
+                  <img className="blogimg light_img" src="images/new-images/platform_trade_light.png" alt="Trade Bitcoin" />
                 </div>
                 <div className="resources_cnt">
                   <h3>The Best Platform to Trade Bitcoin</h3>
@@ -720,7 +739,8 @@ const LandingPage = () => {
             <div className="col-sm-4">
               <div className="resources_news">
                 <div className="news_img">
-                  <img className="blogimg" src="images/new-images/secure_crypto.png" alt="Bank-Grade Security" />
+                  <img className="blogimg dark_img" src="images/new-images/secure_crypto.png" alt="Bank-Grade Security" />
+                  <img className="blogimg light_img" src="images/new-images/secure_crypto_light.png" alt="Bank-Grade Security" />
                 </div>
                 <div className="resources_cnt">
                   <h3>Bank-Grade Security for Your Assets</h3>
@@ -732,7 +752,8 @@ const LandingPage = () => {
             <div className="col-sm-4">
               <div className="resources_news">
                 <div className="news_img">
-                  <img className="blogimg" src="images/new-images/secure_crypto2.png" alt="Earn Passive Income" />
+                  <img className="blogimg dark_img" src="images/new-images/secure_crypto2.png" alt="Earn Passive Income" />
+                  <img className="blogimg light_img" src="images/new-images/secure_crypto_light.png" alt="Earn Passive Income" />
                 </div>
                 <div className="resources_cnt">
                   <h3>Earn Passive Income on Your Crypto</h3>
@@ -837,7 +858,8 @@ const LandingPage = () => {
           <div className="row">
             <div className="col-sm-5 col-md-5 col-lg-5">
               <div className="footer_logo">
-                <img className='darklogo' src="/images/logo_light.svg" alt="logo" />
+              <img class="dark_img" src="/images/logo_light.svg" alt="logo" />
+              <img class="light_img" src="/images/logo-black.svg" alt="logo"/>
               </div>
               <p>Wrathcode is a blockchain-based banking platform for crypto traders and investors, and aims to connect the world of traditional finance and cryptocurrencies.</p>
               <ul className="social_media">

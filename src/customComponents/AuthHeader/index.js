@@ -398,16 +398,17 @@ const AuthHeader = () => {
                             </li>
                           </ul>
                         </li>
-                        {/* <li className="nav-item mbl">
+                        <li className="nav-item mbl">
                           <Link className="nav-link" to="/#" onClick={closeNavbar}>
-                            Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
+                          <i className="ri-moon-line dark-text"></i>
+                          <i className="ri-sun-line light-text"></i>
                           </Link>
-                        </li> */}
-                            <li className="nav-item mbl">
+                        </li>
+                            {/* <li className="nav-item mbl">
                           <Link className="nav-link" to="/#">
                             Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
                           </Link>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>
@@ -514,8 +515,13 @@ const AuthHeader = () => {
                         </div>
                       </div>
                     </li>
-                    {/* <li className="themetbs" role="button" tabIndex={0} onClick={toggleTheme} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); } }} aria-label="Toggle theme"><img src="/images/themeicon.svg" alt="theme" /></li> */}
-                    <li className="themetbs"><img src="/images/themeicon.svg" alt="theme" /></li>
+                    <li className="themetbs" role="button" tabIndex={0} onClick={toggleTheme} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); } }} aria-label="Toggle theme">
+                      <i className="ri-moon-line dark_img"></i>
+                      <i className="ri-sun-line light_img"></i>
+                    </li>
+                  
+                  
+                    {/* <li className="themetbs"><img src="/images/themeicon.svg" alt="theme" /></li> */}
                   </ul>
                 </div>
               </div>

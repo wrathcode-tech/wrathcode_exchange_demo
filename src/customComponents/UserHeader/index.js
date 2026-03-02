@@ -350,10 +350,10 @@ const UserHeader = () => {
                 <button className="login_btn" onClick={signupPage}>
                   <Link to="/signup">Sign Up</Link>
                 </button>
-                {/* <div className="themecolor_icon" onClick={() => (setThemeUpdated(!themeUpdated))}>
+                <div className="themecolor_icon" onClick={() => (setThemeUpdated(!themeUpdated))}>
                   <i className="ri-moon-line dark-text"></i>
                   <i className="ri-sun-line light-text"></i>
-                </div> */}
+                </div>
 
 
                 <div className="downloadtabs">
@@ -366,7 +366,7 @@ const UserHeader = () => {
                     </div>
                   </div>
                 </div>
-                <div className="themeicon"><img src="/images/themeicon.svg" alt="theme" /></div>
+                {/* <div className="themeicon"><img src="/images/themeicon.svg" alt="theme" /></div> */}
               </div>
             </div>
           </div>

@@ -400,7 +400,7 @@ body.light_theme .modal.search_form input:focus {
     border: none;
 }
 
-.light_theme .themecolor_icon i.ri-moon-line {
+.light_theme .themecolor_icon i.ri-sun-line {
     display: block;
     color: #040404;
 }
@@ -624,6 +624,8 @@ body.light_theme .review_information .card-body.py-5.pb-0 {
 
 body.light_theme .search_form input {
     color: #000 !important;
+
+    background-color: #fafafa;
 }
 
 body.light_theme .review_information .card.card-header-actions.mb-4 {
@@ -1032,7 +1034,15 @@ body.light_theme .ticket-details span {
 }
 
 body.light_theme .search_form .modal-content {
-    background: #e4e4e4;
+    background: #fafafa;
+}
+
+body.light_theme .price_heading {
+    color: #000000;
+}
+
+body.light_theme .hot_trading_t table {
+    color: #525252;
 }
 
 body.light_theme .chatmessages .chat-header h3 {
@@ -1220,6 +1230,188 @@ body.light_theme .currency_list_b ul.usd_detail_list li {
     color: #1c1c1c;
 }
 
-body.light_theme form.profile_form p{ color: #000000; }
+body.light_theme form.profile_form p {
+    color: #000000;
+}
 
 
+body.light_theme .hero_section_main {
+    background-color: #ffffff;
+}
+
+body.light_theme .hero_section_main:after {
+    display: none;
+}
+
+body.light_theme .hero_section_main:before {
+    display: none;
+}
+
+body.light_theme .bg-video {
+    display: none;
+}
+
+body.light_theme .banner_content {
+    color: #0f0f0f;
+}
+
+body.light_theme .banner_content p {
+    color: #616161;
+}
+
+body.light_theme .d-flex.download_button button.btn.platform {
+    border-color: #3a3a3a;
+    color: #3a3a3a;
+}
+
+body.light_theme header.sticky-top {
+    z-index: 999999;
+    background-color: #F4F4F4;
+}
+
+img.light_img {
+    display: none;
+}
+
+body.light_theme img.light_img {
+    display: block;
+}
+
+body.light_theme img.dark_img {
+    display: none;
+}
+
+body .light_img {
+    display: none
+}
+
+i.ri-moon-line.dark_img {
+    color: #fff;
+}
+
+
+body.light_theme .light_img {
+    display: block;
+}
+
+body.light_theme .dark_img {
+    display: none;
+}
+
+body.light_theme .currency_logo {
+    background-color: #ffffff;
+}
+
+body.light_theme .currency_logo ul li {
+    opacity: 0.2;
+}
+
+body.light_theme .crypto_section {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+
+body.light_theme .hot_spot_outer {
+    border: 1px solid #00000038;
+}
+
+body.light_theme .crypto_section .top_heading h4 {
+    color: #333333;
+}
+
+body.light_theme .hot_trading_s table tr th {
+    color: #656565;
+}
+
+body.light_theme .hot_trading_s table tr td {
+    color: #434343;
+}
+
+
+body.light_theme section.crypto_exchange_section {
+    background-color: #ffffff;
+    background-image: url(../images/new-images/cryptobg_affect_light.png);
+}
+
+body.light_theme .cryptofuture_s {
+    color: #1a1a1a;
+}
+
+body.light_theme .crypto_future_cnt p {
+    color: #626262;
+}
+
+body.light_theme .crypto_features h4 {
+    color: #2a2a2a;
+}
+
+body.light_theme .crypto_features p {
+    color: #808080;
+}
+
+body.light_theme .crypto_features .card {
+    border-bottom: 1px solid #BABABA;
+}
+
+body.light_theme .crypto_features .borderlft {
+    border-right: 1px solid #BABABA;
+}
+
+body.light_theme .crypto_features .border_btm {
+    border-bottom: none;
+}
+
+body.light_theme .crypto_features {
+    border: 1px solid #BABABA;
+}
+
+body.light_theme .latest_resources {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.light_theme .resources_news p {
+    color: #404040;
+}
+
+body.light_theme .resourceslft p {
+    color: #474747;
+}
+
+body.light_theme .row.main_footer_menu_s {
+    background-color: #fff;
+}
+
+body.light_theme .trusted_partner { background-color: #ffffff; }
+
+body.light_theme .gallery_crypto {
+    border: 1px solid #191c2140;
+    background: linear-gradient(90deg, rgb(227 227 227) 0%, rgb(255 255 255) 25%, rgb(255 255 255) 75%, rgb(228 228 228) 100%);
+    color: #000000;
+}
+
+body.light_theme .learnbtn {  color: #F3BB2B; }
+
+body.light_theme .login_fullhieght {
+    background-color: #ffffff;
+}
+
+body.light_theme .login_section .form_block_login {
+    color: #000000;
+    background-color: #f4f4f4;
+}
+
+body.light_theme .form_block_login h2 {
+    color: #1a1a1a;
+}
+
+body.light_theme .forgot_password a {
+    color: #000000; }
+
+body.light_theme .registration__info p a {
+        color: #040404;
+    }   
+    
+body.light_theme .google_btn {
+        color: #151515; }    
