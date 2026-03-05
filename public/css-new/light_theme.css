@@ -667,7 +667,7 @@ body.light_theme .kyc_form_multistep .step-indicator .active span {
 }
 
 body.light_theme {
-    background-color: #f5f5f5;
+    background-color: #fff;
 }
 
 body.light_theme .navigation nav ul li.dropdown .dropdown-toggle {
@@ -1383,7 +1383,9 @@ body.light_theme .row.main_footer_menu_s {
     background-color: #fff;
 }
 
-body.light_theme .trusted_partner { background-color: #ffffff; }
+body.light_theme .trusted_partner {
+    background-color: #ffffff;
+}
 
 body.light_theme .gallery_crypto {
     border: 1px solid #191c2140;
@@ -1391,7 +1393,9 @@ body.light_theme .gallery_crypto {
     color: #000000;
 }
 
-body.light_theme .learnbtn {  color: #F3BB2B; }
+body.light_theme .learnbtn {
+    color: #F3BB2B;
+}
 
 body.light_theme .login_fullhieght {
     background-color: #ffffff;
@@ -1407,11 +1411,67 @@ body.light_theme .form_block_login h2 {
 }
 
 body.light_theme .forgot_password a {
-    color: #000000; }
+    color: #000000;
+}
 
 body.light_theme .registration__info p a {
-        color: #040404;
-    }   
-    
+    color: #040404;
+}
+
 body.light_theme .google_btn {
-        color: #151515; }    
+    color: #151515;
+}
+
+
+body.light_theme .login_bg.login_sec.market_page {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+body.light_theme .trade_marketvalue .price {
+    color: #3e3e3e;
+}
+
+body.light_theme .market_tabs .nav-link.active,
+body.light_theme .market_tabs .nav-pills .show>.nav-link {
+    color: #3a3a3a !important;
+}
+
+body.light_theme ul.tbltabs li select {
+    color: #545454;
+}
+
+body.light_theme ul.tbltabs li.active button {
+    background-color: #ececec;
+}
+
+body.light_theme .trade-wrapper .orderbook-table th {
+    background-color: #ffffff00 !important;
+    background: transparent !important;
+}
+
+body.light_theme .trade-wrapper .orderbook-table thead {
+    background-color: #ffffff00 !important;
+    background: transparent !important;
+}
+
+body.light_theme .freerate {
+    background-color: #ececec;
+    color: #000; }
+
+body.light_theme .trade_account_summary_assets {
+    background-color: #ffffff;
+}
+
+body.light_theme .trade_summary_table_lft {  background: #ffffff; }
+
+body.light_theme .assets_right {
+    background-color: #ececec; }
+
+ body.light_theme .trade-wrapper .assets_list h4 {
+        color: #474747; }
+
+body.light_theme .assets_list .more_btn  {
+            color: #474747; }            
+ body.light_theme  .trade-wrapper.spot {
+                    background-color: #f3f3f3; }                
