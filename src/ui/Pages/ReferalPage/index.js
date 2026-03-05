@@ -390,8 +390,8 @@ const ReferalPage = () => {
                 <div className="no-data-wrapper">
                   <div className="no_data_vector">
                     <img src="/images/Group 1171275449 (1).svg" alt="no-data" className="img-fluid" />
-                    <p className="mt-2 mb-0">No referrals yet. Share your link to get started!</p>
                   </div>
+                  <p className="mt-2 mb-0">No referrals yet. Share your link to get started!</p>
                 </div>
               )}
             </div>

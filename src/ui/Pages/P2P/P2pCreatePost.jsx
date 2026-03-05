@@ -1251,23 +1251,17 @@ const P2pCreatePost = () => {
                         {currentStep === 1 && (
                             <>
                                 {/* Buy/Sell Tabs - same as Step 2 */}
-                                <div style={styles.tabsContainer}>
+                                <div className="p2p-create-post-tabs-container">
                                     <button
                                         type="button"
-                                        style={{
-                                            ...styles.tabButton,
-                                            ...(formData.side === "BUY" ? styles.tabButtonActive : {})
-                                        }}
+                                        className={`p2p-create-post-tab-btn ${formData.side === "BUY" ? "active" : ""}`}
                                         onClick={() => handleInput("side", "BUY")}
                                     >
                                         I want to Buy
                                     </button>
                                     <button
                                         type="button"
-                                        style={{
-                                            ...styles.tabButton,
-                                            ...(formData.side === "SELL" ? styles.tabButtonActive : {})
-                                        }}
+                                        className={`p2p-create-post-tab-btn ${formData.side === "SELL" ? "active" : ""}`}
                                         onClick={() => handleInput("side", "SELL")}
                                     >
                                         I want to Sell
@@ -1370,27 +1364,27 @@ const P2pCreatePost = () => {
                                 </div>
 
                                 {/* Market Price Info Box */}
-                                <div style={styles.infoBox}>
+                                <div className="p2p-create-post-info-box">
                                     {loader.pairPrice ? (
-                                        <div style={{ textAlign: 'center', padding: '10px' }}>
-                                            <span style={{ color: '#666' }}>Loading market price...</span>
+                                        <div className="p2p-create-post-market-loading">
+                                            <span>Loading market price...</span>
                                         </div>
                                     ) : marketPrice ? (
                                         <>
-                                            <div style={{ color: '#9ca3af', fontSize: isMobile ? '13px' : '14px', marginBottom: '10px' }}>
+                                            <div className="p2p-create-post-market-pair">
                                                 {formData.crypto}/{formData.fiat}
                                             </div>
-                                            <div style={{ color: '#6b7280', fontSize: isMobile ? '12px' : '13px', marginBottom: '6px' }}>
-                                                <span style={{ marginRight: '6px' }}>•</span>
-                                                Current Price: <span style={{}}>{marketPrice.toFixed(2)}</span> {formData.fiat}
+                                            <div className="p2p-create-post-market-row">
+                                                <span className="p2p-create-post-market-bullet">•</span>
+                                                Current Price: <span>{marketPrice.toFixed(2)}</span> {formData.fiat}
                                             </div>
-                                            <div style={{ color: '#6b7280', fontSize: isMobile ? '12px' : '13px' }}>
-                                                <span style={{ marginRight: '6px' }}>•</span>
-                                                Ad can be placed between: <span style={{}}>{minAllowedPrice}</span> - <span style={{}}>{maxAllowedPrice}</span> {formData.fiat}
+                                            <div className="p2p-create-post-market-row">
+                                                <span className="p2p-create-post-market-bullet">•</span>
+                                                Ad can be placed between: <span>{minAllowedPrice}</span> - <span>{maxAllowedPrice}</span> {formData.fiat}
                                             </div>
                                         </>
                                     ) : (
-                                        <div style={{ color: '#d97706', fontSize: '13px' }}>
+                                        <div className="p2p-create-post-market-error">
                                             ⚠ Unable to fetch market price. Please try again.
                                         </div>
                                     )}
@@ -1434,23 +1428,17 @@ const P2pCreatePost = () => {
                         {currentStep === 2 && (
                             <>
                                 {/* Buy/Sell Tabs */}
-                                <div style={styles.tabsContainer}>
+                                <div className="p2p-create-post-tabs-container">
                                     <button
                                         type="button"
-                                        style={{
-                                            ...styles.tabButton,
-                                            ...(formData.side === "BUY" ? styles.tabButtonActive : {})
-                                        }}
+                                        className={`p2p-create-post-tab-btn ${formData.side === "BUY" ? "active" : ""}`}
                                         onClick={() => handleInput("side", "BUY")}
                                     >
                                         I want to Buy
                                     </button>
                                     <button
                                         type="button"
-                                        style={{
-                                            ...styles.tabButton,
-                                            ...(formData.side === "SELL" ? styles.tabButtonActive : {})
-                                        }}
+                                        className={`p2p-create-post-tab-btn ${formData.side === "SELL" ? "active" : ""}`}
                                         onClick={() => handleInput("side", "SELL")}
                                     >
                                         I want to Sell

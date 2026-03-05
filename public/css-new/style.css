@@ -3674,6 +3674,32 @@ button.btn.btn-sm.otpinput {
     color: #9ba2ad !important;
 }
 
+
+
+/* Placeholder text black karne ke liye */
+body.light_theme .input_filed::placeholder {
+    color: #303030 !important;
+    opacity: 1;
+    /* Some browsers reduce opacity by default */
+}
+
+/* For cross-browser compatibility */
+body.light_theme .input_filed::-webkit-input-placeholder {
+    color: #303030 !important;
+}
+
+body.light_theme .input_filed:-moz-placeholder {
+    color: #303030 !important;
+}
+
+body.light_theme .input_filed::-moz-placeholder {
+    color: #303030!important;
+}
+
+body.light_theme .input_filed:-ms-input-placeholder {
+    color: #303030 !important;
+}
+
 .disclaimer {
     font-size: 13px;
 }
@@ -13197,6 +13223,49 @@ input:-ms-input-placeholder {
     color: #bfbfbf;
 }
 
+
+
+/* Normal placeholder */
+body.light_theme input::placeholder {
+    color: #666;
+    /* light gray */
+    opacity: 1;
+    /* Firefox fix */
+}
+
+/* Chrome / Edge / Safari */
+body.light_theme input::-webkit-input-placeholder {
+    color: #666;
+}
+
+/* Firefox */
+body.light_theme input::-moz-placeholder {
+    color: #666;
+}
+
+/* IE / Old Edge */
+body.light_theme input:-ms-input-placeholder {
+    color: #666;
+}
+
+body.light_theme::-webkit-input-placeholder {
+    color: #666;
+}
+
+body.light_theme::-moz-placeholder {
+    color: #666;
+}
+
+body.light_theme:-ms-input-placeholder {
+    color: #666;
+}
+
+body.light_theme:-moz-placeholder {
+    color: #666;
+}
+
+
+
 .ri-search-line {
     color: #bfbfbf;
 }
@@ -13825,6 +13894,10 @@ body .text-success {
     opacity: 1;
 }
 
+body.light_theme .form-control::placeholder {
+    color: #666 !important;
+    opacity: 1;
+}
 
 
 .currency_icon img {

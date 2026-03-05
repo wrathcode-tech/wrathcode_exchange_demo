@@ -997,6 +997,8 @@ body.light_theme.spot-list-search .ivu-input {
     width: 100%;
 }
 
+body.light_theme .spot-list-search .ivu-input input{ color:#424242; }
+
 .spot-list-search .ivu-input input:focus {
     border: none !important;
 
@@ -1840,7 +1842,7 @@ body.light_theme .spotLists {
 
 
     body.light_theme .trade_favourites_lft .spot-list-search .ivu-input {
-    background: #d9d9d9; }
+    background: #dddddd; }
 
     body.light_theme .trade_card {
         background: #ececec; }  

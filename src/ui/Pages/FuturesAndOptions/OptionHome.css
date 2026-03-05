@@ -51,7 +51,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    margin-top: 5px;
+    margin-top: 0px;
     /* border-bottom: 4px solid #222222; */
     /* border-top: 1px solid #222222; */
     align-items: center;

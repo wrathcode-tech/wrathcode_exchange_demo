@@ -521,6 +521,7 @@ body.light_theme label {
 body.light_theme .form-control {
     color: #000 !important;
     border: none;
+    background-color: #f4f4f4 !important;
 }
 
 body.light_theme button.orderbtn {
@@ -570,6 +571,7 @@ body.light_theme .refrefer_earn_outer {
 
 body.light_theme .card {
     border: none;
+    color: #000000b8;
 }
 
 body.light_theme .card-header.ref_header {
@@ -624,8 +626,7 @@ body.light_theme .review_information .card-body.py-5.pb-0 {
 
 body.light_theme .search_form input {
     color: #000 !important;
-
-    background-color: #fafafa;
+    background-color: #ececec;
 }
 
 body.light_theme .review_information .card.card-header-actions.mb-4 {
@@ -667,7 +668,7 @@ body.light_theme .kyc_form_multistep .step-indicator .active span {
 }
 
 body.light_theme {
-    background-color: #fff;
+    background-color: #f5f5f5;
 }
 
 body.light_theme .navigation nav ul li.dropdown .dropdown-toggle {
@@ -1450,28 +1451,665 @@ body.light_theme .trade-wrapper .orderbook-table th {
     background: transparent !important;
 }
 
+body.light_theme .trade_card table tr:hover {
+    background-color: transparent !important;
+}
+
 body.light_theme .trade-wrapper .orderbook-table thead {
     background-color: #ffffff00 !important;
-    background: transparent !important;
+    background: #ececec !important;
 }
 
 body.light_theme .freerate {
-    background-color: #ececec;
-    color: #000; }
+    background-color: #e2e2e2;
+    color: #000;
+}
 
 body.light_theme .trade_account_summary_assets {
+    background-color: #f3f3f3;
+}
+
+body.light_theme .trade_summary_table_lft {
+    background: #ececec;
+}
+
+body.light_theme .assets_right {
+    background-color: #ececec;
+    color: #000;
+}
+
+body.light_theme .trade-wrapper .assets_list h4 {
+    color: #474747;
+}
+
+body.light_theme .assets_list .more_btn {
+    color: #474747;
+}
+
+body.light_theme .trade-wrapper.spot {
+    background-color: #f3f3f3;
+}
+
+body.light_theme .usd_future_dashboard {
+    background-color: #f4f4f4;
+}
+
+body.light_theme .top_bar_usd_future {
+    background-color: #ececec;
+}
+
+body.light_theme .relative_select_right {
+    background-color: #ececec !important;
+}
+
+body.light_theme .trade_movers_tb ul.nav-tabs {
+    background-color: #ececec;
+    border-color: #00000038;
+}
+
+body.light_theme .order_trade_s {
+    background: #ececec !important;
+    color: #232323f2;
+}
+
+body.light_theme .trade_movers_tb button.nav-link.active {
+    border-bottom: 2px solid #373737 !important;
+    color: #282828;
+}
+
+body.light_theme .top_future_right_s ul li {
+    color: #0000009c;
+    border-right: 1px solid #333333;
+    background-color: #ececec;
+    border: 1px solid #ececec;
+}
+
+body.light_theme .leverage_bl>div {
+    background-color: #dddddd;
+    color: #555555;
+}
+
+body.light_theme .relative_select_right .price_select_option {
+    background-color: #dddddd;
+}
+
+body.light_theme .price_inputbl ul li button:before {
+    background-color: #c3c4c7;
+    border: 1px solid #c3c4c7;
+}
+
+body.light_theme .top_cross_dashboard ul li a {
+    background-color: #dddddd;
+    color: #252525;
+}
+
+body.light_theme .relative_select_right .limit_tabs li.active button {
+    color: #2e2e2e;
+    border-bottom: 2px solid #414141 !important;
+}
+
+body.light_theme .price_inputbl .inputtype {
+    color: #939393;
+}
+
+body.light_theme .price_inputbl {
+    color: #292929;
+}
+
+body.light_theme .costbtc_total h5 span {
+    color: #181818;
+}
+
+body.light_theme .asset_total_value h5 {
+    color: #363636;
+}
+
+body.light_theme .dashboard_mid_s .dashboard_summary_lft {
+    background: #ececec;
+}
+
+body.light_theme .buysellform .form-group label {
+    color: #3c3c3c;
+}
+
+
+body.light_theme .process_step label.btn:before {
+    background-color: #c3c4c7;
+    border: 1px solid #c3c4c7;
+}
+
+body.light_theme .buysell_heder .custom-tabs li button {
+    background-color: #a9a9a9;
+    color: #262626;
+}
+
+body.light_theme p.mt-2 {
+    color: #252525;
+}
+
+body.light_theme .buy_sell_row.buy_sell_cards ul.nav.custom-tabs li a.active {
+    background: #dedede !important;
+}
+
+body.light_theme .trade_summary_table_lft .nav-item.active button {
+    background-color: #dcdcdc;
+    color: #484848;
+    border-bottom: 1px solid #484848;
+}
+
+body.light_theme .num-div .num-select {
+    color: #000000f7 !important;
+}
+
+body.light_theme .top_future_left_s ul li {
+    color: #0f0f0f;
+}
+
+body.light_theme .btcusd__currency {
+    color: #000;
+}
+
+body.light_theme .modal.currency_popup_s .modal-dialog .modal-content {
+    background-color: #fafafa;
+    border: 1px solid #fafafa;
+    color: #000;
+}
+
+body.light_theme .modal.currency_popup_s .search_form {
+    background: rgb(236 236 236);
+    border: 1px solid rgb(236 236 236);
+}
+
+body.light_theme .modal.currency_popup_s .currency_data_list table tr th {
+    color: #737373;
+}
+
+body.light_theme .modal.currency_popup_s .currency_data_list table tr td {
+    color: #737373;
+}
+
+body.light_theme .modal.currency_popup_s.crosstabs .modal-body {
+    color: #373737;
+}
+
+body.light_theme .modal.currency_popup_s.crosstabs p {
+    color: #000000bf;
+}
+
+body.light_theme .range_valuebox input {
+    color: #2f2f2fcc;
+}
+
+body.light_theme .card-body_inner.referral_code_s {
+    background-color: #f4f4f4;
+}
+
+body.light_theme .how_to_refer_s {
+    color: #000000;
+}
+
+body.light_theme .how_to_refer_s ul li h6 {
+    color: #262626;
+}
+
+body.light_theme .how_to_refer_s ul li img {
+    filter: brightness(0.5);
+}
+
+body.light_theme .launchpad_hero_s {
+    color: #0b0b0b;
+    background-color: #fafafa;
+}
+
+body.light_theme .launchpad_hero_s p {
+    color: #575757;
+}
+
+body.light_theme ul.launchpadlist li {
+    color: #5a5a5a;
+}
+
+body.light_theme .project_coin {
+    color: #323232;
+    background-color: #fafafa;
+}
+
+body.light_theme .project_crypto_bl {
+    background-color: #f4f4f4;
+}
+
+body.light_theme .subscribe_user_bl {
+    background-color: #ededed;
+}
+
+body.light_theme .subscribe_user_bl .user_right {
+    color: #323232;
+}
+
+body.light_theme ul.exclusivelist li span {
+    color: #474747;
+}
+
+body.light_theme button.viewdel_btn a {
+    color: #565656;
+}
+
+body.light_theme button.viewdel_btn {
+    border: 1px solid #6b6b6b;
+}
+
+body.light_theme .project_coin h2 {
+    color: #3e3e3e;
+}
+
+body.light_theme .project_coin .viewmorebtn a:hover {
+    color: #ce9a13;
+}
+
+body.light_theme .meme_hero_s {
+    background-color: #ffffff;
+    color: #383838;
+}
+
+body.light_theme .meme_listing_section {
+    background-color: #f4f4f4;
+    color: #2c2c2c;
+}
+
+body.light_theme .crypto_list ul li {
+    background-color: #eaeaea;
+    border: 1px solid #d3d3d3;
+}
+
+body.light_theme .coin-card_itemcnt {
+    color: #505050;
+}
+
+body.light_theme .what_coin_s p {
+    color: #5d5d5d;
+}
+
+body.light_theme .search_items {
+    background-color: #eaeaea;
+}
+
+body.light_theme .search_items input[type="text"] {
+    color: #505050;
+}
+
+body.light_theme .search_items input[type="text"]::placeholder {
+    color: #505050;
+}
+
+body.light_theme .search_items input[type="text"]:focus {
+    color: #505050;
+}
+
+body.light_theme .search_items input[type="text"]:focus::placeholder {
+    color: #505050;
+}
+
+body.light_theme .blog_section_b {
+    color: #161616;
     background-color: #ffffff;
 }
 
-body.light_theme .trade_summary_table_lft {  background: #ffffff; }
+body.light_theme .search_outer_blog {
+    background-color: #f4f4f4;
+    border: 1px solid #f4f4f4;
+}
 
-body.light_theme .assets_right {
-    background-color: #ececec; }
+body.light_theme .crypto_cta {
+    border: 1px solid #e5e5e5;
+    background-color: #f4f4f4;
+}
 
- body.light_theme .trade-wrapper .assets_list h4 {
-        color: #474747; }
+body.light_theme ul.meta_date {
+    color: #6a6a6a;
+}
 
-body.light_theme .assets_list .more_btn  {
-            color: #474747; }            
- body.light_theme  .trade-wrapper.spot {
-                    background-color: #f3f3f3; }                
+body.light_theme .subscribe_form {
+    background-color: #f4f4f4;
+}
+
+body.light_theme .block_blog {
+    border: 1px solid #eeeeee;
+    background-color: #eeeeee;
+}
+
+body.light_theme .view_allbtn a {
+    color: #454545;
+}
+
+body.light_theme .top_articles_h {
+    background-color: #9d9d9d;
+}
+
+body.light_theme .launchpad_detail_s {
+    background-color: #ffffff;
+}
+
+body.light_theme .total_distribution {
+    background-color: #f4f4f4;
+    border: 1px solid #393f4f1c;
+}
+
+
+body.light_theme .top_tpl ul li {
+    color: #5c5c5c;
+    border-color: #393f4f1a;
+}
+
+body.light_theme .coin_lft {
+    color: #666666;
+}
+
+body.light_theme .tbl_flex button.poolbtn.active {
+    color: #111111;
+}
+
+body.light_theme .commit_usdt_del {
+    background-color: #f4f4f4;
+}
+
+body.light_theme .commit_usdt_del .coin_cnt h3 {
+    color: #3d3d3d;
+}
+
+body.light_theme ul.exclusive_list li {
+    color: #363636;
+}
+
+body.light_theme .future_trading_block {
+    background-color: #f4f4f4;
+    color: #282828;
+}
+
+body.light_theme .usdtdetail li:nth-child(odd) {
+    background-color: rgb(244 244 244);
+    color: #282828;
+}
+
+body.light_theme .usdtdetail li:nth-child(even) {
+    background-color: #5a5c61;
+}
+
+body.light_theme .usdtdetail li:nth-child(even) span {
+    color: #ededed;
+}
+
+body.light_theme ul.registration_list li::before {
+    border: 4px solid #c9c9c9;
+}
+
+body.light_theme ul.backbt li {
+    color: #434343;
+}
+
+body.light_theme .blog_detail {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+body.light_theme .single-widget {
+    background: #f4f4f4;
+    border: 1px solid #43434326;
+}
+
+body.light_theme .blog_detail .blog-content {
+    color: #0f0f0fd1;
+}
+
+body.light_theme section.termsofuse {
+    color: #161616;
+}
+
+body.light_theme .hero-banner-style.top-section-gap {
+    color: #0a0a0a;
+}
+
+body.light_theme .coin_list_outer_s {
+    color: #000000c7;
+    background-color: #ffffff;
+}
+
+body.light_theme section.os_sec {
+    color: #232323cf;
+}
+
+body.light_theme .os_sec .card-body i {
+    color: #141414b5;
+}
+
+body.light_theme .os_sec .card-body p {
+    color: #141414b5;
+}
+
+body.light_theme .section-padding.feature_bg.pc_bg {
+    color: #333333f0;
+    background-color: #ffffff;
+}
+
+body.light_theme section.faq_cards .card {
+    background: linear-gradient(225deg, #fafafa 20%, #f4f4f4 80%);
+}
+
+body.light_theme .breadcrumb li {
+    color: #343434 !important;
+}
+
+body.light_theme .faq_cards .faq_list .card.faq_item {
+    color: #2e2e2e;
+}
+
+body.light_theme .faq_cards .faq {
+    background: #f9f9f9;
+}
+
+body.light_theme .faq_cards .faq_list .card.faq_item i {
+    color: #6c6c6c;
+}
+
+body.light_theme .form_block_login .input_filed {
+    color: #2d2d2d;
+}
+
+body.light_theme .css-45f8xx-singleValue {
+    color: #171717 !important;
+}
+
+body.light_theme .css-1r80lv4 {
+    color: #171717 !important;
+}
+
+body.light_theme .modal.search_form .emailinput {
+    background-color: #ececec;
+}
+
+body.light_theme .block_features img {
+    filter: brightness(0.5);
+}
+
+body.light_theme .deposit_crypto_left::before {
+    background-color: #0b0b0b2b;
+}
+
+body.light_theme .deposit_crypto_left h2:before {
+    background-color: #b6b6b6;
+}
+
+body.light_theme .coin_items_list {
+    background-color: #ececec;
+}
+
+body.light_theme .deposit_crypto_right button.accordion-button {
+    color: #303030;
+}
+
+body.light_theme .deposit_crypto_right .accordion-body {
+    color: #565656;
+}
+
+body.light_theme .address_input input[type="text"] {
+    color: #848484;
+}
+
+body.light_theme .withdraw_input input[type="text"] {
+    color: #717171;
+}
+
+body.light_theme .total_amount .price_tag {
+    color: #9a9a9a;
+}
+
+
+body.light_theme .search_icon_s img {
+    filter: brightness(0.5);
+}
+
+body.light_theme .navi_sidebar li a svg path {
+    fill: #868686;
+}
+
+body.light_theme .bs_dropbox .buysellform .input-group .form-control {
+    background-color: transparent !important;
+}
+
+body.light_theme .earning_section_cate {
+    color: #242424;
+}
+
+body.light_theme .referral_code_s ul li span {
+    color: #8b8b8b;
+}
+
+body.light_theme .field-otp-box button {
+    color: #8b8b8b !important;
+}
+
+body.light_theme .referral_code_s ul li span a {
+    color: #8b8b8b;
+}
+
+body.light_theme .ref_col .form-control {
+    border: 1px solid #9c9c9c26 !important;
+}
+
+body.light_theme .p2p-nav-item img {
+    filter: brightness(0.5);
+}
+
+body.light_theme .p2p-create-post-form-card {
+    background: #ececec;
+    border: 1px solid #d8d8d8;
+}
+
+body.light_theme .p2p-create-post-select {
+    background: #e2e2e2;
+    border: 1px solid #d5d5d5;
+    color: #8b8b8c;
+}
+
+body.light_theme .p2p-create-post-input-with-suffix {
+    background: #e2e2e2;
+    border: 1px solid #d5d5d5;
+    color: #8b8b8c;
+}
+
+body.light_theme .p2p-create-post-input-inner {
+    color: #5e5e5e;
+}
+
+body.light_theme .pricehigh_box {
+    background: #e2e2e2;
+}
+
+body.light_theme .p2p-create-post-input-suffix {
+    color: #7a7a7a;
+    border-left: 1px solid #cccccc;
+}
+
+body.light_theme .p2p-create-post-step-line {
+    background: #39393960;
+}
+
+body.light_theme .p2p-create-post-step-circle {
+    border: 1px solid #4949497a;
+    color: #0000008c;
+}
+
+body.light_theme .p2p-create-post-info-box {
+    background: #e2e2e2;
+}
+
+body.light_theme .p2p-myads-container {
+    background-color: #ececec;
+}
+
+body.light_theme .p2p-myads-stats-grid {
+    background-color: #e2e2e2;
+}
+
+body.light_theme .p2p-myads-stats-grid .p2p-myads-stat-card {
+    background-color: transparent;
+    border: none;
+}
+
+body.light_theme .p2p-pagination-wrapper {
+    padding: 10px 10px;
+}
+
+body.light_theme .volumedatails {
+    background-color: #ececec;
+    border: 1px solid #dfdfdf;
+}
+
+body.light_theme .p2p-myads-payment-card {
+    background-color: #ececec;
+    border: 1px solid #dfdfdf;
+}
+
+body.light_theme .p2p-fiat-amount {
+    color: #9d9d9d;
+}
+
+body.light_theme .p2p-order-crypto {
+    color: #979797;
+}
+
+body.light_theme .p2p-counterparty-name {
+    color: #a3a3a3;
+}
+
+body.light_theme .binance-order-details {
+    background: #ececec;
+}
+
+body.light_theme .binance-order-title {
+    color: #353535;
+}
+
+body.light_theme .binance-order-number .order-id {
+    color: #7a7a7a;
+}
+
+body.light_theme .step-content h4 {
+    color: #7d7d7d;
+}
+
+body.light_theme .step-dropdown-content {
+    background: #e3e3e3;
+}
+
+body.light_theme .binance-chat-card {
+    background: #ececec;
+}
+
+body.light_theme .binance-chat-messages {
+    background: #e3e3e3;
+}
+
+body.light_theme .binance-chat-notice {
+    background: #f1f1f1;
+    border-bottom: 1px solid #d1d1d1;
+}
