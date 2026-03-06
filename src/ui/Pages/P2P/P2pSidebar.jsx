@@ -10,28 +10,28 @@ const P2pSidebar = ({ isOpen, onClose }) => {
       path: '/p2p-dashboard',
       label: 'Dashboard',
       icon: (
-        <img src="images/p2p/p2phome_icon.svg" />
+        <img src="/images/p2p/p2phome_icon.svg" />
       ),
     },
     {
       path: '/p2p-create-post',
       label: 'Add post',
       icon: (
-        <img src="images/p2p/adspost_icon.svg" />
+        <img src="/images/p2p/adspost_icon.svg" />
       ),
     },
     {
       path: '/p2p-my-ads',
       label: 'My Ads',
       icon: (
-        <img src="images/p2p/ads_icon.svg" />
+        <img src="/images/p2p/ads_icon.svg" />
       ),
     },
     {
       path: '/p2p-orders',
       label: 'P2P Orders',
       icon: (
-        <img src="images/p2p/order_iconp2p.svg" />
+        <img src="/images/p2p/order_iconp2p.svg" />
       ),
     },
     // {
@@ -49,7 +49,7 @@ const P2pSidebar = ({ isOpen, onClose }) => {
       path: '/p2p-profile',
       label: 'Profile',
       icon: (
-        <img src="images/p2p/p2p_profile_icon.svg" />
+        <img src="/images/p2p/p2p_profile_icon.svg" />
       ),
     },
   ];

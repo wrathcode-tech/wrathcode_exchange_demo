@@ -33,7 +33,7 @@ const LaunchpadCoinPage = () => {
                 setCoinDetailsData(result.data);
                 setCurrentLaunchpad(result.data);
             } else {
-                alertErrorMessage(result?.message || "Something went wrong while fetching launchpad details.");
+                // alertErrorMessage(result?.message || "Something went wrong while fetching launchpad details.");
             }
         } catch (err) {
             LoaderHelper.loaderStatus(false);
