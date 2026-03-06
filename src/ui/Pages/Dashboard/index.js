@@ -197,7 +197,7 @@ const Dashboard = (props) => {
       <td colSpan="12">
         <div className="no-data-wrapper">
           <div className="no_data_s">
-            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data available" />
+            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data available" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data available" />
           </div>
         </div>
       </td>
@@ -209,7 +209,7 @@ const Dashboard = (props) => {
     <div className="spot_markets_no_data">
       <div className="no-data-wrapper">
         <div className="no_data_s">
-          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data available" />
+          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data available" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data available" />
         </div>
       </div>
     </div>

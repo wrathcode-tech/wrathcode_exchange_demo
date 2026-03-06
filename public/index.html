@@ -877,12 +877,18 @@
   </script>
 
   <script>
+    var downloadtabsLeaveTimer;
     $(document).on("mouseenter", ".downloadtabs", function () {
+      if (downloadtabsLeaveTimer) { clearTimeout(downloadtabsLeaveTimer); downloadtabsLeaveTimer = null; }
       $(this).addClass("active");
     });
 
     $(document).on("mouseleave", ".downloadtabs", function () {
-      $(this).removeClass("active");
+      var $el = $(this);
+      downloadtabsLeaveTimer = setTimeout(function () {
+        $el.removeClass("active");
+        downloadtabsLeaveTimer = null;
+      }, 400);
     });
   </script>
 

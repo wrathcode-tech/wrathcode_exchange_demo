@@ -1406,7 +1406,7 @@ const Trade = () => {
                       <td colSpan="12">
                         <div className="no-data-wrapper">
                           <div className="no_data_s">
-                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                           </div>
                         </div>
                       </td>
@@ -1475,7 +1475,7 @@ const Trade = () => {
                                                             <td colSpan="12">
                                                               <div className="no-data-wrapper">
                                                                 <div className="no_data_s">
-                                                                  <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                                  <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                                 </div>
                                                               </div>
                                                             </td>
@@ -1505,7 +1505,7 @@ const Trade = () => {
                                                     {!token ? (
                                                         <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
                                                             <div className="no_data_s">
-                                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                                 <p className=" mt-2">Please login to view your wallets</p>
                                                                 <Link to="/login" className="btn btn-primary btn-sm mt-2">Login</Link>
                                                             </div>
@@ -1549,7 +1549,7 @@ const Trade = () => {
                                                                         <td colSpan="2">
                                                                             <div className="no-data-wrapper" style={{ padding: '20px', textAlign: 'center' }}>
                                                                                 <div className="no_data_s">
-                                                                                    <img src="/images/no_data_vector.svg" className="img-fluid" width="64" height="64" alt="" />
+                                                                                    <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="64" height="64" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="64" height="64" alt="" />
                                                                                     <p className="text-muted mt-2 mb-0" style={{ fontSize: '12px' }}>No assets in spot wallet</p>
                                                                                 </div>
                                                                             </div>
@@ -2180,7 +2180,7 @@ const Trade = () => {
                                                             <td colSpan="12">
                                                                 <div className="no-data-wrapper">
                                                                     <div className="no_data_s">
-                                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -2254,7 +2254,7 @@ const Trade = () => {
                                                 ) : (
                                                     <div className="no-data-wrapper w-100">
                                                         <div className="no_data_s">
-                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                         </div>
                                                     </div>
                                                 )}
@@ -2357,7 +2357,7 @@ const Trade = () => {
                                                             <td colSpan="12">
                                                                 <div className="no-data-wrapper">
                                                                     <div className="no_data_s">
-                                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -2452,7 +2452,7 @@ const Trade = () => {
                                                 ) : (
                                                     <div className="no-data-wrapper w-100">
                                                         <div className="no_data_s">
-                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                         </div>
                                                     </div>
                                                 )}
@@ -2488,7 +2488,7 @@ const Trade = () => {
                                             {!token ? (
                                                 <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
                                                     <div className="no_data_s">
-                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                         <p className=" mt-2">Please login to view your wallets</p>
                                                         <Link to="/login" className="btn btn-primary btn-sm mt-2">Login</Link>
                                                     </div>
@@ -2532,7 +2532,7 @@ const Trade = () => {
                                                                 <td colSpan="2">
                                                                     <div className="no-data-wrapper" style={{ padding: '20px', textAlign: 'center' }}>
                                                                         <div className="no_data_s">
-                                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="64" height="64" alt="" />
+                                                                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="64" height="64" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="64" height="64" alt="" />
                                                                             <p className="text-muted mt-2 mb-0" style={{ fontSize: '12px' }}>No assets in spot wallet</p>
                                                                         </div>
                                                                     </div>

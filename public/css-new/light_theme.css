@@ -853,7 +853,7 @@ body.light_theme .leftside_menu {
 
 body.light_theme .navi_sidebar li.active a {
     background-color: #E5E5E5;
-    color: #e7ad19;
+    /* color: #e7ad19; */
 }
 
 body.light_theme .navi_sidebar li.active a:hover {
@@ -934,7 +934,7 @@ body.light_theme .navbar-collapse {
 }
 
 body.light_theme .navbar-toggler {
-    top: 8px;
+    top: 11px;
 }
 
 body.light_theme .wallet_tabs .tab_btn.active {
@@ -1060,7 +1060,7 @@ body.light_theme .modal .btn-close {
 }
 
 body.light_theme .modal.search_form .emailinput label {
-    background-color: #e4e4e4;
+    background: linear-gradient(0deg, rgba(236, 236, 236, 1) 50%, rgb(250 250 250) 48%);
 }
 
 body.light_theme .toptabs_hd {
@@ -1202,6 +1202,15 @@ body.light_theme .swap_ustd_bl .from button {
     color: #484848;
 }
 
+/* Swap – Select Crypto modal table row (light theme) */
+body.light_theme .swap-select-crypto-row.selected {
+    background-color: rgb(240 240 240) !important;
+}
+
+body.light_theme .swap-select-crypto-row:not(.disabled):hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
 body.light_theme .vector_icon {
     background-color: #ececec;
 }
@@ -1297,6 +1306,24 @@ body.light_theme .light_img {
 
 body.light_theme .dark_img {
     display: none;
+}
+
+/* No-data vector: dark/light theme images */
+.no_data_s img.dark_img,
+.no_data_vector img.dark_img {
+    display: block;
+}
+.no_data_s img.light_img,
+.no_data_vector img.light_img {
+    display: none;
+}
+body.light_theme .no_data_s img.dark_img,
+body.light_theme .no_data_vector img.dark_img {
+    display: none;
+}
+body.light_theme .no_data_s img.light_img,
+body.light_theme .no_data_vector img.light_img {
+    display: block;
 }
 
 body.light_theme .currency_logo {
@@ -1579,7 +1606,7 @@ body.light_theme .process_step label.btn:before {
 }
 
 body.light_theme .buysell_heder .custom-tabs li button {
-    background-color: #a9a9a9;
+    background-color: #a9a9a900;
     color: #262626;
 }
 
@@ -2112,4 +2139,228 @@ body.light_theme .binance-chat-messages {
 body.light_theme .binance-chat-notice {
     background: #f1f1f1;
     border-bottom: 1px solid #d1d1d1;
+}
+
+body.light_theme .p2p-create-post-section-title-inline {
+    color: #565656;
+}
+
+body.light_theme .p2p-add-method-button {
+    color: #2a2a2a;
+}
+
+body.light_theme .userprofile_pop .modal-content {
+    background-color: #fafafa;
+}
+
+body.light_theme .userprofile_pop ul.list_upi li {
+    color: #000000d4;
+}
+
+body.light_theme .userprofile_pop ul.list_upi li span {
+    color: #464646;
+}
+
+body.light_theme .navigation .navbar-toggler img {
+    filter: brightness(0.3);
+}
+
+body.light_theme .search_form .profile_form button.submit {
+    background-color: #F3BB2B;
+}
+
+body.light_theme .profile_form .emailinput input {
+    color: #9a9a9a;
+}
+
+body.light_theme .profile_form .emailinput textarea {
+    color: #9a9a9a;
+}
+
+body.light_theme .chatmessages .ticket {
+    color: #585858;
+}
+
+body.light_theme .kyc_modal .modal-content {
+    background: #fafafa;
+    color: #000000;
+}
+
+body.light_theme .wallet_form {
+    background-color: #ececec;
+}
+
+body.light_theme .form_select select {
+    color: #1d1d1d;
+}
+
+body.light_theme .currencyicon img {
+    filter: brightness(0.3);
+}
+
+body.light_theme .coin_cryptofiled button {
+    background-color: #ececec;
+    color: #3b3b3b;
+}
+
+body.light_theme .price_max_total {
+    background-color: #ececec;
+    color: #333333;
+}
+
+body.light_theme .kyc_modal .price_max_total button {
+    background-color: #ececec;
+    color: #535353;
+}
+
+body.light_theme .wallet_transfer legend span {
+    color: #636363;
+}
+
+body.light_theme .wallet_transfer legend {
+    color: #6f6f6f;
+}
+
+body.light_theme .search_form .modal-header {
+    color: #121212;
+}
+
+body.light_theme .table_pop_up.modal h2 {
+    color: #242424;
+}
+
+body.light_theme .modal.search_form .hot_trading_t table tr {
+    background-color: transparent;
+}
+
+body.light_theme .withdrawal_top_list .bn_step_content {
+    width: 100%;
+    color: #555555;
+}
+
+body.light_theme .sidebar_deposit {
+    color: #343434;
+    background-color: #e5e5e5;
+    box-shadow: -2px 0 5px rgb(0 0 0 / 10%);
+}
+
+body.light_theme .sidebar_deposit .deposit_list a {
+    color: #282828;
+}
+
+body.light_theme .sidebar_deposit .deposit_list path {
+    fill: #474747;
+}
+
+body.light_theme .close-btn {
+    color: #737373;
+}
+
+body.light_theme .bg-dark {
+    background-color: rgb(236 236 236) !important;
+}
+
+body.light_theme .export_submit_btn {
+    background: #F3BB2B;
+}
+
+body.light_theme .export_submit_btn:hover {
+    background: #F3BB2B;
+}
+
+body.light_theme .export_btn.active {
+    border-color: #f3bb2b;
+    color: #f3bb2b;
+}
+
+body.light_theme .export_btn:hover {
+    color: #fff;
+}
+
+/* Date input calendar icon – dark in light theme */
+body.light_theme .export_date_input::-webkit-calendar-picker-indicator {
+    filter: none;
+    opacity: 0.85;
+}
+
+body.light_theme .order_datalist .listdata li {
+    color: #191919;
+}
+
+body.light_theme .order_datalist .listdata li span:first-child {
+    color: #000000;
+}
+
+body.light_theme .order_datalist .listdata li span.date {
+    color: #000000 !important;
+}
+
+body.light_theme .order_datalist .listdata li span.date_light {
+    color: #000000db !important;
+}
+
+body.light_theme .executed_trades_list button {
+    color: #000000;
+}
+
+body.light_theme .executed_trades_list_items {
+    background-color: #858585;
+}
+
+body.light_theme .wallet_profile_tab {
+    background-color: #ececec;
+    border: 1px solid #d1d1d1;
+    color: #373737;
+}
+
+body.light_theme ul.ac_wallet_info li a {
+    color: #292929;
+}
+
+body.light_theme .trade_summary_table_lft tr td {
+    color: #1b1b1b !important;
+}
+
+body.light_theme .trade_account_summary_assets .bg-dark {
+    background-color: #e1e1e1 !important;
+}
+
+body.light_theme .trade_account_summary_assets button.btn.text-danger.btn-sm.btn-icon {
+    background-color: #cdcdcd00;
+    padding: 0px;
+}
+
+body.light_theme .trade-wrapper .trade_account_summary_assets .trade_summary_table_lft table tr td {
+    border-bottom: 1px solid #cecece;
+}
+
+body.light_theme .bs_box_header h6 {
+    color: #2d2d2d;
+}
+
+body.light_theme .p2p-payment-method-header {
+    background: rgb(226 226 226);
+}
+
+body.light_theme .payment_search_box input {
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5; }
+
+body.light_theme .binance-payment-card {
+    background: #e3e3e3; }
+
+body.light_theme .payment-type {
+    background: rgb(108 87 0 / 45%); }
+
+
+body.light_theme .order_trade_s .trade_movers_tb ul.nav-tabs .nav-item.active .nav-link, .order_trade_s .trade_movers_tb ul.nav-tabs .nav-item .nav-link.active {
+    color: #696969;
+    border-bottom-color: #736e6e !important;
+} 
+
+body.light_theme .dashboard_mid_s .order_trade_s .table_info_data table tr th {
+    background-color: #ececec !important;
+} 
+
+.tab-content.futurestbllft .tab-pane{ height: 100%;
 }

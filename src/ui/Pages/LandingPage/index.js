@@ -400,13 +400,8 @@ const LandingPage = () => {
                         <tr>
                           <td colSpan="3" className="p-0">
                             <div className="favouriteData text-center">
-                              <img
-                                src="/images/no_data_vector.svg"
-                                className="img-fluid"
-                                width="96"
-                                height="96"
-                                alt="no data"
-                              />
+                              <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" />
+                              <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
                             </div>
                           </td>
                         </tr>
@@ -464,13 +459,8 @@ const LandingPage = () => {
                         <tr>
                         <td colSpan="3" className="p-0">
                           <div className="favouriteData text-center">
-                            <img
-                              src="/images/no_data_vector.svg"
-                              className="img-fluid"
-                              width="96"
-                              height="96"
-                              alt="no data"
-                            />
+                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" />
+                            <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
                           </div>
                         </td>
                       </tr>
@@ -528,13 +518,8 @@ const LandingPage = () => {
                         <tr>
                         <td colSpan="3" className="p-0">
                           <div className="favouriteData text-center">
-                            <img
-                              src="/images/no_data_vector.svg"
-                              className="img-fluid"
-                              width="96"
-                              height="96"
-                              alt="no data"
-                            />
+                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" />
+                            <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
                           </div>
                         </td>
                       </tr>
@@ -753,7 +738,7 @@ const LandingPage = () => {
               <div className="resources_news">
                 <div className="news_img">
                   <img className="blogimg dark_img" src="images/new-images/secure_crypto2.png" alt="Earn Passive Income" />
-                  <img className="blogimg light_img" src="images/new-images/secure_crypto_light.png" alt="Earn Passive Income" />
+                  <img className="blogimg light_img" src="images/new-images/secure_crypto2_light.png" alt="Earn Passive Income" />
                 </div>
                 <div className="resources_cnt">
                   <h3>Earn Passive Income on Your Crypto</h3>

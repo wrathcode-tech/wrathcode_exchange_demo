@@ -637,13 +637,13 @@ const Market = () => {
                         ) : (
                           <div className="table_responsive_2">
                         <div className="favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>
                         </div>
                         )
                       ) : (
                         <div className="py-5 favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                           <p className="mt-2">
                             No results.... Go to&nbsp;
                             <Link className="btn-link" to="/login"><b>&nbsp;Sign in&nbsp;</b></Link>
@@ -710,13 +710,13 @@ const Market = () => {
                         ) : (
                           <div className="table_responsive_2">
                           <div className="favouriteData">
-                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                           </div>
                           </div>
                         )
                       ) : (
                         <div className="py-5 favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                           <p className="mt-2">
                             No results.... Go to&nbsp;
                             <Link className="btn-link" to="/login"><b>&nbsp;Sign in&nbsp;</b></Link>
@@ -822,7 +822,7 @@ const Market = () => {
                       ) : (
                         <div className="table_responsive_2">
                         <div className="favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>
                         </div>
                       )}
@@ -884,7 +884,7 @@ const Market = () => {
                       ) : (
                         <div className="table_responsive_2">
                         <div className="favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>
                         </div>
                       )}
@@ -979,7 +979,7 @@ const Market = () => {
                       ) : (
                         <div className="table_responsive_2">
                         <div className="favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>
                         </div>
                       )}
@@ -1033,7 +1033,7 @@ const Market = () => {
                       ) : (
                         <div className="table_responsive_2">
                         <div className="favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>
                         </div>
                       )}

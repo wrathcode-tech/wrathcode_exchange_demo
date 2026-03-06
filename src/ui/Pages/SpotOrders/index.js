@@ -279,7 +279,7 @@ const SpotOrders = (props) => {
                       <td colSpan="12">
                         <div className="no-data-wrapper">
                           <div className="no_data_s">
-                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                           </div>
                         </div>
                       </td>
@@ -419,7 +419,7 @@ const SpotOrders = (props) => {
             ) : (
               <div className="no-data-wrapper w-100">
                 <div className="no_data_s">
-                  <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                  <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                 </div>
               </div>
             )}

@@ -829,7 +829,7 @@ const Swap = () => {
               :
               <div className="table_responsive_2">
                         <div className="favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>
                         </div>}
 
@@ -860,7 +860,7 @@ const Swap = () => {
                     <td colSpan="12">
                       <div className="no-data-wrapper">
                         <div className="no_data_vector">
-                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>
 
                       </div>
@@ -872,7 +872,7 @@ const Swap = () => {
               </table>
               :   <div className="table_responsive_2">
                           <div className="favouriteData">
-                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                           </div>
                           </div>}
 
@@ -933,13 +933,8 @@ const Swap = () => {
                           return (
                             <tr
                               key={item?.currency_id || index}
+                              className={`swap-select-crypto-row ${isSelected ? "selected" : ""} ${isDisabled ? "disabled" : ""}`}
                               onClick={() => !isDisabled && selectCurrency(item, modalType)}
-                              style={{
-                                cursor: isDisabled ? "not-allowed" : "pointer",
-                                opacity: isDisabled ? 0.5 : 1,
-                                backgroundColor: isSelected ? "rgb(43 49 60)" : "transparent",
-                                borderRadius: "10px",
-                              }}
                             >
                               <td>
                                 <div className="td_first">

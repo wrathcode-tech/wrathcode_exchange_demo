@@ -432,7 +432,7 @@ const SupportPage = () => {
                                                     <div style={{ textAlign: "center" }} className="no-data justify-content-center h-100 d-flex align-items-center">
                                                         <div className="favouriteData">
                                                             <div className="no_data_s">
-                                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -483,7 +483,7 @@ const SupportPage = () => {
                                                     <div style={{ textAlign: "center" }} className="no-data justify-content-center h-100 d-flex align-items-center">
                                                         <div className="favouriteData">
                                                             <div className="no_data_s">
-                                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                                                             </div>
                                                         </div>
                                                     </div>

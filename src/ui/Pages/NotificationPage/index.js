@@ -157,7 +157,7 @@ const NotificationPage = (props) => {
                   <div className="no_data_outer">
                   <div className="table-responsive">
                     <div className="no_data_vector">
-                      <img src="/images/no_data_vector.svg" alt="no-data" />
+                      <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" /><img src="/images/no_data_vector_light.png" className="light_img" width="96" height="96" alt="no-data" />
                     </div>
                   </div>
                 </div>

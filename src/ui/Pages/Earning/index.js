@@ -566,7 +566,8 @@ function Earning() {
                       <div className="no_data_outer">
                         <div className="table-responsive">
                           <div className="no_data_vector">
-                            <img src="/images/no_data_vector.svg" alt="no-data" />
+                            <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                            <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                           </div>
                         </div>
                       </div>
@@ -578,7 +579,8 @@ function Earning() {
                     <h3>All Plans</h3>
 
                     {/* Desktop View */}
-                    <div className='desktop_view'>
+                    <div className='desktop_view'>  
+                      <div className="table-responsive">
                       <table className="table">
                         <thead>
                           <tr>
@@ -626,7 +628,8 @@ function Earning() {
                               <td colSpan="4">
                                 <div className="no-data-wrapper">
                                   <div className="no_data_vector">
-                                    <img src="/images/no_data_vector.svg" alt="no-data" />
+                                    <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                                    <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                                   </div>
                                 </div>
                               </td>
@@ -638,6 +641,7 @@ function Earning() {
 
                     {/* Mobile View */}
                     <div className='mobile_view'>
+                      <div className="table-responsive">
                       <table className="table">
                         <thead>
                           <tr>
@@ -686,7 +690,8 @@ function Earning() {
                               <td colSpan="3">
                                 <div className="no-data-wrapper">
                                   <div className="no_data_vector">
-                                    <img src="/images/no_data_vector.svg" alt="no-data" />
+                                    <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                                    <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                                   </div>
                                 </div>
                               </td>
@@ -694,6 +699,7 @@ function Earning() {
                           )}
                         </tbody>
                       </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -791,7 +797,8 @@ function Earning() {
                      
                       <div className="no-data-wrapper" style={{ padding: '40px 20px', textAlign: 'center' }}>
                         <div className="no_data_s">
-                          <img src="/images/no_data_vector.svg" className="img-fluid"  alt="" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" alt="" />
+                          <img src="/images/no_data_vector_light.png" className="img-fluid light_img" alt="" />
                           <small className=" mt-2">Start investing to see your portfolio</small>
                         </div>
                       </div>
@@ -912,7 +919,8 @@ function Earning() {
                         ) : (
                           <div className="no-data-wrapper">
                             <div className="no_data_s">
-                              <img src="/images/no_data_vector.svg" alt="no-data" />
+                              <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                              <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                             </div>
                             {!token && <p>Please <Link to='/login'>Login</Link> to continue</p>}
                           </div>
@@ -920,6 +928,7 @@ function Earning() {
                       </div>
 
                       <div className='desktop_view'>
+                        <div className="table-responsive">
                         <table>
                           <thead>
                             <tr>
@@ -956,11 +965,12 @@ function Earning() {
                                 </tr>
                               ))
                             ) : (
-                              <tr className="no-data-row">
+                              <tr rowSpan="5" className="no-data-row">
                                 <td colSpan="10">
                                   <div className="no-data-wrapper">
                                     <div className="no_data_s">
-                                      <img src="/images/no_data_vector.svg" alt="no-data" />
+                                      <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                                      <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                                     </div>
                                     {!token && <p>Please <Link to='/login'>Login</Link> to continue</p>}
                                   </div>
@@ -969,6 +979,7 @@ function Earning() {
                             )}
                           </tbody>
                         </table>
+                        </div>
                       </div>
                     </div>
 
@@ -1035,7 +1046,8 @@ function Earning() {
                         ) : (
                           <div className="no-data-wrapper">
                             <div className="no_data_s">
-                              <img src="/images/no_data_vector.svg" alt="no-data" />
+                              <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                              <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                             </div>
                             {!token && <p>Please <Link to='/login'>Login</Link> to continue</p>}
                           </div>
@@ -1043,6 +1055,7 @@ function Earning() {
                       </div>
 
                       <div className='desktop_view'>
+                      <div className="table-responsive">
                         <table>
                           <thead>
                             <tr>
@@ -1081,11 +1094,12 @@ function Earning() {
                                 </tr>
                               ))
                             ) : (
-                              <tr className="no-data-row">
+                              <tr rowSpan="5" className="no-data-row">
                                 <td colSpan="10">
                                   <div className="no-data-wrapper">
                                     <div className="no_data_s">
-                                      <img src="/images/no_data_vector.svg" alt="no-data" />
+                                      <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                                      <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                                     </div>
                                     {!token && <p>Please <Link to='/login'>Login</Link> to continue</p>}
                                   </div>
@@ -1095,12 +1109,14 @@ function Earning() {
                           </tbody>
                         </table>
                       </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </section>
 

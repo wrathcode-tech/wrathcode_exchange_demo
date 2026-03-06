@@ -135,13 +135,8 @@ const Announcement = () => {
               ) : (
 
                 <div className="text-center">
-                  <img
-                    src="/images/no_data_vector.svg"
-                    className="img-fluid"
-                    width={96}
-                    height={96}
-                    alt="No data"
-                  />
+                  <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="No data" />
+                  <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="No data" />
                   <p>No categories found.</p>
                 </div>
 

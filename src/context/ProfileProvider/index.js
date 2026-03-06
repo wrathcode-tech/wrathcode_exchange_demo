@@ -211,6 +211,20 @@ export function ProfileProvider(props) {
     }
   }, []);
 
+  // Sync themeUpdated to DOM and localStorage (no reload needed)
+  useEffect(() => {
+    const htmlTag = document.documentElement;
+    if (themeUpdated) {
+      document.body.classList.add('light_theme');
+      localStorage.setItem('theme', 'light');
+      htmlTag.setAttribute('data-theme', 'light');
+    } else {
+      document.body.classList.remove('light_theme');
+      localStorage.setItem('theme', 'dark');
+      htmlTag.setAttribute('data-theme', 'dark');
+    }
+  }, [themeUpdated]);
+
   return (
     <ProfileContext.Provider value={{
       // Existing values

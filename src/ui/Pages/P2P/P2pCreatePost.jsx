@@ -582,452 +582,20 @@ const P2pCreatePost = () => {
         );
     };
 
-    // Responsive Styles
-    const styles = {
-        container: {
-            display: 'grid',
-            gridTemplateColumns: isTablet ? '1fr' : '1fr 380px',
-            gap: isMobile ? '16px' : '24px',
-            maxWidth: '100%',
-            width: '100%',
-            boxSizing: 'border-box'
-        },
-        formCard: {
-            background: '#12121a',
-            borderRadius: isMobile ? '12px' : '16px',
-            border: '1px solid #1e1e2d',
-            padding: isMobile ? '16px' : isTablet ? '24px' : '32px',
-            width: '100%',
-            maxWidth: '100%',
-            boxSizing: 'border-box',
-            overflowX: 'hidden',
-            position: 'relative'
-        },
-        header: {
-            marginBottom: isMobile ? '20px' : '32px'
-        },
-        title: {
-            fontSize: isMobile ? '20px' : '24px',
-            fontWeight: '600',
-            color: '#fff',
-            margin: '0 0 8px 0'
-        },
-        subtitle: {
-            color: '#666',
-            fontSize: isMobile ? '12px' : '14px',
-            margin: 0
-        },
-        stepper: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: isMobile ? '20px' : '32px',
-            gap: '0'
-        },
-        stepCircle: (active, completed) => ({
-            width: isMobile ? '28px' : '32px',
-            height: isMobile ? '28px' : '32px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: isMobile ? '12px' : '14px',
-            fontWeight: '600',
-            background: completed ? '#22c55e' : active ? '#ffdc88' : 'transparent',
-            border: `2px solid ${completed ? '#22c55e' : active ? '#ffdc88' : '#2a2a3a'}`,
-            color: completed || active ? '#fff' : '#666',
-            transition: 'all 0.3s ease',
-            flexShrink: 0
-        }),
-        stepLine: (completed) => ({
-            width: isMobile ? '40px' : isTablet ? '80px' : '120px',
-            height: '2px',
-            background: completed ? '#22c55e' : '#2a2a3a',
-            transition: 'all 0.3s ease'
-        }),
-        sectionTitle: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            fontSize: isMobile ? '14px' : '16px',
-            fontWeight: '600',
-            color: '#fff',
-            marginBottom: isMobile ? '16px' : '20px'
-        },
-        sectionIcon: {
-            color: '#F3BB2B'
-        },
-        inputGroup: {
-            marginBottom: isMobile ? '16px' : '20px',
-            width: '100%',
-            maxWidth: '100%',
-            minWidth: 0,
-            boxSizing: 'border-box',
-            overflow: 'hidden'
-        },
-        label: {
-            display: 'block',
-            color: '#888',
-            fontSize: isMobile ? '12px' : '13px',
-            marginBottom: '8px'
-        },
-        select: {
-            width: '100%',
-            maxWidth: '100%',
-            minWidth: 0,
-            padding: isMobile ? '12px 40px 12px 14px' : '14px 44px 14px 16px',
-            background: '#373f4d',
-            border: '1px solid #2a2a3a',
-            borderRadius: '10px',
-            color: '#fff',
-            fontSize: isMobile ? '13px' : '14px',
-            cursor: 'pointer',
-            appearance: 'none',
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: isMobile ? 'right 12px center' : 'right 16px center',
-            backgroundSize: '12px 12px',
-            boxSizing: 'border-box',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
-        },
-        input: {
-            width: '100%',
-            padding: isMobile ? '12px 14px' : '14px 16px',
-            background: '#373f4d',
-            border: '1px solid #2a2a3a',
-            borderRadius: '10px',
-            color: '#fff',
-            fontSize: isMobile ? '13px' : '14px',
-            outline: 'none',
-            boxSizing: 'border-box',
-            transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
-        },
-        inputWithSuffix: {
-            display: 'flex',
-            alignItems: 'center',
-            background: '#373f4d',
-            border: '1px solid #2a2a3a',
-            borderRadius: '10px',
-            // overflow: 'hidden',
-            transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
-        },
-        inputInner: {
-            flex: 1,
-            padding: isMobile ? '12px 14px' : '14px 16px',
-            background: 'transparent',
-            border: 'none',
-            color: '#fff',
-            fontSize: isMobile ? '13px' : '14px',
-            outline: 'none',
-            minWidth: 0
-        },
-        inputSuffix: {
-            padding: isMobile ? '12px 10px' : '14px 16px',
-            color: '#888',
-            fontSize: isMobile ? '12px' : '14px',
-            borderLeft: '1px solid #2a2a3a',
-            whiteSpace: 'nowrap'
-        },
-        availableText: {
-            color: '#22c55e',
-            fontSize: isMobile ? '10px' : '12px',
-            marginLeft: '8px',
-            display: isMobile ? 'none' : 'inline'
-        },
-        feeBox: {
-            background: 'linear-gradient(90deg, rgba(34, 197, 94, 0.1) 0%, transparent 100%)',
-            border: '1px solid rgba(34, 197, 94, 0.2)',
-            borderRadius: '10px',
-            padding: isMobile ? '10px 14px' : '12px 16px',
-            color: '#22c55e',
-            fontSize: isMobile ? '13px' : '14px',
-            marginTop: isMobile ? '16px' : '20px'
-        },
-        infoBox: {
-            background: '#373f4d',
-            borderRadius: '10px',
-            padding: isMobile ? '12px' : '16px',
-            marginTop: '16px'
-        },
-        pairText: {
-            color: '#f59e0b',
-            fontSize: isMobile ? '14px' : '15px',
-            fontWeight: '600',
-            marginBottom: '8px'
-        },
-        infoText: {
-            color: '#a8b4c4',
-            fontSize: isMobile ? '12px' : '13px',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '6px',
-            marginBottom: '4px'
-        },
-        paymentMethod: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: isMobile ? '12px 14px' : '14px 16px',
-            background: '#373f4d',
-            border: '1px solid #2a2a3a',
-            borderRadius: '10px',
-            marginBottom: '12px',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease'
-        },
-        paymentMethodActive: {
-            borderColor: '#ffdc88',
-            background: 'rgba(255, 220, 136, 0.1)'
-        },
-        tabsContainer: {
-            display: 'flex',
-            gap: '0',
-            marginBottom: isMobile ? '24px' : '32px',
-            borderBottom: '1px solid #2a2a3a'
-        },
-        tabButton: {
-            background: 'transparent',
-            border: 'none',
-            color: '#888',
-            fontSize: isMobile ? '14px' : '16px',
-            fontWeight: '400',
-            padding: isMobile ? '12px 16px' : '14px 20px',
-            cursor: 'pointer',
-            position: 'relative',
-            transition: 'all 0.3s ease',
-            borderBottom: '2px solid transparent',
-            marginBottom: '-1px'
-        },
-        tabButtonActive: {
-            color: '#fff',
-            fontWeight: '500',
-            borderBottom: '2px solid #fff'
-        },
-        paymentMethodError: {
-            borderColor: '#ef4444',
-            boxShadow: '0 0 0 3px rgba(239, 68, 68, 0.1)'
-        },
-        checkbox: {
-            width: isMobile ? '18px' : '20px',
-            height: isMobile ? '18px' : '20px',
-            accentColor: '#ffdc88',
-            flexShrink: 0
-        },
-        addMethodBtn: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            color: '#ffdc88',
-            background: 'transparent',
-            border: 'none',
-            fontSize: isMobile ? '13px' : '14px',
-            cursor: 'pointer',
-            padding: '8px 0'
-        },
-        textarea: {
-            width: '100%',
-            padding: isMobile ? '12px 14px' : '14px 16px',
-            background: '#0d0d14',
-            border: '1px solid #2a2a3a',
-            borderRadius: '10px',
-            color: '#fff',
-            fontSize: isMobile ? '13px' : '14px',
-            outline: 'none',
-            minHeight: isMobile ? '80px' : '100px',
-            resize: 'vertical',
-            boxSizing: 'border-box',
-            transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
-        },
-        checkboxLabel: {
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '12px',
-            color: '#ccc',
-            fontSize: isMobile ? '13px' : '14px',
-            cursor: 'pointer',
-            marginBottom: '16px'
-        },
-        buttonGroup: {
-            display: 'flex',
-            gap: '12px',
-            marginTop: isMobile ? '24px' : '32px',
-            flexDirection: isMobile ? 'column-reverse' : 'row'
-        },
-        btnPrimary: {
-            flex: isMobile ? 'unset' : 1,
-            padding: isMobile ? '14px 20px' : '14px 24px',
-            background: '#22c55e',
-            border: 'none',
-            borderRadius: '10px',
-            color: '#fff',
-            fontSize: isMobile ? '14px' : '15px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            width: isMobile ? '100%' : 'auto'
-        },
-        btnSecondary: {
-            padding: isMobile ? '14px 20px' : '14px 24px',
-            background: 'transparent',
-            border: '1px solid #2a2a3a',
-            borderRadius: '10px',
-            color: '#fff',
-            fontSize: isMobile ? '14px' : '15px',
-            fontWeight: '500',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            width: isMobile ? '100%' : 'auto'
-        },
-        previewCard: {
-            background: '#12121a',
-            borderRadius: isMobile ? '12px' : '16px',
-            border: '1px solid #1e1e2d',
-            // overflow: 'hidden',
-            position: isTablet ? 'relative' : 'sticky',
-            top: isTablet ? '0' : '20px'
-        },
-        previewHeader: {
-            padding: isMobile ? '16px' : '20px 24px',
-            borderBottom: '1px solid #1e1e2d',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-        },
-        previewTitle: {
-            fontSize: isMobile ? '14px' : '16px',
-            color: '#888',
-            margin: 0
-        },
-        previewHighlight: {
-            color: formData.side === 'BUY' ? '#22c55e' : '#ef4444',
-            fontWeight: '600'
-        },
-        previewBody: {
-            padding: isMobile ? '16px' : '24px'
-        },
-        previewRow: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: isMobile ? '12px' : '16px',
-            flexWrap: 'wrap',
-            gap: '8px'
-        },
-        previewLabel: {
-            color: '#666',
-            fontSize: isMobile ? '13px' : '14px'
-        },
-        previewValue: {
-            color: '#fff',
-            fontSize: isMobile ? '13px' : '14px',
-            fontWeight: '500',
-            textAlign: 'right'
-        },
-        previewBadges: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '8px',
-            justifyContent: 'flex-end'
-        },
-        previewBadge: {
-            padding: isMobile ? '4px 10px' : '6px 12px',
-            background: 'rgba(255, 220, 136, 0.1)',
-            border: '1px solid rgba(255, 220, 136, 0.3)',
-            borderRadius: '6px',
-            color: '#a8b4c4',
-            fontSize: isMobile ? '11px' : '12px'
-        },
-        previewRemarks: {
-            marginTop: isMobile ? '16px' : '20px',
-            paddingTop: isMobile ? '16px' : '20px',
-            borderTop: '1px solid #1e1e2d'
-        },
-        previewRemarksTitle: {
-            color: '#888',
-            fontSize: isMobile ? '12px' : '13px',
-            marginBottom: '8px'
-        },
-        previewRemarksText: {
-            color: '#ccc',
-            fontSize: isMobile ? '12px' : '13px',
-            lineHeight: '1.5'
-        },
-        agreementBox: {
-            background: fieldErrors.agree ? 'rgba(239, 68, 68, 0.05)' : '#0d0d14',
-            borderRadius: '10px',
-            padding: isMobile ? '12px' : '16px',
-            marginBottom: '20px',
-            border: fieldErrors.agree ? '1px solid #ef4444' : '1px solid transparent',
-            transition: 'all 0.2s ease'
-        },
-        helperText: {
-            color: '#666',
-            fontSize: isMobile ? '11px' : '12px',
-            marginTop: '6px'
-        },
-        mobilePreviewToggle: {
-            display: isTablet ? 'flex' : 'none',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            background: '#0d0d14',
-            borderRadius: '10px',
-            marginBottom: '16px',
-            cursor: 'pointer',
-            border: '1px solid #2a2a3a'
-        },
-        gridTwoCol: {
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-            gap: isMobile ? '12px' : '16px',
-            width: '100%',
-            maxWidth: '100%',
-            minWidth: 0,
-            boxSizing: 'border-box',
-            overflow: 'hidden'
-        },
-        paymentGrid: {
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-            gap: isMobile ? '10px' : '16px'
-        }
-    };
-
     // Preview Card Component
     const PreviewCard = () => {
         const totalValue = (Number(formData.volume) || 0) * (Number(formData.fixedPrice) || 0);
         const paymentTimeLabels = { '15': '15 Min', '30': '30 Min', '45': '45 Min', '60': '1 Hour', '120': '2 Hours' };
 
+        const sideClass = formData.side === 'BUY' ? 'buy' : 'sell';
         return (
-            <div style={styles.previewCard}>
-
-                <div style={{
-                    padding: isMobile ? '16px' : '20px 24px',
-                    background: formData.side === 'BUY' ? 'linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%)' : 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%)',
-                    borderBottom: '1px solid #1e1e2d'
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="p2p-preview-card">
+                <div className={`p2p-preview-card-header p2p-preview-card-header-${sideClass}`}>
+                    <div className="p2p-preview-card-header-inner">
                         <div>
-                            <span style={{ color: '#888', fontSize: '12px', display: 'block', marginBottom: '4px' }}>Ad Preview</span>
-                            <h3 style={{
-                                color: '#fff',
-                                fontSize: isMobile ? '18px' : '20px',
-                                fontWeight: '700',
-                                margin: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px'
-                            }}>
-                                <span style={{
-                                    color: formData.side === 'BUY' ? '#22c55e' : '#ef4444',
-                                    background: formData.side === 'BUY' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
-                                    padding: '4px 10px',
-                                    borderRadius: '6px',
-                                    fontSize: '14px'
-                                }}>
+                            <span className="p2p-preview-card-ad-label">Ad Preview</span>
+                            <h3 className="p2p-preview-card-title">
+                                <span className={`p2p-preview-card-badge p2p-preview-card-badge-${sideClass}`}>
                                     {formData.side}
                                 </span>
                                 {formData.crypto || 'USDT'}
@@ -1043,161 +611,94 @@ const P2pCreatePost = () => {
                     </div>
                 </div>
 
-                {/* Price Highlight */}
-                <div style={{
-                    padding: isMobile ? '16px' : '20px 24px',
-                    borderBottom: '1px solid #1e1e2d',
-                    textAlign: 'center'
-                }}>
-                    <span style={{ color: '#666', fontSize: '12px', display: 'block', marginBottom: '4px' }}>Price per {formData.crypto || 'USDT'}</span>
-                    <div style={{
-                        color: formData.side === 'BUY' ? '#22c55e' : '#ef4444',
-                        fontSize: isMobile ? '28px' : '32px',
-                        fontWeight: '700',
-                        letterSpacing: '-1px'
-                    }}>
-                        {formData.fixedPrice || '0.00'} <span style={{ fontSize: '16px', color: '#888' }}>{formData.fiat}</span>
+                <div className="p2p-preview-card-price-block">
+                    <span className="p2p-preview-card-price-label">Price per {formData.crypto || 'USDT'}</span>
+                    <div className={`p2p-preview-card-price-value p2p-preview-card-price-value-${sideClass}`}>
+                        {formData.fixedPrice || '0.00'} <span className="p2p-preview-card-price-fiat">{formData.fiat}</span>
                     </div>
                     {marketPrice && (
-                        <span style={{ color: '#666', fontSize: '11px', marginTop: '4px', display: 'block' }}>
+                        <span className="p2p-preview-card-market">
                             Market: {marketPrice.toFixed(2)} {formData.fiat}
                         </span>
                     )}
                 </div>
 
-                {/* Details Grid */}
-                <div style={{ padding: isMobile ? '16px' : '20px 24px' }}>
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr',
-                        gap: '16px',
-                        marginBottom: '16px'
-                    }}>
-                        <div style={{ background: '#0d0d14', padding: '12px', borderRadius: '10px' }}>
-                            <span style={{ color: '#666', fontSize: '11px', display: 'block', marginBottom: '4px' }}>Amount</span>
-                            <span style={{ color: '#fff', fontSize: '15px', fontWeight: '600' }}>
-                                {formData.volume || '0'} <span style={{ color: '#888', fontSize: '12px' }}>{formData.crypto}</span>
+                <div className="p2p-preview-card-details">
+                    <div className="p2p-preview-card-grid">
+                        <div className="p2p-preview-card-grid-item">
+                            <span className="p2p-preview-card-grid-label">Amount</span>
+                            <span className="p2p-preview-card-grid-value">
+                                {formData.volume || '0'} <span className="p2p-preview-card-grid-value-muted">{formData.crypto}</span>
                             </span>
                         </div>
-                        <div style={{ background: '#0d0d14', padding: '12px', borderRadius: '10px' }}>
-                            <span style={{ color: '#666', fontSize: '11px', display: 'block', marginBottom: '4px' }}>Total Value</span>
-                            <span style={{ color: '#fff', fontSize: '15px', fontWeight: '600' }}>
-                                {totalValue.toFixed(2)} <span style={{ color: '#888', fontSize: '12px' }}>{formData.fiat}</span>
+                        <div className="p2p-preview-card-grid-item">
+                            <span className="p2p-preview-card-grid-label">Total Value</span>
+                            <span className="p2p-preview-card-grid-value">
+                                {totalValue.toFixed(2)} <span className="p2p-preview-card-grid-value-muted">{formData.fiat}</span>
                             </span>
                         </div>
-                        <div style={{ background: '#0d0d14', padding: '12px', borderRadius: '10px' }}>
-                            <span style={{ color: '#666', fontSize: '11px', display: 'block', marginBottom: '4px' }}>Min Limit</span>
-                            <span style={{ color: '#fff', fontSize: '15px', fontWeight: '600' }}>
-                                {formData.min || '0'} <span style={{ color: '#888', fontSize: '12px' }}>{formData.fiat}</span>
+                        <div className="p2p-preview-card-grid-item">
+                            <span className="p2p-preview-card-grid-label">Min Limit</span>
+                            <span className="p2p-preview-card-grid-value">
+                                {formData.min || '0'} <span className="p2p-preview-card-grid-value-muted">{formData.fiat}</span>
                             </span>
                         </div>
-                        <div style={{ background: '#0d0d14', padding: '12px', borderRadius: '10px' }}>
-                            <span style={{ color: '#666', fontSize: '11px', display: 'block', marginBottom: '4px' }}>Max Limit</span>
-                            <span style={{ color: '#fff', fontSize: '15px', fontWeight: '600' }}>
-                                {formData.max || '0'} <span style={{ color: '#888', fontSize: '12px' }}>{formData.fiat}</span>
+                        <div className="p2p-preview-card-grid-item">
+                            <span className="p2p-preview-card-grid-label">Max Limit</span>
+                            <span className="p2p-preview-card-grid-value">
+                                {formData.max || '0'} <span className="p2p-preview-card-grid-value-muted">{formData.fiat}</span>
                             </span>
                         </div>
                     </div>
 
-                    {/* Payment Time */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: '12px',
-                        background: '#0d0d14',
-                        borderRadius: '10px',
-                        marginBottom: '16px'
-                    }}>
-                        <span style={{ color: '#666', fontSize: '13px' }}>⏱ Payment Time Limit</span>
-                        <span style={{ color: '#fff', fontSize: '14px', fontWeight: '500' }}>
+                    <div className="p2p-preview-card-payment-time">
+                        <span className="p2p-preview-card-payment-time-label">⏱ Payment Time Limit</span>
+                        <span className="p2p-preview-card-payment-time-value">
                             {paymentTimeLabels[formData.paymentTimeLimit] || formData.paymentTimeLimit + ' Min'}
                         </span>
                     </div>
 
-                    {/* Payment Methods */}
-                    <div style={{ marginBottom: '16px' }}>
-                        <span style={{ color: '#666', fontSize: '12px', display: 'block', marginBottom: '8px' }}>Payment Methods</span>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    <div className="p2p-preview-card-block">
+                        <span className="p2p-preview-card-section-label">Payment Methods</span>
+                        <div className="p2p-preview-card-badges-wrap">
                             {getPaymentMethods().length > 0 ? (
                                 getPaymentMethods().map((method, i) => (
-                                    <span key={i} style={{
-                                        padding: '6px 12px',
-                                        background: 'rgba(255, 220, 136, 0.1)',
-                                        border: '1px solid rgba(255, 220, 136, 0.3)',
-                                        borderRadius: '6px',
-                                        // color: '#60a5fa',
-                                        fontSize: '12px',
-                                        fontWeight: '500'
-                                    }}>{method}</span>
+                                    <span key={i} className="p2p-preview-card-badge-pm">{method}</span>
                                 ))
                             ) : (
-                                <span style={{
-                                    color: '#666',
-                                    fontSize: '12px',
-                                    padding: '6px 12px',
-                                    background: '#0d0d14',
-                                    borderRadius: '6px',
-                                    border: '1px dashed #2a2a3a'
-                                }}>
+                                <span className="p2p-preview-card-empty-pm">
                                     No payment method selected
                                 </span>
                             )}
                         </div>
                     </div>
 
-                    {/* Counterparty Conditions */}
                     {(formData.completedKyc || formData.registeredUser) && (
-                        <div style={{ marginBottom: '16px' }}>
-                            <span style={{ color: '#666', fontSize: '12px', display: 'block', marginBottom: '8px' }}>Counterparty Conditions</span>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                        <div className="p2p-preview-card-block">
+                            <span className="p2p-preview-card-section-label">Counterparty Conditions</span>
+                            <div className="p2p-preview-card-badges-wrap">
                                 {formData.completedKyc && (
-                                    <span style={{
-                                        padding: '6px 12px',
-                                        background: 'rgba(34, 197, 94, 0.1)',
-                                        border: '1px solid rgba(34, 197, 94, 0.3)',
-                                        borderRadius: '6px',
-                                        color: '#4ade80',
-                                        fontSize: '12px'
-                                    }}>✓ KYC Verified</span>
+                                    <span className="p2p-preview-card-badge-kyc">✓ KYC Verified</span>
                                 )}
                                 {formData.registeredUser && (
-                                    <span style={{
-                                        padding: '6px 12px',
-                                        background: 'rgba(245, 158, 11, 0.1)',
-                                        border: '1px solid rgba(245, 158, 11, 0.3)',
-                                        borderRadius: '6px',
-                                        color: '#fbbf24',
-                                        fontSize: '12px'
-                                    }}>Registered {formData.registeredDays}+ days</span>
+                                    <span className="p2p-preview-card-badge-days">Registered {formData.registeredDays}+ days</span>
                                 )}
                             </div>
                         </div>
                     )}
 
-                    {/* Remarks */}
-                    <div style={{
-                        padding: '12px',
-                        background: '#0d0d14',
-                        borderRadius: '10px',
-                        borderLeft: '3px solid #ffdc88'
-                    }}>
-                        <span style={{ color: '#666', fontSize: '11px', display: 'block', marginBottom: '6px' }}>📝 Remarks</span>
-                        <span style={{ color: '#aaa', fontSize: '13px', lineHeight: '1.5' }}>
+                    <div className="p2p-preview-card-remarks">
+                        <span className="p2p-preview-card-remarks-title">📝 Remarks</span>
+                        <span className="p2p-preview-card-remarks-text">
                             {formData.remarks || 'No remarks added'}
                         </span>
                     </div>
                 </div>
 
-                {/* Footer */}
-                <div style={{
-                    padding: isMobile ? '16px' : '16px 24px',
-                    borderTop: '1px solid #1e1e2d',
-                    background: '#0a0a0f'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span style={{ color: '#666', fontSize: '11px' }}>Fee: {((cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0)}%</span>
-                        <span style={{ color: '#888', fontSize: '11px' }}>
+                <div className="p2p-preview-card-footer">
+                    <div className="p2p-preview-card-footer-inner">
+                        <span className="p2p-preview-card-footer-fee">Fee: {((cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0)}%</span>
+                        <span className="p2p-preview-card-footer-note">
                             {formData.side === 'SELL' ? `Available: ${availableBalance} ${formData.crypto}` : 'Preview Only'}
                         </span>
                     </div>
@@ -1211,17 +712,17 @@ const P2pCreatePost = () => {
             <div className="p2p-dashboard-container">
                 {/* Mobile Preview Toggle */}
                 {isTablet && !showPreview && (
-                    <div style={styles.mobilePreviewToggle} onClick={() => setShowPreview(true)}>
-                        <span style={{ color: '#888', fontSize: '14px' }}>
-                            Preview: <span style={styles.previewHighlight}>{formData.side} {formData.crypto} AD</span>
+                    <div className="p2p-mobile-preview-toggle" onClick={() => setShowPreview(true)}>
+                        <span className="p2p-mobile-preview-toggle-text">
+                            Preview: <span className={formData.side === 'BUY' ? 'p2p-preview-highlight-buy' : 'p2p-preview-highlight-sell'}>{formData.side} {formData.crypto} AD</span>
                         </span>
-                        <span style={{ color: '#ffdc88', fontSize: '14px' }}>View →</span>
+                        <span className="p2p-mobile-preview-view">View →</span>
                     </div>
                 )}
 
                 {/* Mobile Preview Overlay */}
                 {isTablet && showPreview && (
-                    <div style={{ marginBottom: '16px' }}>
+                    <div className="p2p-create-post-mobile-preview-wrap">
                         <PreviewCard />
                     </div>
                 )}
@@ -1280,10 +781,9 @@ const P2pCreatePost = () => {
                                                 <span className="p2p-create-post-select-icon p2p-create-post-select-icon-fiat">{getFiatSymbol(formData.fiat)}</span>
                                             )}
                                             <select
-                                                className={getInputClass('fiat', 'p2p-create-post-select')}
+                                                className={`${getInputClass('fiat', 'p2p-create-post-select')} ${formData.fiat ? 'p2p-create-post-select-with-icon' : ''}`}
                                                 value={formData.fiat}
                                                 onChange={(e) => handleInput("fiat", e.target.value)}
-                                                style={{ paddingLeft: formData.fiat ? '36px' : undefined }}
                                             >
                                                 <option value="" hidden>Select</option>
                                                 {fiats?.map((f, i) => <option key={i} value={f.short_name}>{f.short_name}</option>)}
@@ -1304,10 +804,9 @@ const P2pCreatePost = () => {
                                                 </span>
                                             )}
                                             <select
-                                                className={getInputClass('crypto', 'p2p-create-post-select')}
+                                                className={`${getInputClass('crypto', 'p2p-create-post-select')} ${formData.crypto ? 'p2p-create-post-select-with-icon' : ''}`}
                                                 value={formData.crypto}
                                                 onChange={(e) => handleInput("crypto", e.target.value)}
-                                                style={{ paddingLeft: formData.crypto ? '36px' : undefined }}
                                             >
                                                 <option value="" hidden>Select</option>
                                                 {cryptos.map((c, i) => <option key={i} value={c.short_name}>{c.short_name}</option>)}
@@ -1317,12 +816,12 @@ const P2pCreatePost = () => {
                                     </div>
                                 </div>
                                 {fieldErrors.side && (
-                                    <div className="p2p-create-post-field-error" style={{ marginTop: '-12px', marginBottom: '12px' }}><span>⚠</span> {fieldErrors.side}</div>
+                                    <div className="p2p-create-post-field-error p2p-create-post-field-error-with-margin"><span>⚠</span> {fieldErrors.side}</div>
                                 )}
 
                                 <div className="p2p-create-post-fee-box">Fee: {((cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0)}%</div>
 
-                                <div style={{ marginTop: isMobile ? '24px' : '32px' }}>
+                                <div className="p2p-create-post-section-spacing">
                                     <div className="p2p-create-post-section-title">
                                         <span className="p2p-create-post-section-icon">▶</span>
                                         Price Settings
@@ -1445,8 +944,8 @@ const P2pCreatePost = () => {
                                     </button>
                                 </div>
 
-                                <div style={styles.sectionTitle}>
-                                    <span style={styles.sectionIcon}>▶</span>
+                                <div className="p2p-create-post-section-title-inline">
+                                    <span className="p2p-create-post-section-icon-inline">▶</span>
                                     Transaction Settings
                                 </div>
 
@@ -1557,12 +1056,12 @@ const P2pCreatePost = () => {
                                     </div>
                                 </div>
 
-                                <div style={{ marginTop: isMobile ? '24px' : '32px' }}>
-                                    <div style={styles.sectionTitle}>
-                                        <span style={styles.sectionIcon}>▶</span>
+                                <div className="p2p-create-post-section-spacing">
+                                    <div className="p2p-create-post-section-title-inline">
+                                        <span className="p2p-create-post-section-icon-inline">▶</span>
                                         Select Payment Method
                                         {fieldErrors.paymentMethod && (
-                                            <span style={{ color: '#ef4444', fontSize: '12px', fontWeight: '400', marginLeft: '8px' }}>
+                                            <span className="p2p-create-post-payment-required-error">
                                                 (Required)
                                             </span>
                                         )}
@@ -1603,7 +1102,7 @@ const P2pCreatePost = () => {
                                                                         type="checkbox"
                                                                         checked={isSelected}
                                                                         onChange={() => { }}
-                                                                        style={styles.checkbox}
+                                                                        className="p2p-create-post-checkbox"
                                                                     />
                                                                 </div>
                                                                 <div className="p2p-payment-method-fields-grid">
@@ -1655,7 +1154,7 @@ const P2pCreatePost = () => {
                                                             type="checkbox"
                                                             checked={isSelected}
                                                             onChange={() => { }}
-                                                            style={styles.checkbox}
+                                                            className="p2p-create-post-checkbox"
                                                         />
                                                     </div>
                                                 );
@@ -1806,11 +1305,11 @@ const P2pCreatePost = () => {
             </div>
 
             {/* Seller payment modal - Add New Payment Method */}
-            <div className="modal fade" id="sellModal" tabIndex="-1">
+            <div className="modal fade p2p-sell-modal" id="sellModal" tabIndex="-1">
                 <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content" style={{ background: '#12121a', border: '1px solid #2a2a3a', borderRadius: '16px' }}>
-                        <div className="modal-header" style={{ borderBottom: '1px solid #2a2a3a', padding: '20px 24px' }}>
-                            <h5 style={{ color: '#fff', fontSize: '18px', fontWeight: '600', margin: 0 }}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">
                                 {selectedAddPaymentMethod ? 'Set My Payment Method' : 'Add Payment Method'}
                             </h5>
                             <button
@@ -1826,53 +1325,31 @@ const P2pCreatePost = () => {
                                 }}
                             ></button>
                         </div>
-                        <div className="modal-body" style={{ padding: '24px', maxHeight: '70vh', overflowY: 'auto' }}>
-                            {/* Tips */}
-                            <div style={{
-                                background: 'rgba(245, 158, 11, 0.1)',
-                                border: '1px solid rgba(245, 158, 11, 0.3)',
-                                borderRadius: '10px',
-                                padding: '12px 16px',
-                                marginBottom: '20px',
-                                display: 'flex',
-                                gap: '10px',
-                                alignItems: 'flex-start'
-                            }}>
-                                <span style={{ color: '#f59e0b' }}>ℹ</span>
-                                <span style={{ color: '#d4a574', fontSize: '13px', lineHeight: '1.5' }}>
+                        <div className="modal-body">
+                            <div className="p2p-sell-modal-tips">
+                                <span className="p2p-sell-modal-tips-icon">ℹ</span>
+                                <span className="p2p-sell-modal-tips-text">
                                     Tips: The added payment method will be shown to the buyer during the transaction to accept fiat transfers.
                                     Please ensure that the information is correct, real and matches your KYC information.
                                 </span>
                             </div>
 
-                            {/* Step 1: Select Payment Method Type */}
                             {!selectedAddPaymentMethod && (
                                 <>
-                                    <div style={{ marginBottom: '16px' }}>
-                                        <label style={{ color: '#888', fontSize: '13px', marginBottom: '8px', display: 'block' }}>
+                                    <div className="p2p-sell-modal-input-wrap">
+                                        <label className="p2p-sell-modal-label">
                                             Select Payment Method Type
                                         </label>
                                         {loader.paymentMethods ? (
-                                            <div style={{ textAlign: 'center', padding: '20px' }}>
+                                            <div className="p2p-sell-modal-spinner-wrap">
                                                 <div className="spinner-border text-primary" role="status" />
                                             </div>
                                         ) : (
-                                            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '10px' }}>
+                                            <div className="p2p-sell-modal-methods-grid">
                                                 {availablePaymentMathod?.map((method) => (
                                                     <div
                                                         key={method._id}
-                                                        style={{
-                                                            padding: '14px 16px',
-                                                            background: '#0d0d14',
-                                                            border: '1px solid #2a2a3a',
-                                                            borderRadius: '10px',
-                                                            cursor: isKycCompleted ? 'pointer' : 'not-allowed',
-                                                            transition: 'all 0.2s ease',
-                                                            display: 'flex',
-                                                            justifyContent: 'space-between',
-                                                            alignItems: 'center',
-                                                            opacity: !isKycCompleted ? 0.6 : 1
-                                                        }}
+                                                        className={`p2p-sell-modal-method-card ${!isKycCompleted ? 'disabled' : ''}`}
                                                         onClick={() => {
                                                             if (isKycCompleted) {
                                                                 getPaymentMethodFields(method._id, method.name);
@@ -1880,22 +1357,10 @@ const P2pCreatePost = () => {
                                                                 alertErrorMessage("Please complete KYC verification before adding a payment method.");
                                                             }
                                                         }}
-                                                        onMouseEnter={(e) => {
-                                                            if (isKycCompleted) {
-                                                                e.currentTarget.style.borderColor = '#ffdc88';
-                                                            }
-                                                        }}
-                                                        onMouseLeave={(e) => e.currentTarget.style.borderColor = '#2a2a3a'}
                                                     >
-                                                        <span style={{ color: '#fff', fontSize: '14px' }}>{method.name}</span>
+                                                        <span className="p2p-sell-modal-method-name">{method.name}</span>
                                                         {(method.name === 'IMPS' || method.name === 'UPI') && (
-                                                            <span style={{
-                                                                background: 'rgba(34, 197, 94, 0.1)',
-                                                                color: '#22c55e',
-                                                                fontSize: '10px',
-                                                                padding: '2px 8px',
-                                                                borderRadius: '4px'
-                                                            }}>
+                                                            <span className="p2p-sell-modal-method-badge">
                                                                 Recommended
                                                             </span>
                                                         )}
@@ -1907,25 +1372,12 @@ const P2pCreatePost = () => {
                                 </>
                             )}
 
-                            {/* Step 2: Fill Payment Method Details */}
                             {selectedAddPaymentMethod && (
                                 <>
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '10px',
-                                        marginBottom: '20px',
-                                        paddingBottom: '16px',
-                                        borderBottom: '1px solid #2a2a3a'
-                                    }}>
+                                    <div className="p2p-sell-modal-back-row">
                                         <button
-                                            style={{
-                                                background: 'transparent',
-                                                border: 'none',
-                                                color: '#888',
-                                                cursor: 'pointer',
-                                                padding: '4px'
-                                            }}
+                                            type="button"
+                                            className="p2p-sell-modal-back-btn"
                                             onClick={() => {
                                                 setSelectedAddPaymentMethod("");
                                                 setSelectedAddPaymentMethodId("");
@@ -1936,56 +1388,38 @@ const P2pCreatePost = () => {
                                         >
                                             ← Back
                                         </button>
-                                        <span style={{ color: '#ffdc88', fontWeight: '600' }}>{selectedAddPaymentMethod}</span>
+                                        <span className="p2p-sell-modal-back-title">{selectedAddPaymentMethod}</span>
                                     </div>
 
                                     {!isKycCompleted && (
-                                        <div style={{
-                                            background: 'rgba(245, 158, 11, 0.1)',
-                                            border: '1px solid rgba(245, 158, 11, 0.3)',
-                                            borderRadius: '10px',
-                                            padding: '12px 16px',
-                                            marginBottom: '20px',
-                                            color: '#d4a574',
-                                            fontSize: '13px'
-                                        }}>
+                                        <div className="p2p-sell-modal-kyc-warning">
                                             <strong>KYC Verification Required:</strong> Please complete your KYC verification before adding a payment method.
                                         </div>
                                     )}
 
                                     {kycUpdateName && (
-                                        <div style={{ marginBottom: '16px' }}>
-                                            <label style={{ color: '#888', fontSize: '13px', marginBottom: '8px', display: 'block' }}>
+                                        <div className="p2p-sell-modal-input-wrap">
+                                            <label className="p2p-sell-modal-label">
                                                 Name
                                             </label>
                                             <input
                                                 type="text"
                                                 value={kycUpdateName}
                                                 disabled
-                                                style={{
-                                                    width: '100%',
-                                                    padding: '12px 16px',
-                                                    background: '#1a1a2e',
-                                                    border: '1px solid #2a2a3a',
-                                                    borderRadius: '10px',
-                                                    color: '#fff',
-                                                    fontSize: '14px',
-                                                    cursor: 'not-allowed',
-                                                    opacity: 0.6
-                                                }}
+                                                className="p2p-sell-modal-input-bg"
                                             />
-                                            <small style={{ color: '#666', fontSize: '11px', marginTop: '4px', display: 'block' }}>
+                                            <small className="p2p-sell-modal-small">
                                                 This name is taken from your KYC verification
                                             </small>
                                         </div>
                                     )}
 
                                     {loader.paymentInput ? (
-                                        <div style={{ textAlign: 'center', padding: '40px' }}>
+                                        <div className="p2p-sell-modal-spinner-lg">
                                             <div className="spinner-border text-primary" role="status" />
                                         </div>
                                     ) : (
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                        <div className="p2p-sell-modal-fields">
                                             {paymentInputs?.map((field, index) => {
                                                 // Check if this is a name field
                                                 const isNameField = false
@@ -1996,51 +1430,35 @@ const P2pCreatePost = () => {
 
                                                 return (
                                                     <div key={index}>
-                                                        <label style={{ color: '#888', fontSize: '13px', marginBottom: '8px', display: 'block' }}>
+                                                        <label className="p2p-sell-modal-label">
                                                             {(field.label || field.field)}
                                                             {(field.type === 'file' || field.type === 'files') ? (
-                                                                <span style={{ color: '#666' }}> (Optional)</span>
+                                                                <span className="p2p-sell-modal-label-optional"> (Optional)</span>
                                                             ) : (
-                                                                field.required !== false && <span style={{ color: '#ef4444' }}> *</span>
+                                                                field.required !== false && <span className="p2p-sell-modal-label-required"> *</span>
                                                             )}
                                                         </label>
                                                         {field.type === 'file' || field.type === 'files' ? (
                                                             <div>
-                                                                <div style={{
-                                                                    border: '2px dashed #2a2a3a',
-                                                                    borderRadius: '10px',
-                                                                    padding: '20px',
-                                                                    textAlign: 'center',
-                                                                    cursor: isKycCompleted ? 'pointer' : 'not-allowed',
-                                                                    position: 'relative',
-                                                                    opacity: !isKycCompleted ? 0.6 : 1
-                                                                }}>
+                                                                <div className={`p2p-sell-modal-file-zone ${!isKycCompleted ? 'disabled' : ''}`}>
                                                                     <input
                                                                         type="file"
                                                                         name={field.field}
                                                                         accept=".jpg,.jpeg,.png,.bmp"
                                                                         onChange={handlePaymentMethodAddImage}
                                                                         disabled={!isKycCompleted}
-                                                                        style={{
-                                                                            position: 'absolute',
-                                                                            top: 0,
-                                                                            left: 0,
-                                                                            width: '100%',
-                                                                            height: '100%',
-                                                                            opacity: 0,
-                                                                            cursor: isKycCompleted ? 'pointer' : 'not-allowed'
-                                                                        }}
+                                                                        className="p2p-sell-modal-file-input"
                                                                     />
                                                                     {previewQr ? (
-                                                                        <img src={previewQr} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '8px' }} />
+                                                                        <img src={previewQr} alt="Preview" className="p2p-sell-modal-file-preview" />
                                                                     ) : (
                                                                         <>
-                                                                            <div style={{ color: '#666', fontSize: '24px', marginBottom: '8px' }}>⬆</div>
-                                                                            <div style={{ color: '#888', fontSize: '13px' }}>Upload QR Code</div>
+                                                                            <div className="p2p-sell-modal-file-placeholder-icon">⬆</div>
+                                                                            <div className="p2p-sell-modal-file-placeholder-text">Upload QR Code</div>
                                                                         </>
                                                                     )}
                                                                 </div>
-                                                                <small style={{ color: '#666', fontSize: '11px', marginTop: '4px', display: 'block' }}>
+                                                                <small className="p2p-sell-modal-small">
                                                                     JPG/JPEG/PNG, less than 3MB
                                                                 </small>
                                                             </div>
@@ -2052,50 +1470,23 @@ const P2pCreatePost = () => {
                                                                 onChange={handlePaymentMethodAddInput}
                                                                 placeholder={placeholder}
                                                                 disabled={!isKycCompleted}
-                                                                style={{
-                                                                    width: '100%',
-                                                                    padding: '12px 16px',
-                                                                    background: '#0d0d14',
-                                                                    border: '1px solid #2a2a3a',
-                                                                    borderRadius: '10px',
-                                                                    color: '#fff',
-                                                                    fontSize: '14px',
-                                                                    outline: 'none',
-                                                                    opacity: !isKycCompleted ? 0.6 : 1,
-                                                                    cursor: !isKycCompleted ? 'not-allowed' : 'text'
-                                                                }}
+                                                                className={`p2p-sell-modal-input ${!isKycCompleted ? 'disabled' : ''}`}
                                                             />
                                                         )}
                                                     </div>
                                                 );
                                             })}
 
-                                            {/* Warning */}
-                                            <div style={{
-                                                background: 'rgba(239, 68, 68, 0.1)',
-                                                border: '1px solid rgba(239, 68, 68, 0.3)',
-                                                borderRadius: '10px',
-                                                padding: '12px 16px',
-                                                marginTop: '8px'
-                                            }}>
-                                                <span style={{ color: '#f87171', fontSize: '12px', lineHeight: '1.5' }}>
+                                            <div className="p2p-sell-modal-warning-box">
+                                                <span className="p2p-sell-modal-warning-text">
                                                     Warning: Please ensure all information is accurate and matches your KYC details.
                                                 </span>
                                             </div>
 
-                                            {/* Buttons */}
-                                            <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
+                                            <div className="p2p-sell-modal-buttons">
                                                 <button
-                                                    style={{
-                                                        flex: 1,
-                                                        padding: '12px 20px',
-                                                        background: 'transparent',
-                                                        border: '1px solid #2a2a3a',
-                                                        borderRadius: '10px',
-                                                        color: '#fff',
-                                                        fontSize: '14px',
-                                                        cursor: 'pointer'
-                                                    }}
+                                                    type="button"
+                                                    className="p2p-sell-modal-btn-cancel"
                                                     data-bs-dismiss="modal"
                                                     onClick={() => {
                                                         setSelectedAddPaymentMethod("");
@@ -2108,18 +1499,8 @@ const P2pCreatePost = () => {
                                                     Cancel
                                                 </button>
                                                 <button
-                                                    style={{
-                                                        flex: 1,
-                                                        padding: '12px 20px',
-                                                        background: '#ffdc88',
-                                                        border: 'none',
-                                                        borderRadius: '10px',
-                                                        color: '#fff',
-                                                        fontSize: '14px',
-                                                        fontWeight: '600',
-                                                        cursor: isKycCompleted ? 'pointer' : 'not-allowed',
-                                                        opacity: !isKycCompleted ? 0.6 : 1
-                                                    }}
+                                                    type="button"
+                                                    className={`p2p-sell-modal-btn-confirm ${!isKycCompleted ? 'disabled' : ''}`}
                                                     onClick={handleSubmitPaymentMethod}
                                                     disabled={!isKycCompleted}
                                                 >
@@ -2144,7 +1525,7 @@ const P2pCreatePost = () => {
                             <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                         </div>
                         <div className="modal-body p2p-modal-body">
-                            <p style={{ color: '#888', marginBottom: '20px' }}>Select up to 5 methods</p>
+                            <p className="p2p-buyer-modal-desc">Select up to 5 methods</p>
                             <div className='payment_search_box'>
                                 <input
                                     type="search"
@@ -2155,7 +1536,7 @@ const P2pCreatePost = () => {
                             </div>
                             <div className="p2p-modal-options">
                                 {loader?.paymentMethods ? (
-                                    <div style={{ textAlign: 'center', padding: '20px' }}>
+                                    <div className="p2p-buyer-modal-spinner-wrap">
                                         <div className="spinner-border text-primary" role="status" />
                                     </div>
                                 ) : availablePaymentMathod?.length > 0 && availablePaymentMathod
@@ -2199,7 +1580,7 @@ const P2pCreatePost = () => {
                                 <li>Fixed<span className="text-success">{formData.fixedPrice} {formData.fiat}</span></li>
                                 <li>Order Limit<span>{formData.min} {formData.fiat} - {formData.max} {formData.fiat}</span></li>
                                 <li>Total Trading Amount<span>{formData.volume} {formData.crypto}</span></li>
-                                <li>Reserved Fee<span style={{ color: '#F3BB2B' }}>{formData.side === 'SELL' ? (() => { const p = (cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0; const amt = (Number(formData.volume) || 0) * p / 100; return `${amt.toFixed(2)} ${formData.crypto} (${p}%)`; })() : `0.00 ${formData.crypto}`}</span></li>
+                                <li>Reserved Fee<span className="p2p-confirm-post-fee">{formData.side === 'SELL' ? (() => { const p = (cryptos.find(c => c.short_name === formData.crypto)?.p2p_fee) ?? 0; const amt = (Number(formData.volume) || 0) * p / 100; return `${amt.toFixed(2)} ${formData.crypto} (${p}%)`; })() : `0.00 ${formData.crypto}`}</span></li>
                                 <li><hr /></li>
                                 <li>
                                     Payment Method

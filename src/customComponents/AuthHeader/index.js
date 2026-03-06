@@ -109,15 +109,6 @@ const AuthHeader = () => {
     };
   }, []);
 
-  // Sync body class with theme (light_theme = light mode)
-  useEffect(() => {
-    if (themeUpdated) {
-      document.body.classList.add('light_theme');
-    } else {
-      document.body.classList.remove('light_theme');
-    }
-  }, [themeUpdated]);
-
   const toggleTheme = () => {
     setThemeUpdated((prev) => !prev);
   };
@@ -399,9 +390,19 @@ const AuthHeader = () => {
                           </ul>
                         </li>
                         <li className="nav-item mbl">
-                          <Link className="nav-link" to="/#" onClick={closeNavbar}>
-                          <i className="ri-moon-line dark-text"></i>
-                          <i className="ri-sun-line light-text"></i>
+                          <Link
+                            className="nav-link"
+                            to="/#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              toggleTheme();
+                              closeNavbar();
+                            }}
+                            role="button"
+                            aria-label="Toggle theme"
+                          >
+                            <i className="ri-moon-line dark-text"></i>
+                            <i className="ri-sun-line light-text"></i>
                           </Link>
                         </li>
                             {/* <li className="nav-item mbl">
@@ -460,7 +461,7 @@ const AuthHeader = () => {
                             : <span>  {!item?.isSeen && "Read Now"}</span>
                           </div>
                         )) : <div className="favouriteData">
-                          <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="No data" />
+                          <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="No data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="No data" />
                         </div>}
                         {notifications?.length > 0 && <div className="more_btn"><Link to="/user_profile/notification">More<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right" viewBox="0 0 16 16">
                           <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
@@ -476,7 +477,7 @@ const AuthHeader = () => {
                         <path d="M45.5576 36.2385H39.9386C36.8481 36.2385 34.3196 33.71 34.3196 30.6195C34.3196 27.5285 36.8481 25 39.9386 25H45.5576C47.1496 25 48.3671 26.2175 48.3671 27.8095V33.4285C48.3671 35.021 47.1496 36.2385 45.5576 36.2385ZM39.9386 26.873C37.8781 26.873 36.1926 28.5585 36.1926 30.619C36.1926 32.6795 37.8781 34.365 39.9386 34.365H45.5576C46.1196 34.365 46.4941 33.9905 46.4941 33.4285V27.8095C46.4941 27.2475 46.1196 26.873 45.5576 26.873H39.9386Z" fill="white" />
                         <path d="M40.8749 33.4286C39.2829 33.4286 38.0654 32.2111 38.0654 30.6191C38.0654 29.0271 39.2829 27.8096 40.8749 27.8096C42.4669 27.8096 43.6844 29.0271 43.6844 30.6191C43.6844 32.2111 42.4669 33.4286 40.8749 33.4286ZM40.8749 29.6826C40.3129 29.6826 39.9384 30.0571 39.9384 30.6191C39.9384 31.1811 40.3129 31.5556 40.8749 31.5556C41.4369 31.5556 41.8114 31.1811 41.8114 30.6191C41.8114 30.0571 41.4369 29.6826 40.8749 29.6826Z" fill="white" />
                       </svg>
-                      <div className='wallet_profile_tab'>
+                      <div className='wallet_profile_tab' onClick={(e) => e.stopPropagation()}>
                         <h3>Total Assets
                           {showBalance ?
                             <i className="ri-eye-line mx-2" onClick={() => setShowBalance(false)}></i>
@@ -578,7 +579,7 @@ const AuthHeader = () => {
                                   <td className="w-100" >
                                   <div className="no-data-wrapper mt-5">
                                     <div className="no_data_s">
-                                      <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                      <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                     </div>
                                   </div>
                                 </td>

@@ -32,6 +32,7 @@ function UsdMFutures() {
     const [selectedCoin, setSelectedCoin] = useState({});
     const [BuyOrders, setBuyOrders] = useState([]);
     const [RecentTrade, setRecentTrade] = useState([]);
+    console.log("RecentTrade", RecentTrade);
     const [SellOrders, setSellOrders] = useState([]);
     const [isPricePositive, setIsPricePositive] = useState(true);
     const [balance, setBalance] = useState({ baseCurrency: 0, quoteCurrency: 0 });
@@ -678,7 +679,7 @@ function UsdMFutures() {
                                                     type="search"
                                                     placeholder="Search"
                                                     value={searchTerm}
-                                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                                    onChange={(e) => setSearchTerm(e.target.value)}z
                                                 />
                                             </div>
                                             </div>
@@ -746,7 +747,7 @@ function UsdMFutures() {
                                                                                         <div className="text-center no-data mb-0 center_b">
                                                                                             <div className='table_responsive_2'>
                                                                                                 <div className="no_data_s">
-                                                                                                    <img src="/images/no_data_vector.svg" className='img-fluid ' alt="no data" width="52" />
+                                                                                                    <img src="/images/no_data_vector.svg" className="img-fluid dark_img" alt="no data" width="52" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" alt="no data" width="52" />
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -1076,18 +1077,26 @@ function UsdMFutures() {
                     <div className="order_trade_s">
                         <div className="trade_movers_tb">
 
-                            {/* Main Tabs */}
+                            {/* Main Tabs - active on both li and button for correct styling without reload */}
                             <ul className="nav nav-tabs" role="tablist">
-                                <li className="nav-item" role="presentation">
+                                <li
+                                    className={`nav-item ${activeMainTab === "order" ? "active" : ""}`}
+                                    role="presentation"
+                                >
                                     <button
+                                        type="button"
                                         className={`nav-link ${activeMainTab === "order" ? "active" : ""}`}
                                         onClick={() => setActiveMainTab("order")}
                                     >
                                         Order Book
                                     </button>
                                 </li>
-                                <li className="nav-item" role="presentation">
+                                <li
+                                    className={`nav-item ${activeMainTab === "trades" ? "active" : ""}`}
+                                    role="presentation"
+                                >
                                     <button
+                                        type="button"
                                         className={`nav-link ${activeMainTab === "trades" ? "active" : ""}`}
                                         onClick={() => setActiveMainTab("trades")}
                                     >
@@ -2148,7 +2157,7 @@ function UsdMFutures() {
                                                 <td colSpan="12">
                                                     <div className="no-data-wrapper">
                                                         <div className="no_data_s">
-                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                         </div>
                                                     </div>
                                                 </td>
@@ -2204,7 +2213,7 @@ function UsdMFutures() {
                                     ) : (
                                         <div className="no-data-wrapper py-4">
                                             <div className="no_data_s">
-                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                             </div>
                                         </div>
                                     )}
@@ -2334,7 +2343,7 @@ function UsdMFutures() {
                                                 <td colSpan="12">
                                                     <div className="no-data-wrapper">
                                                         <div className="no_data_s">
-                                                            <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                         </div>
                                                     </div>
                                                 </td>
@@ -2410,7 +2419,7 @@ function UsdMFutures() {
                                     ) : (
                                         <div className="no-data-wrapper py-4">
                                             <div className="no_data_s">
-                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                             </div>
                                         </div>
                                     )}
@@ -2511,7 +2520,7 @@ function UsdMFutures() {
                                             <td colSpan="12">
                                                 <div className="no-data-wrapper">
                                                     <div className="no_data_s">
-                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -2616,7 +2625,7 @@ function UsdMFutures() {
                                     ) : (
                                         <div className="no-data-wrapper py-4">
                                             <div className="no_data_s">
-                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                             </div>
                                         </div>
                                     )}
@@ -2710,7 +2719,7 @@ function UsdMFutures() {
                                             <td colSpan="12">
                                                 <div className="no-data-wrapper">
                                                     <div className="no_data_s">
-                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -2790,7 +2799,7 @@ function UsdMFutures() {
                                     ) : (
                                         <div className="no-data-wrapper py-4">
                                             <div className="no_data_s">
-                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                             </div>
                                         </div>
                                     )}
@@ -2887,7 +2896,7 @@ function UsdMFutures() {
                                             <td colSpan="12">
                                                 <div className="no-data-wrapper">
                                                     <div className="no_data_s">
-                                                        <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -2970,7 +2979,7 @@ function UsdMFutures() {
                                     ) : (
                                         <div className="no-data-wrapper py-4">
                                             <div className="no_data_s">
-                                                <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                             </div>
                                         </div>
                                     )}
@@ -3006,7 +3015,7 @@ function UsdMFutures() {
                                 <div class="order_history_mobile_view">
                                 <div class="no-data-wrapper py-4">
                                     <div class="no_data_s">
-                                <img src="/images/no_data_vector.svg" class="img-fluid" width="96" height="96" alt="no data" />
+                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
                                 </div>
                                 </div>
                                 </div>

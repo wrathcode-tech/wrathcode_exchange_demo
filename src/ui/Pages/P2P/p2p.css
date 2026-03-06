@@ -2412,9 +2412,11 @@ h4.p2p-profile-tab:hover {
 }
 
 .p2p-create-ad-btn:hover {
-  background: rgba(255, 220, 136, 0.1);
-  border-color: #ffdc88;
-  color: #fff;
+  background-color: #e7b641;
+}
+
+.p2p-payment-method-header {
+  gap: 12px;
 }
 
 /* Stats Cards Grid */
@@ -11249,7 +11251,7 @@ body.light_theme .p2p-payment-form-label {
 }
 
 body.light_theme .p2p-payment-form-input {
-  background: #fff;
+  background: #f5f5f5 !important;
   border: 1px solid #e5e5e5;
   color: #000;
 }
@@ -11801,6 +11803,712 @@ body.light_theme .p2p-loading-container {
   }
 }
 
+/* Section spacing (steps) */
+.p2p-create-post-section-spacing {
+  margin-top: 32px;
+}
+
+@media (max-width: 767px) {
+  .p2p-create-post-section-spacing {
+    margin-top: 24px;
+  }
+}
+
+.p2p-create-post-field-error-with-margin {
+  margin-top: -12px;
+  margin-bottom: 12px;
+}
+
+.p2p-create-post-select-with-icon {
+  padding-left: 36px;
+}
+
+.p2p-create-post-section-title-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.p2p-create-post-section-icon-inline {
+  color: #F3BB2B;
+}
+
+@media (max-width: 767px) {
+  .p2p-create-post-section-title-inline {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+}
+
+.p2p-create-post-payment-required-error {
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+.p2p-create-post-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #ffdc88;
+  flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+  .p2p-create-post-checkbox {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Preview Card */
+.p2p-preview-card {
+  background: #12121a;
+  border-radius: 16px;
+  border: 1px solid #1e1e2d;
+  position: sticky;
+  top: 20px;
+}
+
+@media (max-width: 991px) {
+  .p2p-preview-card {
+    position: relative;
+    top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .p2p-preview-card {
+    border-radius: 12px;
+  }
+}
+
+.p2p-preview-card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #1e1e2d;
+}
+
+.p2p-preview-card-header-buy {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
+}
+
+.p2p-preview-card-header-sell {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%);
+}
+
+@media (max-width: 767px) {
+  .p2p-preview-card-header {
+    padding: 16px;
+  }
+}
+
+.p2p-preview-card-header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.p2p-preview-card-ad-label {
+  color: #888;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.p2p-preview-card-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .p2p-preview-card-title {
+    font-size: 18px;
+  }
+}
+
+.p2p-preview-card-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.p2p-preview-card-badge-buy {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.p2p-preview-card-badge-sell {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.p2p-preview-card-price-block {
+  padding: 20px 24px;
+  border-bottom: 1px solid #1e1e2d;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .p2p-preview-card-price-block {
+    padding: 16px;
+  }
+}
+
+.p2p-preview-card-price-label {
+  color: #666;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.p2p-preview-card-price-value {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.p2p-preview-card-price-value-buy {
+  color: #22c55e;
+}
+
+.p2p-preview-card-price-value-sell {
+  color: #ef4444;
+}
+
+@media (max-width: 767px) {
+  .p2p-preview-card-price-value {
+    font-size: 28px;
+  }
+}
+
+.p2p-preview-card-price-fiat {
+  font-size: 16px;
+  color: #888;
+}
+
+.p2p-preview-card-market {
+  color: #666;
+  font-size: 11px;
+  margin-top: 4px;
+  display: block;
+}
+
+.p2p-preview-card-details {
+  padding: 20px 24px;
+}
+
+@media (max-width: 767px) {
+  .p2p-preview-card-details {
+    padding: 16px;
+  }
+}
+
+.p2p-preview-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.p2p-preview-card-grid-item {
+  background: #0d0d14;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.p2p-preview-card-grid-label {
+  color: #666;
+  font-size: 11px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.p2p-preview-card-grid-value {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.p2p-preview-card-grid-value-muted {
+  color: #888;
+  font-size: 12px;
+}
+
+.p2p-preview-card-payment-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #0d0d14;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.p2p-preview-card-payment-time-label {
+  color: #666;
+  font-size: 13px;
+}
+
+.p2p-preview-card-payment-time-value {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.p2p-preview-card-block {
+  margin-bottom: 16px;
+}
+
+.p2p-preview-card-section-label {
+  color: #666;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.p2p-preview-card-badges-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.p2p-preview-card-badge-pm {
+  padding: 6px 12px;
+  background: rgba(255, 220, 136, 0.1);
+  border: 1px solid rgba(255, 220, 136, 0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.p2p-preview-card-empty-pm {
+  color: #666;
+  font-size: 12px;
+  padding: 6px 12px;
+  background: #0d0d14;
+  border-radius: 6px;
+  border: 1px dashed #2a2a3a;
+}
+
+.p2p-preview-card-badge-kyc {
+  padding: 6px 12px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 6px;
+  color: #4ade80;
+  font-size: 12px;
+}
+
+.p2p-preview-card-badge-days {
+  padding: 6px 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 6px;
+  color: #fbbf24;
+  font-size: 12px;
+}
+
+.p2p-preview-card-remarks {
+  padding: 12px;
+  background: #0d0d14;
+  border-radius: 10px;
+  border-left: 3px solid #ffdc88;
+}
+
+.p2p-preview-card-remarks-title {
+  color: #666;
+  font-size: 11px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.p2p-preview-card-remarks-text {
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.p2p-preview-card-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #1e1e2d;
+  background: #0a0a0f;
+}
+
+@media (max-width: 767px) {
+  .p2p-preview-card-footer {
+    padding: 16px;
+  }
+}
+
+.p2p-preview-card-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.p2p-preview-card-footer-fee {
+  color: #666;
+  font-size: 11px;
+}
+
+.p2p-preview-card-footer-note {
+  color: #888;
+  font-size: 11px;
+}
+
+.p2p-mobile-preview-toggle {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #0d0d14;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  border: 1px solid #2a2a3a;
+}
+
+@media (max-width: 991px) {
+  .p2p-mobile-preview-toggle {
+    display: flex;
+  }
+}
+
+.p2p-mobile-preview-toggle-text {
+  color: #888;
+  font-size: 14px;
+}
+
+.p2p-preview-highlight-buy {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.p2p-preview-highlight-sell {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.p2p-mobile-preview-view {
+  color: #ffdc88;
+  font-size: 14px;
+}
+
+.p2p-create-post-mobile-preview-wrap {
+  margin-bottom: 16px;
+}
+
+/* Sell modal (Add Payment Method) */
+.p2p-sell-modal .modal-content {
+  background: #12121a;
+  border: 1px solid #2a2a3a;
+  border-radius: 16px;
+}
+
+.p2p-sell-modal .modal-header {
+  border-bottom: 1px solid #2a2a3a;
+  padding: 20px 24px;
+}
+
+.p2p-sell-modal .modal-header .modal-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.p2p-sell-modal .modal-body {
+  padding: 24px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.p2p-sell-modal-tips {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.p2p-sell-modal-tips-icon {
+  color: #f59e0b;
+}
+
+.p2p-sell-modal-tips-text {
+  color: #d4a574;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.p2p-sell-modal-label {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.p2p-sell-modal-spinner-wrap {
+  text-align: center;
+  padding: 20px;
+}
+
+.p2p-sell-modal-methods-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 767px) {
+  .p2p-sell-modal-methods-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.p2p-sell-modal-method-card {
+  padding: 14px 16px;
+  background: #0d0d14;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.p2p-sell-modal-method-card:hover {
+  border-color: #ffdc88;
+}
+
+.p2p-sell-modal-method-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.p2p-sell-modal-method-name {
+  color: #fff;
+  font-size: 14px;
+}
+
+.p2p-sell-modal-method-badge {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.p2p-sell-modal-back-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2a3a;
+}
+
+.p2p-sell-modal-back-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.p2p-sell-modal-back-title {
+  color: #ffdc88;
+  font-weight: 600;
+}
+
+.p2p-sell-modal-kyc-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  color: #d4a574;
+  font-size: 13px;
+}
+
+.p2p-sell-modal-input-wrap {
+  margin-bottom: 16px;
+}
+
+.p2p-sell-modal-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: #0d0d14;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+.p2p-sell-modal-input.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.p2p-sell-modal-input-bg {
+  width: 100%;
+  padding: 12px 16px;
+  background: #1a1a2e;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.p2p-sell-modal-small {
+  color: #666;
+  font-size: 11px;
+  margin-top: 4px;
+  display: block;
+}
+
+.p2p-sell-modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.p2p-sell-modal-file-zone {
+  border: 2px dashed #2a2a3a;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.p2p-sell-modal-file-zone.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.p2p-sell-modal-file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.p2p-sell-modal-file-zone.disabled .p2p-sell-modal-file-input {
+  cursor: not-allowed;
+}
+
+.p2p-sell-modal-file-preview {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+}
+
+.p2p-sell-modal-file-placeholder-icon {
+  color: #666;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.p2p-sell-modal-file-placeholder-text {
+  color: #888;
+  font-size: 13px;
+}
+
+.p2p-sell-modal-warning-box {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-top: 8px;
+}
+
+.p2p-sell-modal-warning-text {
+  color: #f87171;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.p2p-sell-modal-label-optional {
+  color: #666;
+}
+
+.p2p-sell-modal-label-required {
+  color: #ef4444;
+}
+
+.p2p-sell-modal-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.p2p-sell-modal-btn-cancel {
+  flex: 1;
+  padding: 12px 20px;
+  background: transparent;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.p2p-sell-modal-btn-confirm {
+  flex: 1;
+  padding: 12px 20px;
+  background: #ffdc88;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.p2p-sell-modal-btn-confirm:disabled,
+.p2p-sell-modal-btn-confirm.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.p2p-sell-modal-spinner-lg {
+  text-align: center;
+  padding: 40px;
+}
+
+.p2p-buyer-modal-desc {
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.p2p-buyer-modal-spinner-wrap {
+  text-align: center;
+  padding: 20px;
+}
+
+.p2p-confirm-post-fee {
+  color: #F3BB2B;
+}
+
 .p2p-create-post-input-group {
   margin-bottom: 10px;
   width: 100%;
@@ -11865,7 +12573,7 @@ body.light_theme .p2p-loading-container {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  padding: 12px 44px 12px 13px;
+  padding: 12px 44px 12px 36px;
   background: #373F4D;
   border: 1px solid #373F4D;
   border-radius: 10px;

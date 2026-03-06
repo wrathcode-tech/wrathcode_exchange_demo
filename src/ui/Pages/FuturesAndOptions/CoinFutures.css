@@ -257,6 +257,20 @@ body {
     padding: 10px 0px 0px;
 }
 
+/* Order Book / Recent Trades tabs - active state without reload */
+.order_trade_s .trade_movers_tb ul.nav-tabs .nav-item .nav-link {
+    color: #949AA4;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+}
+.order_trade_s .trade_movers_tb ul.nav-tabs .nav-item.active .nav-link,
+.order_trade_s .trade_movers_tb ul.nav-tabs .nav-item .nav-link.active {
+    color: #fff;
+    border-bottom-color: #fff !important;
+    font-weight: 500;
+}
+
 .top_hd_s {
     background-color: #121212;
     border-radius: 8px 8px 0px 0px;

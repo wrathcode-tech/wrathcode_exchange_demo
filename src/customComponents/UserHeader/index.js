@@ -327,6 +327,13 @@ const UserHeader = () => {
                       <Link
                         className="nav-link"
                         to="/#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setThemeUpdated((prev) => !prev);
+                          closeNavbar();
+                        }}
+                        role="button"
+                        aria-label="Toggle theme"
                       >
                         Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
                       </Link>
@@ -422,7 +429,7 @@ const UserHeader = () => {
                                   <td className="w-100" >
                                   <div className="no-data-wrapper mt-5">
                                     <div className="no_data_s">
-                                      <img src="/images/no_data_vector.svg" className="img-fluid" width="96" height="96" alt="" />
+                                      <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
                                     </div>
                                   </div>
                                 </td>

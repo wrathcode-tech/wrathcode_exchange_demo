@@ -412,7 +412,7 @@ div#tab_3 {
 
 .btn-mini {
     font-size: 13px !important;
-    padding: 10px;
+    padding: 7px;
     font-weight: 600;
 }
 
@@ -997,7 +997,9 @@ body.light_theme.spot-list-search .ivu-input {
     width: 100%;
 }
 
-body.light_theme .spot-list-search .ivu-input input{ color:#424242; }
+body.light_theme .spot-list-search .ivu-input input {
+    color: #424242;
+}
 
 .spot-list-search .ivu-input input:focus {
     border: none !important;
@@ -1173,7 +1175,7 @@ body.light_theme.buysellform .input-group {
 }
 
 
-    .buysellform .input-group .form-control {
+.buysellform .input-group .form-control {
     background: transparent;
     border: 0;
     padding-left: 0;
@@ -1465,8 +1467,12 @@ body.light_theme.price_item_value.active {
 
 body.light_theme .treade_card_header,
 body.light_theme .price_card_head {
-    border-bottom: 1px solid #f7f7f7;
+    border-bottom: 1px solid #dadada;
     opacity: 1;
+}
+
+body.light_theme .card_header_title:before {
+    background-color: #cacaca;
 }
 
 body.light_theme .card_header_title.active {
@@ -1475,12 +1481,13 @@ body.light_theme .card_header_title.active {
 
 
 body.light_theme .headline_left__lBBPY .headline_symbolName__KfmIZ {
-    color: #262626; }
+    color: #262626;
+}
 
 body.light_theme ul.favorites_list_tabs li button.active {
-        color: #525252;
-        border-bottom: 2px solid #5a5a5a;
-    }    
+    color: #525252;
+    border-bottom: 2px solid #5a5a5a;
+}
 
 .card_header_title {
     height: 38px;
@@ -1506,12 +1513,24 @@ body.light_theme ul.favorites_list_tabs li button.active {
     max-height: 570px;
 }
 
+.trade-wrapper div#tab_3.d-none.d-lg-block .table-responsive {
+    min-height: 570px; }
+
+.trade-wrapper div#tab_3.d-none.d-lg-block tr.no-data-row {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        display: contents;
+        justify-content: center;
+        align-items: center;
+    }
+
 .trade_card button.btn.btn-success {
     color: #fff !important;
     background-color: #5EBA89 !important;
     border-radius: 50px;
     font-size: 12px;
-    padding: 9px 16px;
+    padding: 7px 16px;
     border-color: #5EBA89;
 }
 
@@ -1827,25 +1846,33 @@ body.light_theme .spot_limit button.active {
 }
 
 body.light_theme .actions_balance__kTHO0 {
-    color: #000; }
+    color: #000;
+}
 
-body.light_theme .buysellform .input-group{ background:#dddddd; }
+body.light_theme .buysellform .input-group {
+    background: #dddddd;
+}
 
-body.light_theme .assets_list ul li{ color:#000; }
+body.light_theme .assets_list ul li {
+    color: #000;
+}
 
 body.light_theme .assets_list ul li span {
     color: #3a3a3a;
 }
 
 body.light_theme .spotLists {
-    background: #ececec; }
+    background: #ececec;
+}
 
 
-    body.light_theme .trade_favourites_lft .spot-list-search .ivu-input {
-    background: #dddddd; }
+body.light_theme .trade_favourites_lft .spot-list-search .ivu-input {
+    background: #dddddd;
+}
 
-    body.light_theme .trade_card {
-        background: #ececec; }  
+body.light_theme .trade_card {
+    background: #ececec;
+}
 
 .buysell_heder .custom-tabs li {
     width: 50%;
@@ -2259,7 +2286,7 @@ body.light_theme.bs_tab_row {
         border-radius: 0px 0px 10px 10px;
     }
 
-  
+
 
 }
 
@@ -2674,7 +2701,7 @@ body.light_theme.bs_tab_row {
     }
 
     .bs_tab_row {
-        z-index: 99999;
+        z-index: 999999;
     }
 
     .mmn_btm_minus_spc button.btn.btn-danger {
@@ -2682,8 +2709,13 @@ body.light_theme.bs_tab_row {
         padding: 6px 16px;
     }
 
-.bs_tab_row button.btn.btn-success {
-        padding: 6px 16px; }
+    .bs_tab_row button.btn.btn-success {
+        padding: 6px 16px;
+    }
+
+    .bs_dropbox .trade_card.trade_chart.buysell_card {
+        left: 1px;
+    }
 
 }
 
@@ -3054,7 +3086,8 @@ body.light_theme.bs_tab_row {
         font-size: 14px;
         align-items: center;
         gap: 5px;
-        display: flex; }
+        display: flex;
+    }
 
     .inf_row .headline_bigName__dspVW,
     .headline_bigName__dspVW h1 {
@@ -3247,8 +3280,13 @@ body.light_theme.bs_tab_row {
         height: 400px;
     }
 
-    .usd_future_dashboard .table_info_data table tr td{ font-size: 10px; }
-    .usd_future_dashboard .table_info_data table tr th{ font-size: 10px; }
+    .usd_future_dashboard .table_info_data table tr td {
+        font-size: 10px;
+    }
+
+    .usd_future_dashboard .table_info_data table tr th {
+        font-size: 10px;
+    }
 
     .buy_sell_row_price #buy_orders .scroll_y,
     .buy_sell_row_price #sell_orders .scroll_y {

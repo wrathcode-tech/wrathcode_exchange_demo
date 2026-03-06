@@ -160,7 +160,7 @@ const OpenOrders = (props) => {
                           <td colSpan="12">
                             <div className="no-data-wrapper">
                               <div className="no_data_vector">
-                                <img src="/images/no_data_vector.svg" alt="no-data" />
+                                <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" /><img src="/images/no_data_vector_light.png" className="light_img" width="96" height="96" alt="no-data" />
                               </div>
                             </div>
 
@@ -278,7 +278,7 @@ const OpenOrders = (props) => {
             ) : (
               <div className="no-data-wrapper w-100">
                 <div className="no_data_vector">
-                  <img src="/images/no_data_vector.svg" alt="no-data" className="img-fluid" width="96" height="96" />
+                  <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no-data" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no-data" />
                 </div>
               </div>
             )}

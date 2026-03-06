@@ -1114,7 +1114,6 @@ button.learnbtn a:hover {
 
 .no_data_s {
     text-align: center;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3099,6 +3098,7 @@ canvas.qr_img.img-fluid {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    z-index: 999998;
 }
 
 .wallet_profile_tab h3 {
@@ -3693,7 +3693,7 @@ body.light_theme .input_filed:-moz-placeholder {
 }
 
 body.light_theme .input_filed::-moz-placeholder {
-    color: #303030!important;
+    color: #303030 !important;
 }
 
 body.light_theme .input_filed:-ms-input-placeholder {
@@ -5092,6 +5092,20 @@ body .red {
     background-color: #00000046;
 }
 
+/* Swap – Select Crypto modal table row (global) */
+.swap-select-crypto-row {
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+.swap-select-crypto-row.selected {
+    background-color: rgb(43 49 60);
+}
+.swap-select-crypto-row.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
 .hot_trading_t p {
     color: #ebebebc7;
     margin: 10px 0px 0px;
@@ -5154,12 +5168,27 @@ body .red {
     border: none
 }
 
+/* Bridge so hover from icon to popup doesn’t leave .downloadtabs */
+.icon_notificaton_r ul li.downloadtabs,
+.button_outer .downloadtabs {
+    position: relative;
+}
+.icon_notificaton_r ul li.downloadtabs::after,
+.button_outer .downloadtabs::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: -20px;
+    right: -20px;
+    height: 28px;
+}
 .scantophdr {
     position: absolute;
     right: -6px;
     padding-top: 15px;
     top: 36px;
     display: none;
+    z-index: 999998;
 }
 
 .qrcode {
@@ -5203,7 +5232,8 @@ body.light_theme .downloadtabs>img {
 body.light_theme .qrcode {
     background-color: #f1f1f1;
     border: 1px solid #dddddd;
-    color: #1c1c1c; }
+    color: #1c1c1c;
+}
 
 .modal.fade .modal-dialog {
     min-width: 610px;
@@ -5505,13 +5535,15 @@ body.light_theme .getotp {
 body.light_theme .getotp:hover {
     background-color: #f2bf40 !important;
 }
+
 body.light_theme .dashboard {
-    background-color: #F5F5F5; }
+    background-color: #F5F5F5;
+}
 
 
 body.light_theme section.earning_outer_s {
-        background-color: #F5F5F5;
-    }    
+    background-color: #F5F5F5;
+}
 
 .modal.search_form .emailinput .d-flex {
     align-items: center;
@@ -5634,6 +5666,17 @@ td.right_t.price_tb span {
     min-width: 32px;
 }
 
+.icon_notificaton_r ul li.themetbs{     width: 28px;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50px;
+    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+
+body.light_theme .icon_notificaton_r ul li.themetbs { border: 1px solid #505050; }    
+
 .header_notification {
     opacity: 0;
     position: absolute;
@@ -5712,6 +5755,8 @@ section.faq_cards h1.text-center {
 section.faq_cards .row {
     padding-top: 50px;
 }
+
+body.light_theme .modal.search_form .emailinput input{     border-radius: 5px; }
 
 /* .dashbaordchart_mid {
     position: absolute;
@@ -7443,7 +7488,10 @@ button.downloadbtn {
     text-align: right;
 }
 
-.exchange_future_s .mobile_img{ width: 261px; float: right; }
+.exchange_future_s .mobile_img {
+    width: 261px;
+    float: right;
+}
 
 .animation_effect {
     position: absolute;
@@ -9307,15 +9355,16 @@ body .trade_summary_table_lft_position_order.position_order .table-responsive {
         vertical-align: middle;
     }
 
-.navbar-collapse {
-    background-color: #111114 !important;
-    max-height: calc(100vh - 0px);
-    height: calc(100vh - 0px);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    .navbar-collapse {
+        background-color: #111114 !important;
+        max-height: calc(100vh - 0px);
+        height: calc(100vh - 0px);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
+    header .navbar-expand-lg .navbar-nav .nav-link i{ font-size: 22px; }
     .navbar-collapse .navbar-nav {
         overflow-y: auto;
         overflow-x: hidden;
@@ -9325,7 +9374,7 @@ body .trade_summary_table_lft_position_order.position_order .table-responsive {
     }
 
     body.light_theme .navbar-collapse {
-        background-color:#ececec !important;
+        background-color: #ececec !important;
     }
 
     .no-data-row .no-data-wrapper,
@@ -11035,7 +11084,10 @@ ul.subscriptionlist li span {
     color: #fff;
 }
 
-ul.subscriptionlist li:last-child:before{ top:inherit; bottom: 0px; }
+ul.subscriptionlist li:last-child:before {
+    top: inherit;
+    bottom: 0px;
+}
 
 .amount_input span.max {
     font-size: 12px;
@@ -11827,6 +11879,10 @@ header.sticky-top.afterloginheader {
     font-size: 12px;
     color: #ffffffd6;
     padding: 10px;
+}
+
+.search_form .withdrawal_top_list {
+    margin-top: 15px;
 }
 
 .no_data {
@@ -16741,7 +16797,26 @@ button.view_more_btn {
 .trade_summary_table_lft.position_order .table-responsive {
     max-height: 300px;
     min-height: 300px;
-    align-items: center;
+}
+
+tr.no-data-row {
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    display: contents;
+    justify-content: center;
+}
+
+.trade_summary_table_lft tr th {
+
+    text-align: left;
+}
+
+.trade_account_summary_assets.futuresflex tr.no-data-row {
+    display: flex; }
+
+.trade_card.orderbook_two .trade_history_tab {
+    height: 100%;
 }
 
 #twofaInfoModal .qr_code {
@@ -17564,6 +17639,10 @@ button.p2p-submit-button {
     .hot_spot_outer {
         padding: 20px;
     }
+
+    .themecolor_icon {
+        width: 28px;
+        height: 28px; }
 
     .navigation nav ul {
         gap: 10px;
@@ -18752,6 +18831,31 @@ button.p2p-submit-button {
     .kyc_form_multistep .step-buttons button {
         padding: 6px;
         font-size: 18px !important;
+    }
+
+    body.light_theme .recent_deposit_list .withdraw_card_item {
+        color: #454545;
+    }
+
+    body.light_theme .dashboard_right .withdraw_card_footer .withdraw_card_view_btn {
+        background-color: transparent; }
+
+    .search_icon_s {
+        font-size: 14px;
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    .address_input {
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .withdraw_input {
+        margin-top: 10px;
+        font-size: 14px;
+        padding: 10px;
     }
 
     .support_form_s {
@@ -20074,7 +20178,7 @@ button.p2p-submit-button {
     }
 
     .navigation .navbar-toggler img {
-        width: 22px;
+        width: 17px;
     }
 
     .icon_notificaton_r ul li {
@@ -20372,6 +20476,14 @@ button.p2p-submit-button {
         display: flex;
         gap: 12px;
         align-items: center;
+    }
+
+    .reverse_security .exchange_future_s .verification_mobile {
+        max-width: 100%;
+    }
+
+    .network_top_p {
+        margin-top: 0px;
     }
 
     footer .menu li a {
@@ -21122,6 +21234,7 @@ button.p2p-submit-button {
     .modal.search_form input {
         padding: 6px 12px !important;
         font-size: 12px;
+        min-height: 36px;
     }
 
     .user_login.dashbtn a {
@@ -21756,8 +21869,8 @@ button.p2p-submit-button {
     }
 
     .themecolor_icon {
-        width: 30px;
-        height: 30px;
+        width: 23px;
+        height: 23px;
     }
 
     .profit_costs_cta_outer.costouterbg button.learnbtn {
@@ -25972,6 +26085,11 @@ button.p2p-submit-button {
         max-width: 100%;
     }
 
+    .themecolor_icon {
+        width: 22px;
+        height: 22px;
+    }
+
 }
 
 @media screen and (max-width:414px) {
@@ -26784,9 +26902,32 @@ button.p2p-submit-button {
         padding-left: 0px;
     }
 
+    .export_btn {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+
+    body.light_theme .bg-secondary {
+        color: #666;
+    }
+
+    .earningpopup#package_details .modal-body {
+        padding: 0px !important;
+    }
+
+    .export_submit_btn {
+        padding: 7px 18px;
+        font-size: 12px;
+    }
+
     .dashboard_right .search_form form.profile_form {
         margin-top: 8px;
         gap: 24px;
+    }
+
+    .export_modal_body .export_actions {
+        margin-top: 5px;
+        padding-top: 10px;
     }
 
     .select-option::before {
@@ -27039,6 +27180,9 @@ ul.security-tips-list {
         padding-bottom: 30px !important;
     }
 
+    body.light_theme .mobiletable {
+        background-color: #ffffff; }
+
     /* Ensure inputs have scroll margin when focused */
     .modal input:focus,
     .modal select:focus,
@@ -27076,3 +27220,33 @@ ul.security-tips-list {
     background-color: #1f2630 !important;
 
 }
+
+body.light_theme header i.ri-moon-line.dark-text {
+    display: none;
+}
+
+header i.ri-sun-line.light-text {
+    display: none;
+}
+
+body.light_theme header i.ri-sun-line.light-text {
+    display: block;
+}
+body.light_theme header li.nav-item.dropdown.mbl img {
+    filter: brightness(0.4);
+}
+
+button.p2p-modal-close-btn:hover {
+    background-color: transparent;
+}
+
+body.light_theme .issuelist_data table tr td i.ri-file-copy-line {
+    color: #a4a4a4;
+}
+
+.order_trade_s .favouriteData {
+    height: 100%;
+}
+
+.trade_movers_tb .table_info_data table {
+    height: 100%; }
