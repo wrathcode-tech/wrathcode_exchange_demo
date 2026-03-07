@@ -617,7 +617,7 @@ const AuthHeader = () => {
             5.36558 8.63379L9.11558 12.3838Z" fill="white"></path></svg>
             <div className="deposit_cnt">
               Deposit Crypto
-              <p>Send crypto to your Wrathcode Account</p>
+              <p>Send crypto to your URG-X Account</p>
             </div>
           </Link>
         </div>

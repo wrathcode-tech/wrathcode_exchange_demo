@@ -34,10 +34,10 @@ const FAQApi = () => {
             href="#"
             className="faq_item card text-start"
             onClick={() => {
-              setChangeScreen("Introduction to the WrathcodeAPI");
+              setChangeScreen("Introduction to the URG-XAPI");
             }}
           >
-            <h5 className="mb-0"> Introduction to the WrathcodeAPI</h5>
+            <h5 className="mb-0"> Introduction to the URG-XAPI</h5>
             <i className="ri-arrow-right-line"></i>
           </a>
         </div>
@@ -79,10 +79,10 @@ const FAQApi = () => {
             href="#"
             className="faq_item card text-start"
             onClick={() => {
-              setChangeScreen("User Data on WrathcodeAPI");
+              setChangeScreen("User Data on URG-XAPI");
             }}
           >
-            <h5 className="mb-0">User Data on WrathcodeAPI</h5>
+            <h5 className="mb-0">User Data on URG-XAPI</h5>
             <i className="ri-arrow-right-line"></i>
           </a>
         </div>
@@ -94,10 +94,10 @@ const FAQApi = () => {
             href="#"
             className="faq_item card text-start"
             onClick={() => {
-              setChangeScreen("Market Data on WrathcodeAPI");
+              setChangeScreen("Market Data on URG-XAPI");
             }}
           >
-            <h5 className="mb-0">Market Data on WrathcodeAPI</h5>
+            <h5 className="mb-0">Market Data on URG-XAPI</h5>
             <i className="ri-arrow-right-line"></i>
           </a>
         </div>
@@ -109,27 +109,27 @@ const FAQApi = () => {
             href="#"
             className="faq_item card text-start"
             onClick={() => {
-              setChangeScreen("Placing Orders using WrathcodeAPI");
+              setChangeScreen("Placing Orders using URG-XAPI");
             }}
           >
-            <h5 className="mb-0">Placing Orders using WrathcodeAPI</h5>
+            <h5 className="mb-0">Placing Orders using URG-XAPI</h5>
             <i className="ri-arrow-right-line"></i>
           </a>
         </div>
       )}
 
 
-      {/* Introduction to the WrathcodeAPI */}
-      {changeScreen === "Introduction to the WrathcodeAPI" && (
+      {/* Introduction to the URG-XAPI */}
+      {changeScreen === "Introduction to the URG-XAPI" && (
         <div className="faq " id="accordionExample">
           <div className="card p-0  ">
             <div id="collapse_1" className="accordion-collapse collapse show" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
-                  <ol>The WrathcodeAPI serves various functionalities, including:
+                  <ol>The URG-XAPI serves various functionalities, including:
                     <li>1. Pulling Market Data based on specific requirements.</li>
-                    <li>2. Placing and Managing different types of Orders on the WrathcodeBooks and Partner Exchanges.</li>
-                    <li>3. To begin using the WrathcodeAPI, you will need the following prerequisites:</li>
+                    <li>2. Placing and Managing different types of Orders on the URG-XBooks and Partner Exchanges.</li>
+                    <li>3. To begin using the URG-XAPI, you will need the following prerequisites:</li>
                     <li>4. Key and Secret: These credentials are necessary for API authentication.</li>
                     <li>5. Programming and Scripting Language: Familiarity with languages such as Python and Javascript is
                       required.</li>
@@ -160,7 +160,7 @@ const FAQApi = () => {
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
                   <ol>
-                    You can find the API dashboard on the profile section of the WrathcodeWeb Platform. The
+                    You can find the API dashboard on the profile section of the URG-XWeb Platform. The
                     API Dashboard allows you to,
                     <li>1) Generate API Key</li>
                     <li>2) Manage pre-existing API Keys</li>
@@ -265,11 +265,11 @@ const FAQApi = () => {
                     and make swift decisions based on their analysis. They execute trades quickly using their algorithms.
                     HFT is a popular strategy adopted by both individual and institutional investors. However, it comes with
                     inherent risks due to its reliance on complex algorithms, and mistakes can lead to substantial losses.</p>
-                  <h6>High-Frequency Trading using Wrathcode </h6>
-                  <p>WrathcodeAPI offers specialized access to our High-Frequency APIs for enterprise clients. These APIs enable
+                  <h6>High-Frequency Trading using URG-X </h6>
+                  <p>URG-XAPI offers specialized access to our High-Frequency APIs for enterprise clients. These APIs enable
                     our clients to trade and receive data with faster API response times and higher rate-limits.
-                    The base URL for all HFT-related URLs is: <a href='https://hft-api.Wrathcode.com' target='_blank'>https://hft-api.Wrathcode.com</a> </p>
-                  <p>To learn more about High-Frequency Trading using WrathcodeAPI and access the specialized endpoint,
+                    The base URL for all HFT-related URLs is: <a href='https://hft-api.URG-X.com' target='_blank'>https://hft-api.URG-X.com</a> </p>
+                  <p>To learn more about High-Frequency Trading using URG-XAPI and access the specialized endpoint,
                     please contact us.</p>
                   <p>INFO For HFT access, our team will request your static IP address, which we will add to our Trusted IPs
                     list. Once your IP address is designated as 'Trusted,' you will receive the required access to our HFT API
@@ -291,12 +291,12 @@ const FAQApi = () => {
                 <div className="faq_text" >
                   <p>We are continuously working to alert our users about potential frauds and scams through our official
                     support channels. To further protect yourself, please follow these simple steps:</p>
-                  <ul>• Wrathcodepersonnel will NEVER reach out to you personally or request any payment for assistance. If you
+                  <ul>• URG-Xpersonnel will NEVER reach out to you personally or request any payment for assistance. If you
                     receive such messages in the future, DO NOT respond and consider blocking these scammers.</ul>
                   <ul>• Always ensure that you are interacting with our official team by verifying the blue tick mark on our
                     Twitter, Instagram, or Telegram channel. Alternatively, you can communicate with us through support
-                    tickets raised on our official website or Wrathcodeapplications (Android/iOS).</ul>
-                  <ul>• Please note that Wrathcodedoes not provide official support on Instagram, Facebook, or Telegram. Always
+                    tickets raised on our official website or URG-Xapplications (Android/iOS).</ul>
+                  <ul>• Please note that URG-Xdoes not provide official support on Instagram, Facebook, or Telegram. Always
                     submit a support ticket for any issues and interact only with our team on official social media pages.</ul>
                   <ul>• You can also contact us through our official support channels on Telegram and Twitter for additional
                     assistance and information.</ul>
@@ -321,21 +321,21 @@ const FAQApi = () => {
                     vigilant and avoid sharing any personal details.</p>
                   <p>Here are some important guidelines to stay safe:</p>
                   <ol>
-                    <li>• Wrathcodedoes not provide official support on Instagram or Facebook. Always ensure you are interacting with our official
+                    <li>• URG-Xdoes not provide official support on Instagram or Facebook. Always ensure you are interacting with our official
                       team by verifying the blue tick mark on our Twitter, Instagram, or Telegram channel, or by using support tickets raised on our
-                      official website or Wrathcodeapplications (Android/iOS).</li>
-                    <li>• Never share personal or financial information in response to unexpected requests. Wrathcodepersonnel will never call, email,
+                      official website or URG-Xapplications (Android/iOS).</li>
+                    <li>• Never share personal or financial information in response to unexpected requests. URG-Xpersonnel will never call, email,
                       or text you to ask for personal information, bank account details, or credit card numbers.</li>
                     <li>• Be cautious of suspicious texts, pop-up windows, or links and attachments in emails. Delete them immediately. When in
-                      doubt, verify the identity of the contact by confirming the email is sent from our official domain @wrathcode.com or from our
+                      doubt, verify the identity of the contact by confirming the email is sent from our official domain @URG-X.com or from our
                       official blue tick marked channels on Twitter, Instagram, and Telegram.</li>
-                    <li>• Wrathcodewill never rush you into making a decision. We encourage you to take your time and not feel pressured by anyone
-                      claiming to be from Wrathcodecustomer service, asking for immediate information or payment. They may be potential
+                    <li>• URG-Xwill never rush you into making a decision. We encourage you to take your time and not feel pressured by anyone
+                      claiming to be from URG-Xcustomer service, asking for immediate information or payment. They may be potential
                       scammers.</li>
                   </ol>
                   <p>Before taking any action, take the time to respond and conduct checks and verifications. Consult someone you trust if
-                    needed. You can always reach out to us through support tickets raised on our official website or Wrathcodeapplications
-                    (Android/iOS) or interact with the Wrathcodeteam on our official social media pages.
+                    needed. You can always reach out to us through support tickets raised on our official website or URG-Xapplications
+                    (Android/iOS) or interact with the URG-Xteam on our official social media pages.
                     By following these precautions and exercising caution, you can help protect yourself from scams and ensure a secure
                     experience in the world of cryptocurrencies and digital assets. Your safety is our utmost concern, and we remain committed
                     to providing a trusted platform for all our users.</p>
@@ -347,18 +347,18 @@ const FAQApi = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_4">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4">
-                How to report a scam to Wrathcode ?
+                How to report a scam to URG-X ?
               </button>
             </h2>
             <div id="collapse_4" className="accordion-collapse collapse" aria-labelledby="headingcollapse_4" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    If you think you noticed Wrathcodebrand name used incorrectly anywhere, please inform us immediately by
-                    raising a support ticket on our official website or Wrathcodeapplications (Android/iOS)
+                    If you think you noticed URG-Xbrand name used incorrectly anywhere, please inform us immediately by
+                    raising a support ticket on our official website or URG-Xapplications (Android/iOS)
                   </p>
                   <p>You can also reach us through our official support channels for Telegram and Twitter, or write to us at
-                    <a href='mailto:support@wrathcode.com' target='_blank'>support@wrathcode.com</a> </p>
+                    <a href='mailto:support@urgx.com' target='_blank'>support@urgx.com</a> </p>
                 </div>
               </div>
             </div>
@@ -367,8 +367,8 @@ const FAQApi = () => {
         </div>
       )}
 
-      {/* User Data on WrathcodeAPI */}
-      {changeScreen === "User Data on WrathcodeAPI" && (
+      {/* User Data on URG-XAPI */}
+      {changeScreen === "User Data on URG-XAPI" && (
         <div className="faq " id="accordionExample">
 
           <div className="card p-0  ">
@@ -436,18 +436,18 @@ const FAQApi = () => {
                 <div className="faq_text" >
                   <p>This API endpoint allows you to retrieve user information for the specified account. You can use the following endpoint to access
                     this information:
-                    Endpoint: https://api.Wrathcode.com/exchange/v1/users/info
+                    Endpoint: https://api.URG-X.com/exchange/v1/users/info
                     The API response will provide the following details in JSON format:
                   </p>
                   <p>
 
                     [
                     <br />
-                    "Wrathcode _id": "fda259ce-22fc-11e9-ba72-ef9b29b5db2b",<br />
+                    "URG-X _id": "fda259ce-22fc-11e9-ba72-ef9b29b5db2b",<br />
                     "first_name": "First name",<br />
                     "last_name": "Last name",<br />
                     "mobile_number": "000000000",<br />
-                    "email": "test@wrathcode.com"<br />
+                    "email": "test@URG-X.com"<br />
                     ]
                   </p>
                   <table className='table' >
@@ -459,7 +459,7 @@ const FAQApi = () => {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Wrathcode _id</td>
+                        <td>URG-X _id</td>
                         <td>Indicates the unique id associated with your TAXBIYS account.</td>
                       </tr>
                       <tr>
@@ -489,8 +489,8 @@ const FAQApi = () => {
       )}
 
 
-      {/* Market Data on WrathcodeAPI Tab */}
-      {changeScreen === "Market Data on WrathcodeAPI" && (
+      {/* Market Data on URG-XAPI Tab */}
+      {changeScreen === "Market Data on URG-XAPI" && (
         <div className="faq " id="accordionExample">
 
           <div className="card p-0  ">
@@ -509,9 +509,9 @@ const FAQApi = () => {
                     The ticker data includes various details such as bid price, highest and lowest values within the past 24
                     hours, and the timestamp of the last trade. Utilizing this data, one can analyze the asset's performance
                     over time and identify potential market opportunities.
-                    To pull Ticker data using WrathcodeAPI, you can use the following endpoint:
-                    Endpoint: https://api.Wrathcode.com/exchange/ticker
-                    The WrathcodeTicker API endpoint provides the following information:</p>
+                    To pull Ticker data using URG-XAPI, you can use the following endpoint:
+                    Endpoint: https://api.URG-X.com/exchange/ticker
+                    The URG-XTicker API endpoint provides the following information:</p>
                   <table className='table' >
                     <thead>
                       <tr>
@@ -575,7 +575,7 @@ const FAQApi = () => {
                 <div className="faq_text" >
                   <p>The Market endpoint returns an array of currently active markets. You can use the
                     following endpoint to retrieve the active markets data:</p>
-                  <p>https://api.Wrathcode.com/exchange/v1/markets</p>
+                  <p>https://api.URG-X.com/exchange/v1/markets</p>
                   <p>A sample response for the Markets endpoint looks as follow:</p>
                   <p>
 
@@ -602,11 +602,11 @@ const FAQApi = () => {
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
-                  <p>The WrathcodeMarket Details endpoint offers in-depth information about a particular market or trading pair. Utilizing this endpoint allows you
+                  <p>The URG-XMarket Details endpoint offers in-depth information about a particular market or trading pair. Utilizing this endpoint allows you
                     to access comprehensive details about the specified market, such as its current status, recent trading activity, and the order book. This data
                     proves valuable for monitoring market conditions, analyzing trends, and making well-informed trading choices.
-                    To retrieve the market details, you can use the following endpoint:https://api.Wrathcode.com/exchange/v1/market_details</p>
-                  <p>The WrathcodeMarket Details endpoint, will allow you to get the following information:</p>
+                    To retrieve the market details, you can use the following endpoint:https://api.URG-X.com/exchange/v1/market_details</p>
+                  <p>The URG-XMarket Details endpoint, will allow you to get the following information:</p>
                   <img src='images/marketdata.jpg' />
                 </div>
               </div>
@@ -627,7 +627,7 @@ const FAQApi = () => {
                     trade, the quantity, and the time at which the trade took place.
                     You can use the following endpoint to get Trades data:
                   </p>
-                  <p>https://public.Wrathcode.com/market_data/trade_history/?pair={'insert_pair'}&limit={'insert_limit'}
+                  <p>https://public.URG-X.com/market_data/trade_history/?pair={'insert_pair'}&limit={'insert_limit'}
                     To extract trades data, you have to paas two parameters in the API request: </p>
                   <table className='table' >
                     <thead>
@@ -654,7 +654,7 @@ const FAQApi = () => {
                     </tbody>
                   </table>
                   <p>NOTE: If the limit parameter is not passed, the default number of trades returned will be 30.</p>
-                  <h6>The WrathcodeTrades API endpoint, gives you the following information:</h6>
+                  <h6>The URG-XTrades API endpoint, gives you the following information:</h6>
 
                   <table className='table' >
                     <thead>
@@ -707,9 +707,9 @@ const FAQApi = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    To extract order book data using the WrathcodeAPI, use the following endpoint:
+                    To extract order book data using the URG-XAPI, use the following endpoint:
                   </p>
-                  <p>https://public.Wrathcode.com/market_data/market_data/orderbook/?pair=B-BTC_USDT</p>
+                  <p>https://public.URG-X.com/market_data/market_data/orderbook/?pair=B-BTC_USDT</p>
                   <p>You have to pass the pair parameter with the Order book API request:</p>
                   <p>It is a string created by ecode, target_currency_short_name, and base_currency_short name. For example, B- BTC_USDT.</p>
                   <p>The endpoint will return an array of bids and asks in the response. A sample response will be:</p>
@@ -726,8 +726,8 @@ const FAQApi = () => {
         </div>
       )}
 
-      {/* Placing Orders using WrathcodeAPI Tab */}
-      {changeScreen === "Placing Orders using WrathcodeAPI" && (
+      {/* Placing Orders using URG-XAPI Tab */}
+      {changeScreen === "Placing Orders using URG-XAPI" && (
         <div className="faq " id="accordionExample">
 
           <div className="card p-0  ">
@@ -770,13 +770,13 @@ const FAQApi = () => {
                   </table>
                   <p>The biggest advantage of Spot trading is it is simple and easy to understand. It is a good place to start in
                     the crypto market.</p>
-                  <p> The WrathcodeAPI provides the following functionalities for Creating and Managing Spot Orders.</p>
+                  <p> The URG-XAPI provides the following functionalities for Creating and Managing Spot Orders.</p>
                   <p> Placing new Orders</p>
                   <p>Cancelling an Order</p>
                   <p>  Exiting an Order</p>
                   <p>  Editing an Order</p>
                   <p> Getting data for orders placed</p>
-                  <p> To know more about how to place spot orders using the WrathcodeAPI, refer to the API Documentation..</p>
+                  <p> To know more about how to place spot orders using the URG-XAPI, refer to the API Documentation..</p>
                 </div>
               </div>
             </div>

@@ -30,14 +30,14 @@ const BlogList = () => {
   return (
     <>
       <Helmet>
-        <title>Web3 & Crypto Guides – Wrathcode Blog</title>
+        <title>Web3 & Crypto Guides – URG-X Blog</title>
         <meta
           name="description"
-          content="From beginners to advanced traders: find tutorials, token reviews and market trends on Wrathcode Blog. Read now and start growing."
+          content="From beginners to advanced traders: find tutorials, token reviews and market trends on URG-X Blog. Read now and start growing."
         />
         <meta
           name="keywords"
-          content="crypto guides, web3 blog, Wrathcode educational content, token review blog"
+          content="crypto guides, web3 blog, URG-X educational content, token review blog"
         />
       </Helmet>
 
@@ -46,7 +46,7 @@ const BlogList = () => {
           <div className="container">
             <div className="inner">
               <div className="top_heading_cnt">
-                <h2>Wrathcode Blog</h2>
+                <h2>URG-X Blog</h2>
                 <h1 className="title">Learn About Crypto Casually</h1>
               </div>
               <div className="top_right_img">
@@ -144,7 +144,7 @@ const BlogList = () => {
               <div className="crypto_cta">
                 <div className="row">
                   <div className="col-sm-9">
-                    <h3>Register On Wrathcode Now To Begin Trading</h3>
+                    <h3>Register On URG-X Now To Begin Trading</h3>
                     <Link to="/signup" className="startbtn mt-2">
                       Register Now
                     </Link>
@@ -212,7 +212,7 @@ const BlogList = () => {
                   </div>
                 </div>
                 <div className="col-sm-10">
-                  <h4>Get The Latest News And Updates From Wrathcode here</h4>
+                  <h4>Get The Latest News And Updates From URG-X here</h4>
                 </div>
               </div>
             </div>

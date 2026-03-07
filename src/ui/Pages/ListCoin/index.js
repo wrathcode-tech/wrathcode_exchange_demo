@@ -52,16 +52,16 @@ const ListCoin = () => {
   return (
     <>
       <Helmet>
-        <title>List Your Coin & Build Hype on Wrathcode | Fast Token Listing Exchange</title>
+        <title>List Your Coin & Build Hype on URG-X | Fast Token Listing Exchange</title>
 
         <meta
           name="description"
-          content="Grow your token’s visibility and liquidity with Wrathcode! Quick listing, top-tier security, and marketing support to build hype around your coin."
+          content="Grow your token’s visibility and liquidity with URG-X! Quick listing, top-tier security, and marketing support to build hype around your coin."
         />
 
         <meta
           name="keywords"
-          content="token listing, crypto coin launch, Wrathcode exchange listing, coin exposure, crypto marketing"
+          content="token listing, crypto coin launch, URG-X listing, coin exposure, crypto marketing"
         />
       </Helmet>
 

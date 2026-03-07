@@ -703,14 +703,14 @@ const LoginPage = () => {
   return (
     <>
       <Helmet>
-        <title>Wrathcode User Login – Trade Crypto Instantly</title>
+        <title>URG-X User Login – Trade Crypto Instantly</title>
         <meta
           name="description"
-          content="Sign in to your Wrathcode account and start trading Bitcoin, Ethereum and altcoins in minutes."
+          content="Sign in to your URG-X account and start trading Bitcoin, Ethereum and altcoins in minutes."
         />
         <meta
           name="keywords"
-          content="login crypto exchange, Wrathcode sign in, crypto trading portal, secure account Wrathcode"
+          content="login crypto exchange, URG-X sign in, crypto trading portal, secure account URG-X"
         />
       </Helmet>
 
@@ -719,7 +719,7 @@ const LoginPage = () => {
           <div className="login_form_right">
             <div className="form_block_login">
               <img className='lightlogo' src="/images/logo_light.svg" alt="logo" />
-              <h2>Welcome To Wrathcode</h2>
+              <h2>Welcome To URG-X</h2>
               <div className="login-header">
                 <ul className="nav nav-tabs login-pills" id="myTab" role="tablist">
                   <li className="nav-item" role="presentation">

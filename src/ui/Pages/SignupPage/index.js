@@ -91,7 +91,7 @@ const SignupPage = () => {
         }
 
         else if (!checkButton) {
-            alertErrorMessage("Please agree to Wrathcode Terms and Use");
+            alertErrorMessage("Please agree to URG-X Terms and Use");
             return;
         }
 
@@ -133,7 +133,7 @@ const SignupPage = () => {
         }
 
         if (!checkButton2) {
-            alertErrorMessage("Please agree to Wrathcode Terms and Use");
+            alertErrorMessage("Please agree to URG-X Terms and Use");
             return;
         };
 
@@ -205,7 +205,7 @@ window.scrollTo(0, 0)
     return (
         <>
             <Helmet>
-                <title>Sign Up at Wrathcode – Start Crypto Trading Today</title>
+                <title>Sign Up at URG-X – Start Crypto Trading Today</title>
 
                 <meta
                     name="description"
@@ -214,7 +214,7 @@ window.scrollTo(0, 0)
 
                 <meta
                     name="keywords"
-                    content="register crypto exchange, sign up Wrathcode, crypto account registration, trade crypto Wrathcode"
+                    content="register crypto exchange, sign up URG-X, crypto account registration, trade crypto URG-X"
                 />
             </Helmet>
 
@@ -239,7 +239,7 @@ window.scrollTo(0, 0)
 
                                 <img className='lightlogo' src="/images/logo_light.svg" alt="logo" />
 
-                                <h2>Register to Wrathcode</h2>
+                                <h2>Register to URG-X</h2>
 
                                 <ul className="nav nav-tabs login-pills" id="myTab" role="tablist">
                                     <li className="nav-item" role="presentation">
@@ -310,7 +310,7 @@ window.scrollTo(0, 0)
                                                 </div>
 
                                                 <div className="col-sm-12 agreetext">
-                                                    <label className="termsbox"><input type="checkbox" checked={checkButton} onClick={() => setCheckButton((checkButton) => !checkButton)} /> I agree to Wrathcode <a target="_blank" rel="noreferrer" href="/TermsofUse" className="btn-link"> Terms and Use </a>
+                                                    <label className="termsbox"><input type="checkbox" checked={checkButton} onClick={() => setCheckButton((checkButton) => !checkButton)} /> I agree to URG-X <a target="_blank" rel="noreferrer" href="/TermsofUse" className="btn-link"> Terms and Use </a>
                                                     </label>
                                                 </div>
 
@@ -399,7 +399,7 @@ window.scrollTo(0, 0)
                                                 </div>
 
                                                 <div className="col-sm-12 agreetext">
-                                                    <label className="termsbox"><input type="checkbox" checked={checkButton2} onClick={() => setCheckButton2((checkButton2) => !checkButton2)} /> I agree to Wrathcode <a target="_blank" rel="noreferrer" href="/TermsofUse" className="btn-link"> Terms and Use </a>
+                                                    <label className="termsbox"><input type="checkbox" checked={checkButton2} onClick={() => setCheckButton2((checkButton2) => !checkButton2)} /> I agree to URG-X <a target="_blank" rel="noreferrer" href="/TermsofUse" className="btn-link"> Terms and Use </a>
 
                                                     </label>
                                                 </div>

@@ -446,7 +446,7 @@ const WithdrawPage = (props) => {
                           <path fillRule="evenodd" clip-rule="evenodd"
                             d="M12 21a9 9 0 100-18 9 9 0 000 18zm-1.25-5.5V18h2.5v-2.5h-2.5zm0-9.5v7h2.5V6h-2.5z" fill="currentColor">
                           </path></svg>
-                        <p>Only supported networks on the Wrathcode platform are shown. If you provide an address from an unsupported network, your withdrawal request may be rejected. </p>
+                        <p>Only supported networks on the URG-X platform are shown. If you provide an address from an unsupported network, your withdrawal request may be rejected. </p>
 
                       </div>
 

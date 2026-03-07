@@ -16,7 +16,7 @@ const FAQTrading = () => {
               setChangeScreen("main");
             }}
           >
-            Trading with Wrathcode 
+            Trading with URG-X 
           </li>
           {changeScreen !== "main" && (
             <li className="breadcrumb-item active text-warning  cursor-pointer" aria-current="page">
@@ -34,10 +34,10 @@ const FAQTrading = () => {
             href="#"
             className="faq_item card text-start"
             onClick={() => {
-              setChangeScreen("Trading on Wrathcode ");
+              setChangeScreen("Trading on URG-X ");
             }}
           >
-            <h5 className="mb-0">Trading on Wrathcode </h5>
+            <h5 className="mb-0">Trading on URG-X </h5>
             <i className="ri-arrow-right-line"></i>
           </a>
         </div>
@@ -45,19 +45,19 @@ const FAQTrading = () => {
 
 
       {/* Deposit and Withdrawal Tab */}
-      {changeScreen === "Trading on Wrathcode " && (
+      {changeScreen === "Trading on URG-X " && (
         <div className="faq " id="accordionExample">
 
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_1">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-                How to Buy crypto on Wrathcode ?
+                How to Buy crypto on URG-X ?
               </button>
             </h2>
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
-                  <p>To buy crypto instantly, log into the Wrathcodeand follow the steps below:</p>
+                  <p>To buy crypto instantly, log into the URG-Xand follow the steps below:</p>
                   <p>1. To explore and buy tokens, head to the Markets section and select the token of your choice, like
                     Bitcoin.</p>
                   <p>2.Here, you can observe Bitcoin's performance over the last few days, weeks, or months.</p>
@@ -76,13 +76,13 @@ const FAQTrading = () => {
           <div className="card  p-0 ">
             <h2 className="card-header" id="headingcollapse_2">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2">
-                How to Sell crypto on Wrathcode ?
+                How to Sell crypto on URG-X ?
               </button>
             </h2>
             <div id="collapse_2" className="accordion-collapse collapse" aria-labelledby="headingcollapse_2" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom">
                 <div className="faq_text" >
-                  <p>To sell crypto instantly, log into the Wrathcodeand follow the steps below:</p>
+                  <p>To sell crypto instantly, log into the URG-Xand follow the steps below:</p>
                   <p>1. Go to the Markets section and tap on the token of your choice. For example, let's choose Bitcoin.</p>
                   <p>2.You can see here how Bitcoin has been performing over the last couple of days/weeks/months.</p>
                   <p> 3.You can then click on the Sell option at the bottom of the screen.</p>
@@ -99,7 +99,7 @@ const FAQTrading = () => {
           <div className="card  p-0  ">
             <h2 className="card-header" id="headingcollapse_3">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_3" aria-expanded="false" aria-controls="collapse_3">
-                How to add cryptos to the Favorite on Wrathcode ?
+                How to add cryptos to the Favorite on URG-X ?
               </button>
             </h2>
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
@@ -119,7 +119,7 @@ const FAQTrading = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_4">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4">
-                How to add price alerts for cryptos on Wrathcode ?
+                How to add price alerts for cryptos on URG-X ?
               </button>
             </h2>
             <div id="collapse_4" className="accordion-collapse collapse" aria-labelledby="headingcollapse_4" data-bs-parent="#accordionExample">
@@ -162,14 +162,14 @@ const FAQTrading = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_6">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_6" aria-expanded="false" aria-controls="collapse_6">
-                What cryptos are supported on Wrathcode ?
+                What cryptos are supported on URG-X ?
               </button>
             </h2>
             <div id="collapse_6" className="accordion-collapse collapse" aria-labelledby="headingcollapse_6" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    Currently, the Wrathcodeprovides users with the option to buy or sell more than 100 top tokens. These
+                    Currently, the URG-Xprovides users with the option to buy or sell more than 100 top tokens. These
                     tokens have been carefully selected based on their use cases, demand, and liquidity in the market.
                   </p>
                 </div>
@@ -180,14 +180,14 @@ const FAQTrading = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_16">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_16" aria-expanded="false" aria-controls="collapse_6">
-                Why are there limited coins on Wrathcode ?
+                Why are there limited coins on URG-X ?
               </button>
             </h2>
             <div id="collapse_16" className="accordion-collapse collapse" aria-labelledby="headingcollapse_16" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    Currently, the Wrathcodeprovides users with the option to buy or sell more than 100 top tokens. These
+                    Currently, the URG-Xprovides users with the option to buy or sell more than 100 top tokens. These
                     tokens have been carefully selected based on their use cases, demand, and liquidity in the market.
                   </p>
                 </div>
@@ -198,14 +198,14 @@ const FAQTrading = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_7">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_7" aria-expanded="false" aria-controls="collapse_7">
-                Why are the buying and selling prices different for the cryptos on Wrathcode ?
+                Why are the buying and selling prices different for the cryptos on URG-X ?
               </button>
             </h2>
             <div id="collapse_7" className="accordion-collapse collapse" aria-labelledby="headingcollapse_7" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    On Wrathcode , users can conveniently own cryptocurrencies like Bitcoin and Ethereum without the need to
+                    On URG-X , users can conveniently own cryptocurrencies like Bitcoin and Ethereum without the need to
                     manually enter orders in the order books. With just a few clicks, users can buy and sell cryptocurrencies
                     swiftly. There's no need to be concerned about liquidity in the market because all orders are executed
                     instantaneously.
@@ -214,7 +214,7 @@ const FAQTrading = () => {
                   <p className="">
                     To ensure that our users receive the best prices, the buy and sell prices are continuously updated. This
                     process involves considering the bids and asks for the cryptocurrencies as inputs to determine the most
-                    suitable buy and sell prices. By doing so, Wrathcode  strives to offer optimal prices to its users, making the
+                    suitable buy and sell prices. By doing so, URG-X  strives to offer optimal prices to its users, making the
                     trading experience seamless and efficient.
                   </p>
                 </div>

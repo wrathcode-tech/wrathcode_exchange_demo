@@ -91,14 +91,14 @@ const Footer = () => {
 
                     <div className="col-sm-12">
                         {/* <div className="copyright">
-                                    <p><span>“Wrathcode </span>is a platform operated by <span>Lunexor s.r.o.,</span> a company registered in the Czech Republic with its headquarters at <span>Kurzova</span> 2222/16, 155
+                                    <p><span>“URG-X </span>is a platform operated by <span>Lunexor s.r.o.,</span> a company registered in the Czech Republic with its headquarters at <span>Kurzova</span> 2222/16, 155
                                     00 Prague 5, Company ID: 22400711.Lunexor s.r.o. is registered as a Virtual Asset Service Provider (VASP) in the Czech Trade Register. In
                                     preparation for the entry into force of Regulation (EU) 2023/1114 <span>(“MiCA”), Lunexor </span>is currently completing its transition
                                     to CASP compliance, which will become fully applicable as of July 1st, 2025.” *FIU - IND Registration is in process.</p> 
                                 <h5>Disclaimer</h5>
                                 <p>Cryptocurrency products are not regulated and carry significant risks. There may be no regulatory avenues for recovering losses incurred
                                     from these transactions. The information and materials presented here are subject to change without prior notice, including prices, which may
-                                    vary based on market demand and supply. The content available on this site is proprietary to <span>Wrathcode</span>, along with its parent, licensor, and/or
+                                    vary based on market demand and supply. The content available on this site is proprietary to <span>URG-X</span>, along with its parent, licensor, and/or
                                     affiliates, and is intended solely for informational purposes for informed investors. This material does not constitute: (i) an offer or solicitation
                                     to invest in, buy or sell any interests or shares, or to engage in any investment or trading strategy, or (ii) an intention to provide accounting,
                                     legal, or tax advice, or investment recommendations.Note
@@ -109,7 +109,7 @@ const Footer = () => {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-lg-12 col-12 mt-4 text-center">
-                                        <p className="copyright-text"> Copyright © 2026 <b className="Wrathcode" ><a href="https://wrathcode.com/" target="_blank" rel="noopener noreferrer">Wrathcode</a> </b>. All rights reserved</p>
+                                        <p className="copyright-text"> Copyright © 2026 <b className="URG-X" ><a href="https://URG-X.com/" target="_blank" rel="noopener noreferrer">URG-X</a> </b>. All rights reserved</p>
                                     </div>
                                 </div>
                             </div>

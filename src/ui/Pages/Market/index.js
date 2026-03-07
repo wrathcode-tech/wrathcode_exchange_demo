@@ -440,14 +440,14 @@ const Market = () => {
   return (
     <>
       <Helmet>
-        <title>Wrathcode Market – Live Crypto Prices &amp; Trading Pairs</title>
+        <title>URG-X Market – Live Crypto Prices &amp; Trading Pairs</title>
         <meta
           name="description"
-          content="Explore live market data on Wrathcode. View real-time prices, volumes and trading pairs for Bitcoin, Ethereum and top altcoins. Start trading today."
+          content="Explore live market data on URG-X. View real-time prices, volumes and trading pairs for Bitcoin, Ethereum and top altcoins. Start trading today."
         />
         <meta
           name="keywords"
-          content="crypto market, live crypto prices, bitcoin ethereum trading pairs, Wrathcode market"
+          content="crypto market, live crypto prices, bitcoin ethereum trading pairs, URG-X market"
         />
       </Helmet>
 

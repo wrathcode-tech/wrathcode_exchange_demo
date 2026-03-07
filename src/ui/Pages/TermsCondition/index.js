@@ -24,7 +24,7 @@ const TermsCondition = () => {
                 <div className="row align-items-center py-5">
                   <div className="col-lg-12">
 
-                    <h3>This Wrathcode Terms and Conditions Agreement ("Agreement")</h3>
+                    <h3>This URG-X Terms and Conditions Agreement ("Agreement")</h3>
                     <p>This Agreement is entered into between you (the "User" or "Customer") and C.V. TECH SERVICES CO., LTD. (the "Company"), a company established under the laws of Thailand. By agreeing that you have read, understood, and accepted all the terms and conditions of this Agreement, you have effectively entered into this Agreement via the Company's service platform.</p>
 
                     <br />

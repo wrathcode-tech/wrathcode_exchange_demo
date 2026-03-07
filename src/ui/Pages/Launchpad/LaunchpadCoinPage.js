@@ -212,16 +212,16 @@ const LaunchpadCoinPage = () => {
     return (
         <>
             <Helmet>
-                <title>Token Launch Platform | Wrathcode Launchpad</title>
+                <title>Token Launch Platform | URG-X Launchpad</title>
 
                 <meta
                     name="description"
-                    content="Join Wrathcode Launchpad – a platform for early-stage projects, exclusive token sales and Web3 innovation. Be first to new tokens."
+                    content="Join URG-X Launchpad – a platform for early-stage projects, exclusive token sales and Web3 innovation. Be first to new tokens."
                 />
 
                 <meta
                     name="keywords"
-                    content="token sale platform, Web3 launchpad, early crypto investment, Wrathcode tokens"
+                    content="token sale platform, Web3 launchpad, early crypto investment, URG-X tokens"
                 />
             </Helmet>
 

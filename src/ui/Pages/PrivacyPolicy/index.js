@@ -24,13 +24,13 @@ const PrivacyPolicy = () => {
                 <div className="row align-items-center py-5">
                   <div className="col-lg-12">
                     <div>
-                      <h3>Privacy Policy for Wrathcode</h3>
+                      <h3>Privacy Policy for URG-X</h3>
 
-                      <p>At Wrathcode.io, accessible from https://cvtrade.io, one of our primary commitments is ensuring the privacy and security of our visitors' information. This Privacy Policy outlines the types of data we collect, how it is used, and the measures we take to protect your privacy.</p>
+                      <p>At URG-X.io, accessible from https://cvtrade.io, one of our primary commitments is ensuring the privacy and security of our visitors' information. This Privacy Policy outlines the types of data we collect, how it is used, and the measures we take to protect your privacy.</p>
                       <br />
                       <h3>About Us</h3>
 
-                      <p>Wrathcode is operated by C.V. TECH SERVICES CO., LTD., a registered company under Thai law with the following details:
+                      <p>URG-X is operated by C.V. TECH SERVICES CO., LTD., a registered company under Thai law with the following details:
                       </p>
                         <ul>
                           <li><h6>  Company Name: C.V. TECH SERVICES CO. , LTD. </h6> </li>
@@ -54,11 +54,11 @@ const PrivacyPolicy = () => {
                       <br />
                       <h3>Log Files</h3>
 
-                      <p>Wrathcode.io follows standard procedures for using log files. These files track visits to our site and may include details such as IP addresses, browser types, and referring pages. This data is collected to analyze site usage, monitor security, and gather demographic insights.</p>
+                      <p>URG-X.io follows standard procedures for using log files. These files track visits to our site and may include details such as IP addresses, browser types, and referring pages. This data is collected to analyze site usage, monitor security, and gather demographic insights.</p>
                       <br />
                       <h3>Cookies and Tracking</h3>
 
-                      <p>Wrathcode.io uses cookies to store user preferences and enhance your browsing experience. Cookies help us understand how you interact with our site, allowing us to tailor content and features to suit your needs.</p>
+                      <p>URG-X.io uses cookies to store user preferences and enhance your browsing experience. Cookies help us understand how you interact with our site, allowing us to tailor content and features to suit your needs.</p>
                       <br />
                       <h3>Third-Party Services</h3>
 
@@ -66,11 +66,11 @@ const PrivacyPolicy = () => {
                       <br />
                       <h3>GDPR and CCPA Compliance</h3>
 
-                      <p>Wrathcode respects your privacy rights as outlined under the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA). If you reside in the EU or California, you have the following rights: Right to access your personal data Right to correct or update inaccurate information Right to request data deletion Right to object to data processing or withdraw consent If you wish to exercise any of these rights, please contact us at info@cvtrade.io.</p>
+                      <p>URG-X respects your privacy rights as outlined under the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA). If you reside in the EU or California, you have the following rights: Right to access your personal data Right to correct or update inaccurate information Right to request data deletion Right to object to data processing or withdraw consent If you wish to exercise any of these rights, please contact us at info@cvtrade.io.</p>
                       <br />
                       <h3>Children's Privacy</h3>
 
-                      <p>Wrathcode.io does not knowingly collect personal information from children under the age of 13. If you believe your child has provided us with personal data, please contact us immediately, and we will take the necessary steps to remove such information.</p>
+                      <p>URG-X.io does not knowingly collect personal information from children under the age of 13. If you believe your child has provided us with personal data, please contact us immediately, and we will take the necessary steps to remove such information.</p>
                       <br />
                       <h3>Changes to the Privacy Policy</h3>
 

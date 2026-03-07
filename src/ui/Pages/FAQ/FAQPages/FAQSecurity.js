@@ -81,25 +81,25 @@ const FAQSecurity = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_1">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-                How to secure the Wrathcodeaccount?
+                How to secure the URG-Xaccount?
               </button>
             </h2>
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
-                  <p>Please follow the guidelines to secure your Wrathcodeaccount:</p>
+                  <p>Please follow the guidelines to secure your URG-Xaccount:</p>
                   <h6>1. Set up 2-Factor Authentication:</h6>
-                  <p> Setting up Two-Factor Authentication will ensure that no-one can access your Wrathcodeaccount without obtaining both
+                  <p> Setting up Two-Factor Authentication will ensure that no-one can access your URG-Xaccount without obtaining both
                     your password and the second factor to your security - whether it’s your OTP or Google Authenticator.</p>
                   <h6>2. Always check your browser:</h6>
                   <p>Always make sure the browser you’re visiting is: https://coindcx.com/. If the website you’re on looks exactly like ours but
                     is even slightly different - you could be a victim of phishing and could lose control of your account. Remain vigilant!</p>
                   <h6>3. Do not share sensitive information:</h6>
                   <p>While our community managers on Telegram and our support teams regularly converse with users over chat or call, no
-                    single Wrathcodeemployee will ask for sensitive information. The most any employee will ask is your email, phone number,
+                    single URG-Xemployee will ask for sensitive information. The most any employee will ask is your email, phone number,
                     and Support Ticket ID.</p>
                   <h6>4. Use a strong password:</h6>
-                  <p>We recommend that you use a strong password for your Wrathcodeaccount. While we have the highest levels of security for
+                  <p>We recommend that you use a strong password for your URG-Xaccount. While we have the highest levels of security for
                     our platform, using an easy-to-guess password leaves you liable to “guess-hackers”.</p>
                 </div>
               </div>
@@ -147,8 +147,8 @@ const FAQSecurity = () => {
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
-                  <p>Follow these steps to add new addresses to your Wrathcodeaccount securely:</p>
-                  <p><strong>Step 1:</strong>Log in to your Wrathcodeaccount at <a href='https://Wrathcode.com/'>https://Wrathcode.com/</a> </p>
+                  <p>Follow these steps to add new addresses to your URG-Xaccount securely:</p>
+                  <p><strong>Step 1:</strong>Log in to your URG-Xaccount at <a href='https://URG-X.com/'>https://URG-X.com/</a> </p>
                   <p><strong>Step 2:</strong> Click on "Security" from the drop-down menu accessed through your Profile button. </p>
                   <p><strong>Step 3:</strong>The Security page will open, and you'll find the "Address Management" section. Click on the "Manage" button for
                     Address Management. On this screen, you'll see two essential elements:
@@ -167,10 +167,10 @@ const FAQSecurity = () => {
                     you can click on the checkbox to indicate it as trustworthy. Click on "Add Address" to proceed.
                     Please note that the address will only be added after entering your Two-Factor Authentication (2FA) code for added security.
                     You can then mark the address as a trusted one by selecting the checkbox under 'Actions.' However, the wallet will not be
-                    confirmed as a Trusted Wallet until you verify it on your Wrathcoderegistered email address.</p>
+                    confirmed as a Trusted Wallet until you verify it on your URG-Xregistered email address.</p>
                   <p><strong>Step 5:</strong> An email will be sent to your registered email address, asking you to confirm the addition of the new address as a
                     'Trusted Address.' Access your email and follow the confirmation instructions provided.</p>
-                  <p><strong>Step 6: </strong>Once confirmed, your new address will be successfully added to your Wrathcodeaccount. Your account is now updated
+                  <p><strong>Step 6: </strong>Once confirmed, your new address will be successfully added to your URG-Xaccount. Your account is now updated
                     with the additional address, enhancing the security and flexibility of your crypto transactions.</p>
                 </div>
               </div>
@@ -180,19 +180,19 @@ const FAQSecurity = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_4">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4">
-                How can I check which devices I am currently logged in with my WrathcodeAccount?
+                How can I check which devices I am currently logged in with my URG-XAccount?
               </button>
             </h2>
             <div id="collapse_4" className="accordion-collapse collapse" aria-labelledby="headingcollapse_4" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    Follow these steps to check which devices are logged in to your WrathcodeAccount:
+                    Follow these steps to check which devices are logged in to your URG-XAccount:
                   </p>
                   <ol>
-                    <li>1. Login to your WrathcodeAccount App.</li>
+                    <li>1. Login to your URG-XAccount App.</li>
                     <li>2. Click the top right profile icon on the screen and select ‘Security’.</li>
-                    <li>3. Click on ‘Verified Devices’ to see which all devices are logged in with Wrathcode X Account..</li>
+                    <li>3. Click on ‘Verified Devices’ to see which all devices are logged in with URG-X X Account..</li>
                   </ol>
                   <p>Note - If you find any suspicious device in the list, we recommend you to block the device immediately. For
                     extreme action, disable the account and contact customer support immediately.</p>
@@ -204,17 +204,17 @@ const FAQSecurity = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_5">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_5" aria-expanded="false" aria-controls="collapse_5">
-                How to keep your funds secure on Wrathcode ?
+                How to keep your funds secure on URG-X ?
               </button>
             </h2>
             <div id="collapse_5" className="accordion-collapse collapse" aria-labelledby="headingcollapse_5" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    For existing users of Wrathcodewho have already secured their accounts with a security rating of 4/4, their funds are fully
+                    For existing users of URG-Xwho have already secured their accounts with a security rating of 4/4, their funds are fully
                     protected.
-                    For existing users who haven't secured their Wrathcodeaccounts or new users joining Wrathcode , there are multiple ways to
-                    enhance security for your Wrathcodeaccounts.
+                    For existing users who haven't secured their URG-Xaccounts or new users joining URG-X , there are multiple ways to
+                    enhance security for your URG-Xaccounts.
                   </p>
                   <strong>Strong Password: </strong>
                   <p>Ensure your account is secured with a strong and unique password. Avoid using easily guessable passwords
@@ -232,10 +232,10 @@ const FAQSecurity = () => {
                     unique withdrawal password prevents unauthorized transfers to other addresses in the event of a hack.</p>
 
                   <strong>Manage Trusted Addresses:</strong>
-                  <p>On Wrathcode , you have the option to manage a list of addresses that you trust for sending your
+                  <p>On URG-X , you have the option to manage a list of addresses that you trust for sending your
                     cryptocurrencies to have better control over your crypto transactions.</p>
                   <br />
-                  <p>By implementing these security measures, you can significantly enhance the safety of your Wrathcodeaccounts, safeguarding
+                  <p>By implementing these security measures, you can significantly enhance the safety of your URG-Xaccounts, safeguarding
                     your funds and assets. Stay vigilant and proactive in protecting your digital assets from potential threats.</p>
                 </div>
               </div>
@@ -245,14 +245,14 @@ const FAQSecurity = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_6">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_6" aria-expanded="false" aria-controls="collapse_6">
-                How to know if an email or website is from Wrathcode ?
+                How to know if an email or website is from URG-X ?
               </button>
             </h2>
             <div id="collapse_6" className="accordion-collapse collapse" aria-labelledby="headingcollapse_6" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    Official Wrathcodeemails and websites will only appear on or come from our verified domain such as coindcx.com. You can view
+                    Official URG-Xemails and websites will only appear on or come from our verified domain such as coindcx.com. You can view
                     the email’s full headers to find out if it came from a forged address:
                   </p>
                   <h6>Gmail</h6>
@@ -294,21 +294,21 @@ const FAQSecurity = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_8">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_8" aria-expanded="false" aria-controls="collapse_8">
-                Are my funds safe on Wrathcode ?
+                Are my funds safe on URG-X ?
               </button>
             </h2>
             <div id="collapse_8" className="accordion-collapse collapse" aria-labelledby="headingcollapse_8" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    Rest assured, your funds are exceptionally secure with us at Wrathcode . We have implemented industry-
+                    Rest assured, your funds are exceptionally secure with us at URG-X . We have implemented industry-
                     leading security measures to safeguard your assets. Our dedicated team continuously audits and enhances
                     existing protocols, ensuring our security remains up-to-date and impenetrable.
                   </p>
-                  <p>Wrathcodeemploys a robust security infrastructure, including geographically distributed cold wallets, DDoS
+                  <p>URG-Xemploys a robust security infrastructure, including geographically distributed cold wallets, DDoS
                     protection, regular stress testing, and multi-signature authentications. These world-className security practices
                     are in place to provide you with the utmost protection.</p>
-                  <p>For detailed insights into our security measures, you can visit <a href='https://tacbits.io/security' target='_blank' >https://tacbits.io/security</a>. At Wrathcode , we are
+                  <p>For detailed insights into our security measures, you can visit <a href='https://tacbits.io/security' target='_blank' >https://tacbits.io/security</a>. At URG-X , we are
                     committed to creating a safe and trustworthy environment for all our users.</p>
                 </div>
               </div>
@@ -423,9 +423,9 @@ const FAQSecurity = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    At Wrathcode , we want to ensure the safety and security of our users. Please be aware that we will never
+                    At URG-X , we want to ensure the safety and security of our users. Please be aware that we will never
                     initiate personal phone calls to our customers. If you come across any phone number claiming to be
-                    Wrathcodesupport, please note that it is a scam. We urge you not to call such numbers
+                    URG-Xsupport, please note that it is a scam. We urge you not to call such numbers
                   </p>
                   <p>If you encounter any suspicious activity or believe you have encountered a scam, please do not hesitate to
                     inform us. Kindly submit a support ticket with all relevant details regarding the scam. This will help us take
@@ -453,7 +453,7 @@ const FAQSecurity = () => {
                   </p>
                   <p>If so, there's no need to worry, as this is a standard procedure.</p>
                   <p>As part of routine maintenance and security checks, we regularly conduct sweeping exercises. In this
-                    particular case, the funds have been transferred from one Wrathcodewallet to another. As a user, you won't
+                    particular case, the funds have been transferred from one URG-Xwallet to another. As a user, you won't
                     notice any significant difference in your wallet as a result of this transfer. Rest assured that your funds are
                     safe and secure throughout this process.</p>
                 </div>
@@ -471,7 +471,7 @@ const FAQSecurity = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    1. Login using the button on the top right-hand side of the home screen or directly at <a href='https://Wrathcode.com/login.' target='_blank'>https://Wrathcode.com/login.</a>
+                    1. Login using the button on the top right-hand side of the home screen or directly at <a href='https://URG-X.com/login.' target='_blank'>https://URG-X.com/login.</a>
                   </p>
                   <p>2.On the Login page, please fill the login credentials and click on 'Sign In'.</p>
                   <p>3.Enter the 6-digit password displayed on your Google Authenticator App on your mobile device.</p>
@@ -491,7 +491,7 @@ const FAQSecurity = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    Two-factor Authentication (2FA) provides an additional layer of security for your Wrathcodeaccount, offering
+                    Two-factor Authentication (2FA) provides an additional layer of security for your URG-Xaccount, offering
                     the following benefits:
                   </p>
                   <ol>
@@ -562,12 +562,12 @@ const FAQSecurity = () => {
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
-                  <ol>To ensure the utmost security for your Wrathcodeaccount, please follow these guidelines:
-                    <li>1. Register on Wrathcodeand complete the KYC requirements.</li>
-                    <li>2. Enable 2FA on your WrathcodeAndroid or IOS apps, preferably using app-based 2FA like Google Authenticator.</li>
+                  <ol>To ensure the utmost security for your URG-Xaccount, please follow these guidelines:
+                    <li>1. Register on URG-Xand complete the KYC requirements.</li>
+                    <li>2. Enable 2FA on your URG-XAndroid or IOS apps, preferably using app-based 2FA like Google Authenticator.</li>
                     <li>3. Avoid leaving your mobile device unattended.</li>
-                    <li>4. Always log out of your Wrathcodeaccount when using the same device shared by multiple people.</li>
-                    <li>5. Never share your password with anyone. Wrathcodewill never call or email you to request your password.</li>
+                    <li>4. Always log out of your URG-Xaccount when using the same device shared by multiple people.</li>
+                    <li>5. Never share your password with anyone. URG-Xwill never call or email you to request your password.</li>
                     <li>6. Consider using a password manager to generate and securely store unique passwords for all your online accounts.</li>
                     <li>7. Set up additional authentication methods such as screen lock, fingerprint, or face recognition on your mobile for added security.</li>
                     <li>8. Keep your device's Operating System (OS) updated regularly to receive the latest security fixes.</li>
@@ -577,9 +577,9 @@ const FAQSecurity = () => {
                       email, as it is essential for account verification and communication.</li>
                     <li>12. Be wary of SMS messages attempting to extract personal information (smishing) or similar tactics on platforms like WhatsApp,
                       Facebook, Instagram, and Twitter.</li>
-                    <li>13. If you receive suspicious emails or SMS appearing to be from Wrathcode , forward them to email ID to verify authenticity.</li>
+                    <li>13. If you receive suspicious emails or SMS appearing to be from URG-X , forward them to email ID to verify authenticity.</li>
                     <li>14. Keep your cryptocurrency holdings private; avoid disclosing them on public forums or channels.</li>
-                    <li>15. Never share account details like registered email ID, mobile number, or bank information, unless asked by Wrathcodesupport
+                    <li>15. Never share account details like registered email ID, mobile number, or bank information, unless asked by URG-Xsupport
                       through official channels.</li>
                     <li>16. Download apps only from official stores like Google Play; pirated apps may contain harmful cryptojacking scripts.</li>
                     <li>17. Install and regularly update mobile antivirus software for added protection.</li>
@@ -602,12 +602,12 @@ const FAQSecurity = () => {
                 <div className="faq_text" >
                   <p>We are continuously working to alert our users about potential frauds and scams through our official
                     support channels. To further protect yourself, please follow these simple steps:</p>
-                  <ul>• Wrathcodepersonnel will NEVER reach out to you personally or request any payment for assistance. If you
+                  <ul>• URG-Xpersonnel will NEVER reach out to you personally or request any payment for assistance. If you
                     receive such messages in the future, DO NOT respond and consider blocking these scammers.</ul>
                   <ul>• Always ensure that you are interacting with our official team by verifying the blue tick mark on our
                     Twitter, Instagram, or Telegram channel. Alternatively, you can communicate with us through support
-                    tickets raised on our official website or Wrathcodeapplications (Android/iOS).</ul>
-                  <ul>• Please note that Wrathcodedoes not provide official support on Instagram, Facebook, or Telegram. Always
+                    tickets raised on our official website or URG-Xapplications (Android/iOS).</ul>
+                  <ul>• Please note that URG-Xdoes not provide official support on Instagram, Facebook, or Telegram. Always
                     submit a support ticket for any issues and interact only with our team on official social media pages.</ul>
                   <ul>• You can also contact us through our official support channels on Telegram and Twitter for additional
                     assistance and information.</ul>
@@ -632,21 +632,21 @@ const FAQSecurity = () => {
                     vigilant and avoid sharing any personal details.</p>
                   <p>Here are some important guidelines to stay safe:</p>
                   <ol>
-                    <li>• Wrathcodedoes not provide official support on Instagram or Facebook. Always ensure you are interacting with our official
+                    <li>• URG-Xdoes not provide official support on Instagram or Facebook. Always ensure you are interacting with our official
                       team by verifying the blue tick mark on our Twitter, Instagram, or Telegram channel, or by using support tickets raised on our
-                      official website or Wrathcodeapplications (Android/iOS).</li>
-                    <li>• Never share personal or financial information in response to unexpected requests. Wrathcodepersonnel will never call, email,
+                      official website or URG-Xapplications (Android/iOS).</li>
+                    <li>• Never share personal or financial information in response to unexpected requests. URG-Xpersonnel will never call, email,
                       or text you to ask for personal information, bank account details, or credit card numbers.</li>
                     <li>• Be cautious of suspicious texts, pop-up windows, or links and attachments in emails. Delete them immediately. When in
-                      doubt, verify the identity of the contact by confirming the email is sent from our official domain @wrathcode.com or from our
+                      doubt, verify the identity of the contact by confirming the email is sent from our official domain @URG-X.com or from our
                       official blue tick marked channels on Twitter, Instagram, and Telegram.</li>
-                    <li>• Wrathcodewill never rush you into making a decision. We encourage you to take your time and not feel pressured by anyone
-                      claiming to be from Wrathcodecustomer service, asking for immediate information or payment. They may be potential
+                    <li>• URG-Xwill never rush you into making a decision. We encourage you to take your time and not feel pressured by anyone
+                      claiming to be from URG-Xcustomer service, asking for immediate information or payment. They may be potential
                       scammers.</li>
                   </ol>
                   <p>Before taking any action, take the time to respond and conduct checks and verifications. Consult someone you trust if
-                    needed. You can always reach out to us through support tickets raised on our official website or Wrathcodeapplications
-                    (Android/iOS) or interact with the Wrathcodeteam on our official social media pages.
+                    needed. You can always reach out to us through support tickets raised on our official website or URG-Xapplications
+                    (Android/iOS) or interact with the URG-Xteam on our official social media pages.
                     By following these precautions and exercising caution, you can help protect yourself from scams and ensure a secure
                     experience in the world of cryptocurrencies and digital assets. Your safety is our utmost concern, and we remain committed
                     to providing a trusted platform for all our users.</p>
@@ -658,18 +658,18 @@ const FAQSecurity = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_4">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4">
-                How to report a scam to Wrathcode ?
+                How to report a scam to URG-X ?
               </button>
             </h2>
             <div id="collapse_4" className="accordion-collapse collapse" aria-labelledby="headingcollapse_4" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    If you think you noticed Wrathcodebrand name used incorrectly anywhere, please inform us immediately by
-                    raising a support ticket on our official website or Wrathcodeapplications (Android/iOS)
+                    If you think you noticed URG-Xbrand name used incorrectly anywhere, please inform us immediately by
+                    raising a support ticket on our official website or URG-Xapplications (Android/iOS)
                   </p>
                   <p>You can also reach us through our official support channels for Telegram and Twitter, or write to us at
-                    <a href='mailto:support@wrathcode.com' target='_blank'>support@wrathcode.com</a> </p>
+                    <a href='mailto:support@urgx.com' target='_blank'>support@urgx.com</a> </p>
                 </div>
               </div>
             </div>

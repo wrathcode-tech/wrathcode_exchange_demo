@@ -7,16 +7,16 @@ const Contactus = () => {
   return (
 
     <><Helmet>
-      <title>Contact Us – Wrathcode Support & Inquiries</title>
+      <title>Contact Us – URG-X Support & Inquiries</title>
 
       <meta
         name="description"
-        content="Need help? Contact Wrathcode customer support for account issues, trading help or platform info. We’re here 24/7."
+        content="Need help? Contact URG-X customer support for account issues, trading help or platform info. We’re here 24/7."
       />
 
       <meta
         name="keywords"
-        content="crypto exchange contact, Wrathcode support, trading help crypto, customer service Wrathcode"
+        content="crypto exchange contact, URG-X support, trading help crypto, customer service URG-X"
       />
     </Helmet>
 
@@ -41,23 +41,23 @@ const Contactus = () => {
                     <div className="col-lg-7 ">
                       <div>
                         <h2 className="title mb-3"> Contact with us </h2>
-                        <p>  Need help with Wrathcode? Visit our Support Center to get in touch with our dedicated support team, available 24/7. For other inquiries, connect with us below. </p>
+                        <p>  Need help with URG-X? Visit our Support Center to get in touch with our dedicated support team, available 24/7. For other inquiries, connect with us below. </p>
 
                         <div className="cc_row" >
                           <div className="cc_col" >
-                            <b> Press Inquiries</b>   <a href="mailto:info@wrathcode.com" target="_blank" >info@wrathcode.com</a>
+                            <b> Press Inquiries</b>   <a href="mailto:info@URG-X.com" target="_blank" >info@URG-X.com</a>
                           </div>
                           <hr />
                           <div className="cc_col" >
-                            <b> Compliance Inquiries  </b>   <a href="mailto:compliance@wrathcode.com" target="_blank" >compliance@wrathcode.com</a>
+                            <b> Compliance Inquiries  </b>   <a href="mailto:compliance@URG-X.com" target="_blank" >compliance@URG-X.com</a>
                           </div>
 
                           <hr />
                           <div className="cc_col" >
-                            <b> Support Inquiries</b>   <a href="mailto:support@wrathcode.com" target="_blank" >support@wrathcode.com</a>
+                            <b> Support Inquiries</b>   <a href="mailto:support@urgx.com" target="_blank" >support@urgx.com</a>
                           </div>
                         </div>
-                        {/* <h4 className="font-weight-normal" > <a href="mailto:support.@wrathcode.com" target="_blank" >support.@wrathcode.com</a></h4> */}
+                        {/* <h4 className="font-weight-normal" > <a href="mailto:support.@URG-X.com" target="_blank" >support.@URG-X.com</a></h4> */}
                       </div>
                     </div>
                     <div className="col-lg-5">

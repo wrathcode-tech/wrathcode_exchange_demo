@@ -192,16 +192,16 @@ const LandingPage = () => {
     <>
 
       <Helmet>
-        <title>Join Wrathcode Today – Trade Crypto + Get Exclusive Rewards</title>
+        <title>Join URG-X Today – Trade Crypto + Get Exclusive Rewards</title>
 
         <meta
           name="description"
-          content="Sign up with Wrathcode, complete verification and deposit to unlock exclusive rewards. Trade top cryptocurrencies like Bitcoin, Ethereum & more in a trusted environment. Limited time offer."
+          content="Sign up with URG-X, complete verification and deposit to unlock exclusive rewards. Trade top cryptocurrencies like Bitcoin, Ethereum & more in a trusted environment. Limited time offer."
         />
 
         <meta
           name="keywords"
-          content="crypto rewards platform, Bitcoin Ethereum trading rewards, verified crypto exchange Wrathcode, crypto offer trade reward"
+          content="crypto rewards platform, Bitcoin Ethereum trading rewards, verified crypto exchange URG-X, crypto offer trade reward"
         />
       </Helmet>
 
@@ -846,7 +846,7 @@ const LandingPage = () => {
               <img class="dark_img" src="/images/logo_light.svg" alt="logo" />
               <img class="light_img" src="/images/logo-black.svg" alt="logo"/>
               </div>
-              <p>Wrathcode is a blockchain-based banking platform for crypto traders and investors, and aims to connect the world of traditional finance and cryptocurrencies.</p>
+              <p>URG-X is a blockchain-based banking platform for crypto traders and investors, and aims to connect the world of traditional finance and cryptocurrencies.</p>
               <ul className="social_media">
                 <li><a href="#"><i className="ri-facebook-circle-line"></i></a></li>
                 <li><a href="#"><i className="ri-twitter-x-line"></i></a></li>
@@ -875,8 +875,8 @@ const LandingPage = () => {
                       <address>
                         <img src="/images/email-icon.png" alt="email" /> 
                        <div className="emaildiv">
-                        support@wrathcode.com
-                       <span className="admin_email">admin@wrathcode.com</span>
+                        support@urgx.com
+                       <span className="admin_email">admin@urgx.com</span>
                        </div></address>
 
                     </div>

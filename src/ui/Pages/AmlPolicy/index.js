@@ -6,16 +6,16 @@ const AmlPolicy = () => {
   return (
     <>
       <Helmet>
-        <title>AML & KYC Policy – Wrathcode Exchange</title>
+        <title>AML & KYC Policy – URG-X</title>
 
         <meta
           name="description"
-          content="Understand Wrathcode’ Anti-Money Laundering and Know Your Customer policies. Transparent, compliant and trader-focused."
+          content="Understand URG-X’ Anti-Money Laundering and Know Your Customer policies. Transparent, compliant and trader-focused."
         />
 
         <meta
           name="keywords"
-          content="aml kyc crypto exchange, Wrathcode compliance policy, know your customer crypto, exchange aml policy"
+          content="aml kyc crypto exchange, URG-X compliance policy, know your customer crypto, exchange aml policy"
         />
       </Helmet>
 
@@ -35,7 +35,7 @@ const AmlPolicy = () => {
         <section className="termsofuse">
           <div className="container">
             <h3>1. Introduction</h3>
-            <p>This Anti-Money Laundering (AML) and Know Your Customer (KYC) Policy outlines the measures implemented by Lunexor s.r.o., operator of the Wrathcode platform, to prevent misuse of its services for money laundering, terrorist financing, or other illicit activities.</p>
+            <p>This Anti-Money Laundering (AML) and Know Your Customer (KYC) Policy outlines the measures implemented by Lunexor s.r.o., operator of the URG-X platform, to prevent misuse of its services for money laundering, terrorist financing, or other illicit activities.</p>
             <p>This policy is drafted in accordance with:</p>
             <ul>
               <li>EU Directives 2015/849 (AMLD4), 2018/843 (AMLD5), 2018/1673 (AMLD6)</li>
@@ -52,7 +52,7 @@ const AmlPolicy = () => {
               <li>Monitor activities in real time and over time</li>
             </ul>
             <h3>3. Identity Verification (KYC)</h3>
-            <p>Opening an account on Wrathcode is conditional on completing the KYC process, which includes:</p>
+            <p>Opening an account on URG-X is conditional on completing the KYC process, which includes:</p>
             <ul>
               <li>Document verification: Valid ID and proof of residence (e.g., utility bill, bank statement)</li>
               <li>Biometric data (if required)</li>
@@ -80,7 +80,7 @@ const AmlPolicy = () => {
               <li>More frequent monitoring</li>
             </ul>
             <h3>5. Monitoring and Controls</h3>
-            <p>Wrathcode uses automated systems for:</p>
+            <p>URG-X uses automated systems for:</p>
             <ul>
               <li>Blockchain transaction tracking (blockchain forensics)</li>
               <li>Behavioral analysis and detection of unusual patterns</li>
@@ -95,7 +95,7 @@ const AmlPolicy = () => {
               <li>Retaining KYC and transaction data for at least 5 years after the end of the business relationship, as required by EU law</li>
             </ul>
             <h3>7. Sanctions and Prohibited Jurisdictions</h3>
-            <p>Access to Wrathcode services is prohibited for individuals or entities located in:</p>
+            <p>Access to URG-X services is prohibited for individuals or entities located in:</p>
             <ul>
               <li>Countries under international sanctions (e.g., North Korea, Iran)</li>
               <li>Jurisdictions on the AML blacklist (FATF)</li>
@@ -106,7 +106,7 @@ const AmlPolicy = () => {
             <p>This policy is reviewed annually or whenever significant regulatory changes occur. It is adapted in accordance with updates to MiCA and European AML best practices.</p>
             <h3>9. Contact</h3>
             <p>For inquiries regarding KYC or compliance, please contact us at:</p>
-            <p><strong>Email:</strong> <a href="mailto:compliance@wrathcode.com">compliance@wrathcode.com</a></p>
+            <p><strong>Email:</strong> <a href="mailto:compliance@URG-X.com">compliance@URG-X.com</a></p>
           </div>
         </section>
       </div>

@@ -70,7 +70,7 @@ const NotificationPage = (props) => {
   return (
     <>
       <Helmet>
-        <title> Wrathcode Trade | The world class new generation crypto asset exchange</title>
+        <title> URG-X Trade | The world class new generation crypto asset exchange</title>
       </Helmet>
  
 

@@ -69,7 +69,7 @@ const FAQKyc = () => {
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    To comply with KYC (Know Your Customer) regulations, Wrathcodeimplements identification verification.
+                    To comply with KYC (Know Your Customer) regulations, URG-Ximplements identification verification.
                     <br />
                     KYC is a crucial process that involves verifying and confirming the identity of customers to ensure they
                     are who they claim to be. This multi-step procedure plays a vital role in preventing the creation and
@@ -95,7 +95,7 @@ const FAQKyc = () => {
                     <br />
                     <h6>National Identity document Verification</h6>
                     <ol>
-                      <li>1. Log into your Wrathcodewebsite and click on ‘Verify Account’</li>
+                      <li>1. Log into your URG-Xwebsite and click on ‘Verify Account’</li>
                       <li>2. To upload documents, click on ‘Continue via document upload’ option.</li>
                       <li>3. Select the passport option and click on ‘Ok’ to give camera access.</li>
                       <li>4. Take clear photographs of the front and back of your identity document and Submit.</li>
@@ -108,7 +108,7 @@ const FAQKyc = () => {
                       <br />
                       Your KYC verification is complete!
                       <br />
-                      <strong>Note: </strong>It is mandatory for all users to complete their KYC to use deposit/withdrawal services. If you are an existing user of Wrathcode 
+                      <strong>Note: </strong>It is mandatory for all users to complete their KYC to use deposit/withdrawal services. If you are an existing user of URG-X 
                       and your KYC has been verified, you do not have to do it again.
                     </ol>
                   </p>
@@ -164,7 +164,7 @@ const FAQKyc = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_5">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_5" aria-expanded="false" aria-controls="collapse_5">
-                Can I make deposits/withdrawals on Wrathcodewithout completing my KYC?
+                Can I make deposits/withdrawals on URG-Xwithout completing my KYC?
               </button>
             </h2>
             <div id="collapse_5" className="accordion-collapse collapse" aria-labelledby="headingcollapse_5" data-bs-parent="#accordionExample">
@@ -215,14 +215,14 @@ const FAQKyc = () => {
           <div className="card p-0  ">
             <h2 className="card-header no-border" id="headingcollapse_7">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_7" aria-expanded="false" aria-controls="collapse_6">
-                Will my KYC documents be safe with Wrathcode ?
+                Will my KYC documents be safe with URG-X ?
               </button>
             </h2>
             <div id="collapse_7" className="accordion-collapse collapse" aria-labelledby="headingcollapse_7" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top   border-bottom border-top">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    At Wrathcode , we prioritize security above all else for both our platform and company. Your information is entirely secure with
+                    At URG-X , we prioritize security above all else for both our platform and company. Your information is entirely secure with
                     us, as we employ consistent and robust security software for both our crypto-wallets and identity management system.
                     Rest assured that your data is in safe hands.
                   </p>
@@ -318,7 +318,7 @@ const FAQKyc = () => {
                   </p>
                   <h6>5. KYC rejected due to multiple accounts</h6>
                   <p className="mb-0">
-                    Kindly note that a user can have only one Wrathcodeaccount; multiple accounts will not be accepted.
+                    Kindly note that a user can have only one URG-Xaccount; multiple accounts will not be accepted.
                   </p>
                   <h6>6. KYC is rejected due to masked documents</h6>
                   <p className="mb-0">
@@ -349,7 +349,7 @@ const FAQKyc = () => {
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
-                  <p className="mb-0" >Wrathcodeaccepts the following bank account types for verification:</p>
+                  <p className="mb-0" >URG-Xaccepts the following bank account types for verification:</p>
                   <strong>For Individual:</strong> <p>savings bank account.</p>
                   <strong>For Enterprise/Corporate/Proprietorship:</strong> <p>current bank account in the name of the company.</p>
                 </div>
@@ -368,7 +368,7 @@ const FAQKyc = () => {
                 <div className="faq_text" >
                   <p className="mb-0">
                     Your KYC verification could have failed because the ID card information you uploaded
-                    already exists for another Wrathcodeaccount
+                    already exists for another URG-Xaccount
                   </p>
                   <p className="mb-0">
                     Kindly note that we cannot proceed with KYC verification if the same documents already
@@ -388,8 +388,8 @@ const FAQKyc = () => {
             <div id="collapse_5" className="accordion-collapse collapse" aria-labelledby="headingcollapse_5" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
-                  <p className="mb-0" >Please be advised that if you already have a Wrathcodeprofile with the same ID Card, you will be
-                    unable to create a new Wrathcodeaccount.</p>
+                  <p className="mb-0" >Please be advised that if you already have a URG-Xprofile with the same ID Card, you will be
+                    unable to create a new URG-Xaccount.</p>
                   <p>We recommend that you attempt logging into the initial account with which you registered your ID Card.</p>
                 </div>
               </div>

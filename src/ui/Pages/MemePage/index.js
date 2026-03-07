@@ -51,16 +51,16 @@ const MemePage = () => {
   return (
     <>
       <Helmet>
-        <title>Crypto Meme Platform – Create, Share & Win on Wrathcode</title>
+        <title>Crypto Meme Platform – Create, Share & Win on URG-X</title>
 
         <meta
           name="description"
-          content="Join the Wrathcode Meme Hub to share viral crypto memes, join weekly contests, and connect with the global Web3 meme community."
+          content="Join the URG-X Meme Hub to share viral crypto memes, join weekly contests, and connect with the global Web3 meme community."
         />
 
         <meta
           name="keywords"
-          content="crypto meme hub, meme crypto platform, Wrathcode community, meme rewards, web3 memes"
+          content="crypto meme hub, meme crypto platform, URG-X community, meme rewards, web3 memes"
         />
       </Helmet>
 

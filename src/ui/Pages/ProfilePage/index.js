@@ -114,7 +114,7 @@ const ProfilePage = (props) => {
   return (
     <>
       <Helmet>
-        <title> Wrathcode | The world class new generation crypto asset exchange</title>
+        <title> URG-X | The world class new generation crypto asset exchange</title>
       </Helmet>
       <div className="mobile_view" id="toggleBtn" onClick={() => toggleContent()}>
         <img src={getPageIcon} alt={currentPage} width={20} height={20} style={{ marginRight: '8px' }} />

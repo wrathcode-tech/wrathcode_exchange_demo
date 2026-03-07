@@ -23,16 +23,16 @@ const FeesPage = () => {
 
     <>
       <Helmet>
-        <title>Crypto Trading & Withdrawal Fees – Wrathcode</title>
+        <title>Crypto Trading & Withdrawal Fees – URG-X</title>
 
         <meta
           name="description"
-          content="Understand the trading, withdrawal and deposit fees at Wrathcode. Transparent pricing so you know exactly what you pay."
+          content="Understand the trading, withdrawal and deposit fees at URG-X. Transparent pricing so you know exactly what you pay."
         />
 
         <meta
           name="keywords"
-          content="withdrawal fees crypto exchange, deposit fees Wrathcode, trading fees transparent, crypto platform charges"
+          content="withdrawal fees crypto exchange, deposit fees URG-X, trading fees transparent, crypto platform charges"
         />
       </Helmet>
 
@@ -56,7 +56,7 @@ const FeesPage = () => {
                 <div className="create-item-wrapper plicy_sec" >
                   <div className="row align-items-center py-5">
                     <div className="col-lg-12 ">
-                      <p className="title  mb-2"><h3>Wrathcode:</h3>  Offers tiered maker-taker fees, starting at 0.1% for makers and 0.1% for takers. </p>
+                      <p className="title  mb-2"><h3>URG-X:</h3>  Offers tiered maker-taker fees, starting at 0.1% for makers and 0.1% for takers. </p>
                     </div>
                   </div>
                   <div className="row align-items-center pb-0">

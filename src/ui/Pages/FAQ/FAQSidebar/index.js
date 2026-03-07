@@ -93,14 +93,14 @@ const FAQSidebar = () => {
                   <div className="doc_icon"><img src="/images/faq6.png" className="img-fluid" alt="" /></div>
                   <div>
                     <h5>API</h5>
-                    <p>About WrathcodeAPI services </p>
+                    <p>About URG-XAPI services </p>
                   </div>
                 </a>
 
                 <a className={ActiveTab === 'FAQTrading' ? "card active" : "card"} href="#/" onClick={() => { setActiveTab('FAQTrading') }}>
                   <div className="doc_icon"><img src="/images/faq7.png" className="img-fluid" alt="" /></div>
                   <div>
-                    <h5>Trading with Wrathcode</h5>
+                    <h5>Trading with URG-X</h5>
                     <p> Help for all your trading transections  </p>
                   </div>
                 </a>
