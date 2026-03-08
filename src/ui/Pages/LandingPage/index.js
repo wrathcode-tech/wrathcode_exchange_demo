@@ -422,11 +422,11 @@ const LandingPage = () => {
                   <table>
                     {topGainers?.length > 0 ? (
                       <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th className="text-end">Price</th>
-                      </tr>
-                    </thead>
+                        <tr>
+                          <th>Name</th>
+                          <th className="text-end">Price</th>
+                        </tr>
+                      </thead>
                     ) : ""}
                     <tbody>
                       {topGainers?.length > 0 ? (
@@ -457,13 +457,13 @@ const LandingPage = () => {
                         ))
                       ) : (
                         <tr>
-                        <td colSpan="3" className="p-0">
-                          <div className="favouriteData text-center">
-                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" />
-                            <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
-                          </div>
-                        </td>
-                      </tr>
+                          <td colSpan="3" className="p-0">
+                            <div className="favouriteData text-center">
+                              <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" />
+                              <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
+                            </div>
+                          </td>
+                        </tr>
                       )}
                     </tbody>
                   </table>
@@ -481,11 +481,11 @@ const LandingPage = () => {
                   <table>
                     {newListings?.length > 0 ? (
                       <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th className="text-end">Price</th>
-                      </tr>
-                    </thead>
+                        <tr>
+                          <th>Name</th>
+                          <th className="text-end">Price</th>
+                        </tr>
+                      </thead>
                     ) : ""}
                     <tbody>
                       {newListings?.length > 0 ? (
@@ -516,13 +516,13 @@ const LandingPage = () => {
                         ))
                       ) : (
                         <tr>
-                        <td colSpan="3" className="p-0">
-                          <div className="favouriteData text-center">
-                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" />
-                            <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
-                          </div>
-                        </td>
-                      </tr>
+                          <td colSpan="3" className="p-0">
+                            <div className="favouriteData text-center">
+                              <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="no data" />
+                              <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="no data" />
+                            </div>
+                          </td>
+                        </tr>
                       )}
                     </tbody>
                   </table>
@@ -633,7 +633,7 @@ const LandingPage = () => {
               <div className="trade_icon">
                 <img src="images/new-images/secure_wallet.png" alt="Secure and Encrypted Wallet" className="phone dark_img" />
                 <img src="images/new-images/secure_wallet_light.png" alt="Secure and Encrypted Wallet" className="light_img phone" />
-                </div>
+              </div>
               <h4>Secure &amp; Encrypted Wallet</h4>
               <p>Protect your assets with enterprise-grade security, multi-layer encryption, and full ownership of your funds.</p>
             </div>
@@ -642,7 +642,7 @@ const LandingPage = () => {
               <div className="trade_icon">
                 <img src="images/new-images/receive_send.svg" alt="Send and Receive Instantly" className="phone dark_img" />
                 <img src="images/new-images/receive_send_light.png" alt="Send and Receive Instantly" className="light_img phone" />
-                </div>
+              </div>
               <h4>Send &amp; Receive Instantly</h4>
               <p>Transfer crypto effortlessly with fast confirmations, low fees, and seamless wallet-to-wallet transactions.</p>
             </div>
@@ -651,7 +651,7 @@ const LandingPage = () => {
               <div className="trade_icon">
                 <img src="images/new-images/invest_icon.png" alt="Invest in Real Time" className="phone dark_img" />
                 <img src="images/new-images/invest_icon_light.png" alt="Invest in Real Time" className="light_img phone" />
-                </div>
+              </div>
               <h4>Invest in Real Time</h4>
               <p>Track market movements, execute trades instantly, and manage your investments as the market evolves.</p>
             </div>
@@ -660,7 +660,7 @@ const LandingPage = () => {
               <div className="trade_icon">
                 <img src="images/new-images/analyze_charts.png" alt="Watch and Analyze Charts" className="phone dark_img" />
                 <img src="images/new-images/nalyze_charts_light.png" alt="Watch and Analyze Charts" className="light_img phone" />
-                </div>
+              </div>
               <h4>Watch &amp; Analyze Charts</h4>
               <p>Make informed decisions using advanced charts, live indicators, and professional-grade analytics tools.</p>
             </div>
@@ -843,8 +843,8 @@ const LandingPage = () => {
           <div className="row">
             <div className="col-sm-5 col-md-5 col-lg-5">
               <div className="footer_logo">
-              <img class="dark_img" src="/images/logo_light.svg" alt="logo" />
-              <img class="light_img" src="/images/logo-black.svg" alt="logo"/>
+                <img class="dark_img" src="/images/logo_light.svg" alt="logo" />
+                <img class="light_img" src="/images/logo-black.svg" alt="logo" />
               </div>
               <p>URG-X is a blockchain-based banking platform for crypto traders and investors, and aims to connect the world of traditional finance and cryptocurrencies.</p>
               <ul className="social_media">
@@ -862,7 +862,7 @@ const LandingPage = () => {
                   <div className="address_footer">
                     <h5><span>Head Office</span></h5>
                     <div className="address_cnt">
-                      <p>1st floor, JDA Complex, Plot no. 11, Sector 4, Vidyadhar Nagar, Jaipur, Rajasthan 302039</p>
+                      <p>India</p>
                     </div>
                   </div>
 
@@ -873,11 +873,11 @@ const LandingPage = () => {
                     <h5>Contact Us</h5>
                     <div className="address_cntemail">
                       <address>
-                        <img src="/images/email-icon.png" alt="email" /> 
-                       <div className="emaildiv">
-                        support@urgx.com
-                       <span className="admin_email">admin@urgx.com</span>
-                       </div></address>
+                        <img src="/images/email-icon.png" alt="email" />
+                        <div className="emaildiv">
+                          support@urgx.com
+                          <span className="admin_email">admin@urgx.com</span>
+                        </div></address>
 
                     </div>
                   </div>
