@@ -375,17 +375,13 @@ const AuthService = {
     return ApiCallGet(url, headers);
 
   },
+  /** @deprecated Use userTokenTransactionHistory */
   launchpadTransHistory: async () => {
     const token = localStorage.getItem('token');
-    const { baseAuth, launchpadTransHistory } = ApiConfig;
-    const url = baseAuth + launchpadTransHistory;
-
-    const headers = {
-      'Content-Type': 'application/json',
-      "Authorization": token,
-    };
+    const { baseAuth, userTokenTransactionHistory } = ApiConfig;
+    const url = baseAuth + userTokenTransactionHistory + '?page=1&limit=50';
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
     return ApiCallGet(url, headers);
-
   },
   checkGiveawayStatus: async () => {
     const token = localStorage.getItem('token');
@@ -655,15 +651,47 @@ const AuthService = {
     };
     return ApiCallGet(url, headers);
   },
-  getUserlpList: async () => {
+  /** Launchpad listing - public, no auth. status: UPCOMING|LIVE|ENDED|CANCELLED */
+  launchpadListing: async (status = null, page = 1, limit = 10) => {
+    const { baseAuth, launchpadListing: endpoint } = ApiConfig;
+    let url = baseAuth + endpoint;
+    const params = new URLSearchParams();
+    if (status) params.append('status', status);
+    params.append('page', page);
+    params.append('limit', limit);
+    if (params.toString()) url += '?' + params.toString();
+    return ApiCallGet(url, { 'Content-Type': 'application/json' });
+  },
+  /** Dashboard launchpad listing - public */
+  userLaunchpadListing: async (status = null, page = 1, limit = 10) => {
+    const { baseAuth, userLaunchpadListing: endpoint } = ApiConfig;
+    let url = baseAuth + endpoint;
+    const params = new URLSearchParams();
+    if (status) params.append('status', status);
+    params.append('page', page);
+    params.append('limit', limit);
+    if (params.toString()) url += '?' + params.toString();
+    return ApiCallGet(url, { 'Content-Type': 'application/json' });
+  },
+  /** Launchpad details - auth required */
+  launchpadDetails: async (id) => {
     const token = localStorage.getItem('token');
-    const { baseAuth, getUserlpList } = ApiConfig;
-    const url = baseAuth + getUserlpList;
-    const headers = {
-      'Content-Type': 'application/json',
-      "Authorization": token,
-    };
+    const { baseAuth, launchpadDetails } = ApiConfig;
+    const url = baseAuth + launchpadDetails + `/${id}`;
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
     return ApiCallGet(url, headers);
+  },
+  /** Launchpad details - public, no auth */
+  userLaunchpadDetails: async (id) => {
+    const { baseAuth, userLaunchpadDetails } = ApiConfig;
+    const url = baseAuth + userLaunchpadDetails + `/${id}`;
+    return ApiCallGet(url, { 'Content-Type': 'application/json' });
+  },
+  /** @deprecated Use userLaunchpadListing instead */
+  getUserlpList: async () => {
+    const { baseAuth, userLaunchpadListing } = ApiConfig;
+    const url = baseAuth + userLaunchpadListing + '?page=1&limit=100';
+    return ApiCallGet(url, { 'Content-Type': 'application/json' });
   },
   getAnnouncementList: async (id) => {
     const token = localStorage.getItem('token');
@@ -675,40 +703,78 @@ const AuthService = {
     };
     return ApiCallGet(url, headers);
   },
+  /** @deprecated Use launchpadDetails (auth) or userLaunchpadDetails (public) */
   userlpDetails: async (id) => {
     const token = localStorage.getItem('token');
-    const { baseAuth, userlpDetails } = ApiConfig;
-    const url = baseAuth + userlpDetails + `/${id}`;
-    const headers = {
-      'Content-Type': 'application/json',
-      "Authorization": token,
-    };
+    const { baseAuth, launchpadDetails } = ApiConfig;
+    const url = baseAuth + launchpadDetails + `/${id}`;
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
     return ApiCallGet(url, headers);
   },
-  subscriptionHistory: async (id) => {
+  userTokenSubscriptionHistory: async (page = 1, limit = 10) => {
     const token = localStorage.getItem('token');
-    const { baseAuth, subscriptionHistory } = ApiConfig;
-    const url = baseAuth + subscriptionHistory;
-    const headers = {
-      'Content-Type': 'application/json',
-      "Authorization": token,
-    };
+    const { baseAuth, userTokenSubscriptionHistory } = ApiConfig;
+    let url = baseAuth + userTokenSubscriptionHistory + `?page=${page}&limit=${limit}`;
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
     return ApiCallGet(url, headers);
   },
-
+  /** @deprecated Use userTokenSubscriptionHistory */
+  subscriptionHistory: async () => {
+    const token = localStorage.getItem('token');
+    const { baseAuth, userTokenSubscriptionHistory } = ApiConfig;
+    const url = baseAuth + userTokenSubscriptionHistory + '?page=1&limit=50';
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
+    return ApiCallGet(url, headers);
+  },
+  purchaseToken: async (launchpadId, amountInvested) => {
+    const token = localStorage.getItem('token');
+    const { baseAuth, purchaseToken: endpoint } = ApiConfig;
+    const url = baseAuth + endpoint;
+    const params = { launchpadId, amountInvested: +amountInvested };
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
+    return ApiCallPost(url, params, headers);
+  },
+  /** @deprecated Use purchaseToken */
   tokenPurches: async (launchpadId, amountInvested) => {
     const token = localStorage.getItem('token');
-    const { baseAuth, tokenPurches } = ApiConfig;
-    const url = baseAuth + tokenPurches;
-    const params = {
-      launchpadId: launchpadId,
-      amountInvested: +amountInvested,
-    };
-    const headers = {
-      'Content-Type': 'application/json',
-      "Authorization": token,
-    };
+    const { baseAuth, purchaseToken: endpoint } = ApiConfig;
+    const url = baseAuth + endpoint;
+    const params = { launchpadId, amountInvested: +amountInvested };
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
     return ApiCallPost(url, params, headers);
+  },
+  userPurchasingListing: async (page = 1, limit = 10) => {
+    const token = localStorage.getItem('token');
+    const { baseAuth, userPurchasingListing } = ApiConfig;
+    const url = baseAuth + userPurchasingListing + `?page=${page}&limit=${limit}`;
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
+    return ApiCallGet(url, headers);
+  },
+  userTokenTransactionHistory: async (page = 1, limit = 10) => {
+    const token = localStorage.getItem('token');
+    const { baseAuth, userTokenTransactionHistory } = ApiConfig;
+    const url = baseAuth + userTokenTransactionHistory + `?page=${page}&limit=${limit}`;
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
+    return ApiCallGet(url, headers);
+  },
+  userTokenDistributedHistory: async (page = 1, limit = 10) => {
+    const token = localStorage.getItem('token');
+    const { baseAuth, userTokenDistributedHistory } = ApiConfig;
+    const url = baseAuth + userTokenDistributedHistory + `?page=${page}&limit=${limit}`;
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
+    return ApiCallGet(url, headers);
+  },
+  userCurrentMainBalanceUsdt: async () => {
+    const token = localStorage.getItem('token');
+    const { baseAuth, userCurrentMainBalanceUsdt } = ApiConfig;
+    const url = baseAuth + userCurrentMainBalanceUsdt;
+    const headers = { 'Content-Type': 'application/json', Authorization: token };
+    return ApiCallGet(url, headers);
+  },
+  launchpadStats: async (id) => {
+    const { baseAuth, launchpadStats } = ApiConfig;
+    const url = baseAuth + launchpadStats + `/${id}`;
+    return ApiCallGet(url, { 'Content-Type': 'application/json' });
   },
 
   announcementView: async (id) => {
@@ -2775,6 +2841,69 @@ const AuthService = {
       Authorization: token,
     };
     return ApiCallPost(url, data, headers);
+  },
+
+  // ============================================================================
+  // ANTI-PHISHING CODE METHODS
+  // ============================================================================
+
+  /**
+   * Get anti-phishing status and available verification methods
+   */
+  antiPhishingGetStatus: async () => {
+    const token = localStorage.getItem("token");
+    const { baseSecurity, antiPhishingStatus } = ApiConfig;
+    const url = baseSecurity + antiPhishingStatus;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  /**
+   * Send OTP for anti-phishing verification (email or mobile)
+   * @param {string} target - 'email' or 'mobile'
+   */
+  antiPhishingSendOtp: async (target) => {
+    const token = localStorage.getItem("token");
+    const { baseSecurity, antiPhishingSendOtp } = ApiConfig;
+    const url = baseSecurity + antiPhishingSendOtp;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallPost(url, { target }, headers);
+  },
+
+  /**
+   * Add anti-phishing code
+   * @param {object} params - { antiPhishingCode, verifyMethod, code?, passkeyUserId? }
+   */
+  antiPhishingAdd: async (params) => {
+    const token = localStorage.getItem("token");
+    const { baseSecurity, antiPhishingAdd } = ApiConfig;
+    const url = baseSecurity + antiPhishingAdd;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallPost(url, params, headers);
+  },
+
+  /**
+   * Remove anti-phishing code
+   * @param {object} params - { verifyMethod, code?, passkeyUserId? }
+   */
+  antiPhishingRemove: async (params) => {
+    const token = localStorage.getItem("token");
+    const { baseSecurity, antiPhishingRemove } = ApiConfig;
+    const url = baseSecurity + antiPhishingRemove;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallPost(url, params, headers);
   },
 
   // ============================================================================

@@ -12,7 +12,7 @@ import { Helmet } from "react-helmet-async";
 const LaunchpadCoinPage = () => {
     const navigate = useNavigate();
     const { id } = useParams(); // Get launchpad ID from URL
-    const [coinDetailsData, setCoinDetailsData] = useState(null)
+    const [, setCoinDetailsData] = useState(null)
     const [purchaseAmount, setPurchaseAmount] = useState('')
     const [currentLaunchpad, setCurrentLaunchpad] = useState(null)
     const [showPopup, setShowPopup] = useState(false)
@@ -24,16 +24,45 @@ const LaunchpadCoinPage = () => {
             LoaderHelper.loaderStatus(false);
             return;
         }
-
         LoaderHelper.loaderStatus(true);
         try {
-            const result = await AuthService.userlpDetails(id);
+            const hasToken = !!localStorage.getItem("token");
+            const result = hasToken
+                ? await AuthService.launchpadDetails(id)
+                : await AuthService.userLaunchpadDetails(id);
             LoaderHelper.loaderStatus(false);
             if (result?.success && result?.data) {
-                setCoinDetailsData(result.data);
-                setCurrentLaunchpad(result.data);
-            } else {
-                // alertErrorMessage(result?.message || "Something went wrong while fetching launchpad details.");
+                const data = result.data;
+                const base = data?.base_currency_id;
+                const quote = data?.quote_currency_id;
+                let logoUrl = (typeof base === "object" && base?.icon_path) || data?.logoUrl;
+                let tokenSymbol = (typeof base === "object" && base?.short_name) || data?.tokenSymbol || "Token";
+                let tokenName = (typeof base === "object" && base?.name) || data?.tokenName || "Token";
+
+                if (!logoUrl && typeof base === "string" && hasToken) {
+                    try {
+                        const coinRes = await AuthService.coinDetails(base);
+                        if (coinRes?.success && coinRes?.data) {
+                            const c = coinRes.data;
+                            logoUrl = c?.icon_path || c?.iconPath;
+                            tokenSymbol = c?.short_name || c?.shortName || tokenSymbol;
+                            tokenName = c?.name || tokenName;
+                        }
+                    } catch { /* use fallbacks */ }
+                }
+
+                const normalized = {
+                    ...data,
+                    tokenSymbol,
+                    tokenName,
+                    logoUrl,
+                    quoteSymbol: (typeof quote === "object" && quote?.short_name) || data?.quoteSymbol || "USDT",
+                    tokenPrice: data?.tokenPrice ?? data?.subscription_price ?? data?.price ?? 0,
+                    totalDistribution: data?.tokensForSale ?? data?.totalDistribution,
+                    totalAllocation: data?.tokensForSale ?? data?.totalAllocation,
+                };
+                setCoinDetailsData(normalized);
+                setCurrentLaunchpad(normalized);
             }
         } catch (err) {
             LoaderHelper.loaderStatus(false);
@@ -43,18 +72,18 @@ const LaunchpadCoinPage = () => {
 
     const handleUserParticipation = async () => {
         if (!id) return;
-
         try {
-            const result = await AuthService.subscriptionHistory();
-
-            if (result?.success && Array.isArray(result.data)) {
-                setUserParticipation(result.data); // ✅ Correct data set
+            const result = await AuthService.userTokenSubscriptionHistory(1, 50);
+            const data = result?.data;
+            if (result?.success && Array.isArray(data)) {
+                setUserParticipation(data);
+            } else if (result?.success && data && !Array.isArray(data)) {
+                setUserParticipation(Array.isArray(data?.items) ? data.items : []);
             } else {
-                setUserParticipation([]); // ✅ Empty array if no data
+                setUserParticipation([]);
             }
         } catch (err) {
-            console.error("Error loading user participation:", err);
-            setUserParticipation([]); // ✅ Fail-safe in case of error
+            setUserParticipation([]);
         }
     };
 
@@ -72,7 +101,7 @@ const LaunchpadCoinPage = () => {
 
         LoaderHelper.loaderStatus(true);
         try {
-            const result = await AuthService.tokenPurches(launchpadId, amountInvested);
+            const result = await AuthService.purchaseToken(launchpadId, amountInvested);
             if (result?.success) {
                 handleCoinData();
                 handleUserParticipation(); // Refresh user participation data
@@ -125,7 +154,7 @@ const LaunchpadCoinPage = () => {
 
 
 
-    const [timeRemaining, setTimeRemaining] = useState({
+    const [, setTimeRemaining] = useState({
         days: 0,
         hours: 0,
         minutes: 0,
@@ -206,8 +235,12 @@ const LaunchpadCoinPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log(coinDetailsData, "coinDetailsDatacoinDetailsData");
-
+    const getImgSrc = (url) => {
+    console.log("🚀 ~ getImgSrc ~ url:", url)
+return `${ApiConfig?.baseImage}${url}`;
+    };
+    const imgFallback = "/images/AnnouncementImg/eul_coin.png";
+    const formatDate = (d) => (d ? moment(d).format("YYYY-MM-DD HH:mm") : "---");
 
     return (
         <>
@@ -229,9 +262,9 @@ const LaunchpadCoinPage = () => {
             <div className="launchpad_detail_s">
                 <div className="container">
                     <ul className="backbt">
-                        <li><a href="#">Launchpad</a></li>
+                        <li><Link to="/launchpad">Launchpad</Link></li>
                         <li>/</li>
-                        <li>Lighter</li>
+                        <li>{currentLaunchpad?.tokenName || currentLaunchpad?.tokenSymbol || "Launchpad"}</li>
                     </ul>
 
                     <div className="detail_top_launchpad">
@@ -240,39 +273,48 @@ const LaunchpadCoinPage = () => {
 
                             <div className="coin_lft">
                                 <div className="coin">
-                                    <img src="https://backend.gatbits.com//uploads/logoUrl-1764864308285-985180289.png" alt="ZAC" /></div>
+                                    <img src={getImgSrc(currentLaunchpad?.logoUrl)} alt={currentLaunchpad?.tokenSymbol || "token"} onError={(e) => { e.target.src = imgFallback; }} /></div>
                                 <div className="coin_cnt">
-                                    <h3>ZAC</h3>
+                                    <h3>{currentLaunchpad?.tokenSymbol || "---"}</h3>
                                     <div className="hd d-flex">
-                                        <span>Initial Offering · Ended</span>
+                                        <span>Initial Offering · {(currentLaunchpad?.status || "Ended")}</span>
                                         <ul className="subcate">
-                                            <li className="darkbg"><button>Official Website</button></li>
-                                            <li className="darkbg"><button>Introduction</button></li>
+                                            {currentLaunchpad?.website && (
+                                                <li className="darkbg"><button type="button" onClick={() => window.open(currentLaunchpad.website, "_blank")}>Official Website</button></li>
+                                            )}
+                                            {currentLaunchpad?.whitepaper && (
+                                                <li className="darkbg"><button type="button" onClick={() => window.open(currentLaunchpad.whitepaper, "_blank")}>Introduction</button></li>
+                                            )}
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
                             <ul className="registration_list">
-                                <li>Registration /
-                                    Subscription Starts <span>2025-12-24 12:00</span></li>
-                                <li>Registration /
-                                    Subscription Ends <span>2025-12-24 12:00</span></li>
-                                <li>Allocation Starts <span>2025-12-24 12:00</span></li>
-                                <li>Allocation Ends <span>2025-12-24 12:00</span></li>
+                                <li>
+                                    Subscription Starts <span>{formatDate(currentLaunchpad?.startTime || currentLaunchpad?.subscriptionStart)}</span></li>
+                                <li>
+                                    Subscription Ends <span>{formatDate(currentLaunchpad?.endTime || currentLaunchpad?.subscriptionEnd)}</span></li>
+                                <li>Allocation Starts <span>{formatDate(currentLaunchpad?.endTime)}</span></li>
+                                {/* <li>Allocation Ends <span>{formatDate(currentLaunchpad?.allocationEnd || currentLaunchpad?.endTime)}</span></li> */}
                             </ul>
                         </div>
 
                         <div className="total_distribution">
                             <div className="top_tpl">
                                 <ul>
-                                    <li><span>Total Distribution</span>17,500 LIT</li>
-                                    <li><span>Participants</span>18,377</li>
+                                    <li><span>Total Distribution</span>{(currentLaunchpad?.totalDistribution || currentLaunchpad?.tokensForSale || currentLaunchpad?.totalRaised || 0).toLocaleString()} {currentLaunchpad?.tokenSymbol || ""}</li>
+                                    <li><span>Participants</span>{(currentLaunchpad?.participantsCount || 0).toLocaleString()}</li>
                                 </ul>
                             </div>
 
                             <div className="tradetpl">
-                                <button>Trade<i className="ri-arrow-down-s-line"></i></button>
+                                <button
+                                    onClick={() => {
+                                        if (!localStorage.getItem("token")) navigate("/login");
+                                        else if ((currentLaunchpad?.status || "").toLowerCase() === "live") handleOpenPopup();
+                                    }}
+                                >Trade<i className="ri-arrow-down-s-line"></i></button>
                             </div>
                         </div>
 
@@ -280,19 +322,19 @@ const LaunchpadCoinPage = () => {
 
                     <div className="usdtpool_bl">
                         <div className="d-flex tbl_flex">
-                            <button className="poolbtn active">USDT Pool <span><i className="ri-user-3-fill"></i> NEW</span></button>
-                            <button className="poolbtn">USDT Pool</button>
+                            <button className="poolbtn active">{currentLaunchpad?.quoteSymbol || "USDT"} Pool <span><i className="ri-user-3-fill"></i> NEW</span></button>
+                            <button className="poolbtn">{currentLaunchpad?.quoteSymbol || "USDT"} Pool</button>
                         </div>
                         <div className="commit_usdt_del">
                             <div className="coin_lft">
                                 <div className="coin">
-                                    <img src="https://backend.gatbits.com//uploads/logoUrl-1764864308285-985180289.png" alt="ZAC" />
+                                    <img src={getImgSrc(currentLaunchpad?.logoUrl)} alt={currentLaunchpad?.tokenSymbol || "token"} onError={(e) => { e.target.src = imgFallback; }} />
                                     <div className="useredit">
-                                        <img src="images/useredit.svg" />
+                                        <img src={getImgSrc(currentLaunchpad?.quote_currency_id?.icon_path)} alt="" />
                                     </div>
                                 </div>
                                 <div className="coin_cnt">
-                                    <h3>Commit USDT to Subscribe LIT</h3>
+                                    <h3>Commit {currentLaunchpad?.quoteSymbol || "USDT"} to Subscribe {currentLaunchpad?.tokenSymbol || "---"}</h3>
                                     <div className="hd d-flex">
                                         <ul className="subcate">
                                             <li><button><i className="ri-user-3-fill"></i> New User Exclusive</button></li>
@@ -303,12 +345,12 @@ const LaunchpadCoinPage = () => {
                                 </div>
                             </div>
                             <ul className="exclusive_list">
-                                <li><span>Exclusive Subscription Price</span>1 LIT = 1.6 USDT <span className="sellsub">Sell Price: 4 USDT</span></li>
-                                <li><span>Total Allocation</span>12,500 LIT</li>
-                                <li><span>Total Committed</span>1,030,485.64 USDT</li>
-                                <li><span>Subscribed</span>---</li>
-                                <li><span>Allocated</span>---</li>
-                                <li><span>Refunded</span>---</li>
+                                <li><span>Exclusive Subscription Price</span>1 {currentLaunchpad?.tokenSymbol || "---"} = {(currentLaunchpad?.tokenPrice || 0)} {currentLaunchpad?.quoteSymbol || "USDT"} <span className="sellsub">Sell Price: {(currentLaunchpad?.sellPrice || currentLaunchpad?.listingPrice || currentLaunchpad?.tokenPrice || 0)} {currentLaunchpad?.quoteSymbol || "USDT"}</span></li>
+                                <li><span>Total Allocation</span>{(currentLaunchpad?.totalAllocation || currentLaunchpad?.tokensForSale || 0).toLocaleString()} {currentLaunchpad?.tokenSymbol || ""}</li>
+                                <li><span>Total Committed</span>{(currentLaunchpad?.totalRaised || currentLaunchpad?.totalInvested || 0).toLocaleString()} {currentLaunchpad?.quoteSymbol || "USDT"}</li>
+                                <li><span>Subscribed</span>{currentLaunchpad?.subscribed != null ? Number(currentLaunchpad.subscribed).toLocaleString() : "---"}</li>
+                                <li><span>Allocated</span>{currentLaunchpad?.allocated != null ? Number(currentLaunchpad.allocated).toLocaleString() : "---"}</li>
+                                <li><span>Refunded</span>{currentLaunchpad?.refunded != null ? Number(currentLaunchpad.refunded).toLocaleString() : "---"}</li>
                             </ul>
                         </div>
                     </div>
@@ -365,10 +407,10 @@ const LaunchpadCoinPage = () => {
                             <h5>Project Summary</h5>
 
                             <div className="d-flex toplimit">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                                <p>{currentLaunchpad?.description || "No description available."}</p>
                                 <div className="trade websitebtn d-flex">
-                                    <button>Website</button>
-                                    <button className="whitebtn">Whitepaper</button>
+                                    {currentLaunchpad?.website && <button type="button" onClick={() => window.open(currentLaunchpad.website, "_blank")}>Website</button>}
+                                    {currentLaunchpad?.whitepaper && <button type="button" className="whitebtn" onClick={() => window.open(currentLaunchpad.whitepaper, "_blank")}>Whitepaper</button>}
                                 </div>
                             </div>
 
@@ -386,13 +428,114 @@ const LaunchpadCoinPage = () => {
                         </div>
 
                         <ul className="usdtdetail">
-                            <li><span>Exclusive Subscription Price</span>1 LIT = 1.6 USDT; 1 LIT = 2 USDT</li>
-                            <li><span>Launchpad Total Allocation</span>17,500 LIT</li>
-                            <li><span>Individual Subscription Limit</span>5,000 USDT; 5,000 USDT</li>
+                            <li><span>Exclusive Subscription Price</span>1 {currentLaunchpad?.tokenSymbol || "---"} = {(currentLaunchpad?.tokenPrice || 0)} {currentLaunchpad?.quoteSymbol || "USDT"}</li>
+                            <li><span>Launchpad Total Allocation</span>{(currentLaunchpad?.totalDistribution || currentLaunchpad?.tokensForSale || currentLaunchpad?.totalAllocation || 0).toLocaleString()} {currentLaunchpad?.tokenSymbol || ""}</li>
+                            <li><span>Individual Subscription Limit</span>{(currentLaunchpad?.minPurchase || 0).toLocaleString()} - {(currentLaunchpad?.maxPurchase || 0).toLocaleString()} {currentLaunchpad?.quoteSymbol || "USDT"}</li>
                         </ul>
 
                     </div>
 
+                    {localStorage.getItem("token") && (currentLaunchpad?.status || "").toLowerCase() === "live" && (
+                        <div className="d-flex" style={{ marginTop: "16px", gap: "12px" }}>
+                            <span className="my_subscription_link" onClick={handleOpenModal} style={{ cursor: "pointer", color: "#007bff" }}>My Subscription &gt;</span>
+                        </div>
+                    )}
+
+                    {showPopup && (
+                        <div id="popup-overlay" className="popup-overlay" onClick={handleClosePopup}>
+                            <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+                                <button className="close-btn" onClick={handleClosePopup}>✖</button>
+                                <h3 style={{ color: "#fff", marginBottom: "20px" }}>Enter Purchase Amount</h3>
+
+                                <input
+                                    type="number"
+                                    id="buyAmount"
+                                    placeholder="Enter amount"
+                                    className="popup-input"
+                                    value={purchaseAmount}
+                                    onChange={(e) => setPurchaseAmount(e.target.value)}
+                                    onWheel={(e) => e.target.blur()}
+                                />
+                                {currentLaunchpad && purchaseAmount && (
+                                    <div style={{ marginBottom: "20px", padding: "10px", backgroundColor: "rgba(243, 187, 43, 0.1)", borderRadius: "8px", color: "#F3BB2B" }}>
+                                        <strong>You will receive:</strong> {(parseFloat(purchaseAmount) / (currentLaunchpad?.tokenPrice || 1)).toFixed(2)} {currentLaunchpad?.tokenSymbol || "Tokens"}
+                                    </div>
+                                )}
+
+                                {currentLaunchpad && (
+                                    <small style={{ color: "#4D5B6F", display: "block", marginBottom: "20px" }}>
+                                        Min: {currentLaunchpad.minPurchase || 10} {currentLaunchpad?.quoteSymbol || "USDT"} | Max: {currentLaunchpad.maxPurchase || 15000} {currentLaunchpad?.quoteSymbol || "USDT"}
+                                    </small>
+                                )}
+
+                                <div className="popup-buttons" style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
+                                    <button className="confirm-btn" onClick={handleConfirmPurchase} disabled={!purchaseAmount || parseFloat(purchaseAmount) <= 0}>
+                                        Confirm
+                                    </button>
+                                    <button className="cancel-btn" onClick={handleClosePopup}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {showModal && (
+                        <div className="modal-overlay subscription_modal" onClick={handleCloseModal}>
+                            <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+                                <div className="modal-header">
+                                    <h5 className="modal-title">My Subscription</h5>
+                                    <button className="close-btn" onClick={handleCloseModal}>✖</button>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="table-responsive">
+                                        {userParticipation && userParticipation.length > 0 ? (
+                                            <table className="subscription_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Token Name</th>
+                                                        <th>Token Symbol</th>
+                                                        <th>Invested ($)</th>
+                                                        <th>Total Tokens</th>
+                                                        <th>Last Purchase</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {userParticipation.map((sub, index) => (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{sub.tokenName || sub.base_currency_id?.name}</td>
+                                                            <td>{sub.tokenSymbol || sub.base_currency_id?.short_name}</td>
+                                                            <td>{sub.totalInvested?.$numberDecimal ?? sub.totalInvested ?? "0"}</td>
+                                                            <td>{sub.totalTokensReceived ?? sub.totalTokens ?? "0"}</td>
+                                                            <td>{sub.lastPurchase ? moment(sub.lastPurchase).format("DD/MM/YYYY LT") : "---"}</td>
+                                                            <td>
+                                                                <span className={`status ${(sub.status || "").toLowerCase()}`} style={{ textTransform: "capitalize", fontWeight: "600" }}>
+                                                                    {sub.status || "---"}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        ) : (
+                                            <>
+                                                <div className="no_data_vector text-center">
+                                                    <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                                                </div>
+                                                <p className="text-center" style={{ color: "#fff" }}>No subscription data found.</p>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                 </div>
             </div>
@@ -670,10 +813,10 @@ const LaunchpadCoinPage = () => {
                                                 className="buy_now_btn"
                                                 onClick={handleOpenPopup}
                                                 disabled={
-                                                    currentLaunchpad?.status?.toLowerCase() === "upcoming" ||
-                                                    currentLaunchpad?.status?.toLowerCase() === "ended"
+                                                    (currentLaunchpad?.status || "").toLowerCase() === "upcoming" ||
+                                                    (currentLaunchpad?.status || "").toLowerCase() === "ended" ||
+                                                    (currentLaunchpad?.status || "").toLowerCase() === "cancelled"
                                                 }
-                                                disabled
                                                 style={{
                                                     backgroundColor: "#f3bb2b",
                                                     color: "#000",

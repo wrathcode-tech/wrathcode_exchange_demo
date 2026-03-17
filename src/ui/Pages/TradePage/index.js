@@ -71,7 +71,7 @@ const Trade = () => {
     const [showBuySellTab, setShowBuySellTab] = useState("");
     const [orderBookActiveTab, setOrderBookActiveTab] = useState("orderbook");
     const [positionOrderTab, setPositionOrderTab] = useState("positions");
-  const [showExecutedTrades, setShowExecutedTrades] = useState({});
+    const [showExecutedTrades, setShowExecutedTrades] = useState({});
     const [Coins, setCoins] = useState([]);
     const [expandedRowIndex, setExpandedRowIndex] = useState(null);
     const [activeBuyPercent, setActiveBuyPercent] = useState(null);
@@ -107,13 +107,13 @@ const Trade = () => {
     // Handle exchange data updates from SocketContext
     useEffect(() => {
         if (!exchangeData) return;
-        
+
         // Update balance
         if (exchangeData?.balance) {
             setBuyCoinBal(exchangeData.balance.quote_currency_balance);
             setSellCoinBal(exchangeData.balance.base_currency_balance);
         }
-        
+
         // Update order book (backend uses buy_order/sell_order - singular)
         if (exchangeData?.buy_order) {
             setBuyOrders(exchangeData.buy_order);
@@ -121,7 +121,7 @@ const Trade = () => {
         if (exchangeData?.sell_order) {
             setSellOrders(exchangeData.sell_order);
         }
-        
+
         // Update orders
         if (exchangeData?.open_orders !== undefined) {
             setopenOrders(exchangeData.open_orders || []);
@@ -130,12 +130,12 @@ const Trade = () => {
             setpastOrders(exchangeData.executed_order || []);
             setpastOrder2(exchangeData.executed_order || []);
         }
-        
+
         // Update recent trades
         if (exchangeData?.recent_trades) {
             setRecentTrade(exchangeData.recent_trades);
         }
-        
+
         // Update ticker data for price/volume info
         if (exchangeData?.ticker) {
             const tickerData = exchangeData.ticker;
@@ -147,7 +147,7 @@ const Trade = () => {
             if (tickerData?.low) setpriceLow(tickerData.low);
             if (tickerData?.volume) setvolume(tickerData.volume);
         }
-        
+
         // Update all pairs list from exchange data if provided
         if (exchangeData?.pairs) {
             setCoins(exchangeData.pairs);
@@ -205,9 +205,9 @@ const Trade = () => {
             else {
                 Pair = CoinPairDetails[0]
             }
-            
+
             if (!Pair) return;
-            
+
             navigate(`/trade/${Pair?.base_currency}_${Pair?.quote_currency}`);
             setloader(true);
             setsellOrderPrice('');
@@ -401,12 +401,12 @@ const Trade = () => {
 
     const handleSelectCoin = (data) => {
         // Skip if selecting the same pair - don't reset or re-subscribe
-        if (SelectedCoin?.base_currency_id === data?.base_currency_id && 
+        if (SelectedCoin?.base_currency_id === data?.base_currency_id &&
             SelectedCoin?.quote_currency_id === data?.quote_currency_id) {
             setShowCoinList(false);
             return;
         }
-        
+
         resetOrderbook();
         setinfoPlaceOrder("LIMIT");
         navigate(`/trade/${data?.base_currency}_${data?.quote_currency}`);
@@ -978,8 +978,8 @@ const Trade = () => {
                                         <div className="headline_leftItem__7BFYq ms-0 d-flex d-lg-none ">
                                             <div className="headline_withBorder__a6ZD2 me-1 ">24h Change</div>
                                             <div className={`headline_title__x1csO font-weight-boldd ${priceChange >= 0 ? "text-green" : "text-danger"}`}  >
-                                                {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange||0?.toFixed(2))) || "0.00"}%
-                                                <span className="ms-1"> {parseFloat(parseFloat(changesHour||0?.toFixed(2))) || "0.00"}</span>
+                                                {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange || 0?.toFixed(2))) || "0.00"}%
+                                                <span className="ms-1"> {parseFloat(parseFloat(changesHour || 0?.toFixed(2))) || "0.00"}</span>
                                             </div>
                                         </div>
 
@@ -998,25 +998,25 @@ const Trade = () => {
                                                     <div className="headline_leftItem__7BFYq d-none d-lg-block">
                                                         <div className="headline_withBorder__a6ZD2 ">24h Change</div>
                                                         <div className={`headline_title__x1csO font-weight-boldd ${priceChange >= 0 ? "text-green" : "text-danger"}`}  >
-                                                            {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange||0?.toFixed(2))) || "0.00"}%
+                                                            {priceChange >= 0 ? "+" : ""}   {parseFloat(parseFloat(priceChange || 0?.toFixed(2))) || "0.00"}%
                                                             {/* <span className="mx-1"> {parseFloat(parseFloat(changesHour?.toFixed(2))) || "0.00"}</span> */}
                                                         </div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2 ">24h High ({SelectedCoin?.quote_currency})</div>
                                                         <div className="headline_title__x1csO text-success font-weight-boldd"  >
-                                                            {parseFloat(priceHigh||0?.toFixed(2)) || "0.00"}
+                                                            {parseFloat(priceHigh || 0?.toFixed(2)) || "0.00"}
                                                         </div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2 ">24h Low ({SelectedCoin?.quote_currency})</div>
                                                         <div className="headline_title__x1csO text-danger font-weight-boldd" >
-                                                            {parseFloat(priceLow||0?.toFixed(2)) || "0.00"}
+                                                            {parseFloat(priceLow || 0?.toFixed(2)) || "0.00"}
                                                         </div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2">24h Volume ({SelectedCoin?.base_currency})</div>
-                                                        <div className="headline_title__x1csO font-weight-boldd">{parseFloat(volume||0?.toFixed(2)) || "0.00"}</div>
+                                                        <div className="headline_title__x1csO font-weight-boldd">{parseFloat(volume || 0?.toFixed(2)) || "0.00"}</div>
                                                     </div>
                                                     <div className="headline_leftItem__7BFYq">
                                                         <div className="headline_withBorder__a6ZD2">24h Volume ({SelectedCoin?.quote_currency}) </div>
@@ -1207,7 +1207,7 @@ const Trade = () => {
                                                                     {formatPrice(buyprice)}
                                                                 </b>
                                                                 <i className={`ri-arrow-${isPricePositive ? "up" : "down"}-line ri-xl mx-3 ${isPricePositive ? "text-green" : "text-danger"}`} />
-                                                                <span>{parseFloat(priceChange||0?.toFixed(2))}%</span>
+                                                                <span>{parseFloat(priceChange || 0?.toFixed(2))}%</span>
                                                             </div>
 
                                                             {/* BUY ORDERS */}
@@ -1403,14 +1403,14 @@ const Trade = () => {
                                                                 ))
                                                             ) : (
                                                                 <tr rowSpan="5" className="no-data-row">
-                      <td colSpan="12">
-                        <div className="no-data-wrapper">
-                          <div className="no_data_s">
-                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                                                                    <td colSpan="12">
+                                                                        <div className="no-data-wrapper">
+                                                                            <div className="no_data_s">
+                                                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
                                                             )}
                                                         </tbody>
                                                     </table>
@@ -1472,14 +1472,14 @@ const Trade = () => {
                                                             ))
                                                         ) : (
                                                             <tr rowSpan="5" className="no-data-row">
-                                                            <td colSpan="12">
-                                                              <div className="no-data-wrapper">
-                                                                <div className="no_data_s">
-                                                                  <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
-                                                                </div>
-                                                              </div>
-                                                            </td>
-                                                          </tr>
+                                                                <td colSpan="12">
+                                                                    <div className="no-data-wrapper">
+                                                                        <div className="no_data_s">
+                                                                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
                                                         )}
                                                     </tbody>
                                                 </table>
@@ -1528,11 +1528,11 @@ const Trade = () => {
                                                                         <tr key={wallet?._id || index}>
                                                                             <td>
                                                                                 <div className="d-flex align-items-center">
-                                                                                    <img 
-                                                                                        src={ApiConfig?.baseImage + wallet?.icon_path} 
-                                                                                        alt={wallet?.short_name} 
-                                                                                        width="24" 
-                                                                                        height="24" 
+                                                                                    <img
+                                                                                        src={ApiConfig?.baseImage + wallet?.icon_path}
+                                                                                        alt={wallet?.short_name}
+                                                                                        width="24"
+                                                                                        height="24"
                                                                                         className="me-2 rounded-circle"
                                                                                         onError={(e) => { e.target.src = '/images/coin_placeholder.png'; }}
                                                                                     />
@@ -1710,7 +1710,7 @@ const Trade = () => {
                                                                                     : "ri-arrow-down-line ri-xl mx-3 text-danger"
                                                                             }
                                                                         />
-                                                                        <span>{parseFloat(priceChange||0?.toFixed(2))}%</span>
+                                                                        <span>{parseFloat(priceChange || 0?.toFixed(2))}%</span>
                                                                     </div>
 
                                                                     {/* BUY ORDERS */}
@@ -2081,7 +2081,9 @@ const Trade = () => {
 
 
                                                             <div className="freerate">
-                                                                <span>Fee rate</span>  Maker 0%/ Taker 0.01%
+                                                                <span>Fee rate</span>  Maker {SelectedCoin?.maker_fee
+                                                                    || "---"}%/ Taker {SelectedCoin?.taker_fee
+                                                                    || "---"}%
                                                             </div>
 
                                                         </div>
@@ -2158,7 +2160,7 @@ const Trade = () => {
                                                                 <td>
                                                                     <small>
                                                                         <div className="c_view justify-content-start" >
-                                                                            <span>{moment(item?.updatedAt).format("DD/MM/YYYY  ")}
+                                                                            <span>{moment(item?.updatedAt).format("DD/MM/YYYY  ")}{" "}
                                                                                 <small>{moment(item?.updatedAt).format("hh:mm")}</small>
                                                                             </span>
                                                                         </div>
@@ -2300,7 +2302,7 @@ const Trade = () => {
                                                                             {item?.executed_prices?.length > 0 && (
                                                                                 <p className="ms-2 mx-2 text-xl d-inline text-success">{expandedRowIndex === index ? '▾' : '▸'}</p>
                                                                             )}
-                                                                            <span>{moment(item?.updatedAt).format("DD/MM/YYYY")}
+                                                                            <span>{moment(item?.updatedAt).format("DD/MM/YYYY")}{" "}
                                                                                 <small>{moment(item?.updatedAt).format("hh:mm")}</small>
                                                                             </span>
                                                                         </div>
@@ -2495,7 +2497,7 @@ const Trade = () => {
                                                 </div>
                                             ) : walletsLoading ? (
                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px' }}>
-                                                    <div className="spinner-border text-primary" role="status" style={{ width: '1.5rem', height: '1.5rem',borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
+                                                    <div className="spinner-border text-primary" role="status" style={{ width: '1.5rem', height: '1.5rem', borderColor: 'rgba(255, 255, 255, 0.3)', borderRightColor: 'transparent' }} />
                                                 </div>
                                             ) : (
                                                 <table className="table table-sm table-borderless mb-0 orderbook-table">
@@ -2511,11 +2513,11 @@ const Trade = () => {
                                                                 <tr key={wallet?._id || index}>
                                                                     <td>
                                                                         <div className="d-flex align-items-center">
-                                                                            <img 
-                                                                                src={ApiConfig?.baseImage + wallet?.icon_path} 
-                                                                                alt={wallet?.short_name} 
-                                                                                width="24" 
-                                                                                height="24" 
+                                                                            <img
+                                                                                src={ApiConfig?.baseImage + wallet?.icon_path}
+                                                                                alt={wallet?.short_name}
+                                                                                width="24"
+                                                                                height="24"
                                                                                 className="me-2 rounded-circle"
                                                                                 onError={(e) => { e.target.src = '/images/coin_placeholder.png'; }}
                                                                             />

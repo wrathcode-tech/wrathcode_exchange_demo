@@ -162,18 +162,18 @@ export const ApiConfig = {
   announcementView: "announcement-view",
 
 
-  // Launchpad Router
-
-  getUserlpList: "user-launchpad-listing",
-  getUpcominglpList: "upcoming-launchpad-listing",
-  getCancellpList: "cancelled-launchpad-listing",
-  getLiveListing: "live-launchpad-listing",
-  getEndedListing: "ended-launchpad-listing",
-  getUserPurchingList: "user-purchaseing-listing",
-  tokenPurches: "purchase-token",
-  userlpDetails: "user-launchpad-details",
-  subscriptionHistory: "user-token-subscription-history",
-  launchpadTransHistory: "user-token-transaction-history",
+  // Launchpad Router (base: /v1/user)
+  launchpadListing: "launchpad-listing",
+  userLaunchpadListing: "user-launchpad-listing",
+  launchpadDetails: "launchpad-details",
+  userLaunchpadDetails: "user-launchpad-details",
+  purchaseToken: "purchase-token",
+  userPurchasingListing: "user-purchaseing-listing",
+  userTokenSubscriptionHistory: "user-token-subscription-history",
+  userTokenTransactionHistory: "user-token-transaction-history",
+  userTokenDistributedHistory: "user-token-distibuted-history",
+  userCurrentMainBalanceUsdt: "user-current-main-balance-usdt",
+  launchpadStats: "launchpad-stats",
 
 
 
@@ -245,6 +245,12 @@ export const ApiConfig = {
   securitySettings: "settings",
   securityLogin2fa: "login-2fa",
   securityChangePassword: "change-password",
+
+  // Anti-phishing code endpoints
+  antiPhishingStatus: "anti-phishing/status",
+  antiPhishingSendOtp: "anti-phishing/send-otp",
+  antiPhishingAdd: "anti-phishing/add",
+  antiPhishingRemove: "anti-phishing/remove",
 
   // Passkey (WebAuthn) endpoints
   passkeyRegisterOptions: "passkey/register/options",

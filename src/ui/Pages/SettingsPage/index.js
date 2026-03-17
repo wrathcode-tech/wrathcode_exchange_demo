@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
-import {  matchPassword } from "../../../utils/Validation";
+import { matchPassword } from "../../../utils/Validation";
 import { alertErrorMessage, alertSuccessMessage } from "../../../customComponents/CustomAlertMessage";
 import LoaderHelper from "../../../customComponents/Loading/LoaderHelper";
 import AuthService from "../../../api/services/AuthService";
 import { ApiConfig } from "../../../api/apiConfig/apiConfig";
 import { ProfileContext } from "../../../context/ProfileProvider";
+import { startAuthentication } from "@simplewebauthn/browser";
 import "./SettingsPage.css";
 
 
@@ -33,7 +34,19 @@ const SettingsPage = (props) => {
   const [passwordVerifyMethod, setPasswordVerifyMethod] = useState(1); // 1=email, 2=google auth, 3=mobile
   const [passwordAvailableMethods, setPasswordAvailableMethods] = useState([]);
 
-
+  // Anti-phishing code states
+  const [antiPhishingCode, setAntiPhishingCode] = useState('');
+  const [hasAntiPhishingCode, setHasAntiPhishingCode] = useState(false);
+  const [antiPhishingVerifyMethod, setAntiPhishingVerifyMethod] = useState('passkey'); // passkey, email, mobile, totp
+  const [antiPhishingAvailableMethods, setAntiPhishingAvailableMethods] = useState([]);
+  const [antiPhishingOtp, setAntiPhishingOtp] = useState('');
+  const [antiPhishingTimer, setAntiPhishingTimer] = useState(0);
+  const [hasPasskey, setHasPasskey] = useState(false);
+  const [passkeySupported, setPasskeySupported] = useState(false);
+  const [antiPhishingRemoveVerifyMethod, setAntiPhishingRemoveVerifyMethod] = useState('passkey');
+  const [antiPhishingRemoveAvailableMethods, setAntiPhishingRemoveAvailableMethods] = useState([]);
+  const [antiPhishingRemoveOtp, setAntiPhishingRemoveOtp] = useState('');
+  const [antiPhishingRemoveTimer, setAntiPhishingRemoveTimer] = useState(0);
 
   // Ref to track object URLs for cleanup
   const objectUrlRef = useRef(null);
@@ -86,10 +99,67 @@ const SettingsPage = (props) => {
       if (userHasEmail) setPasswordVerifyMethod(1);
       else if (userHasGoogleAuth) setPasswordVerifyMethod(2);
       else if (userHasMobile) setPasswordVerifyMethod(3);
-
-      // Fetch security status from API
     }
   }, [props?.userDetails, userDetails]);
+
+  // Check passkey support and fetch passkeys for anti-phishing verification
+  const checkPasskeySupport = useCallback(async () => {
+    if (window.PublicKeyCredential === undefined || typeof window.PublicKeyCredential !== 'function') {
+      setPasskeySupported(false);
+      return false;
+    }
+    try {
+      const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      if (!available && isIOS && isSafari) {
+        const match = navigator.userAgent.match(/OS (\d+)_/);
+        const iosVersion = match ? parseInt(match[1], 10) : 0;
+        if (iosVersion >= 16) {
+          setPasskeySupported(true);
+          return true;
+        }
+      }
+      setPasskeySupported(available);
+      return available;
+    } catch {
+      setPasskeySupported(false);
+      return false;
+    }
+  }, []);
+
+  const fetchPasskeys = useCallback(async () => {
+    try {
+      const result = await AuthService.passkeyGetList();
+      if (result?.success && result?.data) {
+        const count = result.data.count || (result.data.passkeys?.length || 0);
+        setHasPasskey(count > 0);
+      }
+    } catch {
+      // Silent fail
+    }
+  }, []);
+
+  const [antiPhishingStatusMethods, setAntiPhishingStatusMethods] = useState([]);
+
+  const fetchAntiPhishingStatus = useCallback(async () => {
+    try {
+      const result = await AuthService.antiPhishingGetStatus();
+      if (result?.success && result?.data) {
+        setHasAntiPhishingCode(result.data.hasAntiPhishingCode ?? false);
+        const methods = result.data.availableMethods || [];
+        setAntiPhishingStatusMethods(methods);
+      }
+    } catch {
+      // Silent fail - API may return 400 if no verification methods
+    }
+  }, []);
+
+  useEffect(() => {
+    checkPasskeySupport();
+    fetchPasskeys();
+    fetchAntiPhishingStatus();
+  }, [checkPasskeySupport, fetchPasskeys, fetchAntiPhishingStatus]);
 
   // Cleanup object URLs on unmount
   useEffect(() => {
@@ -420,6 +490,336 @@ const SettingsPage = (props) => {
     }, 100);
   }, [closeModal, openModal]);
 
+  // Mask helpers for anti-phishing verification UI
+  const maskEmail = useCallback((email) => {
+    if (!email) return '';
+    const [username, domain] = email.split('@');
+    if (!domain) return email;
+    const masked = username.substring(0, 2) + '***' + username.slice(-1);
+    return `${masked}@${domain}`;
+  }, []);
+  const maskPhone = useCallback((phone) => {
+    if (!phone) return '';
+    const cleaned = String(phone).replace(/\s/g, '');
+    if (cleaned.length < 4) return String(phone);
+    return '****' + cleaned.slice(-4);
+  }, []);
+
+
+  // ============ ANTI-PHISHING CODE FLOW ============
+  // Build available verification methods - prefer API status when available
+  const buildAntiPhishingVerifyMethods = useCallback(() => {
+    const details = userDetails || props?.userDetails;
+    if (antiPhishingStatusMethods.length > 0) {
+      const iconMap = { passkey: 'ri-fingerprint-line', totp: 'ri-shield-keyhole-line', email: 'ri-mail-line', mobile: 'ri-smartphone-line' };
+      const methodOrder = { passkey: 0, totp: 1, email: 2, mobile: 3 };
+      const getDesc = (method) => {
+        if (method === 'passkey') return 'Use passkey to verify';
+        if (method === 'totp') return 'Use your authenticator app';
+        if (method === 'email') return `Send code to ${maskEmail(details?.emailId)}`;
+        if (method === 'mobile') return `Send code to ${maskPhone(details?.country_code ? `${details.country_code} ${details.mobileNumber || ''}`.trim() : details?.mobileNumber)}`;
+        return '';
+      };
+      return antiPhishingStatusMethods
+        .filter(m => m.method !== 'passkey' || passkeySupported)
+        .sort((a, b) => (methodOrder[a.method] ?? 99) - (methodOrder[b.method] ?? 99))
+        .map(m => ({
+          value: m.method,
+          label: m.label,
+          icon: iconMap[m.method] || 'ri-shield-line',
+          description: getDesc(m.method)
+        }));
+    }
+    const methods = [];
+    const userHasEmail = !!details?.emailId;
+    const userHasMobile = !!details?.mobileNumber;
+    const userHasGoogleAuth = details?.['2fa'] === 2;
+    const userHasPasskey = hasPasskey && passkeySupported;
+    // Order: passkey first, then Google Authenticator, then email, then mobile
+    if (userHasPasskey) {
+      methods.push({ value: 'passkey', label: 'Passkey', icon: 'ri-fingerprint-line', description: 'Use passkey to verify' });
+    }
+    if (userHasGoogleAuth) {
+      methods.push({ value: 'totp', label: 'Google Authenticator', icon: 'ri-shield-keyhole-line', description: 'Use your authenticator app' });
+    }
+    if (userHasEmail) {
+      methods.push({ value: 'email', label: 'Email', icon: 'ri-mail-line', description: `Send code to ${maskEmail(details?.emailId)}` });
+    }
+    if (userHasMobile) {
+      const fullMobile = details?.country_code ? `${details.country_code} ${details.mobileNumber || ''}`.trim() : details?.mobileNumber || '';
+      methods.push({ value: 'mobile', label: 'Mobile', icon: 'ri-smartphone-line', description: `Send code to ${maskPhone(fullMobile)}` });
+    }
+    return methods;
+  }, [userDetails, props?.userDetails, hasPasskey, passkeySupported, antiPhishingStatusMethods, maskEmail, maskPhone]);
+
+  // Open anti-phishing info modal (how it works)
+  const handleAntiPhishingInfoOpen = useCallback(() => {
+    openModal('antiPhishingInfoModal');
+  }, [openModal]);
+
+  // Proceed from info to set code modal
+  const handleAntiPhishingSetCodeOpen = useCallback(() => {
+    closeModal('antiPhishingInfoModal');
+    const methods = buildAntiPhishingVerifyMethods();
+    if (methods.length === 0) {
+      alertErrorMessage('You need at least one verification method (Email, Mobile, Google Authenticator, or Passkey) to set an anti-phishing code. Please add one in Security Settings.');
+      return;
+    }
+    setAntiPhishingAvailableMethods(methods);
+    setAntiPhishingVerifyMethod(methods[0].value);
+    setAntiPhishingCode('');
+    setAntiPhishingOtp('');
+    setAntiPhishingTimer(0);
+    setTimeout(() => openModal('antiPhishingSetCodeModal'), 100);
+  }, [closeModal, openModal, buildAntiPhishingVerifyMethods]);
+
+  // Attempt passkey verification for anti-phishing
+  const attemptAntiPhishingPasskeyVerify = useCallback(async () => {
+    if (!hasPasskey || !passkeySupported) return null;
+    const details = userDetails || props?.userDetails;
+    const signId = details?.emailId || (details?.country_code ? `${details.country_code} ${details.mobileNumber || ''}`.trim() : details?.mobileNumber);
+    if (!signId) return null;
+    try {
+      LoaderHelper.loaderStatus(true);
+      const optionsResult = await AuthService.passkeyGetAuthOptions(signId);
+      if (!optionsResult?.success || !optionsResult?.data) return null;
+      const credential = await startAuthentication(optionsResult.data);
+      const verifyResult = await AuthService.passkeyVerifyAuth(signId, credential);
+      LoaderHelper.loaderStatus(false);
+      if (verifyResult?.success) return verifyResult.data;
+      return null;
+    } catch {
+      LoaderHelper.loaderStatus(false);
+      return null;
+    }
+  }, [hasPasskey, passkeySupported, userDetails, props?.userDetails]);
+
+  // Send OTP for anti-phishing verification
+  const handleAntiPhishingSendOtp = useCallback(async () => {
+    if (antiPhishingVerifyMethod === 'totp' || antiPhishingVerifyMethod === 'passkey') return;
+    try {
+      LoaderHelper.loaderStatus(true);
+      const result = await AuthService.antiPhishingSendOtp(antiPhishingVerifyMethod);
+      LoaderHelper.loaderStatus(false);
+      if (result?.success) {
+        alertSuccessMessage(result?.message || 'OTP sent successfully');
+        setAntiPhishingTimer(60);
+      } else {
+        alertErrorMessage(result?.message || 'Failed to send OTP');
+      }
+    } catch (error) {
+      LoaderHelper.loaderStatus(false);
+      alertErrorMessage(error?.response?.data?.message || error?.message || 'Failed to send OTP');
+    }
+  }, [antiPhishingVerifyMethod]);
+
+  // Verify and save anti-phishing code via API
+  const handleAntiPhishingVerifyAndSave = useCallback(async () => {
+    const code = antiPhishingCode?.replace(/\D/g, '') || '';
+    if (code.length < 5 || code.length > 8) {
+      alertErrorMessage('Please enter a 5-8 digit code');
+      return;
+    }
+    try {
+      setIsSubmitting(true);
+      LoaderHelper.loaderStatus(true);
+      if (antiPhishingVerifyMethod === 'passkey') {
+        const passkeyResult = await attemptAntiPhishingPasskeyVerify();
+        if (!passkeyResult?.userId) {
+          // Passkey failed - show alternate verification options
+          closeModal('antiPhishingSetCodeModal');
+          setTimeout(() => openModal('antiPhishingVerifyOptionsModal'), 100);
+          return;
+        }
+        const result = await AuthService.antiPhishingAdd({
+          antiPhishingCode: code,
+          verifyMethod: 'passkey',
+          passkeyUserId: passkeyResult.userId
+        });
+        if (result?.success) {
+          alertSuccessMessage(result?.message || 'Anti-phishing code set successfully');
+          setHasAntiPhishingCode(true);
+          setAntiPhishingCode('');
+          setAntiPhishingOtp('');
+          closeModal('antiPhishingSetCodeModal');
+          fetchAntiPhishingStatus();
+        } else {
+          alertErrorMessage(result?.message || 'Failed to set anti-phishing code');
+        }
+      } else {
+        const verifyCode = antiPhishingOtp?.trim() || '';
+        if (!verifyCode || verifyCode.length !== 6) {
+          alertErrorMessage(antiPhishingVerifyMethod === 'totp' ? 'Please enter a valid 6-digit code' : 'Please enter the 6-digit OTP');
+          return;
+        }
+        const result = await AuthService.antiPhishingAdd({
+          antiPhishingCode: code,
+          verifyMethod: antiPhishingVerifyMethod,
+          code: verifyCode
+        });
+        if (result?.success) {
+          alertSuccessMessage(result?.message || 'Anti-phishing code set successfully');
+          setHasAntiPhishingCode(true);
+          setAntiPhishingCode('');
+          setAntiPhishingOtp('');
+          closeModal('antiPhishingSetCodeModal');
+          fetchAntiPhishingStatus();
+        } else {
+          alertErrorMessage(result?.message || 'Failed to set anti-phishing code');
+        }
+      }
+    } catch (error) {
+      alertErrorMessage(error?.response?.data?.message || error?.message || 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+      LoaderHelper.loaderStatus(false);
+    }
+  }, [antiPhishingCode, antiPhishingVerifyMethod, antiPhishingOtp, attemptAntiPhishingPasskeyVerify, closeModal, openModal, fetchAntiPhishingStatus]);
+
+  // Open verification options for anti-phishing set
+  const handleAntiPhishingOpenVerifyOptions = useCallback(() => {
+    closeModal('antiPhishingSetCodeModal');
+    setTimeout(() => openModal('antiPhishingVerifyOptionsModal'), 100);
+  }, [closeModal, openModal]);
+
+  const handleAntiPhishingSelectVerifyMethod = useCallback((method) => {
+    setAntiPhishingVerifyMethod(method.value);
+    setAntiPhishingOtp('');
+    setAntiPhishingTimer(0);
+    closeModal('antiPhishingVerifyOptionsModal');
+    setTimeout(() => openModal('antiPhishingSetCodeModal'), 100);
+  }, [closeModal, openModal]);
+
+  const handleAntiPhishingCloseVerifyOptions = useCallback(() => {
+    closeModal('antiPhishingVerifyOptionsModal');
+    setTimeout(() => openModal('antiPhishingSetCodeModal'), 100);
+  }, [closeModal, openModal]);
+
+  // Remove anti-phishing flow
+  const handleAntiPhishingRemoveOpen = useCallback(() => {
+    const methods = buildAntiPhishingVerifyMethods();
+    if (methods.length === 0) {
+      alertErrorMessage('No verification method available. Please add Email, Mobile, Google Authenticator, or Passkey in Security Settings.');
+      return;
+    }
+    setAntiPhishingRemoveAvailableMethods(methods);
+    setAntiPhishingRemoveVerifyMethod(methods[0].value);
+    setAntiPhishingRemoveOtp('');
+    setAntiPhishingRemoveTimer(0);
+    openModal('antiPhishingRemoveModal');
+  }, [buildAntiPhishingVerifyMethods, openModal]);
+
+  const handleAntiPhishingRemoveSendOtp = useCallback(async () => {
+    if (antiPhishingRemoveVerifyMethod === 'totp' || antiPhishingRemoveVerifyMethod === 'passkey') return;
+    try {
+      LoaderHelper.loaderStatus(true);
+      const result = await AuthService.antiPhishingSendOtp(antiPhishingRemoveVerifyMethod);
+      LoaderHelper.loaderStatus(false);
+      if (result?.success) {
+        alertSuccessMessage(result?.message || 'OTP sent successfully');
+        setAntiPhishingRemoveTimer(60);
+      } else {
+        alertErrorMessage(result?.message || 'Failed to send OTP');
+      }
+    } catch (error) {
+      LoaderHelper.loaderStatus(false);
+      alertErrorMessage(error?.response?.data?.message || error?.message || 'Failed to send OTP');
+    }
+  }, [antiPhishingRemoveVerifyMethod]);
+
+  const handleAntiPhishingRemove = useCallback(async () => {
+    try {
+      setIsSubmitting(true);
+      LoaderHelper.loaderStatus(true);
+      if (antiPhishingRemoveVerifyMethod === 'passkey') {
+        const passkeyResult = await attemptAntiPhishingPasskeyVerify();
+        if (!passkeyResult?.userId) {
+          // Passkey failed - show alternate verification options
+          closeModal('antiPhishingRemoveModal');
+          setTimeout(() => openModal('antiPhishingRemoveVerifyOptionsModal'), 100);
+          return;
+        }
+        const result = await AuthService.antiPhishingRemove({
+          verifyMethod: 'passkey',
+          passkeyUserId: passkeyResult.userId
+        });
+        if (result?.success) {
+          alertSuccessMessage(result?.message || 'Anti-phishing code removed successfully');
+          setHasAntiPhishingCode(false);
+          setAntiPhishingRemoveOtp('');
+          closeModal('antiPhishingRemoveModal');
+          fetchAntiPhishingStatus();
+        } else {
+          alertErrorMessage(result?.message || 'Failed to remove anti-phishing code');
+        }
+      } else {
+        const verifyCode = antiPhishingRemoveOtp?.trim() || '';
+        if (!verifyCode || verifyCode.length !== 6) {
+          alertErrorMessage(antiPhishingRemoveVerifyMethod === 'totp' ? 'Please enter a valid 6-digit code' : 'Please enter the 6-digit OTP');
+          return;
+        }
+        const result = await AuthService.antiPhishingRemove({
+          verifyMethod: antiPhishingRemoveVerifyMethod,
+          code: verifyCode
+        });
+        if (result?.success) {
+          alertSuccessMessage(result?.message || 'Anti-phishing code removed successfully');
+          setHasAntiPhishingCode(false);
+          setAntiPhishingRemoveOtp('');
+          closeModal('antiPhishingRemoveModal');
+          fetchAntiPhishingStatus();
+        } else {
+          alertErrorMessage(result?.message || 'Failed to remove anti-phishing code');
+        }
+      }
+    } catch (error) {
+      alertErrorMessage(error?.response?.data?.message || error?.message || 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+      LoaderHelper.loaderStatus(false);
+    }
+  }, [antiPhishingRemoveVerifyMethod, antiPhishingRemoveOtp, attemptAntiPhishingPasskeyVerify, closeModal, openModal, fetchAntiPhishingStatus]);
+
+  const handleAntiPhishingRemoveOpenVerifyOptions = useCallback(() => {
+    closeModal('antiPhishingRemoveModal');
+    setTimeout(() => openModal('antiPhishingRemoveVerifyOptionsModal'), 100);
+  }, [closeModal, openModal]);
+
+  const handleAntiPhishingRemoveSelectVerifyMethod = useCallback((method) => {
+    setAntiPhishingRemoveVerifyMethod(method.value);
+    setAntiPhishingRemoveOtp('');
+    setAntiPhishingRemoveTimer(0);
+    closeModal('antiPhishingRemoveVerifyOptionsModal');
+    setTimeout(() => openModal('antiPhishingRemoveModal'), 100);
+  }, [closeModal, openModal]);
+
+  const handleAntiPhishingRemoveCloseVerifyOptions = useCallback(() => {
+    closeModal('antiPhishingRemoveVerifyOptionsModal');
+    setTimeout(() => openModal('antiPhishingRemoveModal'), 100);
+  }, [closeModal, openModal]);
+
+  const getAntiPhishingSetCodeModalTitle = useCallback(() => {
+    return hasAntiPhishingCode ? 'Update the Code' : 'Set the Code';
+  }, [hasAntiPhishingCode]);
+
+  const getAntiPhishingVerifyDescription = useCallback(() => {
+    const details = userDetails || props?.userDetails;
+    if (antiPhishingVerifyMethod === 'passkey') return 'Use passkey to verify your identity';
+    if (antiPhishingVerifyMethod === 'totp') return 'Enter the 6-digit code from your authenticator app';
+    if (antiPhishingVerifyMethod === 'email') return `We'll send a verification code to ${maskEmail(details?.emailId)}`;
+    if (antiPhishingVerifyMethod === 'mobile') return `We'll send a verification code to ****${String(details?.mobileNumber || '').slice(-4)}`;
+    return '';
+  }, [antiPhishingVerifyMethod, userDetails, props?.userDetails, maskEmail]);
+
+  const getAntiPhishingRemoveVerifyDescription = useCallback(() => {
+    const details = userDetails || props?.userDetails;
+    if (antiPhishingRemoveVerifyMethod === 'passkey') return 'Use passkey to verify your identity';
+    if (antiPhishingRemoveVerifyMethod === 'totp') return 'Enter the 6-digit code from your authenticator app';
+    if (antiPhishingRemoveVerifyMethod === 'email') return `We'll send a verification code to ${maskEmail(details?.emailId)}`;
+    if (antiPhishingRemoveVerifyMethod === 'mobile') return `We'll send a verification code to ****${String(details?.mobileNumber || '').slice(-4)}`;
+    return '';
+  }, [antiPhishingRemoveVerifyMethod, userDetails, props?.userDetails, maskEmail]);
+
   const handleCurrency = useCallback(async (selectedCurrency) => {
     if (isSubmitting) return;
 
@@ -536,6 +936,18 @@ const SettingsPage = (props) => {
     }
     return () => clearInterval(interval);
   }, [passwordTimer]);
+
+  useEffect(() => {
+    if (antiPhishingTimer <= 0) return;
+    const interval = setInterval(() => setAntiPhishingTimer((prev) => prev - 1), 1000);
+    return () => clearInterval(interval);
+  }, [antiPhishingTimer]);
+
+  useEffect(() => {
+    if (antiPhishingRemoveTimer <= 0) return;
+    const interval = setInterval(() => setAntiPhishingRemoveTimer((prev) => prev - 1), 1000);
+    return () => clearInterval(interval);
+  }, [antiPhishingRemoveTimer]);
 
  
   const getDisplayName = () => {
@@ -672,6 +1084,299 @@ const SettingsPage = (props) => {
               >
                 Change Password
               </button>
+            </div>
+
+            <div className="factor_bl active">
+              <div className="lftcnt">
+                <h6><i className="ri-shield-check-line" style={{ marginRight: '8px' }}></i>Anti-phishing Code</h6>
+                <p>Set a unique 5-8 digit code that will appear in legitimate emails and notifications. This helps you identify real communications from phishing attempts.</p>
+              </div>
+              {hasAntiPhishingCode ? (
+                <>
+
+                  <button className="btn" style={{ marginLeft: '8px', }} disabled={isSubmitting} onClick={handleAntiPhishingRemoveOpen}>
+                    <i className="ri-delete-bin-line" style={{ marginRight: '6px' }}></i>Remove
+                  </button>
+                </>
+              ) : (
+                <button className="btn" disabled={isSubmitting} onClick={handleAntiPhishingInfoOpen}>
+                  <i className="ri-add-line" style={{ marginRight: '6px' }}></i>Set Code
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Anti-phishing Info Modal (How it works) */}
+        <div className="modal fade search_form" id="antiPhishingInfoModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  <i className="ri-shield-check-line" style={{ marginRight: '8px' }}></i>
+                  Anti-Phishing Code
+                </h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
+                <div className="anti-phishing-info-content">
+                  <section style={{ marginBottom: '20px' }}>
+                    <h6 style={{ fontWeight: 600, marginBottom: '10px', color: '#fff' }}><i className="ri-information-line" style={{ marginRight: '8px' }}></i>What is an anti-phishing code?</h6>
+                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                      An anti-phishing code is a personalised identifier that enhances your account security. Once successfully set, you will see this code in all official emails sent to you by our exchange. It helps you verify whether an email is genuine and protects you from scams.
+                    </p>
+                  </section>
+                  <section style={{ marginBottom: '20px' }}>
+                    <h6 style={{ fontWeight: 600, marginBottom: '10px', color: '#fff' }}><i className="ri-mail-check-line" style={{ marginRight: '8px' }}></i>How to Identify Phishing Emails Effectively?</h6>
+                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                      You can create a custom anti-phishing code unique to you. This code will appear in all emails sent to you by our exchange. If you receive an email without your anti-phishing code, or the displayed code is different from the one you set, be cautious, as the email may be a phishing attempt impersonating our exchange.
+                    </p>
+                  </section>
+                  <section style={{ marginBottom: '24px' }}>
+                    <h6 style={{ fontWeight: 600, marginBottom: '10px', color: '#fff' }}><i className="ri-alert-line" style={{ marginRight: '8px' }}></i>Reminder:</h6>
+                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                      After successfully setting your code, all official emails sent to your secure email address by our exchange will include this security identifier. Always compare the anti-phishing code in the email with the one you set to verify its authenticity. The anti-phishing code is a personal security identifier. Keep it safe and never share it with anyone, including our exchange staff.
+                    </p>
+                  </section>
+                </div>
+                <button className="submit" type="button" onClick={handleAntiPhishingSetCodeOpen}>
+                  <i className="ri-arrow-right-line" style={{ marginRight: '6px' }}></i>Get Started
+                </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Anti-phishing Set Code Modal */}
+        <div className="modal fade search_form" id="antiPhishingSetCodeModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title"><i className="ri-shield-keyhole-line" style={{ marginRight: '8px' }}></i>{getAntiPhishingSetCodeModalTitle()}</h5>
+                <p>{getAntiPhishingVerifyDescription()}</p>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="anti-phishing-info-content" style={{ marginBottom: '24px' }}>
+                  <section style={{ marginBottom: '16px' }}>
+                    <div style={{
+                      background: 'rgba(255, 152, 0, 0.12)',
+                      border: '1px solid rgba(255, 152, 0, 0.3)',
+                      borderRadius: '8px',
+                      padding: '12px 14px'
+                    }}>
+                      <p style={{ fontSize: '14px', color: '#e8e8e8', lineHeight: 1.6, marginBottom: 0 }}>
+                        <i className="ri-error-warning-line" style={{ marginRight: '6px', verticalAlign: 'middle', color: '#ff9800' }}></i>
+                        Please do not reveal your password or Google/SMS verification code to anyone, including our exchange Customer Service.
+                      </p>
+                    </div>
+                  </section>
+                  <section style={{ marginBottom: 0 }}>
+                    <h6 style={{ fontWeight: 600, marginBottom: '8px', color: '#fff' }}><i className="ri-lock-line" style={{ marginRight: '8px' }}></i>Enable Anti-Phishing Code</h6>
+                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                      Please enter 5 to 8 digits. Do not use commonly used passwords.
+                    </p>
+                  </section>
+                </div>
+                <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
+                  <div className="emailinput">
+                    <label>Anti-phishing Code (5-8 digits)</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your code"
+                      value={antiPhishingCode}
+                      onChange={(e) => setAntiPhishingCode(e.target.value.replace(/\D/g, '').slice(0, 8))}
+                      maxLength={8}
+                    />
+                  </div>
+                  {antiPhishingVerifyMethod !== 'passkey' && (
+                    <>
+                     
+                      <div className="emailinput">
+                        <label>Verification Code</label>
+                        <div className="d-flex">
+                          <input
+                            type="text"
+                            placeholder="Enter 6-digit code"
+                            value={antiPhishingOtp}
+                            onChange={(e) => setAntiPhishingOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                            maxLength={6}
+                          />
+                          {antiPhishingVerifyMethod !== 'totp' && (
+                            antiPhishingTimer > 0 ? (
+                              <div className="resend otp-button-disabled">Resend ({antiPhishingTimer}s)</div>
+                            ) : (
+                              <button type="button" className="getotp otp-button-enabled getotp_mobile" onClick={handleAntiPhishingSendOtp} disabled={isSubmitting}>
+                                GET OTP
+                              </button>
+                            )
+                          )}
+                        </div>
+                      </div>
+                      <div>
+                       <p className="small" style={{ color: '#ccc' }}>{getAntiPhishingVerifyDescription()}</p>
+                      {antiPhishingAvailableMethods.length > 1 && (
+                        <div className="cursor-pointer" onClick={handleAntiPhishingOpenVerifyOptions} >
+                          <small className="text-white">Switch to Another Verification Option <i className="ri-external-link-line"></i></small>
+                        </div>
+                        
+                      )}
+                      </div>
+                    </>
+                  )}
+                  <button
+                    className="submit"
+                    type="button"
+                    disabled={isSubmitting || antiPhishingCode.replace(/\D/g, '').length < 5 || (antiPhishingVerifyMethod !== 'passkey' && (!antiPhishingOtp || antiPhishingOtp.length !== 6))}
+                    onClick={handleAntiPhishingVerifyAndSave}
+                  >
+                    <i className="ri-check-line" style={{ marginRight: '6px' }}></i>{isSubmitting ? 'Submitting...' : 'Submit'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Anti-phishing Verification Options Modal */}
+        <div className="modal fade search_form" id="antiPhishingVerifyOptionsModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title"><i className="ri-fingerprint-2-line" style={{ marginRight: '8px' }}></i>Select a Verification Option</h5>
+                <p>Choose how you want to verify your identity</p>
+                <button type="button" className="btn-close" onClick={handleAntiPhishingCloseVerifyOptions} aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
+                  {antiPhishingAvailableMethods.map((method) => (
+                    <div key={method.value}>
+                      <div
+                        className="d-flex align-items-center justify-content-between text-white"
+                        onClick={() => handleAntiPhishingSelectVerifyMethod(method)}
+                        role="button"
+                      >
+                        <div className="d-flex align-items-center">
+                          <i className={`${method.icon} me-3`}></i>
+                          <div>
+                            <strong>{method.label}</strong>
+                            <p className="mb-0 small">{method.description}</p>
+                          </div>
+                        </div>
+                        <i className="ri-arrow-right-s-line"></i>
+                      </div>
+                    </div>
+                  ))}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Anti-phishing Remove Modal */}
+        <div className="modal fade search_form" id="antiPhishingRemoveModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title"><i className="ri-shield-cross-line" style={{ marginRight: '8px' }}></i>Remove Anti-phishing Code</h5>
+                <p>Verify your identity to remove the anti-phishing code</p>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="anti-phishing-info-content" style={{ marginBottom: '24px' }}>
+                  <section style={{ marginBottom: '16px' }}>
+                    <h6 style={{ fontWeight: 600, marginBottom: '8px', color: '#fff' }}><i className="ri-information-line" style={{ marginRight: '8px' }}></i>What happens when you remove?</h6>
+                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                      Once removed, your anti-phishing code will no longer appear in official emails sent to you by our exchange. You will lose this additional layer of protection that helps you verify authentic communications and identify phishing attempts.
+                    </p>
+                  </section>
+                  <section style={{ marginBottom: 0 }}>
+                    <h6 style={{ fontWeight: 600, marginBottom: '8px', color: '#fff' }}><i className="ri-alert-line" style={{ marginRight: '8px' }}></i>Reminder:</h6>
+                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                      You can set a new anti-phishing code anytime from Security Settings. We recommend keeping this feature enabled to protect your account from phishing scams.
+                    </p>
+                  </section>
+                </div>
+                <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
+                  {antiPhishingRemoveVerifyMethod !== 'passkey' && (
+                    <>
+                      <p className="small" style={{ marginBottom: '12px', color: '#ccc' }}>{getAntiPhishingRemoveVerifyDescription()}</p>
+                      <div className="emailinput">
+                        <label>Verification Code</label>
+                        <div className="d-flex">
+                          <input
+                            type="text"
+                            placeholder="Enter 6-digit code"
+                            value={antiPhishingRemoveOtp}
+                            onChange={(e) => setAntiPhishingRemoveOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                            maxLength={6}
+                          />
+                          {antiPhishingRemoveVerifyMethod !== 'totp' && (
+                            antiPhishingRemoveTimer > 0 ? (
+                              <div className="resend otp-button-disabled">Resend ({antiPhishingRemoveTimer}s)</div>
+                            ) : (
+                              <button type="button" className="getotp otp-button-enabled getotp_mobile" onClick={handleAntiPhishingRemoveSendOtp} disabled={isSubmitting}>
+                                GET OTP
+                              </button>
+                            )
+                          )}
+                        </div>
+                      </div>
+                      {antiPhishingRemoveAvailableMethods.length > 1 && (
+                        <div className="cursor-pointer" onClick={handleAntiPhishingRemoveOpenVerifyOptions} style={{ marginBottom: '15px' }}>
+                          <small className="text-white">Switch to Another Verification Option <i className="ri-external-link-line"></i></small>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  <button
+                    className="submit"
+                    type="button"
+                    style={{ background: '#dc3545',color: '#fff' }}
+                    disabled={isSubmitting || (antiPhishingRemoveVerifyMethod !== 'passkey' && (!antiPhishingRemoveOtp || antiPhishingRemoveOtp.length !== 6))}
+                    onClick={handleAntiPhishingRemove}
+                  >
+                    <i className="ri-delete-bin-line" style={{ marginRight: '6px' }}></i>{isSubmitting ? 'Removing...' : 'Remove'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Anti-phishing Remove Verification Options Modal */}
+        <div className="modal fade search_form" id="antiPhishingRemoveVerifyOptionsModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title"><i className="ri-fingerprint-2-line" style={{ marginRight: '8px' }}></i>Select a Verification Option</h5>
+                <p>Choose how you want to verify your identity</p>
+                <button type="button" className="btn-close" onClick={handleAntiPhishingRemoveCloseVerifyOptions} aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
+                  {antiPhishingRemoveAvailableMethods.map((method) => (
+                    <div key={method.value}>
+                      <div
+                        className="d-flex align-items-center justify-content-between text-white"
+                        onClick={() => handleAntiPhishingRemoveSelectVerifyMethod(method)}
+                        role="button"
+                      >
+                        <div className="d-flex align-items-center">
+                          <i className={`${method.icon} me-3`}></i>
+                          <div>
+                            <strong>{method.label}</strong>
+                            <p className="mb-0 small">{method.description}</p>
+                          </div>
+                        </div>
+                        <i className="ri-arrow-right-s-line"></i>
+                      </div>
+                    </div>
+                  ))}
+                </form>
+              </div>
             </div>
           </div>
         </div>

@@ -8,18 +8,20 @@ const LaunchpadTransation = (props) => {
     const [transactionHistory, setTransactionHistory] = useState([]);
 
 
-    const handleTransactionHistory = async () => {
+    const handleTransactionHistory = async (page = 1) => {
         try {
             LoaderHelper.loaderStatus(true);
-            const result = await AuthService.launchpadTransHistory();
-
-            if (result?.success && Array.isArray(result.data)) {
-                setTransactionHistory(result.data);
+            const result = await AuthService.userTokenTransactionHistory(page, 20);
+            const data = result?.data;
+            if (result?.success) {
+                setTransactionHistory(Array.isArray(data) ? data : []);
             } else {
+                setTransactionHistory([]);
                 alertErrorMessage(result?.message || "No transaction data found");
             }
         } catch (e) {
             alertErrorMessage("Failed to fetch transaction history");
+            setTransactionHistory([]);
         } finally {
             LoaderHelper.loaderStatus(false);
         }
