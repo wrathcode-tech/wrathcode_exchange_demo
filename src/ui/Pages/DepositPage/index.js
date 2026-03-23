@@ -255,7 +255,7 @@ const DepositPage = () => {
                     </div>
                     <div className="modal-body">
                       <form>
-                        <input type="text" placeholder="Search coin name " value={searchPair} onChange={(e) => setSearchPair(e.target.value)} />
+                        <input type="text" className="searchfield" placeholder="Search coin name " value={searchPair} onChange={(e) => setSearchPair(e.target.value)} />
                       </form>
 
                       <div className="hot_trading_t">
@@ -595,7 +595,8 @@ const DepositPage = () => {
                   <td colSpan="12">
                     <div className="no-data-wrapper">
                       <div className="no_data_vector">
-                        <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                        <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                        <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                       </div>
                     </div>
                   </td>
@@ -688,7 +689,8 @@ const DepositPage = () => {
                     ) : (
                       <div className="no-data-wrapper">
                         <div className="no_data_vector">
-                          <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                          <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                          <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                         </div>
                       </div>
                     )}

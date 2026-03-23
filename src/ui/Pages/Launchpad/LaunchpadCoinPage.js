@@ -521,12 +521,13 @@ return `${ApiConfig?.baseImage}${url}`;
                                                 </tbody>
                                             </table>
                                         ) : (
-                                            <>
+                                            <div className="launchpad-subscription-empty" role="status">
                                                 <div className="no_data_vector text-center">
-                                                    <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                                                    <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="no-data" />
+                                                    <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="no-data" />
                                                 </div>
-                                                <p className="text-center" style={{ color: "#fff" }}>No subscription data found.</p>
-                                            </>
+                                                <p className="launchpad-subscription-empty-text">No subscription data found.</p>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
@@ -942,10 +943,8 @@ return `${ApiConfig?.baseImage}${url}`;
                                                         ) : (
                                                             <>
                                                                 <div className="no_data_vector text-center">
-                                                                    <img
-                                                                        src="/images/Group 1171275449 (1).svg"
-                                                                        alt="no-data"
-                                                                    />
+                                                                    <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="no-data" />
+                                                                    <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="no-data" />
                                                                 </div>
                                                                 <p className="text-center" style={{ color: "#fff" }}>
                                                                     No subscription data found.

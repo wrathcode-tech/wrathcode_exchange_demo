@@ -2884,7 +2884,7 @@ body.light_theme.bs_tab_row {
         flex-direction: column;
         animation: slideUp 0.3s ease;
         overflow: hidden;
-        border-radius: 10px;
+        border-radius:10px 10px 0px 0px;
     }
 
     .mobile-favourites-popup .orderbook-table th {

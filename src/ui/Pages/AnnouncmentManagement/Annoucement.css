@@ -214,6 +214,22 @@ header {
     cursor: pointer;
 }
 
+.launchpad-subscription-empty {
+    min-height: 190px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.launchpad-subscription-empty-text {
+    margin: 0;
+    color: #333;
+}
+
 .modal-footer {
     margin-top: 20px;
     display: flex;
@@ -325,7 +341,7 @@ header {
     background-color: #2B313C;
     border-radius: 16px;
     padding: 24px 40px;
-    margin: 30px 0px;
+    margin: 20px 0px 0px;
 }
 
 .subscribe_data_info {
@@ -958,7 +974,7 @@ td.first_child .icon_icon {
 }
 
 .coin_data_table {
-    margin: 20px 10px;
+    margin: 10px 10px;
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -1619,6 +1635,50 @@ input:focus-visible {
     display: block;
 }
 
+/* Announcement empty state: center illustration + text; topic cards / list rows still start from top */
+.announcement-topics-empty,
+.announcement-list-empty {
+    width: 100%;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    box-sizing: border-box;
+}
+
+.announcement-list-empty {
+    min-height: 360px;
+}
+
+.announcement-empty-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    max-width: 100%;
+}
+
+.announcement-empty-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 96px;
+}
+
+.announcement-empty-illustration img {
+    display: block;
+}
+
+.announcement-empty-text {
+    margin: 0;
+    color: #D9D9D9;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
 .single_announcement .announcement_content h3 {
     font-weight: 300;
     padding: 22px 36px;
@@ -1974,7 +2034,7 @@ ul.exclusive_list li span.sellsub {
 
 .popup-box {
     background: #191919;
-    /* padding: 30px; */
+    padding: 24px;
     width: 90%;
     max-width: 500px;
     border-radius: 12px;
@@ -1982,6 +2042,21 @@ ul.exclusive_list li span.sellsub {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     /* border: 1px solid #29313D; */
+}
+
+body.light_theme .popup-box h3 {
+    color: #161616 !important;
+}
+
+body.light_theme .popup-input {
+    border: 1px solid #d0d0d0;
+    background-color: #e4e4e4;
+    color: #242424;
+}
+
+body.light_theme .tradetpl button {
+    background-color: #D6D6D6;
+    color: #000000;
 }
 
 .popup-box .close-btn {
@@ -3088,6 +3163,9 @@ ul.exclusive_list li span.sellsub {
         gap: 20px;
     }
 
+    .popup-box h3 {
+        font-size: 18px; }
+
     .order_datalist .listdata li span.date {
         font-size: 12px;
     }
@@ -3201,7 +3279,7 @@ ul.exclusive_list li span.sellsub {
     .project_crypto_bl {
         border-radius: 12px;
         padding: 20px;
-        margin: 20px 0px;
+        margin: 0px;
     }
 
     button.viewdel_btn a {

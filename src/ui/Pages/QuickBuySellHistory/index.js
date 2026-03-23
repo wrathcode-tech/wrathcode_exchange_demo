@@ -143,7 +143,8 @@ const QuickBuySellHistory = (props) => {
                           <td colSpan="12">
                             <div className="no-data-wrapper">
                               <div className="no_data_vector">
-                                <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                                <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                                <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                               </div>
 
                             </div>
@@ -248,7 +249,8 @@ const QuickBuySellHistory = (props) => {
             ) : (
               <div className="no-data-wrapper text-center py-4">
                 <div className="no_data_vector">
-                  <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                  <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                  <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                 </div>
               </div>
             )}

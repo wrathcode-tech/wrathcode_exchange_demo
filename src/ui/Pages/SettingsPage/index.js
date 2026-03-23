@@ -1088,19 +1088,19 @@ const SettingsPage = (props) => {
 
             <div className="factor_bl active">
               <div className="lftcnt">
-                <h6><i className="ri-shield-check-line" style={{ marginRight: '8px' }}></i>Anti-phishing Code</h6>
+                <h6><i className="ri-shield-check-line anti-phishing-icon-spaced"></i>Anti-phishing Code</h6>
                 <p>Set a unique 5-8 digit code that will appear in legitimate emails and notifications. This helps you identify real communications from phishing attempts.</p>
               </div>
               {hasAntiPhishingCode ? (
                 <>
 
-                  <button className="btn" style={{ marginLeft: '8px', }} disabled={isSubmitting} onClick={handleAntiPhishingRemoveOpen}>
-                    <i className="ri-delete-bin-line" style={{ marginRight: '6px' }}></i>Remove
+                  <button className="btn anti-phishing-remove-btn" disabled={isSubmitting} onClick={handleAntiPhishingRemoveOpen}>
+                    <i className="ri-delete-bin-line anti-phishing-icon-tight"></i>Remove
                   </button>
                 </>
               ) : (
                 <button className="btn" disabled={isSubmitting} onClick={handleAntiPhishingInfoOpen}>
-                  <i className="ri-add-line" style={{ marginRight: '6px' }}></i>Set Code
+                  <i className="ri-add-line anti-phishing-icon-tight"></i>Set Code
                 </button>
               )}
             </div>
@@ -1113,7 +1113,7 @@ const SettingsPage = (props) => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
-                  <i className="ri-shield-check-line" style={{ marginRight: '8px' }}></i>
+                  <i className="ri-shield-check-line anti-phishing-icon-spaced"></i>
                   Anti-Phishing Code
                 </h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -1121,27 +1121,27 @@ const SettingsPage = (props) => {
               <div className="modal-body">
                 <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
                 <div className="anti-phishing-info-content">
-                  <section style={{ marginBottom: '20px' }}>
-                    <h6 style={{ fontWeight: 600, marginBottom: '10px', color: '#fff' }}><i className="ri-information-line" style={{ marginRight: '8px' }}></i>What is an anti-phishing code?</h6>
-                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                  <section className="anti-phishing-section">
+                    <h6 className="anti-phishing-heading"><i className="ri-information-line anti-phishing-icon-spaced"></i>What is an anti-phishing code?</h6>
+                    <p className="anti-phishing-paragraph">
                       An anti-phishing code is a personalised identifier that enhances your account security. Once successfully set, you will see this code in all official emails sent to you by our exchange. It helps you verify whether an email is genuine and protects you from scams.
                     </p>
                   </section>
-                  <section style={{ marginBottom: '20px' }}>
-                    <h6 style={{ fontWeight: 600, marginBottom: '10px', color: '#fff' }}><i className="ri-mail-check-line" style={{ marginRight: '8px' }}></i>How to Identify Phishing Emails Effectively?</h6>
-                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                  <section className="anti-phishing-section">
+                    <h6 className="anti-phishing-heading"><i className="ri-mail-check-line anti-phishing-icon-spaced"></i>How to Identify Phishing Emails Effectively?</h6>
+                    <p className="anti-phishing-paragraph">
                       You can create a custom anti-phishing code unique to you. This code will appear in all emails sent to you by our exchange. If you receive an email without your anti-phishing code, or the displayed code is different from the one you set, be cautious, as the email may be a phishing attempt impersonating our exchange.
                     </p>
                   </section>
-                  <section style={{ marginBottom: '24px' }}>
-                    <h6 style={{ fontWeight: 600, marginBottom: '10px', color: '#fff' }}><i className="ri-alert-line" style={{ marginRight: '8px' }}></i>Reminder:</h6>
-                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                  <section className="anti-phishing-section anti-phishing-section-last">
+                    <h6 className="anti-phishing-heading"><i className="ri-alert-line anti-phishing-icon-spaced"></i>Reminder:</h6>
+                    <p className="anti-phishing-paragraph">
                       After successfully setting your code, all official emails sent to your secure email address by our exchange will include this security identifier. Always compare the anti-phishing code in the email with the one you set to verify its authenticity. The anti-phishing code is a personal security identifier. Keep it safe and never share it with anyone, including our exchange staff.
                     </p>
                   </section>
                 </div>
                 <button className="submit" type="button" onClick={handleAntiPhishingSetCodeOpen}>
-                  <i className="ri-arrow-right-line" style={{ marginRight: '6px' }}></i>Get Started
+                  <i className="ri-arrow-right-line anti-phishing-icon-tight"></i>Get Started
                 </button>
                 </form>
               </div>
@@ -1154,28 +1154,23 @@ const SettingsPage = (props) => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i className="ri-shield-keyhole-line" style={{ marginRight: '8px' }}></i>{getAntiPhishingSetCodeModalTitle()}</h5>
+                <h5 className="modal-title"><i className="ri-shield-keyhole-line anti-phishing-icon-spaced"></i>{getAntiPhishingSetCodeModalTitle()}</h5>
                 <p>{getAntiPhishingVerifyDescription()}</p>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <div className="anti-phishing-info-content" style={{ marginBottom: '24px' }}>
-                  <section style={{ marginBottom: '16px' }}>
-                    <div style={{
-                      background: 'rgba(255, 152, 0, 0.12)',
-                      border: '1px solid rgba(255, 152, 0, 0.3)',
-                      borderRadius: '8px',
-                      padding: '12px 14px'
-                    }}>
-                      <p style={{ fontSize: '14px', color: '#e8e8e8', lineHeight: 1.6, marginBottom: 0 }}>
-                        <i className="ri-error-warning-line" style={{ marginRight: '6px', verticalAlign: 'middle', color: '#ff9800' }}></i>
+                <div className="anti-phishing-info-content anti-phishing-info-block">
+                  <section className="anti-phishing-warning-section">
+                    <div className="anti-phishing-warning-box">
+                      <p className="anti-phishing-warning-text">
+                        <i className="ri-error-warning-line anti-phishing-warning-icon"></i>
                         Please do not reveal your password or Google/SMS verification code to anyone, including our exchange Customer Service.
                       </p>
                     </div>
                   </section>
-                  <section style={{ marginBottom: 0 }}>
-                    <h6 style={{ fontWeight: 600, marginBottom: '8px', color: '#fff' }}><i className="ri-lock-line" style={{ marginRight: '8px' }}></i>Enable Anti-Phishing Code</h6>
-                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                  <section className="anti-phishing-section anti-phishing-section-no-margin">
+                    <h6 className="anti-phishing-heading anti-phishing-heading-tight"><i className="ri-lock-line anti-phishing-icon-spaced"></i>Enable Anti-Phishing Code</h6>
+                    <p className="anti-phishing-paragraph">
                       Please enter 5 to 8 digits. Do not use commonly used passwords.
                     </p>
                   </section>
@@ -1216,7 +1211,7 @@ const SettingsPage = (props) => {
                         </div>
                       </div>
                       <div>
-                       <p className="small" style={{ color: '#ccc' }}>{getAntiPhishingVerifyDescription()}</p>
+                       <p className="small anti-phishing-muted-text">{getAntiPhishingVerifyDescription()}</p>
                       {antiPhishingAvailableMethods.length > 1 && (
                         <div className="cursor-pointer" onClick={handleAntiPhishingOpenVerifyOptions} >
                           <small className="text-white">Switch to Another Verification Option <i className="ri-external-link-line"></i></small>
@@ -1232,7 +1227,7 @@ const SettingsPage = (props) => {
                     disabled={isSubmitting || antiPhishingCode.replace(/\D/g, '').length < 5 || (antiPhishingVerifyMethod !== 'passkey' && (!antiPhishingOtp || antiPhishingOtp.length !== 6))}
                     onClick={handleAntiPhishingVerifyAndSave}
                   >
-                    <i className="ri-check-line" style={{ marginRight: '6px' }}></i>{isSubmitting ? 'Submitting...' : 'Submit'}
+                    <i className="ri-check-line anti-phishing-icon-tight"></i>{isSubmitting ? 'Submitting...' : 'Submit'}
                   </button>
                 </form>
               </div>
@@ -1245,7 +1240,7 @@ const SettingsPage = (props) => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i className="ri-fingerprint-2-line" style={{ marginRight: '8px' }}></i>Select a Verification Option</h5>
+                <h5 className="modal-title"><i className="ri-fingerprint-2-line anti-phishing-icon-spaced"></i>Select a Verification Option</h5>
                 <p>Choose how you want to verify your identity</p>
                 <button type="button" className="btn-close" onClick={handleAntiPhishingCloseVerifyOptions} aria-label="Close"></button>
               </div>
@@ -1280,21 +1275,21 @@ const SettingsPage = (props) => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i className="ri-shield-cross-line" style={{ marginRight: '8px' }}></i>Remove Anti-phishing Code</h5>
+                <h5 className="modal-title"><i className="ri-shield-cross-line anti-phishing-icon-spaced"></i>Remove Anti-phishing Code</h5>
                 <p>Verify your identity to remove the anti-phishing code</p>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <div className="anti-phishing-info-content" style={{ marginBottom: '24px' }}>
-                  <section style={{ marginBottom: '16px' }}>
-                    <h6 style={{ fontWeight: 600, marginBottom: '8px', color: '#fff' }}><i className="ri-information-line" style={{ marginRight: '8px' }}></i>What happens when you remove?</h6>
-                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                <div className="anti-phishing-info-content anti-phishing-info-block">
+                  <section className="anti-phishing-warning-section">
+                    <h6 className="anti-phishing-heading anti-phishing-heading-tight"><i className="ri-information-line anti-phishing-icon-spaced"></i>What happens when you remove?</h6>
+                    <p className="anti-phishing-paragraph">
                       Once removed, your anti-phishing code will no longer appear in official emails sent to you by our exchange. You will lose this additional layer of protection that helps you verify authentic communications and identify phishing attempts.
                     </p>
                   </section>
-                  <section style={{ marginBottom: 0 }}>
-                    <h6 style={{ fontWeight: 600, marginBottom: '8px', color: '#fff' }}><i className="ri-alert-line" style={{ marginRight: '8px' }}></i>Reminder:</h6>
-                    <p style={{ fontSize: '14px', color: '#ccc', lineHeight: 1.6, marginBottom: 0 }}>
+                  <section className="anti-phishing-section anti-phishing-section-no-margin">
+                    <h6 className="anti-phishing-heading anti-phishing-heading-tight"><i className="ri-alert-line anti-phishing-icon-spaced"></i>Reminder:</h6>
+                    <p className="anti-phishing-paragraph">
                       You can set a new anti-phishing code anytime from Security Settings. We recommend keeping this feature enabled to protect your account from phishing scams.
                     </p>
                   </section>
@@ -1302,7 +1297,7 @@ const SettingsPage = (props) => {
                 <form className="profile_form" onSubmit={(e) => e.preventDefault()}>
                   {antiPhishingRemoveVerifyMethod !== 'passkey' && (
                     <>
-                      <p className="small" style={{ marginBottom: '12px', color: '#ccc' }}>{getAntiPhishingRemoveVerifyDescription()}</p>
+                      <p className="small anti-phishing-muted-text anti-phishing-remove-desc">{getAntiPhishingRemoveVerifyDescription()}</p>
                       <div className="emailinput">
                         <label>Verification Code</label>
                         <div className="d-flex">
@@ -1325,20 +1320,19 @@ const SettingsPage = (props) => {
                         </div>
                       </div>
                       {antiPhishingRemoveAvailableMethods.length > 1 && (
-                        <div className="cursor-pointer" onClick={handleAntiPhishingRemoveOpenVerifyOptions} style={{ marginBottom: '15px' }}>
+                        <div className="cursor-pointer anti-phishing-switch-option" onClick={handleAntiPhishingRemoveOpenVerifyOptions}>
                           <small className="text-white">Switch to Another Verification Option <i className="ri-external-link-line"></i></small>
                         </div>
                       )}
                     </>
                   )}
                   <button
-                    className="submit"
+                    className="submit anti-phishing-danger-submit"
                     type="button"
-                    style={{ background: '#dc3545',color: '#fff' }}
                     disabled={isSubmitting || (antiPhishingRemoveVerifyMethod !== 'passkey' && (!antiPhishingRemoveOtp || antiPhishingRemoveOtp.length !== 6))}
                     onClick={handleAntiPhishingRemove}
                   >
-                    <i className="ri-delete-bin-line" style={{ marginRight: '6px' }}></i>{isSubmitting ? 'Removing...' : 'Remove'}
+                    <i className="ri-delete-bin-line anti-phishing-icon-tight"></i>{isSubmitting ? 'Removing...' : 'Remove'}
                   </button>
                 </form>
               </div>
@@ -1351,7 +1345,7 @@ const SettingsPage = (props) => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i className="ri-fingerprint-2-line" style={{ marginRight: '8px' }}></i>Select a Verification Option</h5>
+                <h5 className="modal-title"><i className="ri-fingerprint-2-line anti-phishing-icon-spaced"></i>Select a Verification Option</h5>
                 <p>Choose how you want to verify your identity</p>
                 <button type="button" className="btn-close" onClick={handleAntiPhishingRemoveCloseVerifyOptions} aria-label="Close"></button>
               </div>
