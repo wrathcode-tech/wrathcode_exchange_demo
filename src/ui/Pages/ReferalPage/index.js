@@ -170,16 +170,16 @@ const ReferalPage = () => {
   return (
     <>
       <Helmet>
-        <title>Earn with Friends – URG-X Refer & Earn</title>
+        <title>Earn with Friends – Wrathcode Exchange Refer & Earn</title>
 
         <meta
           name="description"
-          content="Turn your network into crypto earnings. Refer users to URG-X, and unlock trading credits and rewards when they complete KYC and deposit."
+          content="Turn your network into crypto earnings. Refer users to Wrathcode Exchange, and unlock trading credits and rewards when they complete KYC and deposit."
         />
 
         <meta
           name="keywords"
-          content="crypto earn with friends, refer crypto Exchange, URG-X referral, invite earn crypto"
+          content="crypto earn with friends, refer crypto Exchange, Wrathcode Exchange referral, invite earn crypto"
         />
       </Helmet>
 

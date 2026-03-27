@@ -16,9 +16,9 @@ const TokenPage = () => {
                   <div className="row align-items-center">
                     <div className="col-lg-7">
                       <div className="section-title mb-0 text-start pb-0 no-border">
-                        <h2 className="">About  URG-X  Token</h2>
+                        <h2 className="">About  Wrathcode Exchange  Token</h2>
                         <p>
-                          URG-X Token is the original digital currency issued by URG-X.com, referred to as CVT, and is a decentralized blockchain digital asset based on BSC Chain. The existing total supply is 50 million and cannot be issued additionally.
+                          Wrathcode Exchange Token is the original digital currency issued by Wrathcode Exchange.com, referred to as CVT, and is a decentralized blockchain digital asset based on BSC Chain. The existing total supply is 50 million and cannot be issued additionally.
 
                           Each destruction cycle is based on the overall platform income of the CVToken platform in the current cycle, and CVT is destroyed in a fixed proportion. The destruction record will be announced as soon as possible, and users can query through the blockchain browser , to ensure openness and transparency.
                         </p>
@@ -97,7 +97,7 @@ const TokenPage = () => {
 
       <section className="os_sec " >
         <div className="container">
-          <h3 className=" text-center" >URG-X Token Utility </h3>
+          <h3 className=" text-center" >Wrathcode Exchange Token Utility </h3>
 
           <div className="col-cards card_mini" >
             <div className="row g-4 justify-content-center">

@@ -15,16 +15,16 @@ const FAQ = () => {
   return (
     <>
       <Helmet>
-        <title>URG-X Support – Frequently Asked Questions</title>
+        <title>Wrathcode Exchange Support – Frequently Asked Questions</title>
 
         <meta
           name="description"
-          content="Your one-stop guide for everything URG-X. Browse FAQs on registration, KYC, withdrawals and platform features."
+          content="Your one-stop guide for everything Wrathcode Exchange. Browse FAQs on registration, KYC, withdrawals and platform features."
         />
 
         <meta
           name="keywords"
-          content="crypto support faq, URG-X questions, trading platform support, crypto platform faq"
+          content="crypto support faq, Wrathcode Exchange questions, trading platform support, crypto platform faq"
         />
       </Helmet>
 
@@ -100,14 +100,14 @@ const FAQ = () => {
               <div className="doc_icon"><img src="/images/faq6.png" className="img-fluid" alt="" /></div>
               <div>
                 <h5>API</h5>
-                <p>About URG-XAPI services </p>
+                <p>About Wrathcode ExchangeAPI services </p>
               </div>
             </a>
 
             <a className="card" href="#/" type="button" onClick={() => { nextPage('FAQTrading') }}>
               <div className="doc_icon"><img src="/images/faq7.png" className="img-fluid" alt="" /></div>
               <div>
-                <h5>Trading with URG-X</h5>
+                <h5>Trading with Wrathcode Exchange</h5>
                 <p> Help for all your trading transections  </p>
               </div>
             </a>

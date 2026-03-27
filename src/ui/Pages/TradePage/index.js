@@ -693,16 +693,16 @@ const Trade = () => {
     return (
         <>
             <Helmet>
-                <title>{`${SelectedCoin?.base_currency || "BTC"}/${SelectedCoin?.quote_currency || "USDT"} Spot Trading – URG-X`}</title>
+                <title>{`${SelectedCoin?.base_currency || "BTC"}/${SelectedCoin?.quote_currency || "USDT"} Spot Trading – Wrathcode Exchange`}</title>
 
                 <meta
                     name="description"
-                    content="Trade Bitcoin against USDT on URG-X with intuitive interface, live market data and safety features. Register today."
+                    content="Trade Bitcoin against USDT on Wrathcode Exchange with intuitive interface, live market data and safety features. Register today."
                 />
 
                 <meta
                     name="keywords"
-                    content="spot bitcoin usdt, trade bitcoin exchange, URG-X spot trading, BTC USDT URG-X"
+                    content="spot bitcoin usdt, trade bitcoin exchange, Wrathcode Exchange spot trading, BTC USDT Wrathcode Exchange"
                 />
             </Helmet>
 

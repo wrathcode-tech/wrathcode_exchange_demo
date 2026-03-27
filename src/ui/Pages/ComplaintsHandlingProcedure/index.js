@@ -7,16 +7,16 @@ const ComplaintsHandlingProcedure = () => {
   return (
     <>
       <Helmet>
-        <title>Complaints Handling Procedure – URG-X</title>
+        <title>Complaints Handling Procedure – Wrathcode Exchange</title>
 
         <meta
           name="description"
-          content="Learn about the complaints procedure at URG-X. Our process ensures transparency, fairness and resolution for users."
+          content="Learn about the complaints procedure at Wrathcode Exchange. Our process ensures transparency, fairness and resolution for users."
         />
 
         <meta
           name="keywords"
-          content="complaints procedure crypto, URG-X support complaints, exchange dispute resolution, crypto platform user rights"
+          content="complaints procedure crypto, Wrathcode Exchange support complaints, exchange dispute resolution, crypto platform user rights"
         />
       </Helmet>
 
@@ -36,7 +36,7 @@ const ComplaintsHandlingProcedure = () => {
         <div className="termsofuse">
           <div className="container ">
             <h3>1. Introduction</h3>
-            <p>This procedure outlines how Lunexor s.r.o., operator of the URG-X platform, handles complaints submitted by its users.</p>
+            <p>This procedure outlines how Lunexor s.r.o., operator of the Wrathcode Exchange platform, handles complaints submitted by its users.</p>
             <p>This procedure complies with:</p>
             <ul>
               <li>Regulation (EU) 2023/1114 (MiCA) – Article 71</li>
@@ -55,13 +55,13 @@ const ComplaintsHandlingProcedure = () => {
             <h3>2. Definition of a Complaint</h3>
             <p>A “complaint” refers to any written communication from a user that:</p>
             <ul>
-              <li>Expresses dissatisfaction with a URG-X service</li>
+              <li>Expresses dissatisfaction with a Wrathcode Exchange service</li>
               <li>Concerns technical, operational, or contractual issues</li>
-              <li>Challenges actions or omissions by URG-X staff or systems</li>
+              <li>Challenges actions or omissions by Wrathcode Exchange staff or systems</li>
             </ul>
             <h3>3. How to Submit a Complaint</h3>
             <p>Complaints must be submitted in writing, preferably via email:</p>
-            <p><strong>Email:</strong> <a href="mailto:support@urgx.com">support@urgx.com</a><br /><strong>Subject:</strong> “Official Complaint – [Full Name / User ID]”</p>
+            <p><strong>Email:</strong> <a href="mailto:support@wrathcode.com.">support@wrathcode.com.</a><br /><strong>Subject:</strong> “Official Complaint – [Full Name / User ID]”</p>
             <p>The complaint should include:</p>
             <ul>
               <li>User’s full name</li>
@@ -118,7 +118,7 @@ const ComplaintsHandlingProcedure = () => {
               <li>Supervisory authority guidance</li>
             </ul>
             <h3>10. Contact</h3>
-            <p><strong>Complaints Officer</strong><br />URG-X – Lunexor s.r.o.<br /><strong>Email:</strong> <a href="mailto:support@urgx.com">support@urgx.com</a><br /><strong>Supported Languages:</strong> English, Czech</p>
+            <p><strong>Complaints Officer</strong><br />Wrathcode Exchange – Lunexor s.r.o.<br /><strong>Email:</strong> <a href="mailto:support@wrathcode.com.">support@wrathcode.com.</a><br /><strong>Supported Languages:</strong> English, Czech</p>
           </div>
         </div>
       </div>

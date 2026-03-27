@@ -198,7 +198,7 @@ function AnnouncementList() {
 
                             <div className="crypto_listing_cnt">
                                 <div className="block_listing">
-                                    <h5>Introducing Unifi Protocol DAO (UNFI) on URG-X Launchpool! Farm UNFI By Staking
+                                    <h5>Introducing Unifi Protocol DAO (UNFI) on Wrathcode Exchange Launchpool! Farm UNFI By Staking
                                         BNB, BUSD & ETH Tokens</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
@@ -207,24 +207,24 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on URG-X Isolated Margin</h5>
+                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
+                                    <h5>Wrathcode Exchange Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
                                         50x Leverage</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>CVC, DNT, ALPHA & INJ Enabled on URG-X Isolated Margin</h5>
+                                    <h5>CVC, DNT, ALPHA & INJ Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
+                                    <h5>Wrathcode Exchange Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
@@ -232,11 +232,11 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Lists renBTC (RENBTC)</h5>
+                                    <h5>Wrathcode Exchange Lists renBTC (RENBTC)</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                             </div>
@@ -260,7 +260,7 @@ function AnnouncementList() {
 
                             <div className="crypto_listing_cnt">
                                 <div className="block_listing">
-                                    <h5>Introducing Unifi Protocol DAO (UNFI) on URG-X Launchpool! Farm UNFI By Staking
+                                    <h5>Introducing Unifi Protocol DAO (UNFI) on Wrathcode Exchange Launchpool! Farm UNFI By Staking
                                         BNB, BUSD & ETH Tokens</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
@@ -269,24 +269,24 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on URG-X Isolated Margin</h5>
+                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
+                                    <h5>Wrathcode Exchange Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
                                         50x Leverage</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>CVC, DNT, ALPHA & INJ Enabled on URG-X Isolated Margin</h5>
+                                    <h5>CVC, DNT, ALPHA & INJ Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
+                                    <h5>Wrathcode Exchange Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
@@ -294,11 +294,11 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Lists renBTC (RENBTC)</h5>
+                                    <h5>Wrathcode Exchange Lists renBTC (RENBTC)</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                             </div>
@@ -322,7 +322,7 @@ function AnnouncementList() {
 
                             <div className="crypto_listing_cnt">
                                 <div className="block_listing">
-                                    <h5>Introducing Unifi Protocol DAO (UNFI) on URG-X Launchpool! Farm UNFI By Staking
+                                    <h5>Introducing Unifi Protocol DAO (UNFI) on Wrathcode Exchange Launchpool! Farm UNFI By Staking
                                         BNB, BUSD & ETH Tokens</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
@@ -331,24 +331,24 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on URG-X Isolated Margin</h5>
+                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
+                                    <h5>Wrathcode Exchange Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
                                         50x Leverage</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>CVC, DNT, ALPHA & INJ Enabled on URG-X Isolated Margin</h5>
+                                    <h5>CVC, DNT, ALPHA & INJ Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
+                                    <h5>Wrathcode Exchange Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
@@ -356,11 +356,11 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Lists renBTC (RENBTC)</h5>
+                                    <h5>Wrathcode Exchange Lists renBTC (RENBTC)</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                             </div>
@@ -384,7 +384,7 @@ function AnnouncementList() {
 
                             <div className="crypto_listing_cnt">
                                 <div className="block_listing">
-                                    <h5>Introducing Unifi Protocol DAO (UNFI) on URG-X Launchpool! Farm UNFI By Staking
+                                    <h5>Introducing Unifi Protocol DAO (UNFI) on Wrathcode Exchange Launchpool! Farm UNFI By Staking
                                         BNB, BUSD & ETH Tokens</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
@@ -393,24 +393,24 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on URG-X Isolated Margin</h5>
+                                    <h5>AXS, CTK, EUR, LOOM & UTK Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
+                                    <h5>Wrathcode Exchange Futures Will Launch CVC USDT-Margined Perpetual Contract With Up to
                                         50x Leverage</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>CVC, DNT, ALPHA & INJ Enabled on URG-X Isolated Margin</h5>
+                                    <h5>CVC, DNT, ALPHA & INJ Enabled on Wrathcode Exchange Isolated Margin</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
+                                    <h5>Wrathcode Exchange Will List Axie Infinity's Small Love Potion (SLP) in the Innovation Zone</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds DNT/BUSD, DNT/USDT, ADA/EUR & LTC/NGN Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
@@ -418,11 +418,11 @@ function AnnouncementList() {
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Lists renBTC (RENBTC)</h5>
+                                    <h5>Wrathcode Exchange Lists renBTC (RENBTC)</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                                 <div className="block_listing">
-                                    <h5>URG-X Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
+                                    <h5>Wrathcode Exchange Adds BNB/BRL & LTC/EUR Trading Pairs</h5>
                                     <span className="small">2020-11-13</span>
                                 </div>
                             </div>

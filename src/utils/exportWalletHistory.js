@@ -27,7 +27,7 @@ const loadLogoAsBase64 = (url) => {
   });
 };
 
-const PLATFORM_NAME = process.env.REACT_APP_PROJECT_NAME || 'URG-X';
+const PLATFORM_NAME = process.env.REACT_APP_PROJECT_NAME || 'Wrathcode Exchange';
 const BRAND_COLOR = [243, 187, 43];
 const TABLE_HEADER_BG = [55, 65, 81];
 const TABLE_ALT_ROW = [248, 249, 250];

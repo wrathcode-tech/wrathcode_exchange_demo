@@ -8,16 +8,16 @@ const SecuritySystem = () => {
   return (
     <>
       <Helmet>
-        <title>Safe Crypto Trading – Security at URG-X</title>
+        <title>Safe Crypto Trading – Security at Wrathcode Exchange</title>
 
         <meta
           name="description"
-          content="Your safety is our priority. Discover the security infrastructure used by URG-X to safeguard your assets and trades."
+          content="Your safety is our priority. Discover the security infrastructure used by Wrathcode Exchange to safeguard your assets and trades."
         />
 
         <meta
           name="keywords"
-          content="secure trading platform crypto, URG-X security infrastructure, protect crypto assets, exchange risk mitigation"
+          content="secure trading platform crypto, Wrathcode Exchange security infrastructure, protect crypto assets, exchange risk mitigation"
         />
       </Helmet>
 
@@ -116,7 +116,7 @@ const SecuritySystem = () => {
                           <div className="card-body">
                             <h5> Safe Sign In      </h5>
                             <p className="mb-0">
-                              URG-X supports strict sign-in protocols using two-factor authentication, including hardware, app-based, SMS and email methods.
+                              Wrathcode Exchange supports strict sign-in protocols using two-factor authentication, including hardware, app-based, SMS and email methods.
                             </p>
                           </div>
 

@@ -6,15 +6,15 @@ import AuthService from "../../api/services/AuthService";
 
 
 const AuthHeader = () => {
-  const { 
-    setCurrentPage, 
-    estimatedPortfolio, 
-    notifications, 
+  const {
+    setCurrentPage,
+    estimatedPortfolio,
+    notifications,
     notificationCounts,
     themeUpdated,
     setThemeUpdated
   } = useContext(ProfileContext);
-  
+
   const [showBalance, setShowBalance] = useState(true);
   const [searchPair, setSearchPair] = useState("");
   const [allPairs, setAllPairs] = useState([]);
@@ -34,10 +34,10 @@ const AuthHeader = () => {
     if (isAuthPage) return false;
     return exact ? location.pathname === path : location.pathname.includes(path);
   };
-  
+
   // Check if Dashboard should be active (user_profile pages except swap)
-  const isDashboardActive = location.pathname.startsWith('/user_profile') && 
-                            location.pathname !== '/user_profile/swap';
+  const isDashboardActive = location.pathname.startsWith('/user_profile') &&
+    location.pathname !== '/user_profile/swap';
 
   // eslint-disable-next-line no-unused-vars
   const logOut = () => {
@@ -66,7 +66,7 @@ const AuthHeader = () => {
   // Filter pairs based on search
   const filteredPairs = useMemo(() => {
     if (!searchPair) return allPairs;
-    return allPairs.filter((item) => 
+    return allPairs.filter((item) =>
       item?.base_currency?.toLowerCase()?.includes(searchPair?.toLowerCase())
     );
   }, [searchPair, allPairs]);
@@ -213,18 +213,18 @@ const AuthHeader = () => {
                     <div className={`collapse navbar-collapse ${isOpenNav ? "show" : ""}`} id="mainNavbar">
                       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                          <Link 
-                            className={`nav-link ${isActive("/") ? "active" : ""}`} 
-                            to="/" 
+                          <Link
+                            className={`nav-link ${isActive("/") ? "active" : ""}`}
+                            to="/"
                             onClick={closeNavbar}
                           >
                             Home
                           </Link>
                         </li>
                         <li className="nav-item">
-                          <Link 
-                            className={`nav-link ${isActive("/market") ? "active" : ""}`} 
-                            to="/market" 
+                          <Link
+                            className={`nav-link ${isActive("/market") ? "active" : ""}`}
+                            to="/market"
                             onClick={closeNavbar}
                           >
                             Market
@@ -329,18 +329,18 @@ const AuthHeader = () => {
                         </li>
 
                         <li className="nav-item">
-                          <Link 
-                            className={`nav-link ${isActive("/user_profile/swap") ? "active" : ""}`} 
-                            to="/user_profile/swap" 
+                          <Link
+                            className={`nav-link ${isActive("/user_profile/swap") ? "active" : ""}`}
+                            to="/user_profile/swap"
                             onClick={closeNavbar}
                           >
                             Quick Swap
                           </Link>
                         </li>
                         <li className="nav-item">
-                          <Link 
-                            className={`nav-link ${isActive("/launchpad") ? "active" : ""}`} 
-                            to="/launchpad" 
+                          <Link
+                            className={`nav-link ${isActive("/launchpad") ? "active" : ""}`}
+                            to="/launchpad"
                             onClick={closeNavbar}
                           >
                             Launchpad<i className="ri-rocket-fill" style={{ color: "#f3bb2c" }}></i>
@@ -348,9 +348,9 @@ const AuthHeader = () => {
                         </li>
 
                         <li className="nav-item mememenu">
-                          <Link 
-                            className={`nav-link ${isActive("/meme") ? "active" : ""}`} 
-                            to="/meme" 
+                          <Link
+                            className={`nav-link ${isActive("/meme") ? "active" : ""}`}
+                            to="/meme"
                             onClick={closeNavbar}
                           >
                             Meme+
@@ -358,9 +358,9 @@ const AuthHeader = () => {
                         </li>
 
                         <li className="nav-item">
-                          <Link 
-                            className={`nav-link ${isActive("/blogs") ? "active" : ""}`} 
-                            to="/blogs" 
+                          <Link
+                            className={`nav-link ${isActive("/blogs") ? "active" : ""}`}
+                            to="/blogs"
                             onClick={closeNavbar}
                           >
                             Blogs & News
@@ -381,11 +381,11 @@ const AuthHeader = () => {
                           </span>
                           <ul className={`dropdown-menu ${openDropdown === "download" ? "show" : ""}`} onMouseEnter={() => openDropdownHover("download")} onMouseLeave={closeDropdownHover}>
                             <li>
-                            <div className='qrcode'>
-                          <div className="scan_img"><img src="/images/scan.png" alt="scan" /></div>
-                          <p>Scan to Download App iOS & Android</p>
-                          <button className='btn'>Download</button>
-                        </div>
+                              <div className='qrcode'>
+                                <div className="scan_img"><img src="/images/scan.png" alt="scan" /></div>
+                                <p>Scan to Download App iOS & Android</p>
+                                <button className='btn'>Download</button>
+                              </div>
                             </li>
                           </ul>
                         </li>
@@ -405,7 +405,7 @@ const AuthHeader = () => {
                             <i className="ri-sun-line light-text"></i>
                           </Link>
                         </li>
-                            {/* <li className="nav-item mbl">
+                        {/* <li className="nav-item mbl">
                           <Link className="nav-link" to="/#">
                             Theme <span><img src="/images/themeicon.svg" alt="theme" /></span>
                           </Link>
@@ -520,8 +520,8 @@ const AuthHeader = () => {
                       <i className="ri-moon-line dark_img"></i>
                       <i className="ri-sun-line light_img"></i>
                     </li>
-                  
-                  
+
+
                     {/* <li className="themetbs"><img src="/images/themeicon.svg" alt="theme" /></li> */}
                   </ul>
                 </div>
@@ -529,11 +529,11 @@ const AuthHeader = () => {
             </div>
 
             {/* <!--Search Bar Modal --> */}
-            <div 
-              className="modal fade search_form search_form_modal_2" 
-              id="exampleModal" 
-              tabIndex="-1" 
-              aria-labelledby="exampleModalLabel" 
+            <div
+              className="modal fade search_form search_form_modal_2"
+              id="exampleModal"
+              tabIndex="-1"
+              aria-labelledby="exampleModalLabel"
               aria-hidden="true"
               onFocus={fetchPairs}
             >
@@ -545,11 +545,11 @@ const AuthHeader = () => {
                   </div>
                   <div className="modal-body" onClick={fetchPairs}>
                     <form>
-                      <input 
-                        type="search" 
-                        placeholder="Search here..." 
-                        value={searchPair} 
-                        onChange={(e) => setSearchPair(e.target.value)} 
+                      <input
+                        type="search"
+                        placeholder="Search here..."
+                        value={searchPair}
+                        onChange={(e) => setSearchPair(e.target.value)}
                         onFocus={fetchPairs}
                       />
                     </form>
@@ -577,13 +577,13 @@ const AuthHeader = () => {
                               }) : (
                                 <tr rowSpan="5" className="no-data-row">
                                   <td className="w-100" >
-                                  <div className="no-data-wrapper mt-5">
-                                    <div className="no_data_s">
-                                      <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
+                                    <div className="no-data-wrapper mt-5">
+                                      <div className="no_data_s">
+                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width="96" height="96" alt="" /><img src="/images/no_data_vector_light.png" className="img-fluid light_img" width="96" height="96" alt="" />
+                                      </div>
                                     </div>
-                                  </div>
-                                </td>
-                              </tr>
+                                  </td>
+                                </tr>
                               )}
                             </tbody>
                           </table>
@@ -617,7 +617,7 @@ const AuthHeader = () => {
             5.36558 8.63379L9.11558 12.3838Z" fill="white"></path></svg>
             <div className="deposit_cnt">
               Deposit Crypto
-              <p>Send crypto to your URG-X Account</p>
+              <p>Send crypto to your Wrathcode Exchange Account</p>
             </div>
           </Link>
         </div>

@@ -24,7 +24,7 @@ const BlogDetails = () => {
               {"<"} Back
             </Link>
                     <div className="inner text-center">
-                        <h1 className="title">URG-X Blog</h1>
+                        <h1 className="title">Wrathcode Exchange Blog</h1>
                         <nav className="mt-4">
                             <ol className="breadcrumb justify-content-center">
                   <li className="breadcrumb-item">
@@ -47,7 +47,7 @@ const BlogDetails = () => {
             {currentBlog ? (
               <>
                 <Helmet>
-                  <title>{currentBlog.title} – URG-X Blog</title>
+                  <title>{currentBlog.title} – Wrathcode Exchange Blog</title>
                   <meta
                     name="description"
                     content={
@@ -57,7 +57,7 @@ const BlogDetails = () => {
                   />
                   <meta
                     name="og:title"
-                    content={`${currentBlog.title} – URG-X Blog`}
+                    content={`${currentBlog.title} – Wrathcode Exchange Blog`}
                   />
                 </Helmet>
                 <div className="row">

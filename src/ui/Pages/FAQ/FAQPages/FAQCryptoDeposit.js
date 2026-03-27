@@ -52,15 +52,15 @@ const FAQCryptoDeposit = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_1">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-                How to Deposit Digital Assets to URG-X 【PC】
+                How to Deposit Digital Assets to Wrathcode Exchange 【PC】
               </button>
             </h2>
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
-                  <p>You can deposit digital assets from external platforms or wallets to URG-Xvia a deposit address on the platform. How to
+                  <p>You can deposit digital assets from external platforms or wallets to Wrathcode Exchangevia a deposit address on the platform. How to
                     find the address?</p>
-                  <p>1. Visit the URG-Xofficial website.</p>
+                  <p>1. Visit the Wrathcode Exchangeofficial website.</p>
                   <p>2. Click on [My Asset] - [Cash Account].</p>
                   <h6> 3. Click on [Deposit], and select the token you want to deposit. Take USDT as an example:</h6>
                   <ol>
@@ -86,16 +86,16 @@ const FAQCryptoDeposit = () => {
           <div className="card  p-0 ">
             <h2 className="card-header" id="headingcollapse_2">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2">
-                How to Deposit Digital Assets on URG-X 【APP】
+                How to Deposit Digital Assets on Wrathcode Exchange 【APP】
               </button>
             </h2>
             <div id="collapse_2" className="accordion-collapse collapse" aria-labelledby="headingcollapse_2" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom">
                 <div className="faq_text" >
-                  <p>You can deposit digital assets from external platforms or wallets to URG-Xvia a deposit address on the platform.
+                  <p>You can deposit digital assets from external platforms or wallets to Wrathcode Exchangevia a deposit address on the platform.
                     How to find the address?</p>
 
-                  <p>1. Open URG-XApp and click on [Balance].</p>
+                  <p>1. Open Wrathcode ExchangeApp and click on [Balance].</p>
                   <p >2. Click on [Deposit].</p>
                   <p> 3. Select the token you want to deposit. Take USDT as an example:</p>
                   <ol>
@@ -118,23 +118,23 @@ const FAQCryptoDeposit = () => {
           <div className="card  p-0  ">
             <h2 className="card-header" id="headingcollapse_3">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_3" aria-expanded="false" aria-controls="collapse_3">
-                How to Withdraw Digital Assets from URG-X 【PC】
+                How to Withdraw Digital Assets from Wrathcode Exchange 【PC】
               </button>
             </h2>
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
                   <p className="" >You can withdraw your digital assets to external platforms or wallets via their address. Copy the address from the external
-                    platform or wallet, and paste it into the withdrawal address field on URG-Xto complete the withdrawal.</p>
+                    platform or wallet, and paste it into the withdrawal address field on Wrathcode Exchangeto complete the withdrawal.</p>
                   <ol>
-                    <li> 1. Visit URG-Xofficial website. </li>
+                    <li> 1. Visit Wrathcode Exchangeofficial website. </li>
                     <li>  2. Click on [My Asset] - [Cash Account].</li>
                     <li>  3. Click on [Withdrawal], and select the token you want to withdraw. Take USDT as an example.
                       <ol>
                         <li>1) Select USDT</li>
                         <li>2) Select Public Chain Type (fees are different for different chain type)</li>
                         <li>3) Copy the withdrawal address from an external platform or wallet, and paste it into the withdrawal address field
-                          on URG-X. You can also scan the QR Code on the external platform or wallet to withdraw</li>
+                          on Wrathcode Exchange. You can also scan the QR Code on the external platform or wallet to withdraw</li>
                         <li>4) Click on [Confirm]</li>
                       </ol>
                     </li>
@@ -154,7 +154,7 @@ const FAQCryptoDeposit = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_4">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4">
-                How to Withdraw Digital Assets on URG-X 【APP】
+                How to Withdraw Digital Assets on Wrathcode Exchange 【APP】
               </button>
             </h2>
             <div id="collapse_4" className="accordion-collapse collapse" aria-labelledby="headingcollapse_4" data-bs-parent="#accordionExample">
@@ -162,10 +162,10 @@ const FAQCryptoDeposit = () => {
                 <div className="faq_text" >
                   <p className=" ">
                     You can withdraw your digital assets to external platforms or wallets via their address. Copy the address from the external
-                    platform or wallet, and paste it into the withdrawal address field on URG-Xto complete the withdrawal.
+                    platform or wallet, and paste it into the withdrawal address field on Wrathcode Exchangeto complete the withdrawal.
                   </p>
                   <ol>
-                    <li>1. Open URG-XApp, click on [Balance].</li>
+                    <li>1. Open Wrathcode ExchangeApp, click on [Balance].</li>
                     <li>2. 2. Click on [Withdrawal].</li>
                     <li>3. Search the token you want to withdraw.</li>
                     <li>4. Take USDT as an example.
@@ -173,7 +173,7 @@ const FAQCryptoDeposit = () => {
                         <li>1) Select USDT</li>
                         <li>2) Select Public Chain Type (fees are different for different chain type)</li>
                         <li>3) Copy the withdrawal address from an external platform or wallet, and paste it into the withdrawal address field
-                          on URG-X. You can also scan the QR Code on the external platform or wallet to withdraw</li>
+                          on Wrathcode Exchange. You can also scan the QR Code on the external platform or wallet to withdraw</li>
                         <li>4) Click on [Confirm]</li>
                       </ol>
                       <li>5. Confirm withdrawal info, click on [Send] to get the email/SMS verification code. Enter the code that you receive and the
@@ -193,14 +193,14 @@ const FAQCryptoDeposit = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_5">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_5" aria-expanded="false" aria-controls="collapse_5">
-                Deposit to a Non-URG-Xaddress
+                Deposit to a Non-Wrathcode Exchangeaddress
               </button>
             </h2>
             <div id="collapse_5" className="accordion-collapse collapse" aria-labelledby="headingcollapse_5" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    URG-Xcan NOT receive your crypto assets if they are deposited to a non-URG-Xaddresses. We cannot help to retrieve
+                    Wrathcode Exchangecan NOT receive your crypto assets if they are deposited to a non-Wrathcode Exchangeaddresses. We cannot help to retrieve
                     those assets due to anonymous feature of transactions via blockchain.
                   </p>
                 </div>
@@ -218,11 +218,11 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    If you sent the wrong coins or missing memo/tag to your URG-X X coin address:
+                    If you sent the wrong coins or missing memo/tag to your Wrathcode Exchange X coin address:
                   </p>
                   <ol>
-                    <li>1. URG-Xgenerally does not offer a token/coin recovery service.</li>
-                    <li>2. If you have suffered a significant loss as a result of incorrectly deposited tokens/coins, URG-Xmay, solely at our
+                    <li>1. Wrathcode Exchangegenerally does not offer a token/coin recovery service.</li>
+                    <li>2. If you have suffered a significant loss as a result of incorrectly deposited tokens/coins, Wrathcode Exchangemay, solely at our
                       discretion, assist you in recovering your tokens/coins. This process is extremely complicated and may result in
                       significant cost, time and risk.</li>
                     <li>3. You can contact Support Team, We will review your request for an asset recovery upon the collected necessary
@@ -246,24 +246,24 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    Assets being deposited on URG-Xgo through the following steps:
+                    Assets being deposited on Wrathcode Exchangego through the following steps:
                   </p>
                   <ol>
                     <li>1. Initiate a withdrawal request on the trading platform from which you want to transfer your assets. The withdrawal will be verified on the trading platform.</li>
                     <li>2. The transaction will be confirmed on the blockchain. You can track the confirmation process on a blockchain browser using your transaction ID (TXID) for the specific token.</li>
-                    <li>3. Once the deposit is confirmed on the blockchain and credited to your URG-Xaccount, it will be considered a complete deposit.
-                      Please be aware that network congestion can extend the transaction process. If your deposit is not yet credited to your URG-Xaccount, follow these steps to check its status:
+                    <li>3. Once the deposit is confirmed on the blockchain and credited to your Wrathcode Exchangeaccount, it will be considered a complete deposit.
+                      Please be aware that network congestion can extend the transaction process. If your deposit is not yet credited to your Wrathcode Exchangeaccount, follow these steps to check its status:
                       <ol>
                         <li>1. Obtain the Transaction ID (TXID) from the platform you withdrew the assets from or ask the platform for the TXID if you cannot find it. The TXID confirms that the withdrawal is completed,
                           and the assets are transferred to the blockchain.</li>
-                        <li>2. Check the block confirmation status with the TXID using the appropriate blockchain browser. If the number of block confirmations is lower than URG-Xrequirement, please be patient.
+                        <li>2. Check the block confirmation status with the TXID using the appropriate blockchain browser. If the number of block confirmations is lower than Wrathcode Exchangerequirement, please be patient.
                           Your deposit will be credited when the required number of confirmations is met.</li>
-                        <li>3. If the number of block confirmations meets the URG-Xrequirement but the deposit is still not credited to your account, email customer support at (support@urgx.com) and provide the
-                          following information: your URG-Xaccount, token name, deposit amount, and Transaction ID (TXID).
+                        <li>3. If the number of block confirmations meets the Wrathcode Exchangerequirement but the deposit is still not credited to your account, email customer support at (support@wrathcode.com.) and provide the
+                          following information: your Wrathcode Exchangeaccount, token name, deposit amount, and Transaction ID (TXID).
                           <ol>Please note the following:
                             <li>1. If the TXID is not generated, check the withdrawal process with the withdrawal platform.</li>
-                            <li>2. Network congestion may cause delays. If the block confirmation is still processing or the number of confirmations is lower than URG-X 's requirement, please be patient.</li>
-                            <li>3. Always confirm the transaction information, especially the deposit address copied from URG-Xduring asset transfers, to avoid unnecessary asset loss. Keep in mind that blockchain
+                            <li>2. Network congestion may cause delays. If the block confirmation is still processing or the number of confirmations is lower than Wrathcode Exchange 's requirement, please be patient.</li>
+                            <li>3. Always confirm the transaction information, especially the deposit address copied from Wrathcode Exchangeduring asset transfers, to avoid unnecessary asset loss. Keep in mind that blockchain
                               transactions are irreversible.</li>
                           </ol>
                         </li>
@@ -330,18 +330,18 @@ const FAQCryptoDeposit = () => {
                         necessary for identifying a transaction recipient beyond a wallet address.
                       </p>
                       <h6>Here is why this is needed:</h6>
-                      <p>To facilitate the management, most trading platforms (like URG-X ) give one address for
+                      <p>To facilitate the management, most trading platforms (like Wrathcode Exchange ) give one address for
                         all crypto traders to deposit or withdraw all types of digital assets. Therefore, a
                         Tag/Memo is used to determine what actual individual account a given transaction
                         should be assigned and credited to. To make it simple, the address users send one of
                         these cryptocurrencies to can be equated to an apartment building address. The
                         Tag/Memo identifies which specific apartment users live in, in the apartment building.
                         Note: If the deposit page requires the Tag/Memo/Message information, users must
-                        enter a Tag/Memo/Message when depositing on URG-Xto ensure that the deposit can
+                        enter a Tag/Memo/Message when depositing on Wrathcode Exchangeto ensure that the deposit can
                         be credited. Users need to follow the tag rules of the target address when withdrawing
-                        assets from URG-X .</p>
+                        assets from Wrathcode Exchange .</p>
                       <h6>Which cryptocurrencies use Destination Tag technology?</h6>
-                      <p>The following cryptocurrencies available on URG-Xutilize destination tag technology:
+                      <p>The following cryptocurrencies available on Wrathcode Exchangeutilize destination tag technology:
                         When users deposit or withdraw those assets, they must provide a correct address along
                         with a corresponding Tag/Memo/Message. A missed, incorrect or mismatched
                         Tag/Memo/Message may lead to failed transactions and the assets cannot be retrieved.</p>
@@ -444,7 +444,7 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    There are no fees for a deposit. However, users need to pay fees when withdrawing assets from URG-X .
+                    There are no fees for a deposit. However, users need to pay fees when withdrawing assets from Wrathcode Exchange .
                     The fees will reward miners or block nodes who confirm transactions. The fee of each transaction is
                     subject to the real-time network status of different tokens. Please take note of the reminder on the
                     withdrawal page.
@@ -464,7 +464,7 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    Yes, there is. For specific digital assets, URG-Xsets the minimum deposit amount. Users need to make
+                    Yes, there is. For specific digital assets, Wrathcode Exchangesets the minimum deposit amount. Users need to make
                     sure the deposit amount is higher than the minimum requirement.
                     <br />
                     Users will see a popup reminder if the amount is lower than the requirement. Please note, a deposit
@@ -486,7 +486,7 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    Yes, there is. URG-Xsets the minimum withdrawal amount.
+                    Yes, there is. Wrathcode Exchangesets the minimum withdrawal amount.
                     <br />
                     Users need to make sure the withdrawal amount meets the requirement. The daily withdrawal quota is
                     capped at 1 BTC for an unverified account. A verified account will have an enhanced withdrawal quota of
@@ -507,8 +507,8 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    No. Users can deposit and withdraw assets on URG-Xanytime. If the deposit and withdrawal functions are
-                    suspended because of block network breakdown, platform upgrade, etc., URG-Xwill inform users via an
+                    No. Users can deposit and withdraw assets on Wrathcode Exchangeanytime. If the deposit and withdrawal functions are
+                    suspended because of block network breakdown, platform upgrade, etc., Wrathcode Exchangewill inform users via an
                     official announcement.
                   </p>
                 </div>
@@ -527,14 +527,14 @@ const FAQCryptoDeposit = () => {
                 <div className="faq_text" >
                   <p className="">
                     The withdrawal process is as follows:
-                    Assets transfer out from URG-X , block confirmation, and receiver accreditation. When users request a
-                    withdrawal, the withdrawal will be verified immediately on URG-X . However, it will take a little longer to
+                    Assets transfer out from Wrathcode Exchange , block confirmation, and receiver accreditation. When users request a
+                    withdrawal, the withdrawal will be verified immediately on Wrathcode Exchange . However, it will take a little longer to
                     verify large-amount withdrawals. Then, the transaction will be confirmed on the blockchain. Users can
                     check for the confirmation process on blockchain browsers of different tokens using the transaction ID.
                     <br />
                     A withdrawal confirmed on the blockchain and credited to the receiver will be deemed as a complete
                     withdrawal. Potential network congestion could extend the transaction process. Please note, users can
-                    always turn to URG-Xcustomer support when having issues with deposits or withdrawals.
+                    always turn to Wrathcode Exchangecustomer support when having issues with deposits or withdrawals.
                   </p>
                 </div>
               </div>
@@ -551,7 +551,7 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    No. URG-Xstrongly suggests that users should make sure the withdrawal address is correct by the copy-
+                    No. Wrathcode Exchangestrongly suggests that users should make sure the withdrawal address is correct by the copy-
                     paste clicks or scanning the QR code.
                   </p>
                 </div>
@@ -587,7 +587,7 @@ const FAQCryptoDeposit = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    No. Users can only transfer assets from URG-Xto one address via one withdrawal order. To transfer assets
+                    No. Users can only transfer assets from Wrathcode Exchangeto one address via one withdrawal order. To transfer assets
                     to several addresses, users need to issue separate requests.
                   </p>
                 </div>
@@ -598,14 +598,14 @@ const FAQCryptoDeposit = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_19">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_19" aria-expanded="false" aria-controls="collapse_19">
-                Can I transfer assets to a smart contract on URG-X ?
+                Can I transfer assets to a smart contract on Wrathcode Exchange ?
               </button>
             </h2>
             <div id="collapse_19" className="accordion-collapse collapse" aria-labelledby="headingcollapse_19" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    Yes. URG-Xwithdrawal supports a transfer to smart contracts.
+                    Yes. Wrathcode Exchangewithdrawal supports a transfer to smart contracts.
                   </p>
                 </div>
               </div>
@@ -615,14 +615,14 @@ const FAQCryptoDeposit = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_20">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_20" aria-expanded="false" aria-controls="collapse_20">
-                Does an asset transfer among URG-Xaccounts require fees?
+                Does an asset transfer among Wrathcode Exchangeaccounts require fees?
               </button>
             </h2>
             <div id="collapse_20" className="accordion-collapse collapse" aria-labelledby="headingcollapse_20" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    No. The URG-X X system can automatically distinguish the internal addresses out and charges no fees for
+                    No. The Wrathcode Exchange X system can automatically distinguish the internal addresses out and charges no fees for
                     assets transfers among those addresses.
                   </p>
                 </div>

@@ -245,16 +245,16 @@ return `${ApiConfig?.baseImage}${url}`;
     return (
         <>
             <Helmet>
-                <title>Token Launch Platform | URG-X Launchpad</title>
+                <title>Token Launch Platform | Wrathcode Exchange Launchpad</title>
 
                 <meta
                     name="description"
-                    content="Join URG-X Launchpad – a platform for early-stage projects, exclusive token sales and Web3 innovation. Be first to new tokens."
+                    content="Join Wrathcode Exchange Launchpad – a platform for early-stage projects, exclusive token sales and Web3 innovation. Be first to new tokens."
                 />
 
                 <meta
                     name="keywords"
-                    content="token sale platform, Web3 launchpad, early crypto investment, URG-X tokens"
+                    content="token sale platform, Web3 launchpad, early crypto investment, Wrathcode Exchange tokens"
                 />
             </Helmet>
 

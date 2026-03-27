@@ -84,7 +84,7 @@ const FAQAccMang = () => {
                     The PIN adds an extra layer of security against account access, even if someone gets access to your phone.
                   </p>
                   <p className="mb-0">
-                    For example: If someone else uses your phone and launches the URG-Xweb/app, they will be prompted to enter a six-digit PIN in order to gain access. They cannot access your URG-Xaccount on the web/app since the 6-digit PIN is exclusive to you.
+                    For example: If someone else uses your phone and launches the Wrathcode Exchangeweb/app, they will be prompted to enter a six-digit PIN in order to gain access. They cannot access your Wrathcode Exchangeaccount on the web/app since the 6-digit PIN is exclusive to you.
                   </p>
                 </div>
               </div>
@@ -100,7 +100,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom">
                 <div className="faq_text" >
                   <p className=" mb-0 ">
-                    As part of our continued efforts to make your URG-Xaccount safe, we expect to make PIN mandatory in the future. For now, this is an optional feature, however, we encourage you to make use of it.
+                    As part of our continued efforts to make your Wrathcode Exchangeaccount safe, we expect to make PIN mandatory in the future. For now, this is an optional feature, however, we encourage you to make use of it.
                   </p>
                 </div>
               </div>
@@ -109,13 +109,13 @@ const FAQAccMang = () => {
           <div className="card  p-0  ">
             <h2 className="card-header" id="headingcollapse_3">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_3" aria-expanded="false" aria-controls="collapse_3">
-                Will the PIN feature also be enabled for the URG-X.com on web?
+                Will the PIN feature also be enabled for the Wrathcode Exchange.com on web?
               </button>
             </h2>
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
-                  <p className="mb-0" > PIN feature is now also available on URG-Xapp/web.  </p>
+                  <p className="mb-0" > PIN feature is now also available on Wrathcode Exchangeapp/web.  </p>
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    PIN feature is now also available on URG-Xapp/web.
+                    PIN feature is now also available on Wrathcode Exchangeapp/web.
                   </p>
                 </div>
               </div>
@@ -181,14 +181,14 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_1">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-                How do I sign up on URG-X?
+                How do I sign up on Wrathcode Exchange?
               </button>
             </h2>
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    Download and open the official URG-XApp on <span className="text-warning" >Android</span> or <span className="text-warning"  >iOS</span> to get started. Always ensure to download and install the app from official sources only.
+                    Download and open the official Wrathcode ExchangeApp on <span className="text-warning" >Android</span> or <span className="text-warning"  >iOS</span> to get started. Always ensure to download and install the app from official sources only.
 
                   </p>
                   <ol>
@@ -205,14 +205,14 @@ const FAQAccMang = () => {
           <div className="card  p-0 ">
             <h2 className="card-header" id="headingcollapse_2">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2">
-                What mobile devices does URG-Xsupport
+                What mobile devices does Wrathcode Exchangesupport
               </button>
             </h2>
             <div id="collapse_2" className="accordion-collapse collapse" aria-labelledby="headingcollapse_2" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom">
                 <div className="faq_text" >
                   <p className=" ">
-                    The URG-Xis supported on both Android and iOS. Please ensure to download and install the app from official sources only.
+                    The Wrathcode Exchangeis supported on both Android and iOS. Please ensure to download and install the app from official sources only.
                   </p>
                   <p className="">
                     You can use this link to download and install the app directly on your device: link
@@ -227,7 +227,7 @@ const FAQAccMang = () => {
           <div className="card  p-0  ">
             <h2 className="card-header" id="headingcollapse_3">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_3" aria-expanded="false" aria-controls="collapse_3">
-                Can I have multiple accounts on URG-X ?
+                Can I have multiple accounts on Wrathcode Exchange ?
               </button>
             </h2>
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
@@ -248,7 +248,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    Please note that you can only have one account with URG-Xwith the same set of KYC documents
+                    Please note that you can only have one account with Wrathcode Exchangewith the same set of KYC documents
                   </p>
                 </div>
               </div>
@@ -270,14 +270,14 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_1">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-                How do I log in to my URG-Xaccount?
+                How do I log in to my Wrathcode Exchangeaccount?
               </button>
             </h2>
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    Follow the steps below to log into your URG-Xaccount:
+                    Follow the steps below to log into your Wrathcode Exchangeaccount:
                   </p>
                   <ol>
                     <li>1. On the app home page, click ‘Log in’.</li>
@@ -286,7 +286,7 @@ const FAQAccMang = () => {
 
                   </ol>
 
-                  <p className="mb-0"> <strong>Important:</strong> Always ensure to download and install the app or web login from official sources only. Use this link to login to URG-Xon your device: link  </p>
+                  <p className="mb-0"> <strong>Important:</strong> Always ensure to download and install the app or web login from official sources only. Use this link to login to Wrathcode Exchangeon your device: link  </p>
                 </div>
               </div>
             </div>
@@ -310,7 +310,7 @@ const FAQAccMang = () => {
 
                   </ol>
                   <p className=" mb-0 ">
-                    <strong>Important</strong>: Contact help center or contact us at <a href="mailto:support@urgx.com" >support@urgx.com</a>
+                    <strong>Important</strong>: Contact help center or contact us at <a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a>
                   </p>
                 </div>
               </div>
@@ -325,7 +325,7 @@ const FAQAccMang = () => {
             <div id="collapse_3" className="accordion-collapse collapse" aria-labelledby="headingcollapse_3" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
-                  <p className="" >Follow the steps below to reset your URG-Xaccount password: </p>
+                  <p className="" >Follow the steps below to reset your Wrathcode Exchangeaccount password: </p>
                   <ol>
                     <li>1. Click <b>[Forgot password]</b> on the login page. </li>
                     <li>2. Provide the necessary details [Registered email / New password] and click <b>[Submit]</b>.</li>
@@ -344,17 +344,17 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_4">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4">
-                How to change my password on URG-X ?
+                How to change my password on Wrathcode Exchange ?
               </button>
             </h2>
             <div id="collapse_4" className="accordion-collapse collapse" aria-labelledby="headingcollapse_4" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    Follow the steps below to change your URG-Xaccount password:
+                    Follow the steps below to change your Wrathcode Exchangeaccount password:
                   </p>
                   <ol>
-                    <li>1. Login to URG-Xand click on the profile icon on top left of the screen. </li>
+                    <li>1. Login to Wrathcode Exchangeand click on the profile icon on top left of the screen. </li>
                     <li>2. Tap Security.</li>
                     <li>3. Provide the necessary details [Old / New password] and click <b> [Change Password]</b> </li>
                     <lI>4. Your password will be reset successfully. </lI>
@@ -372,14 +372,14 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_5">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_5" aria-expanded="false" aria-controls="collapse_5">
-                I am unable to reset password on URG-X. What do I do?
+                I am unable to reset password on Wrathcode Exchange. What do I do?
               </button>
             </h2>
             <div id="collapse_5" className="accordion-collapse collapse" aria-labelledby="headingcollapse_5" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    If you are having trouble changing your password on URG-X , write to us at <b><a href="mailto:support@urgx.com" >support@urgx.com.</a></b>
+                    If you are having trouble changing your password on Wrathcode Exchange , write to us at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com..</a></b>
                   </p>
                 </div>
               </div>
@@ -397,7 +397,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    If you find your account has been blocked due to any reason, please submit a request to the support team at <b><a href="mailto:support@urgx.com" >support@urgx.com.</a></b> and they will assist you further.
+                    If you find your account has been blocked due to any reason, please submit a request to the support team at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com..</a></b> and they will assist you further.
                   </p>
                 </div>
               </div>
@@ -408,7 +408,7 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_7">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_7" aria-expanded="false" aria-controls="collapse_7">
-                How to remove devices that I once used to login to my URG-X?
+                How to remove devices that I once used to login to my Wrathcode Exchange?
               </button>
             </h2>
             <div id="collapse_7" className="accordion-collapse collapse" aria-labelledby="headingcollapse_7" data-bs-parent="#accordionExample">
@@ -419,7 +419,7 @@ const FAQAccMang = () => {
                   </p>
 
                   <ol>
-                    <li>1. Login to URG-X . </li>
+                    <li>1. Login to Wrathcode Exchange . </li>
                     <li>2. Click on the top right profile icon. </li>
                     <li>3. Select the ‘Profile’ section.. </li>
                     <li>4. Go to ‘Security.’ </li>
@@ -461,7 +461,7 @@ const FAQAccMang = () => {
                     If you have set up 2FA on your account, you can change your preference from OTP to SMS by following the below steps:
                   </p>
                   <ol>
-                    <li>1. Log in to URG-Xwebsite  <b>[<a href="https://URG-X.com/" >https://URG-X.com/</a>]</b> </li>
+                    <li>1. Log in to Wrathcode Exchangewebsite  <b>[<a href="https://Wrathcode Exchange.com/" >https://Wrathcode Exchange.com/</a>]</b> </li>
                     <li>2. Go to <b>[Profile]</b> and select <b>[Security]</b>.</li>
                     <li>3. In the <b>[Google Authenticator]</b> option select <b>[Disable]</b> .</li>
 
@@ -492,7 +492,7 @@ const FAQAccMang = () => {
 
                   </ol>
                   <p className=" mb-0 ">
-                    In case the issue still persists, please raise a Support Ticket or write to us at <b><a href="mailto:support@urgx.com" >support@urgx.com</a></b> to reset2FA, and we will help reset the OTP preference on your account to SMS.
+                    In case the issue still persists, please raise a Support Ticket or write to us at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a></b> to reset2FA, and we will help reset the OTP preference on your account to SMS.
                   </p>
                 </div>
               </div>
@@ -508,7 +508,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
                   <p className="" >If you have forgotten your registered mobile number, you can raise a Support Ticket or write to
-                    <b> <a href="mailto:support@urgx.com"> support@urgx.com</a> </b> attaching a selfie holding your original ID that you have submitted in KYC for
+                    <b> <a href="mailto:support@wrathcode.com."> support@wrathcode.com.</a> </b> attaching a selfie holding your original ID that you have submitted in KYC for
                     verification. Also, kindly share the mobile number you would like to update on your account. Once we
                     verify the details, we will update the number as per your request.</p>
 
@@ -544,7 +544,7 @@ const FAQAccMang = () => {
                       all the folders for the OTP message (Junk/Business). </li>
 
                   </ol>
-                  <p>If none of the above steps work, please submit a request to the support team at <a href="mailto:support@urgx.com" >support@urgx.com</a> and they will assist you further</p>
+                  <p>If none of the above steps work, please submit a request to the support team at <a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a> and they will assist you further</p>
                   <p className=" mb-0 ">
                     <strong>Note</strong>:  We strongly recommend you to bind 2FA to avoid network delays in the OTP delivery.
                   </p>
@@ -611,12 +611,12 @@ const FAQAccMang = () => {
                   <ol>
                     <li>1. Make sure the email you have provided is correct</li>
                     <li>2. Check your spam/junk folder</li>
-                    <li>3. Add URG-Xto your mailbox whitelist</li>
+                    <li>3. Add Wrathcode Exchangeto your mailbox whitelist</li>
 
                   </ol>
 
                   <p className="mb-0"> <strong>Important:</strong> If none of the above steps work, please use an alternate email address. Or write to us at
-                    <a href="mailto:support@urgx.com" >support@urgx.com</a> </p>
+                    <a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a> </p>
                 </div>
               </div>
             </div>
@@ -624,13 +624,13 @@ const FAQAccMang = () => {
           <div className="card  p-0 ">
             <h2 className="card-header" id="headingcollapse_2">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2">
-                How to avoid/stop URG-Xemails from going to the spam/junk folder?
+                How to avoid/stop Wrathcode Exchangeemails from going to the spam/junk folder?
               </button>
             </h2>
             <div id="collapse_2" className="accordion-collapse collapse" aria-labelledby="headingcollapse_2" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom">
                 <div className="faq_text" >
-                  <p className="" > If you find that your email service provider is pushing URG-Xemails into your spam/junk folder, please follow the steps below to add URG-X ’s email addresses to the safe mailing list.</p>
+                  <p className="" > If you find that your email service provider is pushing Wrathcode Exchangeemails into your spam/junk folder, please follow the steps below to add Wrathcode Exchange ’s email addresses to the safe mailing list.</p>
 
                   <div className="px-md-3" >
                     <h6 className="pt-2" ><b> - Outlook</b></h6>
@@ -638,13 +638,13 @@ const FAQAccMang = () => {
                     <ol>
                       <li> Log in to your Outlook email and go to <b>[Settings]</b> and then select <b>[View all Outlook settings]</b></li>
                       <li> Click <b>[Email]</b> and select <b>[Junk email]</b>. You will see <b>[Safe senders and domains]</b> </li>
-                      <li> Click <b>[Add]</b> to add the official URG-Xemail addresses into the list</li>
+                      <li> Click <b>[Add]</b> to add the official Wrathcode Exchangeemail addresses into the list</li>
                       <li> Click <b>[Save]</b> to save your settings</li>
                       <li> Addresses to add to the safe mailing list:</li>
-                      <li> <b><a className="text-warning" href="mailto:no-reply@URG-X.com" >no-reply@URG-X.com</a></b></li>
-                      <li> <b><a className="text-warning" href="mailto:info@URG-X.com" >info@URG-X.com</a></b> </li>
-                      <li>  <b><a className="text-warning" href="mailto:news@URG-X.com" >news@URG-X.com</a></b> </li>
-                      <li> <b><a className="text-warning" href="mailto:support@urgx.com" >support@urgx.com</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" >no-reply@Wrathcode Exchange.com</a></b></li>
+                      <li> <b><a className="text-warning" href="mailto:info@Wrathcode Exchange.com" >info@Wrathcode Exchange.com</a></b> </li>
+                      <li>  <b><a className="text-warning" href="mailto:news@Wrathcode Exchange.com" >news@Wrathcode Exchange.com</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:support@wrathcode.com." >support@wrathcode.com.</a></b> </li>
 
                     </ol>
 
@@ -654,13 +654,13 @@ const FAQAccMang = () => {
                     <ol>
                       <li> Log in to your Gmail account and go to <b>[Settings]</b> and then select <b>[See all settings]</b> </li>
                       <li> Go to <b>[Filters and Blocked Addresses]</b> tab and select <b>[Create a new filter]</b> </li>
-                      <li> Copy and paste the official URG-Xemail addresses to the [From] field and click [Create filter] </li>
+                      <li> Copy and paste the official Wrathcode Exchangeemail addresses to the [From] field and click [Create filter] </li>
                       <li> Check the box next to <b>[Never send it to Spam]</b> and click <b>[Create filter]</b> </li>
                       <li> Addresses to add to the safe mailing list: </li>
-                      <li> <b><a className="text-warning" href="mailto:no-reply@URG-X.com" > no-reply@URG-X.com</a></b> </li>
-                      <li> <b><a className="text-warning" href="mailto:no-reply@URG-X.com" > info@URG-X.com</a></b> </li>
-                      <li> <b><a className="text-warning" href="mailto:no-reply@URG-X.com" > news@URG-X.com</a></b> </li>
-                      <li> <b><a className="text-warning" href="mailto:no-reply@URG-X.com" > support@urgx.com</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > no-reply@Wrathcode Exchange.com</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > info@Wrathcode Exchange.com</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > news@Wrathcode Exchange.com</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > support@wrathcode.com.</a></b> </li>
 
                     </ol>
                   </div>
@@ -696,8 +696,8 @@ const FAQAccMang = () => {
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
-                  <p>If you wish to change the registered email linked to your URG-Xaccount, kindly raise a Support Ticket
-                    or write to us at support@urgx.com attaching a selfie holding your original ID that you have submitted in KYC for verification.</p>
+                  <p>If you wish to change the registered email linked to your Wrathcode Exchangeaccount, kindly raise a Support Ticket
+                    or write to us at support@wrathcode.com. attaching a selfie holding your original ID that you have submitted in KYC for verification.</p>
                   <p className=" ">
                     We also need another selfie of you holding a piece of paper with the following information written on it
                   </p>
@@ -742,7 +742,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
                   <p className="" >If you wish to change or update your personal details like Name, Mobile number, or Email address linked
-                    to your URG-Xaccount, you can do so by raising a Support Ticket or write to us at <b><a href="mailto:support@urgx.com" >support@urgx.com</a></b>
+                    to your Wrathcode Exchangeaccount, you can do so by raising a Support Ticket or write to us at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a></b>
                     attaching a selfie holding your original ID that you have submitted in KYC for verification.</p>
 
                   <p className=" mb-0 ">
@@ -765,7 +765,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    User needs to create a support ticket and request or write to us on support@urgx.com for deletion of account.
+                    User needs to create a support ticket and request or write to us on support@wrathcode.com. for deletion of account.
                   </p>
                   <p className=" mb-0 ">
                     <strong> Note:</strong> Please ensure to withdraw all the funds before the deletion the account as you will not be able to use the same email and mobile number linked to that account.
@@ -787,13 +787,13 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    To change your password for URG-X , click on 'Security' under Account. You will get an option to change
+                    To change your password for Wrathcode Exchange , click on 'Security' under Account. You will get an option to change
                     your account password under Change Password and your withdrawal password under Change
                     Withdrawal Password.
                   </p>
                   <p className="mb-0">
                     Please make sure that both these passwords are different to secure your funds. Also note that this is the
-                    same password that you will be using in case you wish to login or withdraw from URG-Xapp/web.
+                    same password that you will be using in case you wish to login or withdraw from Wrathcode Exchangeapp/web.
                   </p>
                 </div>
               </div>
@@ -804,7 +804,7 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_6">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_6" aria-expanded="false" aria-controls="collapse_6">
-                How to access the URG-Xaccount of someone who has passed away?
+                How to access the Wrathcode Exchangeaccount of someone who has passed away?
 
               </button>
             </h2>
@@ -830,9 +830,9 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="">
-                    If you wish to change your registered mobile number with URG-X , you can raise a Support Ticket
+                    If you wish to change your registered mobile number with Wrathcode Exchange , you can raise a Support Ticket
                     attaching a selfie holding your original ID that you have submitted in KYC for verification or write to us at
-                    <b><a href="mailto:support@urgx.com.">support@urgx.com.</a></b>
+                    <b><a href="mailto:support@wrathcode.com..">support@wrathcode.com..</a></b>
 
                   </p>
 
@@ -890,9 +890,9 @@ const FAQAccMang = () => {
             <div id="collapse_2" className="accordion-collapse collapse" aria-labelledby="headingcollapse_2" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top  border-bottom">
                 <div className="faq_text" >
-                  <p className=" ">To add a nominee on URG-X :</p>
+                  <p className=" ">To add a nominee on Wrathcode Exchange :</p>
                   <ol>
-                    <li>1. Login to URG-Xapp/web and click on the profile icon on top left of the screen.</li>
+                    <li>1. Login to Wrathcode Exchangeapp/web and click on the profile icon on top left of the screen.</li>
                     <li>2. Tap on Account Settings.</li>
                     <li>3. Go to the Nominee Details and provide all required details and tap Save Nominee Details. </li>
                     <li> 4. Provide the OTP received on your registered mobile number.</li>
@@ -940,7 +940,7 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_5">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_5" aria-expanded="false" aria-controls="collapse_5">
-                What happens to the proceedings if the nominee dies after the account holder but before the money is paid by URG-X ?
+                What happens to the proceedings if the nominee dies after the account holder but before the money is paid by Wrathcode Exchange ?
               </button>
             </h2>
             <div id="collapse_5" className="accordion-collapse collapse" aria-labelledby="headingcollapse_5" data-bs-parent="#accordionExample">
@@ -1008,7 +1008,7 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_9">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_9" aria-expanded="false" aria-controls="collapse_8">
-                Is nomination mandatory for a URG-Xaccount?
+                Is nomination mandatory for a Wrathcode Exchangeaccount?
               </button>
             </h2>
             <div id="collapse_9" className="accordion-collapse collapse" aria-labelledby="headingcollapse_9" data-bs-parent="#accordionExample">
@@ -1054,8 +1054,8 @@ const FAQAccMang = () => {
                     You may nominate any person as your nominee. A nominee shall not be a society, trust, body corporate,
                     partnership firm, or a power of attorney holder.
                     <br />
-                    Please note that the nominee need not be a URG-Xaccount holder. Anyone can be a nominee. However, to
-                    claim virtual digital assets, having an account on URG-Xis mandatory.
+                    Please note that the nominee need not be a Wrathcode Exchangeaccount holder. Anyone can be a nominee. However, to
+                    claim virtual digital assets, having an account on Wrathcode Exchangeis mandatory.
                   </p>
                 </div>
               </div>
@@ -1095,9 +1095,9 @@ const FAQAccMang = () => {
                     Yes, you can edit/change the nominee details any number of times. You can also cancel/delete the existing nominee and add a
                     new nominee any time.
                     <br />
-                    To add a update or remove a nominee on URG-X :
+                    To add a update or remove a nominee on Wrathcode Exchange :
                     <ol>
-                      <li>1. Login to URG-Xapp/ web and click on the profile icon on top left of the screen.</li>
+                      <li>1. Login to Wrathcode Exchangeapp/ web and click on the profile icon on top left of the screen.</li>
                       <li>2. Tap on Account Settings.</li>
                       <li>3. Go to the Nominee Details and select the nominee you want to edit/delete.</li>
                       <li>4. You can select to Remove or Update your nominee details.</li>
@@ -1138,7 +1138,7 @@ const FAQAccMang = () => {
                 <div className="faq_text" >
                   <p className="">
                     In order to raise a claim, the nominee should request for the transmission of virtual digital assets by raising a
-                    ticket through the official support email (support@urgx.com).
+                    ticket through the official support email (support@wrathcode.com.).
                   </p>
                 </div>
               </div>
@@ -1162,7 +1162,7 @@ const FAQAccMang = () => {
             <div id="collapse_1" className="accordion-collapse collapse" aria-labelledby="headingcollapse_1" data-bs-parent="#accordionExample">
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
-                  <p>Backup Codes are a random set of 8 digits (one time use only) that you can use to sign into your URG-X 
+                  <p>Backup Codes are a random set of 8 digits (one time use only) that you can use to sign into your Wrathcode Exchange 
                     account in case you ever lose your phone or are unable to receive OTP through text or codes from Google
                     Authenticator.
                   </p>
@@ -1174,7 +1174,7 @@ const FAQAccMang = () => {
           <div className="card  p-0 ">
             <h2 className="card-header" id="headingcollapse_2">
               <button className="accordion-button p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2">
-                How can I create, reset and delete my Backup Codes on URG-Xwebsite?
+                How can I create, reset and delete my Backup Codes on Wrathcode Exchangewebsite?
               </button>
             </h2>
             <div id="collapse_2" className="accordion-collapse collapse" aria-labelledby="headingcollapse_2" data-bs-parent="#accordionExample">
@@ -1182,7 +1182,7 @@ const FAQAccMang = () => {
                 <div className="faq_text" >
                   <h5>To create your backup codes:</h5>
                   <p>
-                    Log into your URG-Xweb account
+                    Log into your Wrathcode Exchangeweb account
                     Click on Security tab to access backup codes option
                     Click on “Setup” under Backup Codes section to create my backup codes
                     Click on “Get Backup Codes”
@@ -1282,7 +1282,7 @@ const FAQAccMang = () => {
                     log in to your account to access your funds.
                     <br />
                     Under any circumstances do you feel that your passwords are compromised and need to be changed or you
-                    have any issues related to your URG-Xaccount, please contact the Support Team here
+                    have any issues related to your Wrathcode Exchangeaccount, please contact the Support Team here
                   </p>
                 </div>
               </div>
@@ -1299,7 +1299,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom">
                 <div className="faq_text" >
                   <p>
-                    In case you think somebody has unauthorized access to your URG-Xaccount, please get in touch with
+                    In case you think somebody has unauthorized access to your Wrathcode Exchangeaccount, please get in touch with
                     our support team and they will assist you further.
                   </p>
                 </div>
@@ -1330,7 +1330,7 @@ const FAQAccMang = () => {
                     industry-leading and provide an alerting mechanism that effectively addresses a majority of high-risk incidents,
                     where significant variations in IP address usage may be observed.“
                     <br />
-                    In case you still doubt that your URG-Xaccount information has been compromised, please get in touch with
+                    In case you still doubt that your Wrathcode Exchangeaccount information has been compromised, please get in touch with
                     our support team and they will assist you further.
                   </p>
                 </div>
@@ -1348,7 +1348,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    In case your URG-Xaccount information has been compromised, please get in touch with our support
+                    In case your Wrathcode Exchangeaccount information has been compromised, please get in touch with our support
                     team and they will assist you further.
                   </p>
                 </div>
@@ -1367,20 +1367,20 @@ const FAQAccMang = () => {
                 <div className="faq_text" >
                   <p className="mb-0">
                     If you want to deactivate your account or if you have multiple accounts and want to disable the account which you don't want to
-                    use, you can simply log into your URG-Xaccount and Disable it yourself.
+                    use, you can simply log into your Wrathcode Exchangeaccount and Disable it yourself.
                     <br />
                     You will still have the option to re-enable your account after disabling it. You can simply raise a Support Ticket and we will help you
                     to activate the account after required verification.
                   </p>
                   <ol>
-                    Steps to disable your account using URG-XApp:
-                    <li>1. Log in to your URG-Xapp/web.</li>
+                    Steps to disable your account using Wrathcode ExchangeApp:
+                    <li>1. Log in to your Wrathcode Exchangeapp/web.</li>
                     <li>2. Go to [Account] and select [Security].</li>
                     <li>3. Click [Disable Your Account].</li>
                   </ol>
                   <ol>
                     Steps to disable your account from Website:
-                    <li>1. Log in to URG-Xwebsite <a href="https://URG-X.com/" target="_blank" > https://URG-X.com/ </a>..</li>
+                    <li>1. Log in to Wrathcode Exchangewebsite <a href="https://Wrathcode Exchange.com/" target="_blank" > https://Wrathcode Exchange.com/ </a>..</li>
                     <li>2. Go to [Profile] and select [Security].</li>
                     <li>3. Go to [Account Security] and select [Account Activity].</li>
                     <li>4. Click [Disable Account].</li>
@@ -1393,7 +1393,7 @@ const FAQAccMang = () => {
           <div className="card p-0  ">
             <h2 className="card-header" id="headingcollapse_6">
               <button className="accordion-button p-0  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_6" aria-expanded="false" aria-controls="collapse_6">
-                How do I disable/deactivate my URG-Xaccount?
+                How do I disable/deactivate my Wrathcode Exchangeaccount?
               </button>
             </h2>
             <div id="collapse_6" className="accordion-collapse collapse" aria-labelledby="headingcollapse_5" data-bs-parent="#accordionExample">
@@ -1401,20 +1401,20 @@ const FAQAccMang = () => {
                 <div className="faq_text" >
                   <p className="mb-0">
                     If you want to deactivate your account or if you have multiple accounts and want to disable the account which you don't want to
-                    use, you can simply log into your URG-Xaccount and Disable it yourself.
+                    use, you can simply log into your Wrathcode Exchangeaccount and Disable it yourself.
                     <br />
                     You will still have the option to re-enable your account after disabling it,
                     Steps to re-enable your account after disabling it: Click on "Profile Management" - Click on "Need Help with Sign-Up & Login" -
                     Click on "My Account is blocked“
                     <ol>
-                      Steps to disable your account using URG-XApp:
-                      <li>  Log in to your URG-Xapp. </li>
+                      Steps to disable your account using Wrathcode ExchangeApp:
+                      <li>  Log in to your Wrathcode Exchangeapp. </li>
                       <li> Go to [Account] and select [Security].</li>
                       <li> Click [Disable Your Account].</li>
                     </ol>
                     <ol>
                       Steps to disable your account from Website:
-                      <li>  Log in to URG-Xwebsite<a href="https://URG-X.com/" target="_blank" rel="noreferrer"> https://URG-X.com/ </a>.. </li>
+                      <li>  Log in to Wrathcode Exchangewebsite<a href="https://Wrathcode Exchange.com/" target="_blank" rel="noreferrer"> https://Wrathcode Exchange.com/ </a>.. </li>
                       <li>Go to [Profile] and select [Security].</li>
                       <li> Go to [Account Security] and select [Account Activity].</li>
                       <li> Click [Disable Account].</li>

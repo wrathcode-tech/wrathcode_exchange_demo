@@ -467,14 +467,14 @@ function Earning() {
   return (
     <>
       <Helmet>
-        <title>Rewards & Yield – URG-X Earning Platform</title>
+        <title>Rewards & Yield – Wrathcode Exchange Earning Platform</title>
         <meta
           name="description"
-          content="Access URG-X earning programs: rewards, staking and yield-based crypto solutions on a trusted platform."
+          content="Access Wrathcode Exchange earning programs: rewards, staking and yield-based crypto solutions on a trusted platform."
         />
         <meta
           name="keywords"
-          content="crypto yield, earn with crypto, URG-X earning, crypto rewards platform"
+          content="crypto yield, earn with crypto, Wrathcode Exchange earning, crypto rewards platform"
         />
       </Helmet>
 
@@ -501,7 +501,7 @@ function Earning() {
               <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div className='exchange_earning_bnr'>
                   <div className='earningbnr_cnt'>
-                    <h2>URG-X Earning</h2>
+                    <h2>Wrathcode Exchange Earning</h2>
                     <p>New user exclusive: Up to <span>600% APR</span></p>
                     {!token && (
                       <button className='signbtn' onClick={() => navigate('/register')}>Sign Up Now</button>
@@ -710,7 +710,7 @@ function Earning() {
             <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
               <div className='exchange_earning_bnr'>
                 <div className='earningbnr_cnt'>
-                  <h2>URG-X Earning Balance</h2>
+                  <h2>Wrathcode Exchange Earning Balance</h2>
                   <p>View your total earnings, rewards, and growth in one place.</p>
                   {!token && (
                     <button className='signbtn' onClick={() => navigate('/register')}>Sign Up Now</button>

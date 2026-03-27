@@ -33,16 +33,16 @@ const Announcement = () => {
     <>
 
       <Helmet>
-        <title>URG-X – Latest News & Platform Updates</title>
+        <title>Wrathcode Exchange – Latest News & Platform Updates</title>
 
         <meta
           name="description"
-          content="Get real-time updates from URG-X: token listings, system maintenance alerts and special offers."
+          content="Get real-time updates from Wrathcode Exchange: token listings, system maintenance alerts and special offers."
         />
 
         <meta
           name="keywords"
-          content="exchange updates crypto, URG-X platform news, crypto listing announcement, trading platform update"
+          content="exchange updates crypto, Wrathcode Exchange platform news, crypto listing announcement, trading platform update"
         />
       </Helmet>
 
@@ -53,7 +53,7 @@ const Announcement = () => {
             <div className="row">
               <div className="col-sm-8">
                 <h1>Announcement</h1>
-                <p>Stay informed with the latest updates, new listings, feature rollouts, and important notices from URG-X.
+                <p>Stay informed with the latest updates, new listings, feature rollouts, and important notices from Wrathcode Exchange.
                   From exciting token launches to security enhancements and platform upgrades — everything you need to know, all in one place. 🚀</p>
               </div>
 

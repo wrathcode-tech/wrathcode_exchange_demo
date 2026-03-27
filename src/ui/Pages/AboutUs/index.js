@@ -90,7 +90,7 @@ const AboutUs = () => {
                   Our Founders
                 </h2>
                 <p>
-                  Meet the visionary behind URG-X, whose passion for crypto sparked a revolution. they're leading us on an exhilarating journey to make crypto investments accessible to all.
+                  Meet the visionary behind Wrathcode Exchange, whose passion for crypto sparked a revolution. they're leading us on an exhilarating journey to make crypto investments accessible to all.
                 </p>
               </div>
             </div>

@@ -372,14 +372,14 @@ const LaunchpadHome = () => {
                                 <h2 class="accordion-header" id="headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
-                                        What is crypto exchange development, and how can URG-X help with it?
+                                        What is crypto exchange development, and how can Wrathcode Exchange help with it?
                                     </button>
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         Crypto exchange development is the process of building platforms that allow users to buy, sell, and
-                                        trade cryptocurrencies. URG-X specializes in developing secure, scalable, and high-performance
+                                        trade cryptocurrencies. Wrathcode Exchange specializes in developing secure, scalable, and high-performance
                                         crypto exchanges tailored to your business needs.
                                     </div>
                                 </div>
@@ -390,13 +390,13 @@ const LaunchpadHome = () => {
                                 <h2 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        What types of web development services does URG-X provide?
+                                        What types of web development services does Wrathcode Exchange provide?
                                     </button>
                                 </h2>
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        URG-X offers a full range of web development services, including front-end and back-end development,
+                                        Wrathcode Exchange offers a full range of web development services, including front-end and back-end development,
                                         custom website design, e-commerce solutions, and CMS-based development. We use the latest technologies
                                         to deliver responsive and feature-rich websites.
                                     </div>
@@ -425,13 +425,13 @@ const LaunchpadHome = () => {
                                 <h2 class="accordion-header" id="headingFour">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                        What game development services does URG-X offer?
+                                        What game development services does Wrathcode Exchange offer?
                                     </button>
                                 </h2>
                                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        URG-X specializes in game development for various platforms, including mobile apps, desktop, and
+                                        Wrathcode Exchange specializes in game development for various platforms, including mobile apps, desktop, and
                                         web-based games. We offer end-to-end game development services, from ideation and design to development
                                         and deployment.
                                     </div>
@@ -502,7 +502,7 @@ const LaunchpadHome = () => {
                                 <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        Yes, URG-X provides customizable white-label solutions for crypto exchanges. You can launch your
+                                        Yes, Wrathcode Exchange provides customizable white-label solutions for crypto exchanges. You can launch your
                                         exchange platform quickly and with your branding while we handle the back-end development and technical
                                         support.
                                     </div>
@@ -514,7 +514,7 @@ const LaunchpadHome = () => {
                                 <h2 class="accordion-header" id="headingNine">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-                                        Can URG-X help with SEO for my website or app?
+                                        Can Wrathcode Exchange help with SEO for my website or app?
                                     </button>
                                 </h2>
                                 <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
@@ -531,7 +531,7 @@ const LaunchpadHome = () => {
                                 <h2 class="accordion-header" id="headingTen">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
-                                        How does URG-X handle post-launch maintenance?
+                                        How does Wrathcode Exchange handle post-launch maintenance?
                                     </button>
                                 </h2>
                                 <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"

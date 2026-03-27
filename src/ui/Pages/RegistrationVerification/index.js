@@ -128,8 +128,8 @@ const RegistrationVerification = () => {
   return (
     <>
       <Helmet>
-        <title>URG-X | Account Verification</title>
-        <meta name="description" content="Verify your URG-X account to start trading securely." />
+        <title>Wrathcode Exchange | Account Verification</title>
+        <meta name="description" content="Verify your Wrathcode Exchange account to start trading securely." />
       </Helmet>
 
       <div className="login_fullhieght verificationregister">

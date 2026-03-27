@@ -59,7 +59,7 @@ const RegistrationResult = () => {
                 alt="register"
               />
             </div>
-            {verification === "Active" && <> <h1>Welcome to URG-X</h1>
+            {verification === "Active" && <> <h1>Welcome to Wrathcode Exchange</h1>
               <p>Thank you for choosing us !</p></>}
 
             {verification === "Active" ? (
@@ -77,7 +77,7 @@ const RegistrationResult = () => {
                   For security reasons, we have temporarily restricted access.
                 </p>
                 <p className="yellow">
-                  If you believe this was done by mistake, please contact us at <a href="mailto:support@urgx.com">support@urgx.com</a>.
+                  If you believe this was done by mistake, please contact us at <a href="mailto:support@wrathcode.com.">support@wrathcode.com.</a>.
                 </p>
               </>
             )}

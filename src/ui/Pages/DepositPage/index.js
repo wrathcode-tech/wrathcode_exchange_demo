@@ -324,7 +324,7 @@ const DepositPage = () => {
                           <path fillRule="evenodd" clip-rule="evenodd"
                             d="M12 21a9 9 0 100-18 9 9 0 000 18zm-1.25-5.5V18h2.5v-2.5h-2.5zm0-9.5v7h2.5V6h-2.5z" fill="currentColor">
                           </path></svg>
-                        <p>Please note that only supported networks on URG-X platform are shown, if you deposit via another
+                        <p>Please note that only supported networks on Wrathcode Exchange platform are shown, if you deposit via another
                           network your assets may be lost.  </p>
 
                       </div>
@@ -504,7 +504,7 @@ const DepositPage = () => {
                   </button>
                 </h2>
                 <div id="flush-collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                  <div className="accordion-body">To deposit cryptocurrency, you need to send it from your external wallet to the deposit address provided by URG-X platform. Always double-check the address and network before confirming the transaction.</div>
+                  <div className="accordion-body">To deposit cryptocurrency, you need to send it from your external wallet to the deposit address provided by Wrathcode Exchange platform. Always double-check the address and network before confirming the transaction.</div>
                 </div>
               </div>
               <div className="accordion-item">
@@ -515,7 +515,7 @@ const DepositPage = () => {
                 </h2>
                 <div id="flush-collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                   <div className="accordion-body"><ul>
-                    <li><strong>Go to Deposit Section</strong> – Navigate to the deposit page on URG-X platform.</li>
+                    <li><strong>Go to Deposit Section</strong> – Navigate to the deposit page on Wrathcode Exchange platform.</li>
                     <li><strong>Select Your Crypto</strong> – Choose the cryptocurrency you want to deposit.</li>
                     <li><strong>Copy the Deposit Address</strong> – Ensure you copy the correct address and network.</li>
                     <li><strong>Send Funds</strong> – Paste the address into your external wallet and send the amount.</li>
