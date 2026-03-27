@@ -545,14 +545,9 @@ const AuthHeader = () => {
                   </div>
                   <div className="modal-body" onClick={fetchPairs}>
                     <form>
-                      <input 
-                        type="search" 
-                        className="searchfield"
-                        placeholder="Search here..." 
-                        value={searchPair} 
-                        onChange={(e) => setSearchPair(e.target.value)} 
                       <input
                         type="search"
+                        className="searchfield"
                         placeholder="Search here..."
                         value={searchPair}
                         onChange={(e) => setSearchPair(e.target.value)}
