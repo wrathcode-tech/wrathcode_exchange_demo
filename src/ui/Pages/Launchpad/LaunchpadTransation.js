@@ -103,10 +103,8 @@ const LaunchpadTransation = (props) => {
                                 ) : (
                                     <>
                                         <div className="no_data_vector text-center">
-                                            <img
-                                                src="/images/Group 1171275449 (1).svg"
-                                                alt="no-data"
-                                            />
+                                            <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="no-data" />
+                                            <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="no-data" />
                                         </div>
                                         <p className="text-center" style={{ color: "#fff" }}>
                                             No transaction data found.

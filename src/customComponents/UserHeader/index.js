@@ -397,6 +397,7 @@ const UserHeader = () => {
                   <form>
                     <input
                       type="search"
+                      className="searchfield"
                       placeholder="Search here..."
                       value={searchPair}
                       onChange={(e) => setSearchPair(e.target.value)}

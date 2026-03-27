@@ -638,6 +638,8 @@ function Earning() {
                         </tbody>
                       </table>
                     </div>
+                  </div>
+
 
                     {/* Mobile View */}
                     <div className='mobile_view'>
@@ -701,7 +703,7 @@ function Earning() {
                       </table>
                       </div>
                     </div>
-                  </div>
+
                 </div>
               </div>
             </div>

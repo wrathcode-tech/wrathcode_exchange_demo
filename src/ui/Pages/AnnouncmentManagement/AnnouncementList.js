@@ -170,10 +170,14 @@ function AnnouncementList() {
                                         );
                                     })
                                 ) : (
-                                    <div className="text-center">
-                                        <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="No data" />
-                                        <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="No data" />
-                                        <p>No announcements found.</p>
+                                    <div className="announcement-list-empty" role="status">
+                                        <div className="announcement-empty-inner">
+                                            <div className="announcement-empty-illustration">
+                                                <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="" />
+                                                <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="" />
+                                            </div>
+                                            <p className="announcement-empty-text">No announcements found.</p>
+                                        </div>
                                     </div>
                                 )}
                             </div>

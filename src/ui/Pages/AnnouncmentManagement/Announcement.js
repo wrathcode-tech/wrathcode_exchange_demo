@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import '../AnnouncmentManagement/Annoucement.css'
 import AuthService from '../../../api/services/AuthService';
 import LoaderHelper from "../../../customComponents/Loading/LoaderHelper";
@@ -13,6 +13,17 @@ const Announcement = () => {
   useEffect(() => {
     handleCategoryAnnouncement();
   }, []);
+
+  const filteredCategories = useMemo(() => {
+    if (!categoryList?.length) return [];
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return categoryList;
+    return categoryList.filter((item) => {
+      const title = String(item?.title || "").toLowerCase();
+      const desc = String(item?.description || "").toLowerCase();
+      return title.includes(q) || desc.includes(q);
+    });
+  }, [categoryList, searchTerm]);
 
   const handleCategoryAnnouncement = async () => {
     LoaderHelper.loaderStatus(true);
@@ -83,17 +94,9 @@ const Announcement = () => {
               </div>
             </div>
 
-            <ul>
-              {categoryList && categoryList?.length > 0 ? (
-                categoryList
-                  ?.filter((item) => {
-                    const q = searchTerm.trim().toLowerCase();
-                    if (!q) return true;
-                    const title = String(item?.title || "").toLowerCase();
-                    const desc = String(item?.description || "").toLowerCase();
-                    return title.includes(q) || desc.includes(q);
-                  })
-                  ?.map((item, index) => {
+            {filteredCategories.length > 0 ? (
+              <ul>
+                {filteredCategories.map((item, index) => {
                     // 🧠 Convert spaces → underscore and trim to 50 chars
                     const formattedTitle = item?.title
                       ?.trim()
@@ -131,18 +134,21 @@ const Announcement = () => {
                         </div>
                       </li>
                     );
-                  })
-              ) : (
-
-                <div className="text-center">
-                  <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="No data" />
-                  <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="No data" />
-                  <p>No categories found.</p>
+                  })}
+              </ul>
+            ) : (
+              <div className="announcement-topics-empty" role="status">
+                <div className="announcement-empty-inner">
+                  <div className="announcement-empty-illustration">
+                    <img src="/images/no_data_vector.svg" className="img-fluid dark_img" width={96} height={96} alt="" />
+                    <img src="/images/no_data_vector_light.png" className="img-fluid light_img" width={96} height={96} alt="" />
+                  </div>
+                  <p className="announcement-empty-text">
+                    {categoryList?.length > 0 ? "No topics match your search." : "No categories found."}
+                  </p>
                 </div>
-
-              )}
-
-            </ul>
+              </div>
+            )}
 
           </div>
         </div>

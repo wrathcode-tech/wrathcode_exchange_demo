@@ -2800,7 +2800,7 @@ input.code_scaner {
 }
 
 header.sticky-top {
-    z-index: 999999;
+    z-index: 9999999;
     background-color: #111214;
 }
 
@@ -15438,6 +15438,9 @@ button.btn_claim:active {
     margin-top: 12px;
 }
 
+.search_form .profile_form button.anti-phishing-danger-submit {
+    background-color: #dc3545; }
+
 .supportinquery .profile_form button.submit {
     margin-top: 0px;
 }
@@ -16289,7 +16292,8 @@ button.primary_btn.prevStep {
 }
 
 .estimated_balance button.btn:focus {
-    background: #484c53;
+    background: #fff;
+    border: 1px solid #848e9c;
 }
 
 .modal .btn-close:hover {
@@ -19432,7 +19436,7 @@ button.p2p-submit-button {
     }
 
     header .logo {
-        max-width: 200px;
+        max-width: 90px;
     }
 
     .lightlogo,
@@ -22967,14 +22971,10 @@ button.p2p-submit-button {
         margin-bottom: 0px;
     }
 
-    header .logo {
-        min-width: 160px !important;
-        max-width: 160px;
-    }
 
     .lightlogo,
     .darklogo {
-        width: 130px !important;
+        width: 90px !important;
     }
 
     .sc-bdfBQB.sc-kmATbt.fOxqyX.dzKkzw {
@@ -25955,7 +25955,7 @@ button.p2p-submit-button {
     }
 
     footer .row .footer_logo {
-        max-width: 210px;
+        max-width: 140px;
     }
 
     .modal-dialog h4 {
@@ -25981,8 +25981,8 @@ button.p2p-submit-button {
     }
 
     header .logo {
-        min-width: 115px !important;
-        max-width: 115px;
+        min-width: 75px !important;
+        max-width: 75px;
     }
 
     .learnbtn {

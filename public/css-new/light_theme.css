@@ -48,6 +48,18 @@ body.light_theme .amount_detail_bottom {
     color: #0000;
 }
 
+body.light_theme .enable img {
+    filter: brightness(0.5);
+}
+
+body.light_theme .anti-phishing-heading {
+    color: #5a5a5a;
+}
+
+body.light_theme .anti-phishing-paragraph {
+    color: #5d5d5d;
+}
+
 .light_theme .search_form.order_detail_pop.modelbg2 .hot_trading_t.model_height td {
     color: #000;
 }
@@ -57,7 +69,7 @@ body.light_theme .price_max_total input[type="number"] {
 }
 
 body.light_theme .dashboard_right {
-    background-color: #F5F5F5;
+    background-color: #fff;
     color: #333;
 }
 
@@ -624,9 +636,13 @@ body.light_theme .review_information .card-body.py-5.pb-0 {
     border-radius: 15px;
 }
 
-body.light_theme .search_form input {
+body.light_theme .search_form input.searchfield {
     color: #000 !important;
     background-color: #ececec;
+}
+
+body.light_theme .search_form input {
+    background-color: #fafafa;
 }
 
 body.light_theme .review_information .card.card-header-actions.mb-4 {
@@ -668,11 +684,16 @@ body.light_theme .kyc_form_multistep .step-indicator .active span {
 }
 
 body.light_theme {
-    background-color: #f5f5f5;
+    background-color: #fff;
 }
 
 body.light_theme .navigation nav ul li.dropdown .dropdown-toggle {
     color: #4E4E4E;
+}
+
+body.light_theme .popup-box {
+    background: #f0f0f0;
+    /* border: 1px solid #29313D; */
 }
 
 body.light_theme .banner_cnt h1 span {
@@ -819,7 +840,7 @@ body.light_theme footer p {
 }
 
 body.light_theme header.sticky-top.afterloginheader {
-    background-color: #ececec;
+    background-color: #f6f6f6;
 }
 
 body.light_theme footer .menu li a {
@@ -848,7 +869,7 @@ body.light_theme .footer_logo .lightlogo {
 }
 
 body.light_theme .leftside_menu {
-    background-color: #F5F5F5;
+    background-color: #fcfcfc;
 }
 
 body.light_theme .navi_sidebar li.active a {
@@ -1060,7 +1081,7 @@ body.light_theme .modal .btn-close {
 }
 
 body.light_theme .modal.search_form .emailinput label {
-    background: linear-gradient(0deg, rgba(236, 236, 236, 1) 50%, rgb(250 250 250) 48%);
+    background: linear-gradient(0deg, rgb(250 250 250) 50%, rgb(250 250 250) 48%);
 }
 
 body.light_theme .toptabs_hd {
@@ -1070,6 +1091,26 @@ body.light_theme .toptabs_hd {
 body.light_theme .earning_section_cate .nav-tabs .nav-link.active {
     color: #3d3d3d;
     border-bottom: 2px solid #696969 !important;
+}
+
+body.light_theme .mobile-favourites-popup {
+    background-color: #ececec;
+}
+
+body.light_theme .mobile-favourites-popup .orderbook-table th {
+    background-color: #ececec;
+}
+
+body.light_theme .mobile-favourites-popup-header h4 {
+    color: #000000;
+}
+
+body.light_theme .spot-list-search .ivu-input {
+    border: 1px solid rgb(38 38 38 / 10%);
+}
+
+body.light_theme .spot-list-search i {
+    color: #333333;
 }
 
 body.light_theme .exchange_earning_bnr h2 {
@@ -1275,12 +1316,47 @@ body.light_theme .d-flex.download_button button.btn.platform {
 }
 
 body.light_theme header.sticky-top {
-    z-index: 999999;
     background-color: #F4F4F4;
+}
+
+body.light_theme section.announcement_section {
+    color: #222222;
+}
+
+body.light_theme .announcement_hero_s p {
+    color: #2c2c2c;
+}
+
+body.light_theme .readbtn button {
+    background-color: #000000;
+}
+
+body.light_theme .topic_block ul li p {
+    color: #151515;
 }
 
 img.light_img {
     display: none;
+}
+
+body.light_theme .topic_block ul li .cryptocurrency_icon img {
+    filter: brightness(0.7);
+}
+
+body.light_theme .crypto_listing_cnt .block_listing h5 a {
+    color: #222222;
+} 
+
+body.light_theme .single_announcement h1 img {
+    filter: brightness(0.5);
+}
+
+body.light_theme .search_info {
+    background-color: #e8e8e8;
+}
+
+body.light_theme .announcement-empty-text {
+    color: #555555;
 }
 
 body.light_theme img.light_img {
@@ -1313,14 +1389,17 @@ body.light_theme .dark_img {
 .no_data_vector img.dark_img {
     display: block;
 }
+
 .no_data_s img.light_img,
 .no_data_vector img.light_img {
     display: none;
 }
+
 body.light_theme .no_data_s img.dark_img,
 body.light_theme .no_data_vector img.dark_img {
     display: none;
 }
+
 body.light_theme .no_data_s img.light_img,
 body.light_theme .no_data_vector img.light_img {
     display: block;
@@ -1608,6 +1687,19 @@ body.light_theme .process_step label.btn:before {
 body.light_theme .buysell_heder .custom-tabs li button {
     background-color: #a9a9a900;
     color: #262626;
+}
+
+body.light_theme .assets_btn button {
+    background-color: #c2c2c2;
+}
+
+body.light_theme .assets_btn button a {
+    color: #000;
+}
+
+body.light_theme .buy_transferbtn a {
+    background-color: #cacaca;
+    color: #000000;
 }
 
 body.light_theme p.mt-2 {
@@ -2344,23 +2436,28 @@ body.light_theme .p2p-payment-method-header {
 
 body.light_theme .payment_search_box input {
     background: #f5f5f5;
-    border: 1px solid #e5e5e5; }
+    border: 1px solid #e5e5e5;
+}
 
 body.light_theme .binance-payment-card {
-    background: #e3e3e3; }
+    background: #e3e3e3;
+}
 
 body.light_theme .payment-type {
-    background: rgb(108 87 0 / 45%); }
+    background: rgb(108 87 0 / 45%);
+}
 
 
-body.light_theme .order_trade_s .trade_movers_tb ul.nav-tabs .nav-item.active .nav-link, .order_trade_s .trade_movers_tb ul.nav-tabs .nav-item .nav-link.active {
+body.light_theme .order_trade_s .trade_movers_tb ul.nav-tabs .nav-item.active .nav-link,
+.order_trade_s .trade_movers_tb ul.nav-tabs .nav-item .nav-link.active {
     color: #696969;
     border-bottom-color: #736e6e !important;
-} 
+}
 
 body.light_theme .dashboard_mid_s .order_trade_s .table_info_data table tr th {
     background-color: #ececec !important;
-} 
+}
 
-.tab-content.futurestbllft .tab-pane{ height: 100%;
+.tab-content.futurestbllft .tab-pane {
+    height: 100%;
 }

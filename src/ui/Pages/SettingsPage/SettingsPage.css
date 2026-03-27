@@ -159,3 +159,90 @@ Edit Avatar Modal Styles
 .emailinput input[type="text"] {
   padding-right: 40px !important;
 }
+
+/* Anti-phishing styles moved from inline JSX */
+.anti-phishing-icon-spaced {
+  margin-right: 8px;
+}
+
+.anti-phishing-icon-tight {
+  margin-right: 6px;
+}
+
+.anti-phishing-remove-btn {
+  margin-left: 8px;
+}
+
+.anti-phishing-section {
+  margin-bottom: 20px;
+}
+
+.anti-phishing-section-last {
+  margin-bottom: 24px;
+}
+
+.anti-phishing-section-no-margin {
+  margin-bottom: 0;
+}
+
+.anti-phishing-heading {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.anti-phishing-heading-tight {
+  margin-bottom: 8px;
+}
+
+.anti-phishing-paragraph {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.anti-phishing-info-block {
+  margin-bottom: 24px;
+}
+
+.anti-phishing-warning-section {
+  margin-bottom: 16px;
+}
+
+.anti-phishing-warning-box {
+  background: rgba(255, 152, 0, 0.12);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.anti-phishing-warning-text {
+  font-size: 14px;
+  color: #e8e8e8;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.anti-phishing-warning-icon {
+  margin-right: 6px;
+  vertical-align: middle;
+  color: #ff9800;
+}
+
+.anti-phishing-muted-text {
+  color: #ccc;
+}
+
+.anti-phishing-remove-desc {
+  margin-bottom: 12px;
+}
+
+.anti-phishing-switch-option {
+  margin-bottom: 15px;
+}
+
+.anti-phishing-danger-submit {
+  background: #dc3545;
+  color: #fff;
+}

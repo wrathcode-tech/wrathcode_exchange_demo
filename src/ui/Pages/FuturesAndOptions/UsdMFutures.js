@@ -677,9 +677,10 @@ function UsdMFutures() {
                                                 <i className="ri-search-2-line"></i>
                                                 <input
                                                     type="search"
+                                                    className="searchfield"
                                                     placeholder="Search"
                                                     value={searchTerm}
-                                                    onChange={(e) => setSearchTerm(e.target.value)}z
+                                                    onChange={(e) => setSearchTerm(e.target.value)}
                                                 />
                                             </div>
                                             </div>

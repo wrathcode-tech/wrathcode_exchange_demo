@@ -355,7 +355,8 @@ const AssetOverview = () => {
                                   <td colSpan="5">
                                     <div className="no-data-wrapper">
                                       <div className="no_data_vector">
-                                        <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                                        <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                                        <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                                       </div>
                                     </div>
                                   </td>
@@ -405,7 +406,8 @@ const AssetOverview = () => {
                                   <td colSpan="3">
                                     <div className="no-data-wrapper">
                                       <div className="no_data_vector">
-                                        <img src="/images/Group 1171275449 (1).svg" alt="no-data" />
+                                        <img src="/images/no_data_vector.svg" className="dark_img" alt="no-data" />
+                                        <img src="/images/no_data_vector_light.png" className="light_img" alt="no-data" />
                                       </div>
                                     </div>
                                   </td>
@@ -651,6 +653,7 @@ const AssetOverview = () => {
               <form onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="text"
+                  className="searchfield"
                   placeholder="Search coin name"
                   value={transferCoinSearch}
                   onChange={(e) => setTransferCoinSearch(e.target.value)}
