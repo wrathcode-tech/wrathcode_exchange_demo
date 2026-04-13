@@ -2317,6 +2317,8 @@ section.hot_articles_s .row {
     color: #fff;
 }
 
+body.light_theme .resend.otp-button-disabled{ color: #000000; }
+
 .login_section.verifiedform .form_block_login h4 {
     /* color: #000; */
 }
@@ -10125,6 +10127,12 @@ button.subscribe_btn a {
     margin-top: -24px;
 }
 
+body.light_theme .login_section .btn-link {
+    color: #a37900; }
+
+body.light_theme .sign_in_form_s {
+        color: #222222; }
+
 .top_heading_s {
     display: flex;
     align-items: center;
@@ -11446,8 +11454,10 @@ button.transfer_btn {
 }
 
 .user_img img {
-    /* width: auto !important; height: auto !important;
-     */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100px;
 }
 
 .d-flex-between.mb-3.custom_dlflex {
@@ -22581,7 +22591,7 @@ button.p2p-submit-button {
     }
 
     header {
-        padding: 10px 0px;
+        padding: 10px 0px 15px;
     }
 
     .calculator_top_cnt h1 {
@@ -24109,6 +24119,11 @@ button.p2p-submit-button {
         min-height: 97px;
     }
 
+    header .logo {
+        position: relative;
+        top: 3px;
+    }
+
     .kyc_form_multistep .step-indicator span {
         position: absolute;
         bottom: 8px;
@@ -24349,7 +24364,7 @@ button.p2p-submit-button {
     }
 
     .login_fullhieght .form_block_login {
-        padding: 0px 22px 10px;
+        padding:20px 22px 20px;
         margin: 0px !important;
     }
 
@@ -25510,8 +25525,8 @@ button.p2p-submit-button {
     }
 
     .header_right .button_outer .login_btn {
-        padding: 4px 13px;
-        height: 29px;
+        padding: 1px 13px;
+        height: 25px;
     }
 
     .afterloginheader .header_right .button_outer .login_btn {
@@ -25981,8 +25996,9 @@ button.p2p-submit-button {
     }
 
     header .logo {
-        min-width: 75px !important;
-        max-width: 75px;
+        min-width: 90px !important;
+        max-width: 90px;
+        margin-top: 0px;
     }
 
     .learnbtn {
@@ -26746,7 +26762,7 @@ button.p2p-submit-button {
     }
 
     .header_right {
-        top: 8px;
+        top: 11px;
     }
 
     .afterloginheader .header_right .button_outer .login_btn {
@@ -26780,8 +26796,8 @@ button.p2p-submit-button {
     }
 
     header .logo {
-        min-width: 120px !important;
-        max-width: 120px;
+        min-width: 100px !important;
+        max-width: 100px;
     }
 
     .lightlogo,

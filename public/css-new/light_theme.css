@@ -28,7 +28,17 @@ body.light_theme .top_header_dash {
 
 body.light_theme .listing_left_outer.full_width .market_section {
     padding: 15px;
+    border: 1.5px solid #2b313c3d;
 }
+
+body.light_theme .twofactor_outer_s {
+    border: 1.5px solid #cacaca; }
+
+body.light_theme .password-eye-btn:hover {
+    color: #515151;
+}
+
+form.profile_form i{ color: #000000 !important; }
 
 body.light_theme .give_currency_s {
     border: none;
@@ -512,6 +522,7 @@ body.light_theme .amount_detail_bottom {
 body.light_theme .kyc_approval_s {
     background-color: #F5F5F5;
     border: none;
+    padding: 20px;
 }
 
 body.light_theme .kyc_approval_s h3 {
@@ -616,7 +627,7 @@ body.light_theme .register_verified_form h1 {
 }
 
 body.light_theme .login_section .form_block_login p span {
-    color: #f4b609;
+    color: #af8101 !important;
 }
 
 body.light_theme .login_btn input[type="button"] {
@@ -963,7 +974,7 @@ body.light_theme .wallet_tabs .tab_btn.active {
 }
 
 body.light_theme .mobile_view {
-    background-color: #e9e9e9;
+    background-color: #fff;
     color: #000;
 }
 
@@ -1282,7 +1293,7 @@ body.light_theme .currency_list_b ul.usd_detail_list li {
 }
 
 body.light_theme form.profile_form p {
-    color: #000000;
+    color: #000000 !important;
 }
 
 
@@ -2031,6 +2042,32 @@ body.light_theme .faq_cards .faq_list .card.faq_item i {
 
 body.light_theme .form_block_login .input_filed {
     color: #2d2d2d;
+}
+
+/* Login / signup: autofill forces white text in style.css — use dark text in light theme */
+body.light_theme input:-webkit-autofill,
+body.light_theme input:-webkit-autofill:hover,
+body.light_theme input:-webkit-autofill:focus,
+body.light_theme input:-webkit-autofill:active {
+    -webkit-text-fill-color: #1a1a1a !important;
+}
+
+/* Stronger placeholder + value contrast on auth pages (body.light_theme + loginbg/signupbg) */
+body.light_theme.loginbg .form_block_login .input_filed,
+body.light_theme.signupbg .form_block_login .input_filed {
+    color: #1a1a1a !important;
+}
+
+body.light_theme.loginbg .form_block_login .input_filed::placeholder,
+body.light_theme.loginbg .form_block_login .input_filed::-webkit-input-placeholder,
+body.light_theme.loginbg .form_block_login .input_filed::-moz-placeholder,
+body.light_theme.loginbg .form_block_login .input_filed:-ms-input-placeholder,
+body.light_theme.signupbg .form_block_login .input_filed::placeholder,
+body.light_theme.signupbg .form_block_login .input_filed::-webkit-input-placeholder,
+body.light_theme.signupbg .form_block_login .input_filed::-moz-placeholder,
+body.light_theme.signupbg .form_block_login .input_filed:-ms-input-placeholder {
+    color: #1a1a1a !important;
+    opacity: 1 !important;
 }
 
 body.light_theme .css-45f8xx-singleValue {
