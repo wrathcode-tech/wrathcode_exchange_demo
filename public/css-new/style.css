@@ -18025,7 +18025,7 @@ button.p2p-submit-button {
     }
 
     .navigation nav ul li.dropdown .dropdown-toggle {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .section-padding.feature_bg.pc_bg {
@@ -18588,7 +18588,7 @@ button.p2p-submit-button {
     }
 
     .navigation nav ul li a {
-        font-size: 9px;
+        font-size: 10px;
     }
 
     .dashboardsummary_bottom a.btn {
@@ -20182,7 +20182,7 @@ button.p2p-submit-button {
         position: absolute;
         gap: 10px;
         right: 65px;
-        top: 10px;
+        top: 6px;
         align-items: start;
         z-index: 1001;
     }
@@ -20254,7 +20254,7 @@ button.p2p-submit-button {
     }
 
     .navbar-toggler {
-        top: 3px;
+        top: 0px;
     }
 
     .scan_cnt_l {
@@ -25056,7 +25056,7 @@ button.p2p-submit-button {
     }
 
     .header_right {
-        right: 38px;
+        right: 43px;
         top: 9px;
     }
 
@@ -26762,7 +26762,7 @@ button.p2p-submit-button {
     }
 
     .header_right {
-        top: 11px;
+        top: 9px;
     }
 
     .afterloginheader .header_right .button_outer .login_btn {
