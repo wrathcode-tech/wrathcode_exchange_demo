@@ -77,7 +77,7 @@ const RegistrationResult = () => {
                   For security reasons, we have temporarily restricted access.
                 </p>
                 <p className="yellow">
-                  If you believe this was done by mistake, please contact us at <a href="mailto:support@wrathcode.com.">support@wrathcode.com.</a>.
+                  If you believe this was done by mistake, please contact us at <a href="mailto:sales@wrathcode.com">sales@wrathcode.com</a>.
                 </p>
               </>
             )}

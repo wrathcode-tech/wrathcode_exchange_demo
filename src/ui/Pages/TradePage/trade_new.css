@@ -98,8 +98,8 @@ div#TVChartContainer * {
     border: none;
     border-radius: 0px;
     overflow: hidden;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter removed: background is opaque so the blur is invisible
+       but still forces a GPU re-blur every scroll frame (scroll-jank source) */
     position: relative;
     color: #fffffff2;
 }
@@ -109,7 +109,7 @@ body.light_theme.trade_card,
 body.light_theme.spotLists {
     background-color: #ffffff;
     border: 1px solid #7878781a;
-    backdrop-filter: blur(10px);
+    /* backdrop-filter removed: opaque background, blur not visible */
 }
 
 .container-chart-briefing-info {
@@ -608,8 +608,8 @@ body.light_theme.spot .form-control {
     /* border-radius: 0px !important; */
     background: none;
     /* border: 1px solid #2d303a; */
-    -webkit-backdrop-filter: blur(10px);
-    /* backdrop-filter: blur(10px); */
+    /* backdrop-filter removed: applied via universal (*) selector to every
+       child, creating a blur layer per element — costly with no visible gain */
     /* min-width: 36px; */
     opacity: 1;
 }
@@ -619,8 +619,7 @@ body.light_theme.spot .form-control {
 body.light_theme.btn-group.btn-group-mini * {
     background: rgb(171 171 171 / 12%);
     border: 1px solid rgb(234 239 244);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter removed: costly universal (*) selector */
     color: #000;
 }
 
@@ -1161,8 +1160,7 @@ body.light_theme.mrkt_trde_tab {
     background: #2B313C;
     border: 1px solid #2d303a00;
     border-radius: 4px;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter removed: opaque background, blur not visible */
 }
 
 body.light_theme.buysellform .input-group {

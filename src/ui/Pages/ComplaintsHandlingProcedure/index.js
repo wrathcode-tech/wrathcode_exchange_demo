@@ -61,7 +61,7 @@ const ComplaintsHandlingProcedure = () => {
             </ul>
             <h3>3. How to Submit a Complaint</h3>
             <p>Complaints must be submitted in writing, preferably via email:</p>
-            <p><strong>Email:</strong> <a href="mailto:support@wrathcode.com.">support@wrathcode.com.</a><br /><strong>Subject:</strong> “Official Complaint – [Full Name / User ID]”</p>
+            <p><strong>Email:</strong> <a href="mailto:sales@wrathcode.com">sales@wrathcode.com</a><br /><strong>Subject:</strong> “Official Complaint – [Full Name / User ID]”</p>
             <p>The complaint should include:</p>
             <ul>
               <li>User’s full name</li>
@@ -118,7 +118,7 @@ const ComplaintsHandlingProcedure = () => {
               <li>Supervisory authority guidance</li>
             </ul>
             <h3>10. Contact</h3>
-            <p><strong>Complaints Officer</strong><br />Wrathcode Exchange – Lunexor s.r.o.<br /><strong>Email:</strong> <a href="mailto:support@wrathcode.com.">support@wrathcode.com.</a><br /><strong>Supported Languages:</strong> English, Czech</p>
+            <p><strong>Complaints Officer</strong><br />Wrathcode Exchange – Lunexor s.r.o.<br /><strong>Email:</strong> <a href="mailto:sales@wrathcode.com">sales@wrathcode.com</a><br /><strong>Supported Languages:</strong> English, Czech</p>
           </div>
         </div>
       </div>

@@ -258,7 +258,7 @@ const FAQCryptoDeposit = () => {
                           and the assets are transferred to the blockchain.</li>
                         <li>2. Check the block confirmation status with the TXID using the appropriate blockchain browser. If the number of block confirmations is lower than Wrathcode Exchangerequirement, please be patient.
                           Your deposit will be credited when the required number of confirmations is met.</li>
-                        <li>3. If the number of block confirmations meets the Wrathcode Exchangerequirement but the deposit is still not credited to your account, email customer support at (support@wrathcode.com.) and provide the
+                        <li>3. If the number of block confirmations meets the Wrathcode Exchangerequirement but the deposit is still not credited to your account, email customer support at (sales@wrathcode.com) and provide the
                           following information: your Wrathcode Exchangeaccount, token name, deposit amount, and Transaction ID (TXID).
                           <ol>Please note the following:
                             <li>1. If the TXID is not generated, check the withdrawal process with the withdrawal platform.</li>

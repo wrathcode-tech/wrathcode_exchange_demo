@@ -14,6 +14,7 @@ export const ApiConfig = {
   loginwithGoogle: 'user/third-party-login',
   signupwithGoogle: 'user/third-party-signup',
   login: "login",
+  contactFormSubmit: "v1/contact-form/submit",
   registerEmail: "register-email",
   registerPhone: "register-phone",
   registrationOtp: "registration-otp",

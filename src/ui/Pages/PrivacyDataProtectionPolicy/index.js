@@ -112,7 +112,7 @@ const PrivacyDataProtectionPolicy = () => {
                         <h5>11. How Long Does Wrathcode Exchange Keeps Users Personal Information?</h5>
                         <p>We keep your personal information to enable your continued use of Wrathcode Exchange services, for as long as it is required in order to fulfill the relevant purposes described in this Privacy policy, and as may be required by law such as for tax and accounting purposes, compliance with Anti-Money Laundering laws, or as otherwise communicated to you.</p>
                         <h5>12. Contact Information</h5>
-                        <p>Our data protection officer can be contacted at<a href="mailto:support@wrathcode.com."> (support@wrathcode.com.) </a>, and will work to address any questions or issues that you have with respect to the collection and processing of your personal information.</p>
+                        <p>Our data protection officer can be contacted at<a href="mailto:sales@wrathcode.com"> (sales@wrathcode.com) </a>, and will work to address any questions or issues that you have with respect to the collection and processing of your personal information.</p>
                         <h5>13. Notices and Revisions</h5>
                         <p>If you have any concerns about privacy at Wrathcode Exchange, please contact us, and we will try to resolve it. You also have the right to contact your local Data Protection Authority.<br /><br />Our business changes regularly and our Privacy Notice may change also. You should check our websites frequently to see recent changes.</p>
                     </div>

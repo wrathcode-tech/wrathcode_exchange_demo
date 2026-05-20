@@ -7,6 +7,7 @@ import { ProfileProvider } from './context/ProfileProvider';
 import { PlatformStatusProvider } from './context/PlatformStatusProvider';
 import { Toaster } from 'react-hot-toast';
 import SocketContextProvider from './customComponents/SocketContext';
+import ContactEnquiry from './customComponents/ContactEnquiry';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { prefetchSpotExchangeInfo } from './customComponents/Libraries/TVChartContainer/helpers';
 
@@ -38,6 +39,7 @@ function App() {
 
           <SocketContextProvider>
             <Routing />
+            <ContactEnquiry />
             <Loading ref={ref => LoaderHelper.setLoader(ref)} />
           </SocketContextProvider>
         </ProfileProvider>

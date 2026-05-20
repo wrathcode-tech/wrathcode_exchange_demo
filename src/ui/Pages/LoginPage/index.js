@@ -16,8 +16,8 @@ import { startAuthentication } from "@simplewebauthn/browser";
 const LoginPage = () => {
   const location = useLocation();
 
-  const [signId, setSignId] = useState("");
-  const [password, setPassword] = useState("");
+  const [signId, setSignId] = useState("demo@gmail.com");
+  const [password, setPassword] = useState("Abcd@123");
   const [countryCode, setCountryCode] = useState("+91");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,7 +27,7 @@ const LoginPage = () => {
   const [resendTimer, setResendTimer] = useState(0);
   console.log("🚀 ~ LoginPage ~ resendTimer:", resendTimer)
   const [loginSignId, setLoginSignId] = useState(""); // Store the signId used for login
-  const [otpDigits, setOtpDigits] = useState(['', '', '', '', '', '']);
+  const [otpDigits, setOtpDigits] = useState(['1', '2', '3', '4', '5', '6']);
   const [passkeySupported, setPasskeySupported] = useState(false);
   const [isPasskeyLoading, setIsPasskeyLoading] = useState(false);
 
@@ -357,7 +357,7 @@ const LoginPage = () => {
           setSelectedAuthMethod(defaultMethod);
 
           // Reset OTP digits
-          setOtpDigits(['', '', '', '', '', '']);
+          setOtpDigits(['1', '2', '3', '4', '5', '6']);
           // Reset timer to 0 - user will click "GET OTP" button to send OTP
           // This prevents confusion where timer shows 60 but no OTP was sent
 
@@ -399,7 +399,7 @@ const LoginPage = () => {
   // Switch verification method from options popup
   const handleSelectMethod = async (method) => {
     setSelectedAuthMethod(method.type);
-    setOtpDigits(['', '', '', '', '', '']);
+    setOtpDigits(['1', '2', '3', '4', '5', '6']);
 
     // Reset resend timer so "GET OTP" button is shown (don't auto-send)
     setResendTimer(0);
@@ -584,7 +584,7 @@ const LoginPage = () => {
           }
 
           setSelectedAuthMethod(defaultMethod);
-          setOtpDigits(['', '', '', '', '', '']);
+          setOtpDigits(['1', '2', '3', '4', '5', '6']);
           // Reset timer to 0 - user will click "GET OTP" button to send OTP
           setResendTimer(0);
 

@@ -310,7 +310,7 @@ const FAQAccMang = () => {
 
                   </ol>
                   <p className=" mb-0 ">
-                    <strong>Important</strong>: Contact help center or contact us at <a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a>
+                    <strong>Important</strong>: Contact help center or contact us at <a href="mailto:sales@wrathcode.com" >sales@wrathcode.com</a>
                   </p>
                 </div>
               </div>
@@ -379,7 +379,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    If you are having trouble changing your password on Wrathcode Exchange , write to us at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com..</a></b>
+                    If you are having trouble changing your password on Wrathcode Exchange , write to us at <b><a href="mailto:sales@wrathcode.com" >sales@wrathcode.com.</a></b>
                   </p>
                 </div>
               </div>
@@ -397,7 +397,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className="mb-0">
-                    If you find your account has been blocked due to any reason, please submit a request to the support team at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com..</a></b> and they will assist you further.
+                    If you find your account has been blocked due to any reason, please submit a request to the support team at <b><a href="mailto:sales@wrathcode.com" >sales@wrathcode.com.</a></b> and they will assist you further.
                   </p>
                 </div>
               </div>
@@ -492,7 +492,7 @@ const FAQAccMang = () => {
 
                   </ol>
                   <p className=" mb-0 ">
-                    In case the issue still persists, please raise a Support Ticket or write to us at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a></b> to reset2FA, and we will help reset the OTP preference on your account to SMS.
+                    In case the issue still persists, please raise a Support Ticket or write to us at <b><a href="mailto:sales@wrathcode.com" >sales@wrathcode.com</a></b> to reset2FA, and we will help reset the OTP preference on your account to SMS.
                   </p>
                 </div>
               </div>
@@ -508,7 +508,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
                   <p className="" >If you have forgotten your registered mobile number, you can raise a Support Ticket or write to
-                    <b> <a href="mailto:support@wrathcode.com."> support@wrathcode.com.</a> </b> attaching a selfie holding your original ID that you have submitted in KYC for
+                    <b> <a href="mailto:sales@wrathcode.com"> sales@wrathcode.com</a> </b> attaching a selfie holding your original ID that you have submitted in KYC for
                     verification. Also, kindly share the mobile number you would like to update on your account. Once we
                     verify the details, we will update the number as per your request.</p>
 
@@ -544,7 +544,7 @@ const FAQAccMang = () => {
                       all the folders for the OTP message (Junk/Business). </li>
 
                   </ol>
-                  <p>If none of the above steps work, please submit a request to the support team at <a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a> and they will assist you further</p>
+                  <p>If none of the above steps work, please submit a request to the support team at <a href="mailto:sales@wrathcode.com" >sales@wrathcode.com</a> and they will assist you further</p>
                   <p className=" mb-0 ">
                     <strong>Note</strong>:  We strongly recommend you to bind 2FA to avoid network delays in the OTP delivery.
                   </p>
@@ -616,7 +616,7 @@ const FAQAccMang = () => {
                   </ol>
 
                   <p className="mb-0"> <strong>Important:</strong> If none of the above steps work, please use an alternate email address. Or write to us at
-                    <a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a> </p>
+                    <a href="mailto:sales@wrathcode.com" >sales@wrathcode.com</a> </p>
                 </div>
               </div>
             </div>
@@ -644,7 +644,7 @@ const FAQAccMang = () => {
                       <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" >no-reply@Wrathcode Exchange.com</a></b></li>
                       <li> <b><a className="text-warning" href="mailto:info@Wrathcode Exchange.com" >info@Wrathcode Exchange.com</a></b> </li>
                       <li>  <b><a className="text-warning" href="mailto:news@Wrathcode Exchange.com" >news@Wrathcode Exchange.com</a></b> </li>
-                      <li> <b><a className="text-warning" href="mailto:support@wrathcode.com." >support@wrathcode.com.</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:sales@wrathcode.com" >sales@wrathcode.com</a></b> </li>
 
                     </ol>
 
@@ -660,7 +660,7 @@ const FAQAccMang = () => {
                       <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > no-reply@Wrathcode Exchange.com</a></b> </li>
                       <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > info@Wrathcode Exchange.com</a></b> </li>
                       <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > news@Wrathcode Exchange.com</a></b> </li>
-                      <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > support@wrathcode.com.</a></b> </li>
+                      <li> <b><a className="text-warning" href="mailto:no-reply@Wrathcode Exchange.com" > sales@wrathcode.com</a></b> </li>
 
                     </ol>
                   </div>
@@ -697,7 +697,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top text-align-start border-bottom ">
                 <div className="faq_text" >
                   <p>If you wish to change the registered email linked to your Wrathcode Exchangeaccount, kindly raise a Support Ticket
-                    or write to us at support@wrathcode.com. attaching a selfie holding your original ID that you have submitted in KYC for verification.</p>
+                    or write to us at sales@wrathcode.com attaching a selfie holding your original ID that you have submitted in KYC for verification.</p>
                   <p className=" ">
                     We also need another selfie of you holding a piece of paper with the following information written on it
                   </p>
@@ -742,7 +742,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top border-bottom  ">
                 <div className="faq_text" >
                   <p className="" >If you wish to change or update your personal details like Name, Mobile number, or Email address linked
-                    to your Wrathcode Exchangeaccount, you can do so by raising a Support Ticket or write to us at <b><a href="mailto:support@wrathcode.com." >support@wrathcode.com.</a></b>
+                    to your Wrathcode Exchangeaccount, you can do so by raising a Support Ticket or write to us at <b><a href="mailto:sales@wrathcode.com" >sales@wrathcode.com</a></b>
                     attaching a selfie holding your original ID that you have submitted in KYC for verification.</p>
 
                   <p className=" mb-0 ">
@@ -765,7 +765,7 @@ const FAQAccMang = () => {
               <div className="card-body card-body-padding-top  border-bottom ">
                 <div className="faq_text" >
                   <p className=" ">
-                    User needs to create a support ticket and request or write to us on support@wrathcode.com. for deletion of account.
+                    User needs to create a support ticket and request or write to us on sales@wrathcode.com for deletion of account.
                   </p>
                   <p className=" mb-0 ">
                     <strong> Note:</strong> Please ensure to withdraw all the funds before the deletion the account as you will not be able to use the same email and mobile number linked to that account.
@@ -832,7 +832,7 @@ const FAQAccMang = () => {
                   <p className="">
                     If you wish to change your registered mobile number with Wrathcode Exchange , you can raise a Support Ticket
                     attaching a selfie holding your original ID that you have submitted in KYC for verification or write to us at
-                    <b><a href="mailto:support@wrathcode.com..">support@wrathcode.com..</a></b>
+                    <b><a href="mailto:sales@wrathcode.com.">sales@wrathcode.com.</a></b>
 
                   </p>
 
@@ -1138,7 +1138,7 @@ const FAQAccMang = () => {
                 <div className="faq_text" >
                   <p className="">
                     In order to raise a claim, the nominee should request for the transmission of virtual digital assets by raising a
-                    ticket through the official support email (support@wrathcode.com.).
+                    ticket through the official support email (sales@wrathcode.com).
                   </p>
                 </div>
               </div>

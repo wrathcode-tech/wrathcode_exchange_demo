@@ -358,7 +358,7 @@ const FAQApi = () => {
                     raising a support ticket on our official website or Wrathcode Exchangeapplications (Android/iOS)
                   </p>
                   <p>You can also reach us through our official support channels for Telegram and Twitter, or write to us at
-                    <a href='mailto:support@wrathcode.com.' target='_blank'>support@wrathcode.com.</a> </p>
+                    <a href='mailto:sales@wrathcode.com' target='_blank'>sales@wrathcode.com</a> </p>
                 </div>
               </div>
             </div>

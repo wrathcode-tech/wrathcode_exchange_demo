@@ -230,7 +230,7 @@ const LandingPage = () => {
           <div className="row">
             <div className="banner_content">
               <h1>The Smarter Way to Buy, <span className="sub_heading">Trade &amp; Invest</span> in Crypto</h1>
-              <p>A powerful crypto platform designed for speed, security, and smarter investing — all in one place.</p>
+              <p>This platform is for demo purposes only — please do not perform any real trading.</p>
 
               <div className="d-flex download_button">
                 <button className="btn" onClick={() => navigate("/signup")}>Get Started</button>
@@ -875,9 +875,30 @@ const LandingPage = () => {
                       <address>
                         <img src="/images/email-icon.png" alt="email" />
                         <div className="emaildiv">
-                          support@wrathcode.com.
-                          <span className="admin_email">admin@wrathcode.com</span>
-                        </div></address>
+                          <a
+                            href="https://mail.google.com/mail/?view=cm&fs=1&to=sales@wrathcode.com&su=Inquiry%20from%20Wrathcode%20Exchange"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: "#fff" }}
+                          >
+                            sales@wrathcode.com
+                          </a>
+                         
+                        </div>
+                        </address>
+                      <address>
+                        <img src="/images/whatsapp-line.png" alt="email" />
+                        <div className="emaildiv">
+                        <a
+                              href="https://wa.me/919982141988?text=Hello%20Wrathcode%20Exchange%20Team%2C%20I%27m%20interested%20in%20learning%20more%20about%20your%20platform%20and%20would%20love%20to%20connect.%20Could%20you%20please%20assist%20me%3F"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: "#fff" }}
+                            >
+                          +91 99821 41988
+                          </a>
+                        </div>
+                        </address>
 
                     </div>
                   </div>

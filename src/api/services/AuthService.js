@@ -136,6 +136,16 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
+  submitContactForm: async ({ name, email, phone, message }) => {
+    const { baseUrl, contactFormSubmit } = ApiConfig;
+    const url = baseUrl + contactFormSubmit;
+    const params = { name, email, phone, message };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    return ApiCallPost(url, params, headers);
+  },
+
   googleLogin: async (tokenResponse, captchaData) => {
     const { baseUrl, loginwithGoogle } = ApiConfig;
     const url = baseUrl + loginwithGoogle;

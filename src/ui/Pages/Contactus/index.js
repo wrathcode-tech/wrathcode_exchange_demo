@@ -54,7 +54,7 @@ const Contactus = () => {
 
                           <hr />
                           <div className="cc_col" >
-                            <b> Support Inquiries</b>   <a href="mailto:support@wrathcode.com." target="_blank" >support@wrathcode.com.</a>
+                            <b> Support Inquiries</b>   <a href="mailto:sales@wrathcode.com" target="_blank" >sales@wrathcode.com</a>
                           </div>
                         </div>
                         {/* <h4 className="font-weight-normal" > <a href="mailto:support.@Wrathcode Exchange.com" target="_blank" >support.@Wrathcode Exchange.com</a></h4> */}
