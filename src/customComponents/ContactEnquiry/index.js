@@ -81,81 +81,116 @@ const ContactEnquiry = () => {
       </button>
 
       {/* Contact Us - Crypto Exchange Development Enquiry Modal */}
-      <div className="modal fade search_form" id="contactEnquiryModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
+      <div className="modal fade search_form main_homepopup_contact" id="contactEnquiryModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">
-                <i className="ri-rocket-2-line" style={{ color: "#00c853", marginRight: "8px" }}></i>
-                Contact Us
-              </h5>
-              <p>Have a crypto exchange development enquiry? Tell us about your project and our team will get back to you shortly.</p>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <div className="verify_authenticator_s">
-                <img src="/images/verifyemail.svg" alt="Contact Us" />
+
+            <div className="main_contact_popup_bl">
+              <div className="contact_popup_bl_logo_left">
+                <h2>Next-Gen <span> Crypto Exchange</span></h2>
+
+                <p>Looking to build a secure and scalable crypto exchange? Share your project requirements with us 
+                  and our team will conect with you shortly. From spot & margin trading to complete exchange 
+                  infrastructure — we help you build everything professionally.</p>
+
+                  <div className="contact_main_list_bl">
+                    <div className="contact_logo">
+                      <img class="lightlogo" src="/images/logo_light.svg" alt="logo"></img>
+                    </div>
+
+                    <ul>
+                      <li>Advanced Spot & Futures Trading</li>
+                      <li>Instant Crypto Buy & Sell</li>
+                      <li>Real-Time Market Insights & Analytics</li>
+                      <li>Low Trading Fees & High Liquidity</li>
+                      <li>Seamless Mobile & Web Experience</li>
+                    </ul>
+
+                  </div>          
+
+              </div>
+              <div className="contact_popup_bl_logo_right">
+
+                <div className="modal-header">
+                  <h2 className="modal-title">
+                    {/* <i className="ri-rocket-2-line" style={{ color: "#00c853", marginRight: "8px" }}></i> */}
+                    Contact Us
+                  </h2>
+                  <p>Have a crypto exchange development enquiry? Tell us about your project and our team will get back to you shortly.</p>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div className="modal-body">
+
+                  {/* <div className="verify_authenticator_s">
+                    <img src="/images/verifyemail.svg" alt="Contact Us" />
+                  </div> */}
+
+                  <div className="verify_authenticator_form">
+                    <form className="profile_form" onSubmit={handleContactSubmit}>
+
+                <div className="d-flex gap-4 filled_info_sl">      
+
+                      <div className="emailinput">
+                        <div className="d-flex">
+                          <input
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            value={contactForm.name}
+                            onChange={handleContactChange}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="emailinput">
+                        <div className="d-flex">
+                          <input
+                            type="email"
+                            name="email"
+                            placeholder="Company Email"
+                            value={contactForm.email}
+                            onChange={handleContactChange}
+                          />
+                        </div>
+                      </div>
+
+                      </div>
+
+                      <div className="emailinput">
+                        <div className="d-flex">
+                          <input
+                            type="tel"
+                            name="phone"
+                            placeholder="+91 1234-567-8901"
+                            value={contactForm.phone}
+                            onChange={handleContactChange}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="emailinput">
+                        <div className="d-flex">
+                          <textarea
+                            name="message"
+                            rows="4"
+                            placeholder="Describe your project (Help us come back better prepared)"
+                            value={contactForm.message}
+                            onChange={handleContactChange}
+                          />
+                        </div>
+                      </div>
+
+                      <button className="submit" type="submit" disabled={submitting}>
+                        {submitting ? "Sending..." : "Send Enquiry"}
+                      </button>
+
+                      <p><img src="/images/security_respect_icon.svg" /> We respect your privacy. Your details are safe with us.</p>
+                    </form>
+                  </div>
+                </div>
+
               </div>
 
-              <div className="verify_authenticator_form">
-                <form className="profile_form" onSubmit={handleContactSubmit}>
-                  <div className="emailinput">
-                    <label>Your name</label>
-                    <div className="d-flex">
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Enter your name"
-                        value={contactForm.name}
-                        onChange={handleContactChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="emailinput">
-                    <label>Email address</label>
-                    <div className="d-flex">
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Enter your email"
-                        value={contactForm.email}
-                        onChange={handleContactChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="emailinput">
-                    <label>Phone number</label>
-                    <div className="d-flex">
-                      <input
-                        type="tel"
-                        name="phone"
-                        placeholder="Enter your phone number"
-                        value={contactForm.phone}
-                        onChange={handleContactChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="emailinput">
-                    <label>Message</label>
-                    <div className="d-flex">
-                      <textarea
-                        name="message"
-                        rows="4"
-                        placeholder="Tell us about your project requirements"
-                        value={contactForm.message}
-                        onChange={handleContactChange}
-                      />
-                    </div>
-                  </div>
-
-                  <button className="submit" type="submit" disabled={submitting}>
-                    {submitting ? "Sending..." : "Send Enquiry"}
-                  </button>
-                </form>
-              </div>
             </div>
           </div>
         </div>

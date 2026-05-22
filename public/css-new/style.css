@@ -251,6 +251,10 @@ header .row {
     max-width: 100%;
 }
 
+.main_homepopup_contact .contact_popup_bl_logo_right .modal-header {
+    padding: 0px;
+}
+
 header .col-lg-2.logo_s {
     max-width: 205px;
 }
@@ -2317,7 +2321,9 @@ section.hot_articles_s .row {
     color: #fff;
 }
 
-body.light_theme .resend.otp-button-disabled{ color: #000000; }
+body.light_theme .resend.otp-button-disabled {
+    color: #000000;
+}
 
 .login_section.verifiedform .form_block_login h4 {
     /* color: #000; */
@@ -5100,9 +5106,11 @@ body .red {
     border-radius: 10px;
     transition: background-color 0.2s ease, opacity 0.2s ease;
 }
+
 .swap-select-crypto-row.selected {
     background-color: rgb(43 49 60);
 }
+
 .swap-select-crypto-row.disabled {
     cursor: not-allowed;
     opacity: 0.5;
@@ -5175,6 +5183,7 @@ body .red {
 .button_outer .downloadtabs {
     position: relative;
 }
+
 .icon_notificaton_r ul li.downloadtabs::after,
 .button_outer .downloadtabs::after {
     content: "";
@@ -5184,6 +5193,7 @@ body .red {
     right: -20px;
     height: 28px;
 }
+
 .scantophdr {
     position: absolute;
     right: -6px;
@@ -5668,16 +5678,20 @@ td.right_t.price_tb span {
     min-width: 32px;
 }
 
-.icon_notificaton_r ul li.themetbs{     width: 28px;
+.icon_notificaton_r ul li.themetbs {
+    width: 28px;
     min-width: 28px;
     height: 28px;
     border-radius: 50px;
     border: 1px solid #fff;
     display: flex;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+}
 
-body.light_theme .icon_notificaton_r ul li.themetbs { border: 1px solid #505050; }    
+body.light_theme .icon_notificaton_r ul li.themetbs {
+    border: 1px solid #505050;
+}
 
 .header_notification {
     opacity: 0;
@@ -5758,7 +5772,9 @@ section.faq_cards .row {
     padding-top: 50px;
 }
 
-body.light_theme .modal.search_form .emailinput input{     border-radius: 5px; }
+body.light_theme .modal.search_form .emailinput input {
+    border-radius: 5px;
+}
 
 /* .dashbaordchart_mid {
     position: absolute;
@@ -9366,7 +9382,10 @@ body .trade_summary_table_lft_position_order.position_order .table-responsive {
         flex-direction: column;
     }
 
-    header .navbar-expand-lg .navbar-nav .nav-link i{ font-size: 22px; }
+    header .navbar-expand-lg .navbar-nav .nav-link i {
+        font-size: 22px;
+    }
+
     .navbar-collapse .navbar-nav {
         overflow-y: auto;
         overflow-x: hidden;
@@ -10128,10 +10147,12 @@ button.subscribe_btn a {
 }
 
 body.light_theme .login_section .btn-link {
-    color: #a37900; }
+    color: #a37900;
+}
 
 body.light_theme .sign_in_form_s {
-        color: #222222; }
+    color: #222222;
+}
 
 .top_heading_s {
     display: flex;
@@ -15449,7 +15470,8 @@ button.btn_claim:active {
 }
 
 .search_form .profile_form button.anti-phishing-danger-submit {
-    background-color: #dc3545; }
+    background-color: #dc3545;
+}
 
 .supportinquery .profile_form button.submit {
     margin-top: 0px;
@@ -16827,7 +16849,8 @@ tr.no-data-row {
 }
 
 .trade_account_summary_assets.futuresflex tr.no-data-row {
-    display: flex; }
+    display: flex;
+}
 
 .trade_card.orderbook_two .trade_history_tab {
     height: 100%;
@@ -17656,7 +17679,8 @@ button.p2p-submit-button {
 
     .themecolor_icon {
         width: 28px;
-        height: 28px; }
+        height: 28px;
+    }
 
     .navigation nav ul {
         gap: 10px;
@@ -18852,7 +18876,8 @@ button.p2p-submit-button {
     }
 
     body.light_theme .dashboard_right .withdraw_card_footer .withdraw_card_view_btn {
-        background-color: transparent; }
+        background-color: transparent;
+    }
 
     .search_icon_s {
         font-size: 14px;
@@ -24364,7 +24389,7 @@ button.p2p-submit-button {
     }
 
     .login_fullhieght .form_block_login {
-        padding:20px 22px 20px;
+        padding: 20px 22px 20px;
         margin: 0px !important;
     }
 
@@ -27197,7 +27222,8 @@ ul.security-tips-list {
     }
 
     body.light_theme .mobiletable {
-        background-color: #ffffff; }
+        background-color: #ffffff;
+    }
 
     /* Ensure inputs have scroll margin when focused */
     .modal input:focus,
@@ -27248,6 +27274,7 @@ header i.ri-sun-line.light-text {
 body.light_theme header i.ri-sun-line.light-text {
     display: block;
 }
+
 body.light_theme header li.nav-item.dropdown.mbl img {
     filter: brightness(0.4);
 }
@@ -27265,4 +27292,5 @@ body.light_theme .issuelist_data table tr td i.ri-file-copy-line {
 }
 
 .trade_movers_tb .table_info_data table {
-    height: 100%; }
+    height: 100%;
+}
