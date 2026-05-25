@@ -217,7 +217,7 @@
 }
 
 .contact_popup_bl_logo_right {
-  padding: 10px;
+  padding:0px;
   width: 100%;
 }
 
@@ -237,7 +237,21 @@
 }
 
 .main_homepopup_contact h2 {
-  font-size: 24px;
+  font-size: 22px;
+}
+
+.main_homepopup_contact .profile_form .emailinput input {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+} 
+
+.search_form.main_homepopup_contact .profile_form button.submit {
+  margin-top: 10px;
+}
+
+.main_homepopup_contact form p {
+  font-size: 13px;
+  margin: 0px;
 }
 
 }
